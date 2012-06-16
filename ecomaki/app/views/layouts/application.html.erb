@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Ecomaki</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  
+  <header>
+    <h1>ECOMAKI</h1>
+  </header>
 
-<%= yield %>
+  <%= yield %>
 
 </body>
 </html>
