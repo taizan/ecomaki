@@ -1,3 +1,5 @@
 class EntryBalloon < ActiveRecord::Base
-  attr_accessible :content, :height, :width, :x, :y
+  attr_accessible :entry_id, :content, :height, :width, :x, :y
+
+  has_one :entry
 end
