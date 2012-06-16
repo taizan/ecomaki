@@ -1,0 +1,3 @@
+
+class NovelController < ApplicationController
+end
