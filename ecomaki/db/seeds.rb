@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Author.create do |author|
+  author.id = 0
+  author.name = "Anonymous"
+  author.password = "NoPassword"
+end
