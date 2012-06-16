@@ -57,4 +57,6 @@ Ecomaki::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   root :to => 'top#index'
+
+  match 'novel/:id' => 'novel#show'
 end
