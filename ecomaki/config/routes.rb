@@ -66,7 +66,13 @@ Ecomaki::Application.routes.draw do
   match 'novel/:novel_id/chapters/:id' => 'chapters#show', :via => :get
   match 'novel/:novel_id/chapters/:id' => 'chapters#update', :via => :put
   match 'novel/:novel_id/chapters' => 'chapters#create', :via => :post
-  match 'novel/:novel_id/chapters' => 'chapters#destroy', :via => :delete
+  match 'novel/:novel_id/chapters/:id' => 'chapters#destroy', :via => :delete
 
   match 'characters' => 'characters#index', :via => :get
+  match 'characters' => 'characters#create', :via => :post
+
+  match 'novel/:novel_id/entries/:id' => 'entries#update', :via => :put
+  match 'novel/:novel_id/entries' => 'entries#create', :via => :post
+  match 'novel/:novel_id/entries/:id' => 'entries#destroy', :via => :delete
+  match 'novel/:novel_id/entries/:id' => 'entries#index', :via => :get
 end

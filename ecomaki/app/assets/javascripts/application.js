@@ -15,3 +15,5 @@
 //= require_tree .
 //= require bootstrap.min
 //= require jquery-ui-1.8.16.custom.min
+//= require jquery.iframe-transport
+//= require jquery.fileupload
