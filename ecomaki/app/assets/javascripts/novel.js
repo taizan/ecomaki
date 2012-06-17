@@ -101,7 +101,7 @@ $(function() {
 		}  
 	    });
 
-	$( "#chaperList" ).sortable();
+	$( "#chapterList" ).sortable().disableSelection();
 
         $("#picker").hide().css({'z-index':3});
         $("#pickerCancelBtn").click(function(){
