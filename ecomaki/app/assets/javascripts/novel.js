@@ -5,6 +5,34 @@ entry_height = 255;
 entry_num = 0;
 defImage = "";
 
+function xmlLoad(){
+    //alert("load");
+    $.ajax({
+        url:'/characters.xml',
+        type:'get',
+        dataType:'xml',
+        timeout:1000,
+        success:parse_xml
+    });
+}
+
+function parse_xml(xml,status){
+    if(status!='success')return;
+    $(xml).find('character').each(disp_picker);
+}
+
+function disp_picker(){
+    var id = $(this).find('id').text();
+    var name = $(this).find('name').text();
+    var height = $(this).find('height').text();
+    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/images/characters/'+id +'.jpg"></li>');
+    item.appendTo($('#pickerList'));
+    $("#pickerCancelBtn").click(function(){
+    	$("#picker").hide();
+        }
+    );
+}
+
 function resizeTextarea(textarea) {
   		var lines = textarea.value.split('＼n');
   		var width = textarea.cols;
@@ -16,10 +44,14 @@ function resizeTextarea(textarea) {
     		}
   		}
   		height += lines.length;
-  		textarea.rows = height;
+  		textarea.rows = height-1;
 }
 
-function pickImage(){
+function pickImage(ev){
+  xmlLoad();
+
+  $('#pickerList img').click(function(){ alert("><"); path = $(this).attr('src'); ev.target().attr('src',path);  });
+  $('<li><button class="btn" id ="pickerCancelBtn">cancel</button></li>').appendTo($('#pickerList'));
   $("#picker").show().blur(function(){
     $(this).hide();
   });
@@ -101,13 +133,9 @@ $(function() {
 		}  
 	    });
 
-	$( "#chapterList" ).sortable().disableSelection();
+	$( "#chapterList" ).sortable();
 
         $("#picker").hide().css({'z-index':3});
-        $("#pickerCancelBtn").click(function(){
-			$("#picker").hide();
-		}
-	);
 
 	$("#comment")
         	.jStageAligner("RIGHT_MIDDLE", {time: 150})

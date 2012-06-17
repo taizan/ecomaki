@@ -1,25 +1,22 @@
 <div id="novel_container">
-  <aside id="chaptermenu">
-    <ul id = "chapterList">
-      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Chapter1</li>
-      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Chapter2</li>
-      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Chapter3</li>
-      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Chapter4</li>
-      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Chapter5</li>
+  <aside id="chaptermenu" class = "span3">
+    <ul class = "well sidebar-nav" id = "chapterList">
+      <li class="nav-header">Chaptor List</li>
+      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a href="#">Chapter1</a></li>
+      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a>Chapter2</a></li>
+      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a>Chapter3</a></li>
+      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a>Chapter4</a></li>
+      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a>Chapter5</a></li>
     </ul>
   </aside>
   <aside class = "well sidebar-nav" id="picker">
-    <ul class = "nav nav-list">
+    <ul id = "pickerList" class = "nav nav-list">
       <li class="nav-header">New File Upload</li>
       <input class="input-file" id="fileInput" name="fileInput" type="file">
       <li class="nav-header">Draw Image</li>
       <li><a href="sptr1114/spainter_miku.html">Edit Current Image</a></li>
       <li><a href="sptr1114/spainter.html" >Draw new Image</a></li>
       <li class="nav-header">Selecct Image from Libraly</li>
-      <li class = "pickerItem" ><%= image_tag ("/images/characters/1.jpg") %></li>
-      <li class = "pickerItem" ><%= image_tag ("/images/characters/1.jpg") %></li>
-      <li class = "pickerItem" ><%= image_tag ("/images/characters/1.jpg") %></li>
-      <li><button class="btn" id ="pickerCancelBtn">cacele</button></li>
     </ul>
   </aside>
 
@@ -29,10 +26,10 @@
       <p> novel description </p>
     </div>
     <div id="entrylist">
-      <textarea id="inputform" class = "span6" rows="3"></textarea>
+      <textarea id="inputform" class = "span6" rows="4"></textarea>
     </div>
   </div>
       <p>comment</p>
   <div id = "commentList"></div>
-  <textarea id="comment" rows="2"></textarea>
+  <textarea id="comment" rows="3"></textarea>
 </div>
