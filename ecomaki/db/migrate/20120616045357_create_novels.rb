@@ -6,7 +6,7 @@ class CreateNovels < ActiveRecord::Migration
       t.string :title
       t.string :description
       t.string :status
-      t.string :type
+      t.string :create_type
 
       t.timestamps
     end

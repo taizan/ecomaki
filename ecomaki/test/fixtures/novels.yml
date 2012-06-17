@@ -1,24 +1,27 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+  id: 0
   parent_novel_id: 
   author_id: 0
   title: Anonymouse Coward
   description: This is description
   status: publish
-  type: new
+  create_type: new
 
 two:
+  id: 1
   parent_novel_id: 
   author_id: 0
   title: Next Story
   description: next
   status: publish
-  type: new
+  create_type: new
 
 three:
+  id: 2
   author_id: 3
   title: Miku Story
   description: MikuMiku
   status: publish
-  type: new
+  create_type: new
