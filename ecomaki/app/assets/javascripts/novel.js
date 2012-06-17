@@ -45,7 +45,7 @@ function setEntry(str) {
 	.resizable()
      	.parent().draggable({
      	containment: "parent"
-    })dblclick(pickImage);
+    }).dblclick(pickImage);
     
     $(".resizable").resizable();
     
@@ -100,6 +100,15 @@ $(function() {
 		    $('#inputform').val(""); 
 		}  
 	    });
+
+	$( "#chaperList" ).sortable();
+
+        $("#picker").hide().css({'z-index':3});
+        $("#pickerCancelBtn").click(function(){
+			$("#picker").hide();
+		}
+	);
+
 	$("#comment")
         	.jStageAligner("RIGHT_MIDDLE", {time: 150})
         	.click(function(){

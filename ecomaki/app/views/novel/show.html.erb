@@ -1,14 +1,27 @@
 <div id="novel_container">
   <aside id="chaptermenu">
-    <ul>
-      <li>Chapter1</li>
-      <li>Chapter2</li>
-      <li>Chapter3</li>
-      <li>Chapter4</li>
-      <li>Chapter5</li>
+    <ul id = "chapterList">
+      <li class="ui-state-default">Chapter1</li>
+      <li class="ui-state-default">Chapter2</li>
+      <li class="ui-state-default">Chapter3</li>
+      <li class="ui-state-default">Chapter4</li>
+      <li class="ui-state-default">Chapter5</li>
     </ul>
   </aside>
-
+  <aside class = "well sidebar-nav" id="picker">
+    <ul class = "nav nav-list">
+      <li class="nav-header">New File Upload</li>
+      <input class="input-file" id="fileInput" name="fileInput" type="file">
+      <li class="nav-header">Draw Image</li>
+      <li><a href="sptr1114/spainter_miku.html">Edit Current Image</a></li>
+      <li><a href="sptr1114/spainter.html" >Draw new Image</a></li>
+      <li class="nav-header">Selecct Image from Libraly</li>
+      <li class = "pickerItem" ><%= image_tag ("/images/characters/1.jpg") %></li>
+      <li class = "pickerItem" ><%= image_tag ("/images/characters/1.jpg") %></li>
+      <li class = "pickerItem" ><%= image_tag ("/images/characters/1.jpg") %></li>
+      <li><button class="btn" id ="pickerCancelBtn">cacele</button></li>
+    </ul>
+  </aside>
 
   <div id="content">
     <div>
