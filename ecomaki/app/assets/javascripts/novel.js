@@ -4,6 +4,20 @@ entry_width = 512;
 entry_height = 255;
 entry_num = 0;
 
+function resizeTextarea(textarea) {
+  		var lines = textarea.value.split('Å_n');
+  		var width = textarea.cols;
+  		var height = 1;
+  		for (var i = 0; i < lines.length; i++) {
+    		var linelength = lines[i].length;
+    		if (linelength >= width) {
+      			height += Math.ceil(linelength / width);
+    		}
+  		}
+  		height += lines.length;
+  		textarea.rows = height;
+}
+
 function setEntry(str) {
     $('<div class="entry"><img src="/development/images/characters/miku3.jpg" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>')
     	    .appendTo("#entrylist")
@@ -79,6 +93,32 @@ $(function() {
 		    $('#inputform').val(""); 
 		}  
 	    });
-	/*$('#new').click(setEntry);*/
-	
+	$("#comment")
+        	.jStageAligner("RIGHT_MIDDLE", {time: 150})
+        	.click(function(){
+        		$(this).fadeTo("fast",1.0);
+        		})
+        	.blur(function() {
+        		$(this).fadeTo("fast",0.5);
+        	})
+        	.keypress(function (e) {
+      			if(e.which == 13){
+      				text = $("#comment").val();	
+      				t = $("#comment").position().top;
+      				l = $("#comment").position().left;
+      				
+       				commented = $('<textarea readonly>'+text+'</textarea>');
+       				commented
+        				.appendTo($('#commentList'))
+        				.css({position: "absolute",top: t, left: l})
+        				.width($("#comment").width()).hide().css({'z-index':1})
+        				.show("slow");
+    
+      			resizeTextarea(commented[0]);
+      			commented.animate(commented.height(),"slow");
+      			
+      			$("#comment").val("").css({'z-index':2}); 
+      		}  
+  		});
+    	
     });
