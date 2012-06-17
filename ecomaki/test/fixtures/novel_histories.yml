@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  novel_id: 1
+  author_id: 1
+  type: 
+  val0: 1
+  val1: 1
+
+two:
+  novel_id: 1
+  author_id: 1
+  type: 
+  val0: 1
+  val1: 1

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  entry_id: 0
+  content: Hello!
+  x: 100
+  y: 1
+  width: 100
+  height: 100
+
+two:
+  entry_id: 0
+  content: Bye!
+  x: 100
+  y: 1
+  width: 100
+  height: 100

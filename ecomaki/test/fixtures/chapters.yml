@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 0
+  novel_id: 0
+  name: Chapter0
+  number: 0
+
+two:
+  id: 1
+  novel_id: 0
+  name: Chapter1
+  number: 1
+
+three:
+  id: 2
+  novel_id: 0
+  name: Chapter2
+  number: 2
+
+four:
+  id: 3
+  novel_id: 1
+  name: OnlyChapter
+  number: 0
