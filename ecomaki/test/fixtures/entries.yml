@@ -1,17 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  id: 0
+  id: 8
   parent_entry_id:
-  author: 0
+  author_id: 3
   width: 500
   height: 200
-  type: new
+  create_type: new
 
 two:
-  id: 1
+  id: 9
   parent_entry_id: 1
-  author: 1
+  author_id: 1
   width: 500
   height: 200
-  type: new
+  create_type: new
