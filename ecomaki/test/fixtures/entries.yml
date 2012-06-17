@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  id: 8
+  id: 0
   parent_entry_id:
   author_id: 3
   width: 500
@@ -9,9 +9,17 @@ one:
   create_type: new
 
 two:
-  id: 9
+  id: 1
   parent_entry_id: 1
   author_id: 1
   width: 500
   height: 200
   create_type: new
+
+three:
+  id: 2
+  parent_entry_id: 1
+  author_id: 1
+  width: 500
+  height: 200
+  create_type: copy
