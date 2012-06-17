@@ -3,6 +3,7 @@
 entry_width = 512;
 entry_height = 255;
 entry_num = 0;
+defImage = "";
 
 function resizeTextarea(textarea) {
   		var lines = textarea.value.split('＼n');
@@ -18,8 +19,14 @@ function resizeTextarea(textarea) {
   		textarea.rows = height;
 }
 
+function pickImage(){
+  $("#picker").show().blur(function(){
+    $(this).hide();
+  });
+}
+
 function setEntry(str) {
-    $('<div class="entry"><img src="/development/images/characters/miku3.jpg" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>')
+    $('<div class="entry"><img src="/images/characters/3.jpg" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>')
     	    .appendTo("#entrylist")
     	    .css({position: "absolute",top: entry_height*entry_num,left: 0})
     	    ;
@@ -38,7 +45,7 @@ function setEntry(str) {
 	.resizable()
      	.parent().draggable({
      	containment: "parent"
-    });
+    })dblclick(pickImage);
     
     $(".resizable").resizable();
     
