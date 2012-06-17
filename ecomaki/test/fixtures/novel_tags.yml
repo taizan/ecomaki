@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  novel_id: 0
+  tag_id: 0
+
+two:
+  novel_id: 0
+  tag_id: 1
+
+three:
+  novel_id: 2
+  tag_id: 0

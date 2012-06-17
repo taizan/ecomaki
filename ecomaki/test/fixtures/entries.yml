@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 0
+  parent_entry_id:
+  author: 0
+  width: 500
+  height: 200
+  type: new
+
+two:
+  id: 1
+  parent_entry_id: 1
+  author: 1
+  width: 500
+  height: 200
+  type: new
