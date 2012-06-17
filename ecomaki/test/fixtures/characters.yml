@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 0
+  name: Miku1
+  width: 100
+  height: 100
+
+two:
+  id: 1
+  name: Miku2
+  width: 100
+  height: 100
