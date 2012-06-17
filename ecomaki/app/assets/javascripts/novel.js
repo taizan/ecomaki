@@ -1,11 +1,11 @@
-
+//= require jquery.jStageAligner
 
 entry_width = 512;
 entry_height = 255;
 entry_num = 0;
 
 function resizeTextarea(textarea) {
-  		var lines = textarea.value.split('Å_n');
+  		var lines = textarea.value.split('Ôººn');
   		var width = textarea.cols;
   		var height = 1;
   		for (var i = 0; i < lines.length; i++) {
