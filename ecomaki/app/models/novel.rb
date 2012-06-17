@@ -1,6 +1,7 @@
 class Novel < ActiveRecord::Base
-  attr_accessible :author_id, :description, :parent_novel_id, :status, :title, :type
+  attr_accessible :author_id, :description, :parent_novel_id, :status, :title, :create_type
 
+  belongs_to :author
   has_many :chapter
   has_many :novel_tag
   has_many :tag, :through => :novel_tag
