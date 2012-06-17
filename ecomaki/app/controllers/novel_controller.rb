@@ -2,7 +2,7 @@
 class NovelController < ApplicationController
   def show
     novel = Novel.includes(:author).find(params[:id])
-    render novel
+    #render novel
   end
 
   def show_novel_xml
