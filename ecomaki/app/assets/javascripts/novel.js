@@ -25,12 +25,11 @@ function disp_picker(){
     var id = $(this).find('id').text();
     var name = $(this).find('name').text();
     var height = $(this).find('height').text();
-    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/images/characters/'+id +'.jpg"></li>');
+    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/images/characters/'+id +'.jpg"></li>')
+	.click(function(){
+ 		selectedImage.src = '/images/characters/'+id +'.jpg' ;
+		$('#picker').hide('fast') });
     item.appendTo($('#pickerList'));
-    $("#pickerCancelBtn").click(function(){
-    	$("#picker").hide();
-        }
-    );
 }
 
 function resizeTextarea(textarea) {
@@ -48,77 +47,77 @@ function resizeTextarea(textarea) {
 }
 
 function pickImage(ev){
+  selectedImage = ev.target; 
   xmlLoad();
-
-  $('#pickerList img').click(function(){ alert("><"); path = $(this).attr('src'); ev.target().attr('src',path);  });
+  $('#picker').show('fast');
   $('<li><button class="btn" id ="pickerCancelBtn">cancel</button></li>').appendTo($('#pickerList'));
-  $("#picker").show().blur(function(){
-    $(this).hide();
-  });
+  $("#pickerCancelBtn").click(function(){
+        $("#picker").hide();
+        }
+    );
+
 }
 
+
 function setEntry(str) {
-    $('<div class="entry"><img src="/images/characters/3.jpg" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>')
-    	    .appendTo("#entrylist")
+    newEntry =  $('<div class="entry"><img src="/images/characters/3.jpg" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>');
+    newEntry.appendTo("#entrylist")
     	    .css({position: "absolute",top: entry_height*entry_num,left: 0})
     	    ;
     entry_num = entry_num+1;
     
-    $(".entry").width(entry_width).height(entry_height);
-    
+    newEntry.width(entry_width).height(entry_height);
+    //moveinputform to next
     $('#inputform').css({position: "absolute",top: entry_height*entry_num,left: 0});
     
    
-    $(".resizableImage").css({position: "absolute",top: 0,left: 0});
-    $(".draggable").css({position: "absolute",top: 0,left: 100});
+    newEntry.children(".resizableImage").css({position: "absolute",top: 0,left: 0, height: entry_height});
     
     
-    $(".resizableImage")
+    newEntry.children(".resizableImage")
 	.resizable()
      	.parent().draggable({
      	containment: "parent"
     }).dblclick(pickImage);
     
-    $(".resizable").resizable();
-    
-    
-    $(".draggable").draggable({
+    newEntry.children(".draggable").draggable({
 	containment: "parent"
     })
-    .width($(".sticky").width())
-    .height($(".sticky").height());
+    .width(newEntry.find(".sticky").width())
+    .height(newEntry.find(".sticky").height())
+    .css({position: "absolute",top: 0,left: 100});
     
-    $(".wrap").css({'margin': '10px'});
-    
-    $(".sticky").dblclick(function() {
+    newEntry.find(".wrap").css({'margin': '10px'});
+    newEntry.find(".sticky").resizable(); 
+    newEntry.find(".sticky").dblclick(function() {
         text = $(".wrap",this).html().split("<br>").join('\n');
         text = text.replace(/&amp;/g,"&");
-	     text = text.replace(/&quot;/g,"/");
-	     	  text = text.replace(/&#039;/g,"'");
-		       text = text.replace(/&lt;/g,"<");
-		       	    text = text.replace(/&gt;/g,">");
+     	text = text.replace(/&quot;/g,"/");
+     	text = text.replace(/&#039;/g,"'");
+        text = text.replace(/&lt;/g,"<");
+       	text = text.replace(/&gt;/g,">");
         $(this).hide();
         
-       
 	$('<textarea></textarea>')
 		.appendTo($(this).parent())
         	.focus()
         	.select()
         	.val(text)
         	.blur(function() {
-        			 text = $(this).val().split('\n').join("<br>");
-        			     $(this).hide();
-        			         var st = $(this).parent();
-        				     st.find(".sticky").show();
-						$(".wrap",st).html(text);
-        					})
-        					.height(
-							$(this).height()
-        						)
-        						.width(
-								$(this).width()
-        							);		
-								}).resizable();
+       			text = $(this).val().split('\n').join("<br>");
+        	        $(this).hide();
+        		var st = $(this).parent();
+        		st.find(".sticky").show();
+			$(".wrap",st).html(text);
+        	})
+        	.height(
+			$(this).height()
+        	)
+        	.width(
+			$(this).width()
+        	);
+	}	
+	);
 								
 								
 }

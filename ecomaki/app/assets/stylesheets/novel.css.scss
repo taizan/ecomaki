@@ -4,14 +4,14 @@
 
 #novel_container {
     width: 1024px;
-    margin-left: auto;
+    //margin-left: auto;
     margin-right: auto;
 }
 body {
     text-align: center;
 }
 #content {
-    width: 500px;
+    width: 800px;
     height: 1000px;
     margin-left: 250px;
     background-color: red;
@@ -53,8 +53,6 @@ body {
 
 .draggable{
 	position: absolute;
-	top: 0;
-	left: 100px;
 }
 
 .sticky{
