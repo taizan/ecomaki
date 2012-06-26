@@ -58,6 +58,7 @@ Ecomaki::Application.routes.draw do
 
   root :to => 'top#index'
 
+  match 'novel/:id.xml' => 'novel#show_novel_xml'
   match 'novel/:id' => 'novel#show'
 
   match 'api/0/novel/:id.xml' => 'novel#show_novel_xml'
