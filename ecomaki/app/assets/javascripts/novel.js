@@ -16,6 +16,17 @@ function xmlLoad(){
     });
 }
 
+function xmlLoad(xml,parse_func){
+    //alert("load");
+    $.ajax({
+        url:xml,
+        type:'get',
+        dataType:'xml',
+        timeout:1000,
+        success:parse_func
+    });
+}
+
 function parse_xml(xml,status){
     if(status!='success')return;
     $(xml).find('character').each(disp_picker);
@@ -32,8 +43,16 @@ function disp_picker(){
     item.appendTo($('#pickerList'));
 }
 
+function disp_entry(){
+	var height;
+	var width ;
+	var top ;
+	var left;
+	var src;
+}
+
 function resizeTextarea(textarea) {
-  		var lines = textarea.value.split('Ôººn');
+  		var lines = textarea.value.split('ÔººÓ');
   		var width = textarea.cols;
   		var height = 1;
   		for (var i = 0; i < lines.length; i++) {
@@ -55,40 +74,41 @@ function pickImage(ev){
         $("#picker").hide();
         }
     );
-
 }
 
-
-function setEntry(str) {
-    newEntry =  $('<div class="entry"><img src="/images/characters/3.jpg" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>');
+//strPos,srcPos
+//{height: , width:,top:,left:}
+function setEntry(str,strPos,srcPath,srcPos) {
+    newEntry =  $('<div class="entry"><img src="'+srcPath+'" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>');
     newEntry.appendTo("#entrylist")
     	    .css({position: "absolute",top: entry_height*entry_num,left: 0})
-    	    ;
+    	    .width(entry_width).height(entry_height);
+
     entry_num = entry_num+1;
-    
-    newEntry.width(entry_width).height(entry_height);
+ 
     //moveinputform to next
     $('#inputform').css({position: "absolute",top: entry_height*entry_num,left: 0});
+    var body_height = $('#body').height();
+    $('#body').css(height: body_height+entry_height);
     
-   
-    newEntry.children(".resizableImage").css({position: "absolute",top: 0,left: 0, height: entry_height});
-    
-    
+    //≤Ë¡¸
     newEntry.children(".resizableImage")
-	.resizable()
-     	.parent().draggable({
-     	containment: "parent"
-    }).dblclick(pickImage);
+        .css({position: "absolute"})
+        .css(srcPos)
+		.resizable()
+     	  .parent().draggable({
+     	  containment: "parent"
+         }).dblclick(pickImage);
+    //•ª•Í•’
+    newEntry.children(".draggable").draggable({ containment: "parent" })
+    	.width(newEntry.find(".sticky").width())
+    	.height(newEntry.find(".sticky").height())
+    	.css({position: "absolute"})
+    	.css(strPos);
     
-    newEntry.children(".draggable").draggable({
-	containment: "parent"
-    })
-    .width(newEntry.find(".sticky").width())
-    .height(newEntry.find(".sticky").height())
-    .css({position: "absolute",top: 0,left: 100});
-    
-    newEntry.find(".wrap").css({'margin': '10px'});
-    newEntry.find(".sticky").resizable(); 
+    newEntry
+    	.find(".wrap").css({'margin': '10px'})
+    	.find(".sticky").resizable(); 
     newEntry.find(".sticky").dblclick(function() {
         text = $(".wrap",this).html().split("<br>").join('\n');
         text = text.replace(/&amp;/g,"&");
@@ -98,8 +118,9 @@ function setEntry(str) {
        	text = text.replace(/&gt;/g,">");
         $(this).hide();
         
-	$('<textarea></textarea>')
-		.appendTo($(this).parent())
+        // ‘Ω∏•®•Í•¢
+		$('<textarea></textarea>')
+			.appendTo($(this).parent())
         	.focus()
         	.select()
         	.val(text)
@@ -108,14 +129,10 @@ function setEntry(str) {
         	        $(this).hide();
         		var st = $(this).parent();
         		st.find(".sticky").show();
-			$(".wrap",st).html(text);
+				require$(".wrap",st).html(text);
         	})
-        	.height(
-			$(this).height()
-        	)
-        	.width(
-			$(this).width()
-        	);
+        	.height($(this).height())
+        	.width($(this).width());
 	}	
 	);
 								
@@ -127,14 +144,14 @@ $(function() {
 	
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){
-		    setEntry($('#inputform').val());
+		    setEntry($('#inputform').val(),{},'/images/characters/1.jpg',{height: entry_height});
 		    $('#inputform').val(""); 
 		}  
 	    });
 
 	$( "#chapterList" ).sortable();
 
-        $("#picker").hide().css({'z-index':3});
+    $("#picker").hide().css({'z-index':3});
 
 	$("#comment")
         	.jStageAligner("RIGHT_MIDDLE", {time: 150})
