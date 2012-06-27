@@ -1,6 +1,6 @@
 //= require jquery.jStageAligner
 
-entry_width = 512;
+entry_width = 800;
 entry_height = 255;
 entry_num = 0;
 defImage = "";
@@ -16,43 +16,56 @@ function xmlLoad(){
     });
 }
 
-function xmlLoad(xml,parse_func){
-    //alert("load");
-    $.ajax({
-        url:xml,
-        type:'get',
-        dataType:'xml',
-        timeout:1000,
-        success:parse_func
-    });
-}
-
 function parse_xml(xml,status){
     if(status!='success')return;
     $(xml).find('character').each(disp_picker);
+}
+
+
+
+function getActualDimension(image) {
+    var run, mem, w, h, key = "actual";
+ 
+    // for Firefox, Safari, Google Chrome
+         if ("naturalWidth" in image) {
+                 return {width: image.naturalWidth, height: image.naturalHeight};
+         }
+         if ("src" in image) { // HTMLImageElement
+                 if (image[key] && image[key].src === image.src) {return  image[key];}
+                             
+                 if (document.uniqueID) { // for IE
+                         w = $(image).css("width");
+                         h = $(image).css("height");
+                 } else { // for Opera and Other
+                 mem = {w: image.width, h: image.height}; // keep current style
+                 $(this).removeAttr("width").removeAttr("height").css({width:"",  height:""});    // Remove attributes in case img-element has set width  and height (for webkit browsers)
+         	 w = image.width;
+          	h = image.height;
+         	image.height = mem.h;
+                                                                                                                                                              }
+        return image[key] = {width: w, height: h, src: image.src}; // bond
+        }
+	// HTMLCanvasElement
+        return {width: image.width, height: image.height};
 }
 
 function disp_picker(){
     var id = $(this).find('id').text();
     var name = $(this).find('name').text();
     var height = $(this).find('height').text();
-    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/images/characters/'+id +'.jpg"></li>')
-	.click(function(){
- 		selectedImage.src = '/images/characters/'+id +'.jpg' ;
-		$('#picker').hide('fast') });
+    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/images/characters/' + id +'.jpg"></li>');
+    var dim = getActualDimension(item); 
+    item.click(function(){
+                selectedImage.src = '/images/characters/'+id +'.jpg' ;
+                selectedImage.width = dim.width*entry_height/dim.heiht;
+                selectedImage.heght = entry_height;
+                $('#picker').hide('fast') });
     item.appendTo($('#pickerList'));
 }
 
-function disp_entry(){
-	var height;
-	var width ;
-	var top ;
-	var left;
-	var src;
-}
 
 function resizeTextarea(textarea) {
-  		var lines = textarea.value.split('ÔººÓ');
+  		var lines = textarea.value.split('Ôººn');
   		var width = textarea.cols;
   		var height = 1;
   		for (var i = 0; i < lines.length; i++) {
@@ -74,41 +87,57 @@ function pickImage(ev){
         $("#picker").hide();
         }
     );
+
 }
 
-//strPos,srcPos
-//{height: , width:,top:,left:}
-function setEntry(str,strPos,srcPath,srcPos) {
-    newEntry =  $('<div class="entry"><img src="'+srcPath+'" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>');
+
+function setEntry(str,strPos,src,srcPos) {
+    newEntry =  $('<div class="entry"><img src="'+src+'" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>');
     newEntry.appendTo("#entrylist")
     	    .css({position: "absolute",top: entry_height*entry_num,left: 0})
-    	    .width(entry_width).height(entry_height);
-
+    	    ;
     entry_num = entry_num+1;
- 
+    
+    newEntry.width(entry_width).height(entry_height);
     //moveinputform to next
     $('#inputform').css({position: "absolute",top: entry_height*entry_num,left: 0});
-    var body_height = $('#body').height();
-    $('#body').css(height: body_height+entry_height);
     
-    //≤Ë¡¸
+   
     newEntry.children(".resizableImage")
-        .css({position: "absolute"})
-        .css(srcPos)
-		.resizable()
-     	  .parent().draggable({
-     	  containment: "parent"
-         }).dblclick(pickImage);
-    //•ª•Í•’
-    newEntry.children(".draggable").draggable({ containment: "parent" })
-    	.width(newEntry.find(".sticky").width())
-    	.height(newEntry.find(".sticky").height())
-    	.css({position: "absolute"})
-    	.css(strPos);
+      .css({position: "absolute",top: 0,left: 0, height: entry_height})
+      .css(srcPos)
+      .width(srcPos.width)
+      .height(srcPos.height);
     
-    newEntry
-    	.find(".wrap").css({'margin': '10px'})
-    	.find(".sticky").resizable(); 
+    
+    newEntry.children(".resizableImage")
+	.resizable()
+     	.parent().draggable({
+     	containment: "parent"
+    }).dblclick(pickImage);
+    
+    newEntry.children(".draggable").draggable({
+	containment: "parent"
+    })
+    .width(newEntry.find(".sticky").width())
+
+    .height(newEntry.find(".sticky").height())
+    .css({position: "absolute",top: 0,left: 100})
+    .css(strPos)
+    .width(strPos.width)
+    .height(strPos.height);
+    
+    newEntry.find(".wrap").css({'margin': '10px'});
+    newEntry.find(".sticky").resizable({
+       resize: function(event, ui) { 
+         var st = $(event.target).parent(); // resizable
+         st.parent().width(st.width());
+         st.parent().height(st.height());
+       }
+    })
+    .width(srcPos.width)
+    .height(srcPos.height);
+ 
     newEntry.find(".sticky").dblclick(function() {
         text = $(".wrap",this).html().split("<br>").join('\n');
         text = text.replace(/&amp;/g,"&");
@@ -118,9 +147,8 @@ function setEntry(str,strPos,srcPath,srcPos) {
        	text = text.replace(/&gt;/g,">");
         $(this).hide();
         
-        // ‘Ω∏•®•Í•¢
-		$('<textarea></textarea>')
-			.appendTo($(this).parent())
+	$('<textarea></textarea>')
+		.appendTo($(this).parent())
         	.focus()
         	.select()
         	.val(text)
@@ -129,29 +157,36 @@ function setEntry(str,strPos,srcPath,srcPos) {
         	        $(this).hide();
         		var st = $(this).parent();
         		st.find(".sticky").show();
-				require$(".wrap",st).html(text);
+			$(".wrap",st).html(text);
         	})
-        	.height($(this).height())
-        	.width($(this).width());
+        	.height(
+			$(this).height()
+        	)
+        	.width(
+			$(this).width()
+        	);
 	}	
 	);
 								
 								
 }
 
+entry_n = 0;
 
 $(function() {
 	
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){
-		    setEntry($('#inputform').val(),{},'/images/characters/1.jpg',{height: entry_height});
+		    setEntry($('#inputform').val(),
+	{width: 200,height: 100,top: 50,left:50},"/images/characters/1.jpg",
+	{width: 200,height: 100,top: 50,left:50});
 		    $('#inputform').val(""); 
 		}  
 	    });
 
 	$( "#chapterList" ).sortable();
 
-    $("#picker").hide().css({'z-index':3});
+        $("#picker").hide().css({'z-index':3});
 
 	$("#comment")
         	.jStageAligner("RIGHT_MIDDLE", {time: 150})
