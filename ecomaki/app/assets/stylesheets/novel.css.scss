@@ -33,8 +33,10 @@ body {
 
 
 #chapterList { list-style-type: none; margin: 0; padding: 0;  }
-#chapterList li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-#chapterList li span { position: absolute; margin-left: -1.3em; }
+#chapterList li {  margin: 0 3px 3px 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+#chapterList li span { float: left; width: 10% }
+
+
 
 #picker {
     position: absolute;
