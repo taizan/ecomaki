@@ -56,11 +56,12 @@ function disp_picker(){
     var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/images/characters/' + id +'.jpg"></li>');
     var dim = getActualDimension(item); 
     item.click(function(){
-                selectedImage.src = '/images/characters/'+id +'.jpg' ;
-                selectedImage.width = dim.width*entry_height/dim.heiht;
-                selectedImage.heght = entry_height;
-                $('#picker').hide('fast') });
-    item.appendTo($('#pickerList'));
+       selectedImage.src = '/images/characters/'+id +'.jpg' ;
+       selectedImage.width = dim.width*entry_height/dim.heiht;
+       selectedImage.heght = entry_height;
+       $('#picker').find($('img')).remove();
+       $('#picker').hide('fast') });
+       item.appendTo($('#pickerList'));
 }
 
 
@@ -82,9 +83,9 @@ function pickImage(ev){
   selectedImage = ev.target; 
   xmlLoad();
   $('#picker').show('fast');
-  $('<li><button class="btn" id ="pickerCancelBtn">cancel</button></li>').appendTo($('#pickerList'));
   $("#pickerCancelBtn").click(function(){
-        $("#picker").hide();
+        $('#picker').find($('img')).remove();
+	$('#picker').hide();
         }
     );
 
@@ -178,8 +179,8 @@ $(function() {
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){
 		    setEntry($('#inputform').val(),
-	{width: 200,height: 100,top: 50,left:50},"/images/characters/1.jpg",
-	{width: 200,height: 100,top: 50,left:50});
+	               {width: 200,height: 100,top: 50,left:50},"/images/characters/1.jpg",
+	               {width: 200,height: 100,top: 50,left:50});
 		    $('#inputform').val(""); 
 		}  
 	    });
