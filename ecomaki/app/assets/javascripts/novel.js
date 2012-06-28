@@ -112,7 +112,7 @@ function setEntry(str,strPos,src,srcPos) {
     
     
     newEntry.children(".resizableImage")
-	.resizable()
+	.resizable({containment: "parent parent")
      	.parent().draggable({
      	containment: "parent"
     }).dblclick(pickImage);
@@ -136,8 +136,8 @@ function setEntry(str,strPos,src,srcPos) {
          st.parent().height(st.height());
        }
     })
-    .width(srcPos.width)
-    .height(srcPos.height);
+    .width(strPos.width)
+    .height(strPos.height);
  
     newEntry.find(".sticky").dblclick(function() {
         text = $(".wrap",this).html().split("<br>").join('\n');
