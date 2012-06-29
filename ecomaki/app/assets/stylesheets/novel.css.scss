@@ -10,6 +10,13 @@
 body {
     text-align: center;
 }
+
+#menu {
+   psition:fixed;
+   top: 0;
+   left: 0;
+}
+
 #content {
     width: 800px;
     height: 1000px;
@@ -20,7 +27,7 @@ body {
 
 
 #entrylist {
-	   position: absolute;
+	   position: relative;
 }
 
 
@@ -72,11 +79,15 @@ body {
 }
 
 .entry {
-  position: absolute;
+  position: 'relative';
+  left: 0;
   border: 1px black solid;
 }
 
-#inputform{
+#inputArea{
+    position: "relative";
+    left:0;
+    top:0;
     margin-left: auto;
     margin-right: auto;
 }

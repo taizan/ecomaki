@@ -3,6 +3,7 @@
 entry_width = 800;
 entry_height = 255;
 entry_num = 0;
+entry_pos = 0;
 defImage = "";
 
 function xmlLoad(){
@@ -93,15 +94,16 @@ function pickImage(ev){
 
 
 function setEntry(str,strPos,src,srcPos) {
-    newEntry =  $('<div class="entry"><img src="'+src+'" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>');
+    newEntry =  $('<li class="entry"><img src="'+src+'" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="text">'+str+'</div></div></li>');
     newEntry.appendTo("#entrylist")
-    	    .css({position: "absolute",top: entry_height*entry_num,left: 0})
+       .css({position: "relative"})
     	    ;
     entry_num = entry_num+1;
+    entry_pos += entry_height;
     
     newEntry.width(entry_width).height(entry_height);
     //moveinputform to next
-    $('#inputform').css({position: "absolute",top: entry_height*entry_num,left: 0});
+    //$('#inputArea').css({position: "absolute",top: entry_pos,left: 0});
     
    
     newEntry.children(".resizableImage")
@@ -112,7 +114,9 @@ function setEntry(str,strPos,src,srcPos) {
     
     
     newEntry.children(".resizableImage")
-	.resizable({containment: "parent parent")
+	.resizable(
+            {containment: "parent parent"}
+         )
      	.parent().draggable({
      	containment: "parent"
     }).dblclick(pickImage);
@@ -128,49 +132,71 @@ function setEntry(str,strPos,src,srcPos) {
     .width(strPos.width)
     .height(strPos.height);
     
-    newEntry.find(".wrap").css({'margin': '10px'});
+    newEntry.find(".text").css({'margin': '10px'});
     newEntry.find(".sticky").resizable({
-       resize: function(event, ui) { 
-         var st = $(event.target).parent(); // resizable
-         st.parent().width(st.width());
-         st.parent().height(st.height());
+      //containment: 'parent parent',
+      resize: function(event, ui) { 
+        var st = $(event.target).parent(); //sticky 
+        var ent = st.parent().parent();
+        if(st.hasClass('sticky')){
+          if(st.offset().left + st.width() > ent.offset().left + ent.width() )
+            st.width(ent.offset().left + ent.width() - st.offset().left);
+          if(st.offset().top + st.height() > ent.offset().top + ent.height() )
+            st.height(ent.offset().top + ent.height() - st.offset().top);
+
+          st.parent().width(st.width());
+          st.parent().height(st.height());
+        }
        }
     })
     .width(strPos.width)
     .height(strPos.height);
  
-    newEntry.find(".sticky").dblclick(function() {
-        text = $(".wrap",this).html().split("<br>").join('\n');
-        text = text.replace(/&amp;/g,"&");
-     	text = text.replace(/&quot;/g,"/");
-     	text = text.replace(/&#039;/g,"'");
-        text = text.replace(/&lt;/g,"<");
-       	text = text.replace(/&gt;/g,">");
-        $(this).hide();
-        
-	$('<textarea></textarea>')
-		.appendTo($(this).parent())
-        	.focus()
-        	.select()
-        	.val(text)
-        	.blur(function() {
-       			text = $(this).val().split('\n').join("<br>");
-        	        $(this).hide();
-        		var st = $(this).parent();
-        		st.find(".sticky").show();
-			$(".wrap",st).html(text);
-        	})
-        	.height(
-			$(this).height()
-        	)
-        	.width(
-			$(this).width()
-        	);
-	}	
-	);
+    newEntry.find(".sticky").dblclick(editTextArea);
 								
 								
 }
+
+function setTextEntry(str){
+newTextEntry = $('<li class="entry text-entry"><div><p class="text"> ' + str + ' </p></div></li>');
+   newTextEntry.appendTo("#entrylist")
+       .css({position: 'relative',width: entry_width })
+   newTextEntry.find('.text').css({'margin': '12px'})
+       .parent().dblclick(editTextArea);
+   entry_num +=1;
+   entry_pos += newTextEntry.height();    
+   //$('#inputArea').css({position: "absolute",top: entry_pos,left: 0});
+}
+
+function editTextArea(){
+        text = $(".text",this).html().split("<br>").join('\n');
+        text = text.replace(/&amp;/g,"&");
+        text = text.replace(/&quot;/g,"/");
+        text = text.replace(/&#039;/g,"'");
+        text = text.replace(/&lt;/g,"<");
+        text = text.replace(/&gt;/g,">");
+        hidedText = $(this).hide();
+
+        $('<textarea></textarea>')
+                .appendTo($(this).parent())
+                .focus()
+                .select()
+                .val(text)
+                .blur(function() {
+                        text = $(this).val().split('\n').join("<br>");
+                        var st = $(this).parent();
+                        hidedText.show();
+                        $(".text",st).html(text);
+                        $(this).remove();
+                })
+                .height(
+                        $(this).height()
+                )
+                .width(
+                        $(this).width()
+                );
+}
+
 
 entry_n = 0;
 
@@ -179,11 +205,18 @@ $(function() {
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){
 		    setEntry($('#inputform').val(),
-	               {width: 200,height: 100,top: 50,left:50},"/images/characters/1.jpg",
-	               {width: 200,height: 100,top: 50,left:50});
+	               {width: 200,height: 100,top: entry_height/2,left:entry_width/2},
+                       "/images/characters/1.jpg",
+	               {height: entry_height,top: 0,left:50});
 		    $('#inputform').val(""); 
 		}  
 	    });
+	$('#textInputform').keypress(function (e) {
+                if(e.which == 13){
+                    setTextEntry($('#textInputform').val());
+                    $('#textInputform').val("");
+                }
+            });
 
 	$( "#chapterList" ).sortable();
 
