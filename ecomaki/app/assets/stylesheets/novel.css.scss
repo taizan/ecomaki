@@ -52,7 +52,7 @@ body {
 }
 
 
-.ImageResizable{
+.Image{
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -75,13 +75,16 @@ body {
 
 
    border: 1px black solid;
-   box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
+   //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
 }
 
 .entry {
   position: 'relative';
   left: 0;
-  border: 1px black solid;
+  border-radius: 2px;         /* CSS3 */
+   -moz-border-radius: 2px;    /* Firefox */
+   -webkit-border-radius: 2px; /* Safari,Chrome */
+  border: 1px gray ridge;
 }
 
 #inputArea{
