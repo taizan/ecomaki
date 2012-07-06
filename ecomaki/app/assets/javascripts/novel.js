@@ -1,8 +1,9 @@
 //= require jquery.jStageAligner
-
-entry_width = 512;
+/*
+entry_width = 800;
 entry_height = 255;
 entry_num = 0;
+entry_pos = 0;
 defImage = "";
 
 function xmlLoad(){
@@ -21,17 +22,49 @@ function parse_xml(xml,status){
     $(xml).find('character').each(disp_picker);
 }
 
+
+
+function getActualDimension(image) {
+    var run, mem, w, h, key = "actual";
+ 
+    // for Firefox, Safari, Google Chrome
+         if ("naturalWidth" in image) {
+                 return {width: image.naturalWidth, height: image.naturalHeight};
+         }
+         if ("src" in image) { // HTMLImageElement
+                 if (image[key] && image[key].src === image.src) {return  image[key];}
+                             
+                 if (document.uniqueID) { // for IE
+                         w = $(image).css("width");
+                         h = $(image).css("height");
+                 } else { // for Opera and Other
+                 mem = {w: image.width, h: image.height}; // keep current style
+                 $(this).removeAttr("width").removeAttr("height").css({width:"",  height:""});    // Remove attributes in case img-element has set width  and height (for webkit browsers)
+         	 w = image.width;
+          	h = image.height;
+         	image.height = mem.h;
+                                                                                                                                                              }
+        return image[key] = {width: w, height: h, src: image.src}; // bond
+        }
+	// HTMLCanvasElement
+        return {width: image.width, height: image.height};
+}
+
 function disp_picker(){
     var id = $(this).find('id').text();
     var name = $(this).find('name').text();
     var height = $(this).find('height').text();
-    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/images/characters/'+id +'.jpg"></li>');
-    item.appendTo($('#pickerList'));
-    $("#pickerCancelBtn").click(function(){
-    	$("#picker").hide();
-        }
-    );
+    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/images/characters/' + id +'.jpg"></li>');
+    var dim = getActualDimension(item); 
+    item.click(function(){
+       selectedImage.src = '/images/characters/'+id +'.jpg' ;
+       selectedImage.width = dim.width*entry_height/dim.heiht;
+       selectedImage.heght = entry_height;
+       $('#picker').find($('img')).remove();
+       $('#picker').hide('fast') });
+       item.appendTo($('#pickerList'));
 }
+
 
 function resizeTextarea(textarea) {
   		var lines = textarea.value.split('＼n');
@@ -48,92 +81,48 @@ function resizeTextarea(textarea) {
 }
 
 function pickImage(ev){
+  selectedImage = ev.target; 
   xmlLoad();
+  $('#picker').show('fast');
+  $("#pickerCancelBtn").click(function(){
+        $('#picker').find($('img')).remove();
+	$('#picker').hide();
+        }
+    );
 
-  $('#pickerList img').click(function(){ alert("><"); path = $(this).attr('src'); ev.target().attr('src',path);  });
-  $('<li><button class="btn" id ="pickerCancelBtn">cancel</button></li>').appendTo($('#pickerList'));
-  $("#picker").show().blur(function(){
-    $(this).hide();
-  });
 }
+*/
 
-function setEntry(str) {
-    $('<div class="entry"><img src="/images/characters/3.jpg" class="resizableImage" ></img><div class="draggable"><div class="sticky"><div class="wrap">'+str+'</div></div></div>')
-    	    .appendTo("#entrylist")
-    	    .css({position: "absolute",top: entry_height*entry_num,left: 0})
-    	    ;
-    entry_num = entry_num+1;
-    
-    $(".entry").width(entry_width).height(entry_height);
-    
-    $('#inputform').css({position: "absolute",top: entry_height*entry_num,left: 0});
-    
-   
-    $(".resizableImage").css({position: "absolute",top: 0,left: 0});
-    $(".draggable").css({position: "absolute",top: 0,left: 100});
-    
-    
-    $(".resizableImage")
-	.resizable()
-     	.parent().draggable({
-     	containment: "parent"
-    }).dblclick(pickImage);
-    
-    $(".resizable").resizable();
-    
-    
-    $(".draggable").draggable({
-	containment: "parent"
-    })
-    .width($(".sticky").width())
-    .height($(".sticky").height());
-    
-    $(".wrap").css({'margin': '10px'});
-    
-    $(".sticky").dblclick(function() {
-        text = $(".wrap",this).html().split("<br>").join('\n');
-        text = text.replace(/&amp;/g,"&");
-	     text = text.replace(/&quot;/g,"/");
-	     	  text = text.replace(/&#039;/g,"'");
-		       text = text.replace(/&lt;/g,"<");
-		       	    text = text.replace(/&gt;/g,">");
-        $(this).hide();
-        
-       
-	$('<textarea></textarea>')
-		.appendTo($(this).parent())
-        	.focus()
-        	.select()
-        	.val(text)
-        	.blur(function() {
-        			 text = $(this).val().split('\n').join("<br>");
-        			     $(this).hide();
-        			         var st = $(this).parent();
-        				     st.find(".sticky").show();
-						$(".wrap",st).html(text);
-        					})
-        					.height(
-							$(this).height()
-        						)
-        						.width(
-								$(this).width()
-        							);		
-								}).resizable();
-								
-								
-}
-
+entry_n = 0;
 
 $(function() {
 	
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){
-		    setEntry($('#inputform').val());
+
+		    entry = new Entry();
+                    entry.add($('#inputform').val(),
+	               {width: 200,height: 100,top: entry_height/2,left:entry_width/2},
+                       "/images/characters/1.jpg",
+	               {height: entry_height,top: 0,left:50});
+
 		    $('#inputform').val(""); 
 		}  
 	    });
+	$('#textInputform').keypress(function (e) {
+                if(e.which == 13){
+                    textentry = new TextEntry($('#textInputform').val());
+                    textentry.add();
+                    $('#textInputform').val("");
+                }
+            });
+	$('#entrylist').sortable( ) .mousedown(function(){
+                focusedText.blur();
+
+        });//list > List?
 
 	$( "#chapterList" ).sortable();
+		
 
         $("#picker").hide().css({'z-index':3});
 

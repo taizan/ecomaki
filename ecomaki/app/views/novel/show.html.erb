@@ -2,7 +2,12 @@
   <aside id="chaptermenu" class = "span3">
     <ul class = "well sidebar-nav" id = "chapterList">
       <li class="nav-header">Chaptor List</li>
-      <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a href="#">Chapter1</a></li>
+      <li class="ui-state-default">
+         <div><span class="ui-icon ui-icon-triangle-1-e"></span><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></div>
+	 <a href="#">Chapter1</a>
+         <i class="icon-pencil"></i>
+      </li>
+
       <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a>Chapter2</a></li>
       <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a>Chapter3</a></li>
       <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a>Chapter4</a></li>
@@ -17,6 +22,7 @@
       <li><a href="sptr1114/spainter_miku.html">Edit Current Image</a></li>
       <li><a href="sptr1114/spainter.html" >Draw new Image</a></li>
       <li class="nav-header">Selecct Image from Libraly</li>
+      <li><button class="btn" id ="pickerCancelBtn">cancel</button></li>
     </ul>
   </aside>
 
@@ -25,9 +31,12 @@
       <h2>novel title</h2>
       <p> novel description </p>
     </div>
-    <div id="entrylist">
-      <textarea id="inputform" class = "span6" rows="4"></textarea>
-    </div>
+    <ul id="entrylist"></ul>
+      <div id='inputArea'>
+        <textarea id="inputform" class = "span6" rows="2"></textarea>
+        <textarea id="textInputform" class = "span6" rows="3"></textarea>
+      </div>
+    
   </div>
       <p>comment</p>
   <div id = "commentList"></div>
