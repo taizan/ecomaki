@@ -70,7 +70,7 @@ var EntryHandle = function (atype,text){
 };
 
 EntryHandle.prototype = {
-  body: '<div class="entry-handle"><div class="buttons"></div></div>',
+  body: '<div class="entry-handle"></div>',
   deleteBody: '<button class="btn danger">delete</button><br>',
   addBaloonBody: '<button class="btn info">Serif</button><br>',
   addImageBody: '<button class="btn success">Image</button><br>',
@@ -87,14 +87,14 @@ EntryHandle.prototype = {
     this.entry.appendTo(this.newEntryHandle);
 
     this.deleteHandle = $(this.deleteBody);
-    this.deleteHandle.appendTo(this.newEntryHandle.find('.buttons'));
+    this.deleteHandle.appendTo(this.newEntryHandle);
     
     if(this.type  == 'normal'){
         this.addBaloonHandle = $(this.addBaloonBody);
-        this.addBaloonHandle.appendTo(this.newEntryHandle.find('.buttons'));
+        this.addBaloonHandle.appendTo(this.newEntryHandle);
  
         this.addImageHandle = $(this.addImageBody);
-        this.addImageHandle.appendTo(this.newEntryHandle.find('.buttons'));
+        this.addImageHandle.appendTo(this.newEntryHandle);
     }
     this.init();
    
@@ -115,7 +115,7 @@ EntryHandle.prototype = {
        this.addImageHandle.click(this.addImage);
     }
     this.newEntryHandle
-        .find('button').hide();
+        //.find('button').hide()
         .mouseover(function(){
             $(this).find('button').show();
         })
