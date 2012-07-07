@@ -1,0 +1,48 @@
+// Place all the styles related to the Novel controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+button {
+    float: right;
+    position: "relative";
+}
+
+
+#entrylist {
+	   position: relative;
+}
+
+
+.Image{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100px;
+	width: 100px;
+}
+
+.sticky{
+  position: absolute;
+
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 20px;         /* CSS3 */
+   -moz-border-radius: 20px;    /* Firefox */
+   -webkit-border-radius: 20px; /* Safari,Chrome */
+
+
+   border: 1px black solid;
+   //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+.entry {
+  position: 'relative';
+  left: 0;
+  border-radius: 2px;         /* CSS3 */
+   -moz-border-radius: 2px;    /* Firefox */
+   -webkit-border-radius: 2px; /* Safari,Chrome */
+  border: 1px gray ridge;
+}
+
+
+
