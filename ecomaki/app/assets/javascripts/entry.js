@@ -70,10 +70,10 @@ var EntryHandle = function (atype,text){
 };
 
 EntryHandle.prototype = {
-  body: '<div class="entry-handle"></div>',
-  deleteBody: '<button class="btn danger">delete</button><br>',
-  addBaloonBody: '<button class="btn info">Serif</button><br>',
-  addImageBody: '<button class="btn success">Image</button><br>',
+  body: '<div class="entry-handle"><ul class="buttons"></ul></div>',
+  deleteBody: '<li><button class="btn danger">delete</button></li>',
+  addBaloonBody: '<li><button class="btn info">Serif</button></li>',
+  addImageBody: '<li><button class="btn success">Image</button></li>',
   list: '#entrylist',
   margin: 70,
   //baloon: new Baloon("",{}),
@@ -87,14 +87,14 @@ EntryHandle.prototype = {
     this.entry.appendTo(this.newEntryHandle);
 
     this.deleteHandle = $(this.deleteBody);
-    this.deleteHandle.appendTo(this.newEntryHandle);
+    this.deleteHandle.appendTo(this.newEntryHandle.find('.buttons'));
     
     if(this.type  == 'normal'){
         this.addBaloonHandle = $(this.addBaloonBody);
-        this.addBaloonHandle.appendTo(this.newEntryHandle);
+        this.addBaloonHandle.appendTo(this.newEntryHandle.find('.buttons'));
  
         this.addImageHandle = $(this.addImageBody);
-        this.addImageHandle.appendTo(this.newEntryHandle);
+        this.addImageHandle.appendTo(this.newEntryHandle.find('.buttons'));
     }
     this.init();
    
@@ -126,18 +126,18 @@ EntryHandle.prototype = {
         .height(this.entry.newEntry.height());
   },  
   deleteEntry: function(ev){
-    $(event.target).parent().remove();
+    $(event.target).parent().parent().parent().remove();
   },
   addBaloon: function(ev){ 
     //this.entry.addBaloon(new Baloon("",{}));
     //class like method is better but icant now 
-    var entry = $(event.target).parent().find('.entry');
+    var entry = $(event.target).parent().parent().parent().find('.entry');
     var baloon = new Baloon("",{});
     baloon.appendTo(entry);
   },
   addImage: function(ev){
     //this.entry.addImage(new Image("",{}));
-    var entry = $(event.target).parent().find('.entry');
+    var entry = $(event.target).parent().parent().parent().find('.entry');
     var image = new Image("",{});
     image.appendTo(entry);
   }
