@@ -100,18 +100,19 @@ $(function() {
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){
 
-		    entry = new Entry();
-                    entry.add($('#inputform').val(),
-	               {width: 200,height: 100,top: entry_height/2,left:entry_width/2},
+		    //entry = new Entry();
+		    entry = new EntryHandle("normal","");
+                    entry.addWith($('#inputform').val(),
+	               {width: 200,height: 100,top: entry_height/2,left:entry_width/2, zIndex: 1},
                        "/images/characters/1.jpg",
-	               {height: entry_height,top: 0,left:50});
+	               {height: entry_height,top: 0,left:50, zIndex: 0});
 
 		    $('#inputform').val(""); 
 		}  
 	    });
 	$('#textInputform').keypress(function (e) {
                 if(e.which == 13){
-                    textentry = new TextEntry($('#textInputform').val());
+                    textentry = new EntryHandle("text",$('#textInputform').val());
                     textentry.add();
                     $('#textInputform').val("");
                 }
