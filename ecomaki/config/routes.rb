@@ -71,6 +71,7 @@ Ecomaki::Application.routes.draw do
 
   match 'characters' => 'characters#index', :via => :get
   match 'characters' => 'characters#create', :via => :post
+  match 'characters/image/:id' => 'characters#show_image'
 
   match 'novel/:novel_id/entries/:id' => 'entries#update', :via => :put
   match 'novel/:novel_id/entries' => 'entries#create', :via => :post

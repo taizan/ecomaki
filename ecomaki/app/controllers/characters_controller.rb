@@ -9,16 +9,33 @@ class CharactersController < ApplicationController
 
   def create
     image = params[:character_image]
+    content_type = image.content_type.chomp
 
-    character = Character.new(:name => 'test')
+    unless ["image/jpeg", "image/png"].include?(content_type)
+      render :text => "The uploaded type is not allowed", :status => 500
+    end
+
+    character = Character.new(:name => 'test', :content_type => content_type)
     character.save
 
     id = character.id
 
-    File.open(RAILS_ROOT + '/public/images/characters/%d.jpg' % id, 'wb') do |file|
+    File.open(RAILS_ROOT + '/data/images/characters/%d' % id, 'wb') do |file|
       file.write(image.read)
     end
 
     render :json => []
   end
+
+  def show_image
+    id = params[:id]
+
+    character = Character.find(id)
+    filetype = character.content_type
+    
+    File.open(RAILS_ROOT + '/data/images/characters/%d' % id, 'rb') do |file|
+      send_data(file.read, :disposition => "inline", :type => filetype)
+    end
+  end
+
 end
