@@ -147,7 +147,7 @@ EntryHandle.prototype = {
 var Entry = function(){};
 
 Entry.prototype = {
-  body: '<div class="entry"></div>',
+  body: '<div class="entry"><canvas width= "800" height="300" ></canvas></div>',
   list: '#entrylist',
   width: 800,
   height: 300,
@@ -158,6 +158,10 @@ Entry.prototype = {
         .css({position: "absolute" , float: 'left'})
         .width(this.width)
         .height(this.height);
+    this.newEntry.find('canvas')
+        .css({position: "absolute", top: 0, left: 0 });
+    this.sketch = new OverlaySketch(this.newEntry.find('canvas'));
+    this.sketch.init();
     return this.newEntry;
   },
   add: function(){
