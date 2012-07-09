@@ -57,6 +57,9 @@ OverlaySketch.prototype = {
 	}
 
 	this.canvas.mousedown(function(e) {
+                if(e.target.getContext) {
+                    OverlaySketch.prototype.context = e.target.getContext('2d');
+		}
      		t =OverlaySketch.prototype;
 		t.flag = true;
 		t.startX = e.pageX - $(this).offset().left - t.offset;
@@ -67,9 +70,9 @@ OverlaySketch.prototype = {
 	this.canvas.mousemove(function(e) {
 		t = OverlaySketch.prototype;
 		if (t.flag) {
-		    var endX = e.pageX - $('canvas').offset().left - t.offset;
-                    var endY = e.pageY - $('canvas').offset().top - t.offset;
-		    //alert(t.startX +','+ t.startY + ' ; ' + endX +','+endY);
+		    endX = e.pageX - $(this).offset().left - t.offset;
+                    endY = e.pageY - $(this).offset().top - t.offset;
+		    // alert(e.pageX +','+ e.pageY + ' ; ' + $('canvas').offset().left  +','+$('canvas').offset().top);
                     t.context.lineWidth = t.brushSize;
 		    t.context.lineJoin= "round";
 		    t.context.lineCap = "round";
