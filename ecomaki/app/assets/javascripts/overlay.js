@@ -5,26 +5,41 @@ SketchTool = function(){
 SketchTool.prototype = {
     toolBody: '<div id="sketchTool"></div>',
     sliderBody: '<div id="slider"></div>',
-    colorItemBody: '<li></li>',
+    colorItemBody: '<li class="colorItem"></li>',
     colorParetBody: '<ul id="paret"></ul>',
     exitButtonBody: '<input type="button" id="exit" value="exit" />',
     clearButtonBody: '<input type="button" id="clear" value="clear" />',
     appendTo: function(target){
         this.tool = $(this.toolBody);
-        this.tool.appendTo(target);
+	this.paret = $(this.colorParetBody);
 	this.slider = $(this.sliderBody);
-        this.slider.appendTo('#sketchTool');
-
+        this.slider.slider();
 	this.exitButton = $(this.exitButtonBody);
-        this.exitButton.appendTo('#sketchTool');
-
 	this.clearButton = $(this.clearButtonBody);
-	this.clearButton.appendTo('#sketchTool');
+
+        this.tool.draggable()
+	    .append(this.slider)
+            .append(this.exitButton)
+            .append(this.clearButton)
+	    .append(this.paret)
+	    .appendTo(target);
+        //this.slider.appendTo('#sketchTool');
+        //this.exitButton.appendTo('#sketchTool');
+	//this.clearButton.appendTo('#sketchTool');
+        //this.paret.appendTo('#sketchTool');
     },
     addColor: function(color){
-	var newColorItem = $(this.colorItem);
+	var newColorItem = $(this.colorItemBody);
 	newColorItem.css({'background-color':color});
-	newColorItem.append('#paret');
+	newColorItem.appendTo('#paret');
+    },
+    setDefaultParet: function(){
+	this.addColor('#000');
+	this.addColor('#f00');
+	this.addColor('#0f0');
+	this.addColor('#00f');
+	this.addColor('#ff0');
+	this.addColor('#fff');
     },
     hide: function(){
 	this.tool.hide();
@@ -103,8 +118,7 @@ OverlaySketch.prototype = {
 	    });
 
         $('#paret li').click(function(e) {
-		e.preventDefault();
-		OverlaySketch.prototype.context.clearRect(0, 0, $('canvas').width(), $('canvas').height());
+		OverlaySketch.prototype.context.strokeStyle = $(this).css('background-color');
 	    });
 
 	$('#clear').click(function(e) {

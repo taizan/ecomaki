@@ -125,17 +125,17 @@ EntryHandle.prototype = {
         .width(this.entry.newEntry.width() + this.margin)
         .height(this.entry.newEntry.height());
   },  
-  deleteEntry: function(ev){
+  deleteEntry: function(event){
     $(event.target).parent().parent().parent().remove();
   },
-  addBaloon: function(ev){ 
+  addBaloon: function(event){ 
     //this.entry.addBaloon(new Baloon("",{}));
     //class like method is better but icant now 
     var entry = $(event.target).parent().parent().parent().find('.entry');
     var baloon = new Baloon("",{});
     baloon.appendTo(entry);
   },
-  addImage: function(ev){
+  addImage: function(event){
     //this.entry.addImage(new Image("",{}));
     var entry = $(event.target).parent().parent().parent().find('.entry');
     var image = new Image("",{});

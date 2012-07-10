@@ -3,24 +3,29 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #novel_container {
-    width: 1100px;
+    width: 1000px;
     //margin-left: auto;
-    margin-right: auto;
+    //margin-right: auto;
+    left: 200px;
 }
 body {
     text-align: center;
 }
 
 #menu {
-   psition:fixed;
+   position:fixed;
    top: 0;
    left: 0;
+   width: 1200px;
+   hight:50px;
+   z-index: 5;
 }
 
 #content {
-    width: 1024;
+    position: absolute;
+    width: 1000px;
     height: 1000px;
-    margin-left: 250px;
+    margin-left: 200px;
     background-color: white;
 }
 
@@ -31,11 +36,13 @@ body {
 }
 
 
-#chaptermenu {
+#sideMenu {
     position: fixed;
-    top: 100px;
+    top: 50px;
+    left: 0px;
     width: 200px;
-    height: 500px;
+    //height: 500px;
+    z-index: 5;
 }
 
 
@@ -47,44 +54,9 @@ body {
 
 #picker {
     position: absolute;
-    top: 100px;
-    width: 300px;
-}
-
-
-.Image{
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100px;
-	width: 100px;
-}
-
-.draggable{
-	position: absolute;
-}
-
-.sticky{
-  position: absolute;
-
-  background-color: #fff;
-  cursor: pointer;
-  border-radius: 20px;         /* CSS3 */
-   -moz-border-radius: 20px;    /* Firefox */
-   -webkit-border-radius: 20px; /* Safari,Chrome */
-
-
-   border: 1px black solid;
-   //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
-}
-
-.entry {
-  position: 'relative';
-  left: 0;
-  border-radius: 2px;         /* CSS3 */
-   -moz-border-radius: 2px;    /* Firefox */
-   -webkit-border-radius: 2px; /* Safari,Chrome */
-  border: 1px gray ridge;
+    top: 50px;
+    width: 200px;
+    z-index: 6;
 }
 
 #inputArea{
