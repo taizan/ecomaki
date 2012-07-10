@@ -3,35 +3,28 @@ canvas {
     left: 0px;
 }
 
+#sketchTool {
+    position: fixed;
+    width: 200px;
+    //height: 200px;
+}
+
 #exit {
     position: relative;
-    top: -55px;
-    left: 345px;
     font-size: 120%;
-    width: 130px;
-    height: 50px;
 }
 
 #clear {
     position: relative;
-    top: -55px;
-    left: 345px;
 
     font-size: 120%;
-    width: 80px;
-    height: 50px;
 }
 
-#paret {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
 .colorItem {
     cursor:pointer;
     cursor:hand;
     display:inline-block;
     border: 1px solid #000;
-    width: 50px;
-    height: 50px;
+    width: 23px;
+    height: 23px;
 }

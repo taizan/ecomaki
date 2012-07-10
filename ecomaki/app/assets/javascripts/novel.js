@@ -98,7 +98,7 @@ entry_n = 0;
 $(function() {
         tool = new SketchTool();
 	tool.appendTo('#content');
-	
+        tool.setDefaultParet();	
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){
 
@@ -125,9 +125,22 @@ $(function() {
         });//list > List?
 
 	$( "#chapterList" ).sortable();
-		
+	isChapterHided = false;
+	$( "#sideMenu .nav-header").click(
+	        function(ev) {
+                   if(isChapterHided){
+			$(this).parent().find('li').show();
+			$('#content').css({left:0});
+ 			isChapterHided = false;
+		   }else{ 
+                   	$(this).parent().find('li').hide();
+			$('#content').css({left:-200});
+                   	$(this).show();
+ 			isChapterHided = true;
+  		   }
+             });		
 
-        $("#picker").hide().css({'z-index':3});
+        $("#picker").hide();
 
 	$("#comment")
         	.jStageAligner("RIGHT_MIDDLE", {time: 150})
