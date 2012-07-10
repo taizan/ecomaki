@@ -64,6 +64,7 @@ var EntryHandle = function (atype,text){
   this.type = atype
   if(this.type == 'normal'){
       this.entry = new Entry();
+      this.canvasIndex = 0;
   }else{
       this.entry = new TextEntry(text);
   }
@@ -74,8 +75,10 @@ EntryHandle.prototype = {
   deleteBody: '<li><button class="btn danger">delete</button></li>',
   addBaloonBody: '<li><button class="btn info">Serif</button></li>',
   addImageBody: '<li><button class="btn success">Image</button></li>',
+  changeLayerBody: '<li><button class="btn success">layer</button></li>',
   list: '#entrylist',
   margin: 70,
+  indexTop: 4,
   //baloon: new Baloon("",{}),
   //image: new Image("",{}),
   appendTo: function(target){
@@ -95,6 +98,10 @@ EntryHandle.prototype = {
  
         this.addImageHandle = $(this.addImageBody);
         this.addImageHandle.appendTo(this.newEntryHandle.find('.buttons'));
+
+        this.changeLayerHandle = $(this.changeLayerBody);
+        this.changeLayerHandle.appendTo(this.newEntryHandle.find('.buttons'));
+
     }
     this.init();
    
@@ -113,6 +120,7 @@ EntryHandle.prototype = {
     if(this.type == 'normal'){
        this.addBaloonHandle.click(this.addBaloon);
        this.addImageHandle.click(this.addImage);
+       this.changeLayerHandle.click(this.changeLayer);
     }
     this.newEntryHandle
         //.find('button').hide()
@@ -140,6 +148,13 @@ EntryHandle.prototype = {
     var entry = $(event.target).parent().parent().parent().find('.entry');
     var image = new Image("",{});
     image.appendTo(entry);
+  },
+  changeLayer: function(event) {
+    //alert();
+    var index = EntryHandle.prototype.indexTop;
+    var canvas = $(event.target).parent().parent().parent().find('.entry').find('canvas');
+    if(canvas.css('zIndex') == index){ canvas.css('zIndex',0);}
+    else{ canvas.css('zIndex',index); }
   }
 }  
 
