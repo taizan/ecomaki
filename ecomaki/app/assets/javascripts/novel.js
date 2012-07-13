@@ -125,7 +125,13 @@ $(function() {
         });//list > List?
 
 	$( "#chapterList" ).sortable();
-	isChapterHided = false;
+	
+	isChapterHided = true;
+	//init 	
+	$( "#sideMenu .nav-header").parent().find('li').hide();
+        $( "#sideMenu .nav-header").show();
+	$('#content').css({left:-200});
+
 	$( "#sideMenu .nav-header").click(
 	        function(ev) {
                    if(isChapterHided){

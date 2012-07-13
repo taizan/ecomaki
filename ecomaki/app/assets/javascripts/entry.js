@@ -350,10 +350,11 @@ function editTextArea(){
                 .val(text)
                 .blur(function() {
                         text = $(this).val().split('\n').join("<br>");
+                        //text = $(this).val();
                         var st = $(this).parent();
                         hidedText.show();
                         $(".text",st)
-                            .html(text);
+                            .text(text);
                         //hidedText
                         //    .height($(this).height())
                         //    .width($(this).width());
