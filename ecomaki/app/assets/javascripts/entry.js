@@ -72,14 +72,14 @@ var EntryHandle = function (atype,text){
 
 EntryHandle.prototype = {
   body: '<div class="entry-handle"><ul class="buttons"></ul></div>',
-  handleBody: '<li>handle </li>',
-  deleteBody: '<li><button class="btn danger">delete</button></li>',
-  addBaloonBody: '<li><button class="btn info">Serif</button></li>',
-  addImageBody: '<li><button class="btn success">Image</button></li>',
-  changeLayerBody: '<li><button class="btn success">layer</button></li>',
-  addEntryBody: '<li><button class="btn success">addEntry</button></li>',
+  handleBody: '<li><i class="icon-move"></li>',
+  deleteBody: '<li><button class="btn danger"><i class="icon-remove-sign"></button></li>',
+  addBaloonBody: '<li><button class="btn info"><i class="icon-comment"></button></li>',
+  addImageBody: '<li><button class="btn success"><i class="icon-picture"></button></li>',
+  changeLayerBody: '<li><button class="btn success"><i class="icon-edit"></button></li>',
+  addEntryBody: '<li><button class="btn success"><i class="icon-arrow-down"></button></li>',
   list: '#entrylist',
-  margin: 70,
+  margin: 40,
   indexTop: 4,
   //baloon: new Baloon("",{}),
   //image: new Image("",{}),
@@ -130,21 +130,23 @@ EntryHandle.prototype = {
     this.newEntryHandle
         //.find('button').hide()
         .mouseover(function(){
-            $(this).find('button').show();
+            $(this).find('i').show();
+	    $(this).find('button').show();
         })
         .mouseout(function(){
+            $(this).find('i').hide();
             $(this).find('button').hide();
         })
         .width(this.entry.newEntry.width() + this.margin)
         .height(this.entry.newEntry.height());
   },  
   deleteEntry: function(event){
-    $(event.target).parent().parent().parent().remove();
+    $(event.target).parent().parent().parent().parent().remove();
   },
   addBaloon: function(event){ 
     //this.entry.addBaloon(new Baloon("",{}));
     //class like method is better but icant now 
-    var entry = $(event.target).parent().parent().parent().find('.entry');
+    var entry = $(event.target).parent().parent().parent().parent().find('.entry');
     var baloon = new Baloon("",{width: 100,height: 50});
     baloon.appendTo(entry);
   },
@@ -221,6 +223,7 @@ Baloon.prototype = {
   body: function(){
     return '<div class="baloon-draggable"><div class="sticky baloon-resizable"><div class="text">' + this.str + '</div></div></li>';
   },
+  deletIconBody: '<i class="icon-remove-sign">',
   appendTo: function(target){
     this.newBaloon = $(this.body());
     this.newBaloon.appendTo(target);
