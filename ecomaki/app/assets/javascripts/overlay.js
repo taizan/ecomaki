@@ -9,13 +9,17 @@ SketchTool.prototype = {
     colorParetBody: '<ul id="paret"></ul>',
     exitButtonBody: '<input type="button" id="exit" value="exit" />',
     clearButtonBody: '<input type="button" id="clear" value="clear" />',
+    tool: [],
     appendTo: function(target){
         this.tool = $(this.toolBody);
+	this.tool.css({ position: 'fixed' , background_color: 'gray'});
 	this.paret = $(this.colorParetBody);
 	this.slider = $(this.sliderBody);
         this.slider.slider();
 	this.exitButton = $(this.exitButtonBody);
 	this.clearButton = $(this.clearButtonBody);
+        this.colorPicker = new colorPicker(this.tool);
+	//this.colorPicker.hide();
 
         this.tool.draggable()
 	    .append(this.slider)
@@ -27,24 +31,36 @@ SketchTool.prototype = {
         //this.exitButton.appendTo('#sketchTool');
 	//this.clearButton.appendTo('#sketchTool');
         //this.paret.appendTo('#sketchTool');
+        this.init();
+    },
+    init: function(){
+    	this.exitButton.click(this.hide);
     },
     addColor: function(color){
 	var newColorItem = $(this.colorItemBody);
 	newColorItem.css({'background-color':color});
 	newColorItem.appendTo('#paret');
+        newColorItem.dblclick(function(event) { 
+	  //      $('#colorPicker').show();
+	//	coloerPicker.setTarget( event.target);
+            });
     },
     setDefaultParet: function(){
 	this.addColor('#000');
+	this.addColor('#999');
 	this.addColor('#f00');
+
 	this.addColor('#0f0');
 	this.addColor('#00f');
 	this.addColor('#ff0');
 	this.addColor('#fff');
     },
     hide: function(){
-	this.tool.hide();
+	//this.tool.hide();
+	$(this).parent().hide();
     },
     show: function(){
+	$(this).parent().show();
 	this.tool.show();
     }
 }
@@ -119,6 +135,7 @@ OverlaySketch.prototype = {
 
         $('#paret li').click(function(e) {
 		OverlaySketch.prototype.context.strokeStyle = $(this).css('background-color');
+		this.css('margin',5);
 	    });
 
 	$('#clear').click(function(e) {

@@ -97,7 +97,7 @@ entry_n = 0;
 
 $(function() {
         tool = new SketchTool();
-	tool.appendTo('#content');
+	tool.appendTo('#novel_container');
         tool.setDefaultParet();	
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){
