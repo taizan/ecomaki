@@ -1,8 +1,9 @@
 // Colorpicker UI
 
-$(function(){
+
     function colorPicker(parent){
         this.parent = parent;
+        $(this.body).appendTo(parent);
         this.color = {r:0, g:0, b:0, a:1};
         this.colorBarWidth = 255;
         this.colorBarHeight = 18;
@@ -19,7 +20,8 @@ $(function(){
         this.bindColorChangeEvent();
         this.bindSelectTab();
     }
-
+    colorPicker.prototype.body = '<div id="colorpicker"><div class="colorpicker_tab_buttons"><button id="rgb_button" class="colorpicker_tab_button selected">RGB</button><button id="hsl_button" class="colorpicker_tab_button">HSL</button></div><div id="rgb_picker" class="colorpicker_tab"></div><div id="hsl_picker" class="colorpicker_tab"></div><div id = "outoftag_picker"></div></div>';
+    
     colorPicker.prototype.createBarBackground = function(){
         this.barBackground = document.createElement("canvas");
         var size = 10;
@@ -167,10 +169,10 @@ $(function(){
     
     colorPicker.prototype.bindColorChangeEvent = function(){
         var thisInstant1 = this;
-        painter.onColorChange.push(function(color){
-            thisInstant1.color = color;
-            thisInstant1.drawRgbPicker();
-        });
+        //painter.onColorChange.push(function(color){
+        //    thisInstant1.color = color;
+        //    thisInstant1.drawRgbPicker();
+        //});
     };
 
     colorPicker.prototype.drawRgbPicker = function(){
@@ -383,16 +385,16 @@ $(function(){
     };
 
     colorPicker.prototype.setColor = function(){
-        painter.setColor(this.color);
+        //painter.setColor(this.color);
     };
 
-    new colorPicker($("#colorpicker").get(0));
-    
-    $(".colorpicker_tab_button").hover(
-        function(){$(this).addClass("hover");},
-        function(){$(this).removeClass("hover");}
-    );
-    $(".colorpicker_tab_button").mousedown(
-        function(){$(this).addClass("pushed");}
-    );
-});
+//    new colorPicker($("#colorpicker").get(0));
+    colorPicker.prototype.init = function(){  
+        $(".colorpicker_tab_button").hover(
+            function(){$(this).addClass("hover");},
+            function(){$(this).removeClass("hover");}
+        );
+        $(".colorpicker_tab_button").mousedown(
+            function(){$(this).addClass("pushed");}
+        );
+    }

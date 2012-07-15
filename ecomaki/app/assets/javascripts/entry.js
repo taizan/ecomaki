@@ -72,10 +72,12 @@ var EntryHandle = function (atype,text){
 
 EntryHandle.prototype = {
   body: '<div class="entry-handle"><ul class="buttons"></ul></div>',
+  handleBody: '<li>handle </li>',
   deleteBody: '<li><button class="btn danger">delete</button></li>',
   addBaloonBody: '<li><button class="btn info">Serif</button></li>',
   addImageBody: '<li><button class="btn success">Image</button></li>',
   changeLayerBody: '<li><button class="btn success">layer</button></li>',
+  addEntryBody: '<li><button class="btn success">addEntry</button></li>',
   list: '#entrylist',
   margin: 70,
   indexTop: 4,
@@ -89,6 +91,7 @@ EntryHandle.prototype = {
     
     this.entry.appendTo(this.newEntryHandle);
 
+    $(this.handleBody).appendTo(this.newEntryHandle.find('.buttons'));
     this.deleteHandle = $(this.deleteBody);
     this.deleteHandle.appendTo(this.newEntryHandle.find('.buttons'));
     
@@ -103,6 +106,8 @@ EntryHandle.prototype = {
         this.changeLayerHandle.appendTo(this.newEntryHandle.find('.buttons'));
 
     }
+    this.addEntryHandle = $(this.addEntryBody);
+        this.addEntryHandle.appendTo(this.newEntryHandle.find('.buttons'));
     this.init();
    
     return this.newEntryHandle;
@@ -140,7 +145,7 @@ EntryHandle.prototype = {
     //this.entry.addBaloon(new Baloon("",{}));
     //class like method is better but icant now 
     var entry = $(event.target).parent().parent().parent().find('.entry');
-    var baloon = new Baloon("",{});
+    var baloon = new Baloon("",{width: 100,height: 50});
     baloon.appendTo(entry);
   },
   addImage: function(event){
@@ -155,6 +160,7 @@ EntryHandle.prototype = {
     var canvas = $(event.target).parent().parent().parent().find('.entry').find('canvas');
     if(canvas.css('zIndex') == index){ canvas.css('zIndex',0);}
     else{ canvas.css('zIndex',index); }
+    $('#sketchTool').show();
   }
 }  
 
