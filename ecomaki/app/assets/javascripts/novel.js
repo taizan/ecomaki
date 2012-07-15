@@ -96,7 +96,9 @@ function pickImage(ev){
 entry_n = 0;
 
 $(function() {
-	
+        tool = new SketchTool();
+	tool.appendTo('#content');
+        tool.setDefaultParet();	
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){
 
@@ -123,9 +125,28 @@ $(function() {
         });//list > List?
 
 	$( "#chapterList" ).sortable();
-		
+	
+	isChapterHided = true;
+	//init 	
+	$( "#sideMenu .nav-header").parent().find('li').hide();
+        $( "#sideMenu .nav-header").show();
+	$('#content').css({left:-200});
 
-        $("#picker").hide().css({'z-index':3});
+	$( "#sideMenu .nav-header").click(
+	        function(ev) {
+                   if(isChapterHided){
+			$(this).parent().find('li').show();
+			$('#content').css({left:0});
+ 			isChapterHided = false;
+		   }else{ 
+                   	$(this).parent().find('li').hide();
+			$('#content').css({left:-200});
+                   	$(this).show();
+ 			isChapterHided = true;
+  		   }
+             });		
+
+        $("#picker").hide();
 
 	$("#comment")
         	.jStageAligner("RIGHT_MIDDLE", {time: 150})

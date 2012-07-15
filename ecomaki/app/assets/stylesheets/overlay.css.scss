@@ -1,0 +1,30 @@
+canvas {
+    top: 0px;
+    left: 0px;
+}
+
+#sketchTool {
+    position: fixed;
+    width: 200px;
+    //height: 200px;
+}
+
+#exit {
+    position: relative;
+    font-size: 120%;
+}
+
+#clear {
+    position: relative;
+
+    font-size: 120%;
+}
+
+.colorItem {
+    cursor:pointer;
+    cursor:hand;
+    display:inline-block;
+    border: 1px solid #000;
+    width: 23px;
+    height: 23px;
+}

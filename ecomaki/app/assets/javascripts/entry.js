@@ -64,18 +64,21 @@ var EntryHandle = function (atype,text){
   this.type = atype
   if(this.type == 'normal'){
       this.entry = new Entry();
+      this.canvasIndex = 0;
   }else{
       this.entry = new TextEntry(text);
   }
 };
 
 EntryHandle.prototype = {
-  body: '<div class="entry-handle"></div>',
-  deleteBody: '<button class="btn danger">delete</button><br>',
-  addBaloonBody: '<button class="btn info">Serif</button><br>',
-  addImageBody: '<button class="btn success">Image</button><br>',
+  body: '<div class="entry-handle"><ul class="buttons"></ul></div>',
+  deleteBody: '<li><button class="btn danger">delete</button></li>',
+  addBaloonBody: '<li><button class="btn info">Serif</button></li>',
+  addImageBody: '<li><button class="btn success">Image</button></li>',
+  changeLayerBody: '<li><button class="btn success">layer</button></li>',
   list: '#entrylist',
   margin: 70,
+  indexTop: 4,
   //baloon: new Baloon("",{}),
   //image: new Image("",{}),
   appendTo: function(target){
@@ -87,14 +90,18 @@ EntryHandle.prototype = {
     this.entry.appendTo(this.newEntryHandle);
 
     this.deleteHandle = $(this.deleteBody);
-    this.deleteHandle.appendTo(this.newEntryHandle);
+    this.deleteHandle.appendTo(this.newEntryHandle.find('.buttons'));
     
     if(this.type  == 'normal'){
         this.addBaloonHandle = $(this.addBaloonBody);
-        this.addBaloonHandle.appendTo(this.newEntryHandle);
+        this.addBaloonHandle.appendTo(this.newEntryHandle.find('.buttons'));
  
         this.addImageHandle = $(this.addImageBody);
-        this.addImageHandle.appendTo(this.newEntryHandle);
+        this.addImageHandle.appendTo(this.newEntryHandle.find('.buttons'));
+
+        this.changeLayerHandle = $(this.changeLayerBody);
+        this.changeLayerHandle.appendTo(this.newEntryHandle.find('.buttons'));
+
     }
     this.init();
    
@@ -113,6 +120,7 @@ EntryHandle.prototype = {
     if(this.type == 'normal'){
        this.addBaloonHandle.click(this.addBaloon);
        this.addImageHandle.click(this.addImage);
+       this.changeLayerHandle.click(this.changeLayer);
     }
     this.newEntryHandle
         //.find('button').hide()
@@ -125,21 +133,28 @@ EntryHandle.prototype = {
         .width(this.entry.newEntry.width() + this.margin)
         .height(this.entry.newEntry.height());
   },  
-  deleteEntry: function(ev){
-    $(event.target).parent().remove();
+  deleteEntry: function(event){
+    $(event.target).parent().parent().parent().remove();
   },
-  addBaloon: function(ev){ 
+  addBaloon: function(event){ 
     //this.entry.addBaloon(new Baloon("",{}));
     //class like method is better but icant now 
-    var entry = $(event.target).parent().find('.entry');
+    var entry = $(event.target).parent().parent().parent().find('.entry');
     var baloon = new Baloon("",{});
     baloon.appendTo(entry);
   },
-  addImage: function(ev){
+  addImage: function(event){
     //this.entry.addImage(new Image("",{}));
-    var entry = $(event.target).parent().find('.entry');
+    var entry = $(event.target).parent().parent().parent().find('.entry');
     var image = new Image("",{});
     image.appendTo(entry);
+  },
+  changeLayer: function(event) {
+    //alert();
+    var index = EntryHandle.prototype.indexTop;
+    var canvas = $(event.target).parent().parent().parent().find('.entry').find('canvas');
+    if(canvas.css('zIndex') == index){ canvas.css('zIndex',0);}
+    else{ canvas.css('zIndex',index); }
   }
 }  
 
@@ -147,7 +162,7 @@ EntryHandle.prototype = {
 var Entry = function(){};
 
 Entry.prototype = {
-  body: '<div class="entry"></div>',
+  body: '<div class="entry"><canvas width= "800" height="300" ></canvas></div>',
   list: '#entrylist',
   width: 800,
   height: 300,
@@ -158,6 +173,10 @@ Entry.prototype = {
         .css({position: "absolute" , float: 'left'})
         .width(this.width)
         .height(this.height);
+    this.newEntry.find('canvas')
+        .css({position: "absolute", top: 0, left: 0 });
+    this.sketch = new OverlaySketch(this.newEntry.find('canvas'));
+    this.sketch.init();
     return this.newEntry;
   },
   add: function(){
@@ -331,10 +350,11 @@ function editTextArea(){
                 .val(text)
                 .blur(function() {
                         text = $(this).val().split('\n').join("<br>");
+                        //text = $(this).val();
                         var st = $(this).parent();
                         hidedText.show();
                         $(".text",st)
-                            .html(text);
+                            .text(text);
                         //hidedText
                         //    .height($(this).height())
                         //    .width($(this).width());
