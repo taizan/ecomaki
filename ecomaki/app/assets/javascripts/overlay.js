@@ -56,7 +56,7 @@ SketchTool.prototype = {
 	this.addColor('#fff');
     },
     hide: function(){
-	//this.tool.hide();
+	this.tool.hide();
 	$(this).parent().hide();
     },
     show: function(){
