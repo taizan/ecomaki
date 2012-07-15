@@ -106,7 +106,7 @@ $(function() {
 		    entry = new EntryHandle("normal","");
                     entry.addWith($('#inputform').val(),
 	               {width: 200,height: 100,top: entry_height/2,left:entry_width/2, zIndex: 1},
-                       "/images/characters/0",
+                       "/characters/image/0",
 	               {height: entry_height,top: 0,left:50, zIndex: 0});
 
 		    $('#inputform').val(""); 
