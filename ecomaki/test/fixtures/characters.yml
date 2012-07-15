@@ -11,3 +11,27 @@ two:
   name: Miku2
   width: 100
   height: 100
+
+three:
+  id: 2
+  name: Miku2
+  width: 100
+  height: 100
+
+four:
+  id: 3
+  name: Miku2
+  width: 100
+  height: 100
+
+five:
+  id: 4
+  name: Miku2
+  width: 100
+  height: 100
+
+six:
+  id: 5
+  name: Miku2
+  width: 100
+  height: 100
