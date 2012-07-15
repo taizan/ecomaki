@@ -49,10 +49,10 @@ function disp_picker(){
     var id = $(this).find('id').text();
     var name = $(this).find('name').text();
     var height = $(this).find('height').text();
-    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/images/characters/' + id +'.jpg"></li>');
+    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/characters/image/' + id + '"></li>');
     var dim = getActualDimension(item);
     item.click(function(){
-       selectedImage.src = '/images/characters/'+id +'.jpg' ;
+	    selectedImage.src = '/characters/image/'+id;
        selectedImage.width = dim.width*entry_height/dim.heiht;
        selectedImage.heght = entry_height;
        $('#picker').find($('img')).remove();

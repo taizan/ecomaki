@@ -4,6 +4,7 @@ class ChaptersController < ApplicationController
     chapters = Chapter.where("novel_id = ?", novel_id)
     respond_to do |format|
       format.xml { render :xml => chapters }
+      format.json { render :json => chapters }
     end
   end
   def show
@@ -14,6 +15,7 @@ class ChaptersController < ApplicationController
     respond_to do |format|
       format.html
       format.xml { render :xml => chapter }
+      format.json { render :json => chapter }
     end
   end
 end
