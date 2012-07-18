@@ -164,7 +164,83 @@ EntryHandle.prototype = {
     else{ canvas.css('zIndex',index); }
     $('#sketchTool').show();
   }
-}  
+}
+EntryListView = Backbone.View.extend({
+	initialize: function(){
+	    
+	    this.render();
+	},
+    });
+  
+///
+//backbone.js entry
+//
+
+EntryView = Backbone.View.extend({
+   initialize: function(){
+       _.bindAll(this, "render");
+       _.bindAll(this,addBaloon,addImage,remove,addEntry,changeLayer);
+       this.model.bind("change", this.render);
+       this.render();
+   },
+   render: function(){
+      var template = _.template( $("#entry_template").html(),this.model.attributes);
+      this.el.html(template);
+   },
+   events: {
+       "click baloon": "addBaloon",
+       "click picture": "addPicture",
+       "click remove": "remove",
+       "click add-entry": "addEntry",
+       "click layer": "changeLayer"
+   },
+   addBaloon: function(e){
+            var template = _.template( $("#baloon_template").html(),{});
+	    //this.model.set({body: this.model.get('body') + template );
+	    
+	},
+   addPicture: function(e){
+	},
+   remove: function(e){
+            
+	},
+   addEntry: function(e){
+	},
+   changeLayer: function(e){
+	}
+});
+
+$(function(){
+/*
+<script type="text/template" id="entry_template">
+    <div class="entry">
+    	<div class="entry-content">
+           <canvas width= "800" height="300" ></canvas>
+           <%= body %>
+        </div>
+        <div class+"buttons">
+            <li><i class="icon-move"></li>
+	    <li><button class="btn remove"><i class="icon-remove-sign"></button></li>
+	    <li><button class="btn baloon"><i class="icon-comment"></button></li>
+	    <li><button class="btn picture"><i class="icon-picture"></button></li>
+	    <li><button class="btn layer"><i class="icon-edit"></button></li>
+	    <li><button class="btn add-entry"><i class="icon-arrow-down"></button></li>
+	</div>
+    </div>
+</script>
+
+<script type="text/template" id="baloonr_template">
+    
+    <div class="baloon-draggable">
+    <div class="sticky baloon-resizable">
+    <div class="text"><%= str %> </div>
+    </div>
+    </div>
+</script>
+*/
+
+});
+
 
 //class like entry
 var Entry = function(){};
