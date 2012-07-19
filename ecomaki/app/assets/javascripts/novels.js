@@ -1,12 +1,34 @@
 $(function(){
+
+  //Baloon or Picture
+	var Item = Backbone.Model.extend({
+		initialize: function() {
+		    this.id = arguments[1].id;
+		    this.type = arguments[1].type; //baloon or picture
+		    this.text = arguments[1].text;
+		    this.src = arguments[1].src;
+		    this.top = arguments[1].top;
+		    this.left = arguments[1].left;
+		    this.width = arguments[1].width;
+		    this.height = arguments[1].height;
+		},
+	    });
+
+
+	var ItemList = Backbone.Collection.extend({
+		model: Item
+	    });
+	 
 	var Entry = Backbone.Model.extend({
+	    itemlist: ItemList;
 		initialize: function() {
 		    this.novel_id = arguments[1].novel_id;
 		    this.chapter_id = arguments[1].chapter_id;
 		    this.id = arguments[1].id;
 		    this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.id + ".json";
+		    this.items = new this.itemlist(null, {});		
 		},
-	    });
+	});
 
 
 	var EntryList = Backbone.Collection.extend({
@@ -26,9 +48,9 @@ $(function(){
 		    var novel_id = arguments[0].novel_id;
 		    var id = arguments[0].id;
 		    this.entries = new this.entrylist(null, 
-	{novel_id: novel_id,
-	 chapter_id: id
-	});
+				{novel_id: novel_id,
+	 				chapter_id: id
+				});
 		},
 	    });
 
