@@ -147,15 +147,13 @@ ItemView = Backbone.View.extend({
 model = this.model;
        this.model.bind("change", this.render);
        this.render();
-       if(this.model.type == 'baloon'){
-         this.initBaloon();
-       } else if(this.model.type == 'picture'){
-         this.initPicture();	
-       }
+       
    },
    
    initBaloon: function(){
-   		$(this.el).find('.draggable').draggable({
+	//alert("initbaloon");
+        elem = this.el;
+   	$(this.el).find('.draggable').draggable({
         	containment: "parent parent"
        	});
        	$(this.el).find('.resizable').resizable({
@@ -174,11 +172,23 @@ model = this.model;
    render: function(){
       if(this.model.type == 'baloon'){
       		var template = _.template( $("#baloon_template").html(),this.model.attributes);
+      $(this.el).html(template);
+	$(this.el).find('.baloon').css({
+         top: this.model.top,
+          left: this.model.left
+           }).width(this.model.width).height(this.model.height);
+          this.initBaloon();     
       }else if(this.model.type == 'picture'){
-      		var template = _.template( $("#picture_template").html(),this.model.attributes);
+       	var template = _.template( $("#picture_template").html(),this.model.attributes);
+         $(this.el).html(template);
+	 $(this.el).find('img').css({
+         top: this.model.top,
+         left: this.model.left
+        }).width(this.model.width).height(this.model.height);
+        this.initiPicture(); 
       }
       
-      $(this.el).html(template);
+
       return this;
    },
    events: {
