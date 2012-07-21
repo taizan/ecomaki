@@ -26,6 +26,10 @@ $(function() {
         });//list > List?
 
 	$( "#chapterList" ).sortable();
+
+        novel = new Novel({ id:0});
+	
+ 	//chapter = new ChapterView( { model: novel.chapters.models[0]} );
 	
 	isChapterHided = true;
 	//init 	

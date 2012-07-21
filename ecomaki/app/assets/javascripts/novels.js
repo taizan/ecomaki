@@ -1,16 +1,15 @@
-$(function(){
 
   //Baloon or Picture
-	var Item = Backbone.Model.extend({
+	Item = Backbone.Model.extend({
 		initialize: function() {
-		    this.id = arguments[1].id;
-		    this.type = arguments[1].type; //baloon or picture
-		    this.text = arguments[1].text;
-		    this.src = arguments[1].src;
-		    this.top = arguments[1].top;
-		    this.left = arguments[1].left;
-		    this.width = arguments[1].width;
-		    this.height = arguments[1].height;
+		    this.id = arguments[0].id;
+		    this.type = arguments[0].type; //baloon or picture
+		    this.text = arguments[0].text;
+		    this.src = arguments[0].src;
+		    this.top = arguments[0].top;
+		    this.left = arguments[0].left;
+		    this.width = arguments[0].width;
+		    this.height = arguments[0].height;
 		},
 	    });
 
@@ -19,12 +18,12 @@ $(function(){
 		model: Item
 	    });
 	 
-	var Entry = Backbone.Model.extend({
-	    itemlist: ItemList;
+	Entry = Backbone.Model.extend({
+	    itemlist: ItemList,
 		initialize: function() {
-		    this.novel_id = arguments[1].novel_id;
-		    this.chapter_id = arguments[1].chapter_id;
-		    this.id = arguments[1].id;
+		    this.novel_id = arguments[0].novel_id;
+		    this.chapter_id = arguments[0].chapter_id;
+		    this.id = arguments[0].id;
 		    this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.id + ".json";
 		    this.items = new this.itemlist(null, {});		
 		},
@@ -65,7 +64,7 @@ $(function(){
 	    });
 
 
-	var Novel = Backbone.Model.extend({
+	Novel = Backbone.Model.extend({
 		chapterlist: ChapterList,
 		initialize: function() {
 		    this.url = "/novel/" + this.id + ".json";
@@ -97,9 +96,13 @@ $(function(){
 	    });
 
 
-	novel = new Novel({
+
+
+	/*novel = new Novel({
 		id: 1
 	    });
+	*/
+       //chapter = new ChapterView( { model: novel.chapters.models[0]} );
 
 
 	var NovelView = Backbone.View.extend({
@@ -111,4 +114,4 @@ $(function(){
 
 		}
 	    });
-    });
+

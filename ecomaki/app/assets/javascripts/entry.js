@@ -63,7 +63,7 @@ function entryInflate(){
 var EntryHandle = function (atype,text){
   this.type = atype
   if(this.type == 'normal'){
-      this.entry = new Entry();
+      this.entry = new EntryClass();
       this.canvasIndex = 0;
   }else{
       this.entry = new TextEntry(text);
@@ -165,87 +165,12 @@ EntryHandle.prototype = {
     $('#sketchTool').show();
   }
 }
-EntryListView = Backbone.View.extend({
-	initialize: function(){
-	    
-	    this.render();
-	},
-    });
-  
-///
-//backbone.js entry
-//
-
-EntryView = Backbone.View.extend({
-   initialize: function(){
-       _.bindAll(this, "render");
-       _.bindAll(this,addBaloon,addImage,remove,addEntry,changeLayer);
-       this.model.bind("change", this.render);
-       this.render();
-   },
-   render: function(){
-      var template = _.template( $("#entry_template").html(),this.model.attributes);
-      this.el.html(template);
-   },
-   events: {
-       "click baloon": "addBaloon",
-       "click picture": "addPicture",
-       "click remove": "remove",
-       "click add-entry": "addEntry",
-       "click layer": "changeLayer"
-   },
-   addBaloon: function(e){
-            var template = _.template( $("#baloon_template").html(),{});
-	    //this.model.set({body: this.model.get('body') + template );
-	    
-	},
-   addPicture: function(e){
-	},
-   remove: function(e){
-            
-	},
-   addEntry: function(e){
-	},
-   changeLayer: function(e){
-	}
-});
-
-$(function(){
-/*
-<script type="text/template" id="entry_template">
-    <div class="entry">
-    	<div class="entry-content">
-           <canvas width= "800" height="300" ></canvas>
-           <%= body %>
-        </div>
-        <div class+"buttons">
-            <li><i class="icon-move"></li>
-	    <li><button class="btn remove"><i class="icon-remove-sign"></button></li>
-	    <li><button class="btn baloon"><i class="icon-comment"></button></li>
-	    <li><button class="btn picture"><i class="icon-picture"></button></li>
-	    <li><button class="btn layer"><i class="icon-edit"></button></li>
-	    <li><button class="btn add-entry"><i class="icon-arrow-down"></button></li>
-	</div>
-    </div>
-</script>
-
-<script type="text/template" id="baloonr_template">
-    
-    <div class="baloon-draggable">
-    <div class="sticky baloon-resizable">
-    <div class="text"><%= str %> </div>
-    </div>
-    </div>
-</script>
-*/
-
-});
 
 
 //class like entry
-var Entry = function(){};
+var EntryClass = function(){};
 
-Entry.prototype = {
+EntryClass.prototype = {
   body: '<div class="entry"><canvas width= "800" height="300" ></canvas></div>',
   list: '#entrylist',
   width: 800,
@@ -316,7 +241,7 @@ Baloon.prototype = {
 
     this.newBaloon.find(".text").css({'margin': '10px'});
     this.newBaloon.find(".baloon-resizable").resizable({
-      resize: this.onResize
+ 	stop: this.onResize
     })
     .width(this.pos.width)
     .height(this.pos.height);
@@ -328,12 +253,12 @@ Baloon.prototype = {
     var st = $(event.target).parent();
     var ent = st.parent().parent();
       if(st.hasClass('baloon-resizable')){
-        if(st.offset().left + st.width() > ent.offset().left + ent.width() )
-        {  st.width(ent.offset().left + ent.width() - st.offset().left);}
-        if(st.offset().top + st.height() > ent.offset().top + ent.height() )
-        {  st.height(ent.offset().top + ent.height() - st.offset().top);}
-        st.parent().width(st.width());
-        st.parent().height(st.height());
+ //     if(st.offset().left + st.width() > ent.offset().left + ent.width() )
+ //      {  st.width(ent.offset().left + ent.width() - st.offset().left);}
+ //       if(st.offset().top + st.height() > ent.offset().top + ent.height() )
+ //       {  st.height(ent.offset().top + ent.height() - st.offset().top);}
+        st.parent().width(st.width() + 10);
+        st.parent().height(st.height() + 10);
       }
   }
 }
