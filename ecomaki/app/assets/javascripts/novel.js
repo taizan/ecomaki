@@ -6,7 +6,7 @@ $(function() {
 	tool.appendTo('#novel_container');
         tool.setDefaultParet();
         tool.hide();
-	
+/*	
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){
 
@@ -24,19 +24,20 @@ $(function() {
                 focusedText.blur();
 
         });//list > List?
-
+*/
 	$( "#chapterList" ).sortable();
 
         novel = new Novel({ id:0});
 	
- 	//chapter = new ChapterView( { model: novel.chapters.models[0]} );
- /*	
+       // chapter = new ChapterView( { model: novel.chapters.models[0]} );
+ 	novelView = new NovelView({model: novel});
 	isChapterHided = true;
+	
 	//init 	
-	$( "#sideMenu .nav-header").parent().find('li').hide();
-        $( "#sideMenu .nav-header").show();
-	$('#content').css({left:-200});
-*/
+	$("#sideMenu .nav-header").parent().find('li').hide();
+        //$( "#sideMenu .nav-header").show();
+	//$('#content').css({left:-200});
+
 	$( "#sideMenu .nav-header").click(
 	        function(ev) {
                    if(isChapterHided){

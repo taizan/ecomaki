@@ -1,5 +1,5 @@
 //= require jquery.jStageAligner
-
+/*
 entry_width = 800;
 entry_height = 255;
 entry_num = 0;
@@ -376,7 +376,7 @@ function editTextArea(){
                 .width(
                         $(this).width()
                 );
-}
+}*/
 
 
 
