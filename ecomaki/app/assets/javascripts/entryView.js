@@ -41,11 +41,11 @@ ChapterView = Backbone.View.extend({
       	return this;
     },
     onKeyPress: function (e){
-        alert(e.whitch );
+        //alert(e.whitch );
     	if(e.which == 13){
     	     var entry = new Entry({ novel_id: this.model.entries.novel_id , id: counter });
 	     this.addEntry(entry);   
-             this.appendEntry(entry).addBaloon( $('#inputform').val() ),addDfaultBaloon();
+             this.appendEntry(entry).addBaloon( $('#inputform').val() );
 	     $('#inputform').val("");   
 	}
     }
@@ -65,6 +65,7 @@ EntryView = Backbone.View.extend({
    render: function(){
       var template = _.template( $("#entry_template").html(),this.model.attributes);
       $(this.el).html( template);
+      $(this.el).css({position: 'relative'})
       var self = this;
       _(this.model.baloons.models).each(function(baloon){ // in case collection is not empty
         	var baloonView = new BaloonView( { model: baloon } );
@@ -148,21 +149,24 @@ BaloonView = Backbone.View.extend({
        _.bindAll(this, "render","remove","editText");
 model = this.model;
        this.model.bind("change", this.render);
+
+      $(this.el).draggable({containment: "parent"})
+           .resizable({ containment: "parent" })
+           .dblclick(this.editText);   
+
        this.render();
        
    },
    
    render: function(){
-      var template = _.template( $("#baloon_template").html(),this.model.attributes);
-      $(this.el).html(template);
+      //var template = _.template( $("#baloon_template").html(),this.model.attributes);
+      //$(this.el).html(template);
       $(this.el).css({
          top: this.model.top,
          left: this.model.left,
          position: "absolute"
          }).width(this.model.width).height(this.model.height);
       
-      $(this.el).draggable({containment: "parent"})
-           .resizable({ containment: "parent" });   
       
       return this;
    },
@@ -216,6 +220,7 @@ model = this.model;
 });
 
 PictureView = Backbone.View.extend({
+   //tagName : "img",
    className : "picture",
    initialize: function(){
        _.bindAll(this, "render","remove","pickupPicture");
@@ -225,20 +230,23 @@ PictureView = Backbone.View.extend({
        
    },
    render: function(){
-       	var template = _.template( $("#picture_template").html(),this.model.attributes);
-         $(this.el).html(template);
+       //	var template = _.template( $("#picture_template").html(),this.model.attributes);
+       //  $(this.el).html(template);
+         //$(this.el).append('<img></img>');
+
 	 $(this.el).css({
             top: this.model.top,
             left: this.model.left,
 	     position: 'absolute'
         }).width(this.model.width).height(this.model.height);
-        
-         $(this.el).find('.img').attr({src: this.model.src}). width(this.model.width).height(this.model.height); 
+	//$(this.el).append('<img></img>');        
+
+         $(this.el).find('img').attr({src: this.model.src}). width(this.model.width).height(this.model.height); 
         
         $(this.el).draggable({
         	containment: "parent"
        	});
-       	$(this.el).find('.img').resizable({
+       	$(this.el).find('img').resizable({
         	containment: "parent parent"
        	});
 
