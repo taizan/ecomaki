@@ -144,36 +144,28 @@ EntryView = Backbone.View.extend({
 
 
 BaloonView = Backbone.View.extend({
-   className: "baloon",
-   initialize: function(){
-       _.bindAll(this, "render","remove","editText");
-model = this.model;
-       this.model.bind("change", this.render);
+    className: "baloon",
+    initialize: function(){
+        _.bindAll(this, "render","remove","editText");
+        model = this.model;
+        this.model.bind("change", this.render);
 
-      $(this.el).draggable({containment: "parent"})
-           .resizable({ containment: "parent" })
-           .dblclick(this.editText);   
+        $(this.el).draggable({containment: "parent"})
+            .resizable({ containment: "parent" })
+            .dblclick(this.editText);
+        this.render();
+    },
 
-       this.render();
-       
-   },
-   
-   render: function(){
-      //var template = _.template( $("#baloon_template").html(),this.model.attributes);
-      //$(this.el).html(template);
-      $(this.el).css({
-         top: this.model.top,
-         left: this.model.left,
-         position: "absolute"
+    render: function(){
+        $(this.el).css({
+            top: this.model.top,
+            left: this.model.left,
+            position: "absolute"
          }).width(this.model.width).height(this.model.height);
-      
-      
-      return this;
+
+         return this;
    },
-   events: {
-       "dblclick --baloon-text": "editText",
-       "click --btn-remove": "remove",
-   },
+
    remove: function(){
    		$(this.el).remove();
    		//?
@@ -220,7 +212,6 @@ model = this.model;
 });
 
 PictureView = Backbone.View.extend({
-   //tagName : "img",
    className : "picture",
    initialize: function(){
        _.bindAll(this, "render","remove","pickupPicture");
@@ -230,32 +221,28 @@ PictureView = Backbone.View.extend({
        
    },
    render: function(){
-       //	var template = _.template( $("#picture_template").html(),this.model.attributes);
-       //  $(this.el).html(template);
-         //$(this.el).append('<img></img>');
 
-	 $(this.el).css({
-            top: this.model.top,
-            left: this.model.left,
-	     position: 'absolute'
-        }).width(this.model.width).height(this.model.height);
-	//$(this.el).append('<img></img>');        
+       $(this.el).append('<img class="picture_content" ></img>');
 
-         $(this.el).find('img').attr({src: this.model.src}). width(this.model.width).height(this.model.height); 
-        
-        $(this.el).draggable({
+	   $(this.el).css({
+                top: this.model.top,
+                left: this.model.left,
+	            position: 'absolute'
+            }).width(this.model.width).height(this.model.height);
+	   //$(this.el).append('<img></img>');
+
+       $(this.el).find('.picture_content').attr({src: this.model.src}). width(this.model.width).height(this.model.height);
+
+       $(this.el).draggable({
         	containment: "parent"
-       	});
-       	$(this.el).find('img').resizable({
+       });
+       $(this.el).find('img').resizable({
         	containment: "parent parent"
-       	});
+       });
 
-      return this;
+       return this;
    },
-   events: {
-       "dblclick picture": "pickupPicture",
-       "click --btn-remove": "remove",
-   },
+
    remove: function(){
    		$(this.el).remove();
    		//?
