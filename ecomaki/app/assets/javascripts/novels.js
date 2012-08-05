@@ -52,8 +52,8 @@
 		initialize: function() {
 		    this.novel_id = arguments[1].novel_id;
 		    this.chapter_id = arguments[1].chapter_id;
-		    this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + ".json";
-		    this.fetch();
+		    //this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries.json";
+		    //this.fetch();
 		}
 	    });
 
@@ -61,11 +61,12 @@
 	var Chapter = Backbone.Model.extend({
 		entrylist: EntryList,
 		initialize: function() {
-		    var novel_id = arguments[0].novel_id;
-		    var id = arguments[0].id;
+		    this.novel_id = arguments[0].novel_id;
+		    this.id = arguments[0].id;
+                    this.url = "/novel/" + this.novel_id + "/chapters/" + this.id + ".json";
 		    this.entries = new this.entrylist(null, 
-				{novel_id: novel_id,
-	 				chapter_id: id
+				{novel_id: this.novel_id,
+	 				chapter_id: this.id
 				});
 		},
 	    });
