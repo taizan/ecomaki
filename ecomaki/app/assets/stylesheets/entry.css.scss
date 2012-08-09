@@ -14,7 +14,7 @@
 
 
 .Image{
-	position: absolute;
+	position: 'absolute';
 	top: 0;
 	left: 0;
 	height: 100px;
@@ -22,7 +22,7 @@
 }
 
 .sticky{
-  position: absolute;
+  position: 'absolute';
 
   background-color: #fff;
   cursor: pointer;
@@ -35,13 +35,39 @@
    //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
 }
 
-.entry {
-  position: 'relative';
+.entry-content {
+  position: 'absolute';
   left: 0;
+  top: 0;
+  width: 800;
+  height: 300;
   border-radius: 2px;         /* CSS3 */
    -moz-border-radius: 2px;    /* Firefox */
    -webkit-border-radius: 2px; /* Safari,Chrome */
   border: 1px gray ridge;
+
+}
+
+.baloon {
+  position: 'absolute';
+
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 20px;         /* CSS3 */
+   -moz-border-radius: 20px;    /* Firefox */
+   -webkit-border-radius: 20px; /* Safari,Chrome */
+
+
+   border: 1px black solid;
+   //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+.picture {
+        position: 'absolute';
+        top: 0;
+        left: 0;
+        height: 100px;
+        width: 100px;
 }
 
 
