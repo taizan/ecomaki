@@ -14,7 +14,7 @@ $(function(){
 		initialize: function() {
 		    this.novel_id = arguments[1].novel_id;
 		    this.chapter_id = arguments[1].chapter_id;
-		    this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + ".json";
+		    this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries.json";
 		    this.fetch();
 		}
 	    });
@@ -25,6 +25,8 @@ $(function(){
 		initialize: function() {
 		    var novel_id = arguments[0].novel_id;
 		    var id = arguments[0].id;
+		    this.id = id;
+		    this.novel_id = novel_id;
 		    this.entries = new this.entrylist(null, 
 	{novel_id: novel_id,
 	 chapter_id: id
@@ -38,12 +40,13 @@ $(function(){
 		initialize: function() {
 		    this.novel_id = arguments[1].novel_id;
 		    this.url = "/novel/" + this.novel_id + "/chapters.json"
-		    this.fetch();
+		    // ChapterList is initialized by Novel model.
+		    //this.fetch();
 		},
 	    });
 
 
-	var Novel = Backbone.Model.extend({
+	Novel = Backbone.Model.extend({
 		chapterlist: ChapterList,
 		initialize: function() {
 		    this.url = "/novel/" + this.id + ".json";
@@ -66,17 +69,14 @@ $(function(){
 			    for (v in val) {
 				v['novel_id'] = this.id;
 			    }
+			    console.log("chapter is added");
 			    this.chapters.add(val);
+			    console.log(this.chapters.length);
 			} else {
 			    Backbone.Model.prototype.set.call(this, attr, val, options);
 			}
 		    }
 		}
-	    });
-
-
-	novel = new Novel({
-		id: 1
 	    });
 
 

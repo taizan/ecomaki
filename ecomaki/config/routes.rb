@@ -58,10 +58,11 @@ Ecomaki::Application.routes.draw do
 
   root :to => 'top#index'
 
-  match 'novel/:id.xml' => 'novel#show_novel_xml'
-  match 'novel/:id' => 'novel#show'
 
-  match 'api/0/novel/:id.xml' => 'novel#show_novel_xml'
+  match 'novel/:novel_id/chapters/:id/entries' => 'entries#index', :via => :get
+  match 'novel/:novel_id/chapters/:id/entries/:id' => 'entries#show', :via => :get
+  match 'novel/:novel_id/chapters/:id/entries' => 'entries#create', :via => :post
+  match 'novel/:novel_id/chapters/:id/entries/:id' => 'entries#destroy', :via => :delete
 
   match 'novel/:novel_id/chapters' => 'chapters#index', :via => :get
   match 'novel/:novel_id/chapters/:id' => 'chapters#show', :via => :get
@@ -69,9 +70,14 @@ Ecomaki::Application.routes.draw do
   match 'novel/:novel_id/chapters' => 'chapters#create', :via => :post
   match 'novel/:novel_id/chapters/:id' => 'chapters#destroy', :via => :delete
 
+  match 'novel/:id.xml' => 'novel#show_novel_xml'
+  match 'novel/:id' => 'novel#show'
+  match 'novel/:id' => 'novel#update', :via => :put
+
   match 'characters' => 'characters#index', :via => :get
   match 'characters' => 'characters#create', :via => :post
   match 'characters/image/:id' => 'characters#show_image'
+
 
   match 'novel/:novel_id/entries/:id' => 'entries#update', :via => :put
   match 'novel/:novel_id/entries' => 'entries#create', :via => :post
