@@ -2,10 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.buttons {
-    float: right;
-    list-style:none;
-}
 
 
 #entrylist {
@@ -73,4 +69,8 @@
 
 .buttons {
   background-color: #eef;
+  position: absolute;
+  list-style:none;
+  left: 800;
+  top: 0;
 }

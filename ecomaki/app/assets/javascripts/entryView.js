@@ -65,7 +65,7 @@ EntryView = Backbone.View.extend({
    render: function(){
       var template = _.template( $("#entry_template").html(),this.model.attributes);
       $(this.el).html( template);
-      $(this.el).css({position: 'relative'})
+      $(this.el).css({position: 'relative' , width:800,height:300})
       var self = this;
       _(this.model.baloons.models).each(function(baloon){ // in case collection is not empty
         	var baloonView = new BaloonView( { model: baloon } );
@@ -110,10 +110,10 @@ EntryView = Backbone.View.extend({
         var picture = new Picture( 
         	{
    		    	src:source,
-   			width: 150,
-   			height: 150,
-   			top: 50,
-   			left: 50
+   			    width: 150,
+   			    height: 150,
+   			    top: 50,
+   			    left: 50
    		});
 	 this.model.pictures.add(picture);
          var pictureView = new PictureView( { model: picture}); 
@@ -122,7 +122,7 @@ EntryView = Backbone.View.extend({
     
     
    addDefaultBaloon: function(e){
-	this.addBaloon('');
+	    this.addBaloon('');
 	},
    addDefaultPicture: function(e){
         this.addPicture('');
