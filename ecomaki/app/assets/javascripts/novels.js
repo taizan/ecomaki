@@ -123,9 +123,9 @@
 		initialize: function() {
 		    this.model.bind('change', this.render, this);
 		    this.model.bind('destroy', this.render, this);
+		    //	this.chapter = new ChapterView( { model: this.model.chapters.models[0]} );
 		},
 		render: function() {
-			this.chapter = new ChapterView( { model: this.model.chapters.models[0]} );
 		}
 	    });
 

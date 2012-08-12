@@ -84,15 +84,3 @@ $(function() {
     	
     });
 
-// character upload
-$(function () {
-	$('#character_upload').fileupload({
-		dataType: 'json',
-		done: function(e, data) {
-		    alert('done');
-		},
-		    fail: function(e, data) {
-		    alert(data)
-			}
-	    });
-    });

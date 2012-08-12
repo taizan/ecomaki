@@ -75,12 +75,17 @@ function pickImage(ev){
 
 }
 
-
-
-$(function() {
-
-        //entry = new Entry();
-
-    	
+// character upload
+$(function () {
+    $('#character_upload').fileupload({
+         dataType: 'json',
+         done: function(e, data) {
+         alert('done');
+     },
+    fail: function(e, data) {
+         alert(data)
+    }
     });
+ });
+
 
