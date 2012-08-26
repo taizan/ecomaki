@@ -1,36 +1,6 @@
 
   //Baloon or Picture
-	Baloon = Backbone.Model.extend({
-		initialize: function() {
-		    this.id = arguments[0].id;
-		    this.text = arguments[0].text;
-		    this.top = arguments[0].top;
-		    this.left = arguments[0].left;
-		    this.width = arguments[0].width;
-		    this.height = arguments[0].height;
-		},
-	    });
 
-        Picture = Backbone.Model.extend({
-		initialize: function() {
-                    this.id = arguments[0].id;
-                    this.src = arguments[0].src;
-                    this.top = arguments[0].top;
-                    this.left = arguments[0].left;
-                    this.width = arguments[0].width;
-                    this.height = arguments[0].height;
-                },
-            });
-
-     
-
-	var BaloonList = Backbone.Collection.extend({
-		model: Baloon
-	    });
-
-        var PictureList = Backbone.Collection.extend({
-                model: Picture
-            });
 
 	 
 	Entry = Backbone.Model.extend({
@@ -41,8 +11,6 @@
 		    this.chapter_id = arguments[0].chapter_id;
 		    this.id = arguments[0].id;
 		    this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.id + ".json";
-		    this.baloons = new this.baloonlist(null, {});
-                    this.pictures = new this.picturelist(null,{});		
 		},
 	});
 

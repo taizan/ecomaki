@@ -41,7 +41,7 @@ ChapterView = Backbone.View.extend({
       	return this;
     },
     onKeyPress: function (e){
-        //alert(e.whitch );
+        alert(e.whitch );
     	if(e.which == 13){
     	     var entry = new Entry({ novel_id: this.model.entries.novel_id , id: counter });
 	     this.addEntry(entry);   
@@ -88,168 +88,35 @@ EntryView = Backbone.View.extend({
        "click .--btn-entry": "addEntry",
        "click .--btn-layer": "changeLayer"
    },
+   
    click: function(){console.log("click entry")  },
        
    addBaloon: function( string ){
        console.log("addBaloon");
-       var baloon  = new Baloon( 
-            {
-   				text: string,
-   				width: 100,
-   				height: 50,
-   				top: 50,
-   				left: 150
-   			});
-   	this.model.baloons.add(baloon);
-        var baloonView = new BaloonView( { model: baloon } );
-        $( this.el ).find('.entry-content').append(baloonView.render().el);
-    },
+   },
     
     addPicture: function( source ){
         console.log("addPicture");
-        var picture = new Picture( 
-        	{
-   		    	src:source,
-   			    width: 150,
-   			    height: 150,
-   			    top: 50,
-   			    left: 50
-   		});
-	 this.model.pictures.add(picture);
-         var pictureView = new PictureView( { model: picture}); 
-         $( this.el ).find('.entry-content').append(pictureView.render().el);
    },
     
     
    addDefaultBaloon: function(e){
-	    this.addBaloon('');
-	},
+        this.addBaloon('');
+   },
    addDefaultPicture: function(e){
         this.addPicture('');
-	},
+   },
    remove: function(e){
 	console.log("remove");
-          $(this.el).remove();
-          
-	},
+        $(this.el).remove();
+   },
    addEntry: function(e){
         console.log("addEntry");
    	//this.model.
-	},
+   },
    changeLayer: function(e){
-   			$('canvas',this.el).css({})
-	}
+   	$('canvas',this.el).css({})
+   }
 });
 
 
-
-BaloonView = Backbone.View.extend({
-    className: "baloon",
-    initialize: function(){
-        _.bindAll(this, "render","remove","editText");
-        model = this.model;
-        this.model.bind("change", this.render);
-
-        $(this.el).draggable({containment: "parent"})
-            .resizable({ containment: "parent" })
-            .dblclick(this.editText);
-        this.render();
-    },
-
-    render: function(){
-        $(this.el).css({
-            top: this.model.top,
-            left: this.model.left,
-            position: "absolute"
-         }).width(this.model.width).height(this.model.height);
-
-         return this;
-   },
-
-   remove: function(){
-   		$(this.el).remove();
-   		//?
-   		this.model.remove();
-   },
-   editText: function(){
-   text = $(".--baloon-text",this.el).html();
-   text = text.split("<br>").join('¥n');
-   text = text.replace(/&amp;/g,"&");
-   text = text.replace(/&quot;/g,"/");
-   text = text.replace(/&#039;/g,"'");
-   text = text.replace(/&lt;/g,"<");
-   text = text.replace(/&gt;/g,">");
-   //hidedText = $(this).hide();
-
-   var focusedText = $('<textarea></textarea>');
-   focusedText.appendTo( $(this.el) )
-            .focus()
-            .select()
-            .val(text)
-            .blur(function() {
-                        text = $(this).val().split('¥n').join("<br>");
-                        //text = $(this).val();
-                        var st = $(this).parent();
-                        //hidedText.show();
-                        $(".text",st)
-                            .text(text);
-                        //hidedText
-                        //    .height($(this).height())
-                        //    .width($(this).width());
-                        $(this).remove();
-                })
-                .height(
-                        $(this.el).height()
-                )
-                .width(
-                        $(this.el).width()
-                );
-   },
-   pickupPicture: function(){
-   		
-   },
-   
-});
-
-PictureView = Backbone.View.extend({
-   className : "picture",
-   initialize: function(){
-       _.bindAll(this, "render","remove","pickupPicture");
-       model = this.model;
-       this.model.bind("change", this.render);
-       this.render();
-       
-   },
-   render: function(){
-
-       $(this.el).append('<img class="picture_content" ></img>');
-
-	   $(this.el).css({
-                top: this.model.top,
-                left: this.model.left,
-	            position: 'absolute'
-            }).width(this.model.width).height(this.model.height);
-	   //$(this.el).append('<img></img>');
-
-       $(this.el).find('.picture_content').attr({src: this.model.src}). width(this.model.width).height(this.model.height);
-
-       $(this.el).draggable({
-        	containment: "parent"
-       });
-       $(this.el).find('img').resizable({
-        	containment: "parent parent"
-       });
-
-       return this;
-   },
-
-   remove: function(){
-   		$(this.el).remove();
-   		//?
-   		this.model.remove();
-   },
-   pickupPicture: function(){
-   		
-   },
-   
-});
