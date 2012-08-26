@@ -4,40 +4,40 @@ one:
   id: 0
   novel_id: 0
   name: Chapter0
-  number: 0
+  order_number: 0
 
 two:
   id: 1
   novel_id: 0
   name: Chapter1
-  number: 1
+  order_number: 1
 
 three:
   id: 2
   novel_id: 0
   name: Chapter2
-  number: 2
+  order_number: 2
 
 four:
   id: 3
   novel_id: 1
   name: Novel1Chapter3
-  number: 0
+  order_number: 0
 
 five:
   id: 4
   novel_id: 1
   name: Novel1Chapter4
-  number: 1
+  order_number: 1
 
 six:
   id: 5
   novel_id: 1
   name: Novel1Chapter5
-  number: 2
+  order_number: 2
 
 seven:
   id: 6
   novel_id: 1
   name: Novel1Chapter6
-  number: 3
+  order_number: 3
