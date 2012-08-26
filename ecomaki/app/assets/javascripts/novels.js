@@ -4,8 +4,6 @@
 
 	 
 	Entry = Backbone.Model.extend({
-	    baloonlist: BaloonList,
-            picturelist: PictureList,
 		initialize: function() {
 		    this.novel_id = arguments[0].novel_id;
 		    this.chapter_id = arguments[0].chapter_id;
