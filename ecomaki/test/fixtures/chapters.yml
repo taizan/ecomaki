@@ -21,5 +21,23 @@ three:
 four:
   id: 3
   novel_id: 1
-  name: OnlyChapter
+  name: Novel1Chapter3
   number: 0
+
+five:
+  id: 4
+  novel_id: 1
+  name: Novel1Chapter4
+  number: 1
+
+six:
+  id: 5
+  novel_id: 1
+  name: Novel1Chapter5
+  number: 2
+
+seven:
+  id: 6
+  novel_id: 1
+  name: Novel1Chapter6
+  number: 3

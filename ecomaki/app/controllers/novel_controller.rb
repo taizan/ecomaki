@@ -15,6 +15,12 @@ class NovelController < ApplicationController
     render :xml => novel.to_xml(:include => [:author, :chapter => {:include => [:entry => {:include => [:entry_balloon, :entry_character]}]}])
   end
 
+  def update
+    novel = Novel.find(params[:id])
+#    novel.attributes(
+    render :status => 200
+  end
+
   def update_entry
   end
   
