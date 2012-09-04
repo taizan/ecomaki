@@ -6,11 +6,26 @@ $(function() {
 
 	setTimeout(function() {
 		test("Novel test", function() {
-			ok(novel.save(), "novel.save()");
+			//ok(novel.save(), "novel.save()");
 			ok(novel.chapters, "novel.chapters");
 			ok(novel.chapters.novel_id, "novel.chapters.novel_id");
+			ok(novel.get("title"), "novel.title = " + novel.get("title"));
 		    });
 		
+		test("Novel rewrite test", function() {
+			title = "title" + Math.random();
+			novel.set("title", title);
+			novel.save();
+			var mynovel = new Novel({
+				id: novel_id
+			    });
+			stop();
+			setTimeout(function() {
+				equal(mynovel.get("title"), title);
+				start();
+			    }, 2000);
+			
+		    });
 		test("Chapter test", function() {
 			var chapters = novel.chapters
 			//ok(novel.chapters.fetch(), "chapters.fetch()");
@@ -33,7 +48,13 @@ $(function() {
 			ok(entry.url, entry.url);
 			ok(entry.novel_id == novel.id, "entry.novel_id = " + entry.novel_id);
 			ok(entry.chapter_id == novel.chapters.at(0).id, "entry.chapter_id = " + entry.chapter_id);
-			ok(entry.id, "entry.id = " + entry.id);
+			ok(entry.id != undefined, "entry.id = " + entry.id);
+		    });
+
+		test("Entry add test", function() {
+			var chapter = novel.chapters.at(0);
+
+			ok(chapter.add_entry);
 		    });
 	    }, 2000);
     });
