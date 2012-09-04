@@ -31,8 +31,8 @@ $(function() {
 
        // chapter = new ChapterView( { model: novel.chapters.models[0]} );
      	novelView = new NovelView({model: novel});
-
-
+        $('#content').append(novelView.el);	
+    
 	isChapterHided = true;
 	
 	//init 	
