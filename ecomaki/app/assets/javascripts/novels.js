@@ -14,7 +14,7 @@ var EntryList = Backbone.Collection.extend({
 	    this.novel_id = arguments[1].novel_id;
 	    this.chapter_id = arguments[1].chapter_id;
 	    this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries.json";
-	    this.fetch();
+	    //this.fetch();
 	}
     });
 
@@ -23,6 +23,7 @@ var Chapter = Backbone.Model.extend({
 	initialize: function() {
 	    var novel_id = arguments[0].novel_id;
 	    var id = arguments[0].id;
+	    var entries = arguments[0].entry;
 	    this.id = id;
 	    this.novel_id = novel_id;
 	    this.url = "/novel/" + this.novel_id + "/chapters/" + this.id + ".json";
@@ -30,7 +31,14 @@ var Chapter = Backbone.Model.extend({
 {novel_id: this.novel_id,
  chapter_id: this.id
 });
+
+	    // Insert novel ID and add to the list.
+	    $(entries).each(function(index, value) { value.novel_id = novel_id });
+	    this.entries.add(entries);
 	},
+	add_entry: function() {
+	    this.entries.add({});
+	}
     });
 
 
@@ -65,12 +73,9 @@ Novel = Backbone.Model.extend({
 		var val = attrs[attr];
 		
 		if (attr == 'chapter') {
-		    for (v in val) {
-			v['novel_id'] = this.id;
-		    }
-		    console.log("chapter is added");
+		    var novel_id = this.id;
+		    $(val).each(function(index, value) { value.novel_id = novel_id });
 		    this.chapters.add(val);
-		    console.log(this.chapters.length);
 		} else {
 		    Backbone.Model.prototype.set.call(this, attr, val, options);
 		}
