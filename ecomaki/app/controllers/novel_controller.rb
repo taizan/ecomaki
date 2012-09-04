@@ -17,8 +17,12 @@ class NovelController < ApplicationController
 
   def update
     novel = Novel.find(params[:id])
-#    novel.attributes(
-    render :status => 200
+
+    novel.update_attributes!(params[:novel])
+
+    respond_to do |format|
+      format.json { render :json => novel }
+    end
   end
 
   def update_entry
