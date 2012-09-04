@@ -6,17 +6,21 @@ $(function(){   _.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
 
 ChapterView = Backbone.View.extend({
     //el : '#content',
-    tagName : 'chapter' ,
+    className : 'chapter' ,
 	initialize: function(options){
         this.counter = 0;
-	_.bindAll(this, "render","appendEntry","addEntry","addAll","addOne");
+	_.bindAll(this, "render","appendEntry","addEntry","addAll","addOne","onChange");
 	this.model.bind("change", this.render);
 
         this.model.entries.bind('add', this.addOne);
         this.model.entries.bind('refresh', this.addAll);
+        this.model.entries.bind('change', this.onChange);
+//	console.log("Current length: " + this.model.entries.length);
+	this.model.entries.bind('add', function() {
+//		console.log("entry is changedlength:" + this.model.entries.length);
+	});
         //console.log(this.model.entries);
         console.log(this.model.entries.models);
- 	this.addAll();
 	chapter = this;
         chapterModel = this.model;
         this.render();
@@ -34,24 +38,26 @@ ChapterView = Backbone.View.extend({
  	console.log(this.model.entries.models);
         _(this.model.entries.models).each(this.addOne);
     },
-
-	events: {
-		"keypress #inputform" : "onKeyPress",    	
-		"click .entry" : "click"
-	
-	},
-
-	render: function(){
-            return this;
-        },
+    onChange: function(){
+        console.log("onchange");
+    },
+    events: {
+	"keypress #inputform" : "onKeyPress",    	
+	"click .entry" : "click"
+    },
+    render: function(){
+        console.log("render");
+        this.addAll();
+        return this;
+    },
 
        click: function(){ console.log("click");},
        appendEntry: function(entry){
        var entryView = new EntryView({
           model: entry
        });
-      $( '#entrylist').append(entryView.render().el);
-      return entryView;
+       $( '#entrylist').append(entryView.render().el);
+       return entryView;
     },
     addEntry: function(entry){
       	this.model.entries.add(entry);
@@ -63,7 +69,7 @@ ChapterView = Backbone.View.extend({
     	if(e.which == 13){
     	     var entry = new Entry({ novel_id: this.model.entries.novel_id , id: this.counter });
 	     this.addEntry(entry);   
-         this.appendEntry(entry).addBaloon( $('#inputform').val() );
+             this.appendEntry(entry).addBaloon( $('#inputform').val() );
 	     $('#inputform').val("");   
 	}
     }
@@ -71,7 +77,7 @@ ChapterView = Backbone.View.extend({
 
 
 EntryView = Backbone.View.extend({
-   tagName : 'entry',
+   className : 'entry',
    initialize: function(){
        _entryView = this;
 	   _model = this.model;
@@ -81,11 +87,12 @@ EntryView = Backbone.View.extend({
        this.render();
    },
    render: function(){
-      /*
+
       var template = _.template( $("#entry_template").html(),this.model.attributes);
       $(this.el).html( template);
-      $(this.el).css({position: 'relative' , width:800,height:300})
-      var self = this;
+      //$(this.el).css({position: 'relative' , width:800,height:300})
+      //var self = this;
+     /*
       _(this.model.baloons.models).each(function(baloon){ // in case collection is not empty
         	var baloonView = new BaloonView( { model: baloon } );
                 $( self.el ).find('.entry-content').append(baloonView.render().el);
