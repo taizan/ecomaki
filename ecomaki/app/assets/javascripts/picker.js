@@ -61,11 +61,21 @@ Picker.prototype = {
     img.src = '/characters/image/'+id;
     //console.log(img.src);
     var target = this.target;    
-    console.log(target);
+    // console.log(target);
+    var content = this.view.content;
+    console.log(this.view);
 
     item.click(function(){
        target.src = img.src;
-       
+       if(content.height() < img.height){
+          img.width = img.width * content.height() / img.height;
+          img.height=content.height(); //this must do after upper line
+       }
+       if(content.width() < img.width){ 
+           img.height = img.height * content.width() / img.width;
+           img.width=content.width();
+       }
+
        $(target).width(img.width).height(img.height);
        //parent access is not beatiful
        $(target).parent().width(img.width).height(img.height);
