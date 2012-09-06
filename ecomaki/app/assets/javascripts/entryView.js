@@ -38,13 +38,16 @@ ChapterView = Backbone.View.extend({
  	//console.log(this.model.entries.models);
         _(this.model.entries.models).each(this.addOne);
     },
+
     onChange: function(){
         //console.log("onchange");
     },
+
     events: {
 	"keypress #inputform" : "onKeyPress",    	
 	"click .entry" : "click"
     },
+
     render: function(){
         console.log("render");
         this.addAll();
@@ -52,18 +55,23 @@ ChapterView = Backbone.View.extend({
         return this;
     },
 
-       click: function(){ console.log("click");},
-       appendEntry: function(entry){
+    click: function(){
+        // console.log("chapter click");
+    },
+    
+    appendEntry: function(entry){
        var entryView = new EntryView({
-          model: entry
+           model: entry
        });
        $( '#entrylist').append(entryView.render().el);
        return entryView;
     },
+
     addEntry: function(entry){
       	this.model.entries.add(entry);
       	return this;
     },
+
     onKeyPress: function (e){
         console.log("onkeypress");
         alert(e.whitch );
@@ -74,11 +82,14 @@ ChapterView = Backbone.View.extend({
 	     $('#inputform').val("");   
 	}
     }
+
 });
 
 
 EntryView = Backbone.View.extend({
+
    className : 'entry',
+
    initialize: function(){
        this._self = this;
 
@@ -88,6 +99,7 @@ EntryView = Backbone.View.extend({
        
        this.render();
    },
+
    render: function(){
 
       var template = _.template( $("#entry_template").html(),this.model.attributes);
@@ -95,8 +107,13 @@ EntryView = Backbone.View.extend({
       
       // entry content of view
       this.content = $(this.el).find('.entry-content');
-
       //console.log(this.content);
+
+
+      //cavas initialize
+      this.sketch = new OverlaySketch($('canvas',this.el));
+      this.sketch.init();
+
       //$(this.el).css({position: 'relative' , width:800,height:300})
       //var self = this;
      /*
@@ -114,8 +131,10 @@ EntryView = Backbone.View.extend({
       this.hideButton();
       return this;
    },
+
    events: {
        "click" : "click",
+       "dblclick" : "dblclick",
        "click .--btn-baloon": "addDefaultBaloon",
        "click .--btn-picture": "addDefaultPicture",
        "click .--btn-remove": "remove",
@@ -123,8 +142,18 @@ EntryView = Backbone.View.extend({
        "click .--btn-layer": "changeLayer"
    },
    
-   click: function(){console.log("click entry")  },
-   
+   click: function(ev){
+      //console.log("click entry");
+      //console.log(ev.target);  
+      if( $(ev.target).is('.sticky') == false && $(ev.target).is('textarea') == false){$('textarea').blur();}
+   },
+
+   dblclick: function(ev){
+      // re edit of text does not works i don know why 
+      //console.log("dblclick entry " + ev.target);
+      //if( $(ev.target).hasClass('sticky') == false ){$('textarea').blur();}
+   },
+
    hideButton: function(){
       $(this.el)
         .mouseover(function(){
@@ -171,7 +200,11 @@ EntryView = Backbone.View.extend({
    },
    changeLayer: function(e){
 	console.log("changeLayer");
-   	$('canvas',this.el).css({})
+   	var canvas = $('canvas',this.el);
+        var index = 5;
+        if(canvas.css('zIndex') == index){ canvas.css('zIndex',0);}
+        else{ canvas.css('zIndex',index); }
+        $('#sketchTool').show();
    }
 });
 
