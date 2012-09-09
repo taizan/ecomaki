@@ -40,10 +40,15 @@ SketchTool.prototype = {
 	var newColorItem = $(this.colorItemBody);
 	newColorItem.css({'background-color':color});
 	newColorItem.appendTo('#paret');
-        newColorItem.dblclick(function(event) { 
-	  //      $('#colorPicker').show();
-	//	coloerPicker.setTarget( event.target);
+        newColorItem
+            .dblclick(function(event) { 
+	     //      $('#colorPicker').show();
+	     //	  coloerPicker.setTarget( event.target);
+            })
+            .click(function(e) {
+                OverlaySketch.prototype.context.strokeStyle = $(this).css('background-color');
             });
+
     },
     setDefaultParet: function(){
 	this.addColor('#000');
@@ -135,7 +140,6 @@ OverlaySketch.prototype = {
 
         $('#paret li').click(function(e) {
 		OverlaySketch.prototype.context.strokeStyle = $(this).css('background-color');
-		this.css('margin',5);
 	    });
 
 	$('#clear').click(function(e) {

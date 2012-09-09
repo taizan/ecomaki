@@ -202,8 +202,9 @@ EntryView = Backbone.View.extend({
 	console.log("changeLayer");
    	var canvas = $('canvas',this.el);
         var index = 5;
-        if(canvas.css('zIndex') == index){ canvas.css('zIndex',0);}
-        else{ canvas.css('zIndex',index); }
+        if(canvas.zIndex() == index){ canvas.zIndex(0); }
+        else{ canvas.zIndex(index); }
+        console.log(canvas);
         $('#sketchTool').show();
    }
 });
