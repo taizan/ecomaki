@@ -59,9 +59,9 @@ Picker.prototype = {
 
     var img = new Image();
     img.src = '/characters/image/'+id;
-    //console.log(img.src);
+    console.log(img.src);
     var target = this.target;    
-    // console.log(target);
+     console.log(target);
     var content = this.view.content;
     console.log(this.view);
 
