@@ -112,7 +112,7 @@ var ImageItem = function(aview,asrc,apos){
 
 ImageItem.prototype = {
   initialize: function(){
-     _.bindAll(this,"selectImage");
+     _.bindAll(this,"selectImage","hideButton");
   },
   body: function(){
     return '<img class="Image" ></img>';
@@ -135,13 +135,32 @@ ImageItem.prototype = {
          )
         .parent().draggable({
         containment: "parent"
-    }).dblclick(this.selectImage);
-  },
+    }).dblclick(this.selectImage)
+      .hideButton()
+    ;
+  }, 
+  
   selectImage: function(ev){
      var picker = new Picker(ev.target , this);
      picker.pickImage(ev);
   }
 }
 
-
+ hideButton: function(){
+      body = '<div class="buttons"> <li><button class="btn --btn-remove"><i class="icon-remove-sign" /></button></li> </div>';
+      $(body).appendTo(this);
+      
+      var _self = this;
+      
+      $('--btn-remove',this).click(function(){ _self.remove(); });
+      
+      $(this)
+        .mouseover(function(){
+            $(this).find('.buttons').show();
+        })
+        .mouseout(function(){
+            $(this).find('.buttons').hide();
+        })
+        .find('.buttons').hide();
+   },
 
