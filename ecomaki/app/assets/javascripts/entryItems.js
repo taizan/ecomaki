@@ -62,6 +62,9 @@ BaloonItem.prototype = {
 
   onDragg: function(event,ui){
     console.log(event.target);
+    console.log(this.content);
+    this.pos.top = $(event.target).offset.top() - this.content.offset().top();
+    this.pos.left = $(event.target).offset.left() - this.content.offset().left();
   },
 
   onResize: function(event,ui){
