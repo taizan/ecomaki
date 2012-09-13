@@ -2,6 +2,7 @@ var Entry = Backbone.Model.extend({
 	initialize: function() {
 	    this.novel_id = arguments[0].novel_id;
 	    this.chapter_id = arguments[0].chapter_id;
+            this.item = [];
 	    this.id = arguments[0].id;
 	    this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.id + ".json";
 	},
