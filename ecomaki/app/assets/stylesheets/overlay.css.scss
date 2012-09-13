@@ -1,6 +1,9 @@
 canvas {
     top: 0px;
     left: 0px;
+    // this should be  absolute because setting z-index
+    position: absolute;
+    z-index: 0;
 }
 
 #sketchTool {

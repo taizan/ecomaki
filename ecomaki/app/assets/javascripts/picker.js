@@ -1,7 +1,19 @@
 //= require jquery.jStageAligner
 
 
-function loadXml(url,func){
+function Picker( target,view ){
+   this.target = target;
+   this.view = view;
+   this.initialize.apply(this, arguments);   
+}
+
+Picker.prototype = { 
+ initialize: function(){
+       _.bindAll(this, "parseCharacterXml","setItem");
+       console.log(this.target);
+ },
+
+ loadXml: function(url,func){
     //alert("load");
     $.ajax({
         url:url,
@@ -10,68 +22,82 @@ function loadXml(url,func){
         timeout:1000,
         success:func
     });
-}
+ },
 
 
-function getActualDimension(image) {
-    var run, mem, w, h, key = "actual";
- 
-    // for Firefox, Safari, Google Chrome
-         if ("naturalWidth" in image) {
-                 return {width: image.naturalWidth, height: image.naturalHeight};
-         }
-         if ("src" in image) { // HTMLImageElement
-                 if (image[key] && image[key].src === image.src) {return  image[key];}
-                             
-                 if (document.uniqueID) { // for IE
-                         w = $(image).css("width");
-                         h = $(image).css("height");
-                 } else { // for Opera and Other
-                 mem = {w: image.width, h: image.height}; // keep current style
-                 $(this).removeAttr("width").removeAttr("height").css({width:"",  height:""});    // Remove attributes in case img-element has set width  and height (for webkit browsers)
-         	 w = image.width;
-          	h = image.height;
-         	image.height = mem.h;
-                                                                                                                                                              }
-        return image[key] = {width: w, height: h, src: image.src}; // bond
-        }
-	// HTMLCanvasElement
-        return {width: image.width, height: image.height};
-}
-
-
-function parseCharacterXml(xml,status){
+ parseCharacterXml: function(xml,status){
+    //alert('parse');
     if(status!='success')return;
-    $(xml).find('character').each(disp_picker);
-}
+    console.log(this.disp_picker);
+    var _self = this;
 
-function disp_picker(){
+    $(xml).find('character').each(
+       function(){
+          var id = $(this).find('id').text();
+          var name = $(this).find('name').text();
+          var height = $(this).find('height').text();
+          _self.setItem(id);
+       }
+     );
+ },
+
+ disp_picker: function(){
+    // alert();
     var id = $(this).find('id').text();
     var name = $(this).find('name').text();
     var height = $(this).find('height').text();
+    this.setItem(id);
+ },
+
+ setItem: function(id){
     var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/characters/image/' + id + '"></li>');
-    var dim = getActualDimension(item);
+    //  add item to pickerList
+    item.appendTo($('#pickerList'));
+    
+    // var dim = getActualDimension( $('img',item)[0] );
+    //console.log(dim.height() + "," + dim.width() );
+
+    var img = new Image();
+    img.src = '/characters/image/'+id;
+    console.log(img.src);
+    var target = this.target;    
+     console.log(target);
+    var content = this.view.content;
+    console.log(this.view);
+
     item.click(function(){
-	    selectedImage.src = '/characters/image/'+id;
-       selectedImage.width = dim.width*entry_height/dim.heiht;
-       selectedImage.heght = entry_height;
+       target.src = img.src;
+       if(content.height() < img.height){
+          img.width = img.width * content.height() / img.height;
+          img.height=content.height(); //this must do after upper line
+       }
+       if(content.width() < img.width){ 
+           img.height = img.height * content.width() / img.width;
+           img.width=content.width();
+       }
+
+       $(target).width(img.width).height(img.height);
+       //parent access is not beatiful
+       $(target).parent().width(img.width).height(img.height);
+
+       console.log(img.height + "," + img.width );
+       console.log(target.height + "," + target.width );
        $('#picker').find($('img')).remove();
-       $('#picker').hide('fast') });
-       item.appendTo($('#pickerList'));
-}
+       $('#picker').hide('fast') 
+    });
+},
 
-
-
-
-function pickImage(ev){
-  selectedImage = ev.target; 
-  loadXml("/characters.xml",parseCharacterXml );
+ pickImage: function(ev){
+  //selectedImage = ev.target; 
+  this.loadXml("/characters.xml" , this.parseCharacterXml );
   $('#picker').show('fast');
   $("#pickerCancelBtn").click(function(){
         $('#picker').find($('img')).remove();
 	$('#picker').hide();
         }
     );
+
+ }
 
 }
 

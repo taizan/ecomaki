@@ -31,31 +31,35 @@
    //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
 }
 
+.entry {
+  position: relative;
+  width: 840px;
+  height: 300px;
+}
+
 .entry-content {
-  position: 'absolute';
-  left: 0;
-  top: 0;
-  width: 800;
-  height: 300;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 800px;
+  height: 300px;
   border-radius: 2px;         /* CSS3 */
    -moz-border-radius: 2px;    /* Firefox */
    -webkit-border-radius: 2px; /* Safari,Chrome */
   border: 1px gray ridge;
-
 }
 
 .baloon {
   position: 'absolute';
-
   background-color: #fff;
   cursor: pointer;
   border-radius: 20px;         /* CSS3 */
    -moz-border-radius: 20px;    /* Firefox */
    -webkit-border-radius: 20px; /* Safari,Chrome */
 
-
    border: 1px black solid;
    //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
+  z-index: 1;
 }
 
 .picture {
@@ -64,13 +68,18 @@
         left: 0;
         height: 100px;
         width: 100px;
+        z-index: 1;
 }
 
+canvas {
+    z-index: 0;
+}
 
 .buttons {
   background-color: #eef;
   position: absolute;
+  //float: right;
   list-style:none;
-  left: 800;
-  top: 0;
+  left: 800px;
+  top: 0px;
 }

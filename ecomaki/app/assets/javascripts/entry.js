@@ -376,7 +376,9 @@ function editTextArea(){
                 .width(
                         $(this).width()
                 );
-}*/
+}
+
+*/
 
 
 
