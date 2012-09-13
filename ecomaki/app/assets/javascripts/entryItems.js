@@ -8,19 +8,26 @@ var Pos = function(atop,aleft,awidth,aheight){
 }
 
 //the character speack baloon
-var BaloonItem = function(aview,astr,apos){
+var BaloonItem = function(aitem,aview,astr,apos){
   //TODO remove tag or function
   this.view = aview;
+  this.item = aitem;
   this.content = this.view.content;
   this._self = this;
   this.str = astr;
   this.pos = apos;
+  
+  this.initialize.apply(this, arguments);   
 }
 
 BaloonItem.prototype = {
+  initialize: function(){
+     console.log("init");
+     _.bindAll(this,'onResize','onDragg');
+  },
  
   body: function(){
-    return '<div class="baloon-draggable"><div class="sticky baloon-resizable"><div class="text">' + this.str + '</div></div></li>';
+    return '<div class="item baloon sticky"><div class="text">' + this.str + '</div></div>';
   },
 
   deletIconBody: '<i class="icon-remove-sign">',
@@ -32,42 +39,43 @@ BaloonItem.prototype = {
   },
 
   init: function(){
+
     this.newBaloon.draggable({
-        containment: "parent"
+        containment: "parent",
+        stop: this.onDragg
     })
-    .css({position: "absolute",top: 0,left: 100 ,zIndex: 1})
     .css(this.pos)
     .width(this.pos.width)
     .height(this.pos.height);
 
+    // move to css
     this.newBaloon.find(".text").css({'margin': '10px'});
-    this.newBaloon.find(".baloon-resizable").resizable({
+
+    this.newBaloon.resizable({
  	stop: this.onResize
     })
-    .width(this.pos.width)
-    .height(this.pos.height);
 
-    this.newBaloon.find(".baloon-resizable").dblclick(this.editTextArea);
+    this.newBaloon.dblclick(this.editTextArea);
+
+    hideButton(this.newBaloon);
   },
+
+  onDragg: function(event,ui){
+    console.log(event.target);
+  },
+
   onResize: function(event,ui){
-    //var st = $(event.target).parent();
-    var sticky = _self.newBaloon.find('.sticky');
-    var draggable = _self.newBaloon.find('.baloon-draggable');
-    draggable
-        .width(sticky.width())
-        .height( sticky.height()); 
-    //var ent = st.parent().parent();
-    //  if(st.hasClass('baloon-resizable')){
-    //     if(st.offset().left + st.width() > ent.offset().left + ent.width() )
-    //      {  st.width(ent.offset().left + ent.width() - st.offset().left);}
-    //       if(st.offset().top + st.height() > ent.offset().top + ent.height() )
-    //       {  st.height(ent.offset().top + ent.height() - st.offset().top);}
-    //    st.parent().width(st.width() + 10);
-    //    st.parent().height(st.height() + 10);
-    //  }
+    // console.log(this);
+    // console.log(this.pos);
+    // console.log(event);
+     this.pos.width = $(event.target).parent().width();
+     this.pos.height = $(event.target).parent().height(); 
   },
 
   editTextArea : function(){
+
+        $('item_button',this).hide();
+
         // replace <br> with \n
         var text = $(".text",this).html().split("<br>").join('\n');
         // replace ecape sequence
@@ -76,15 +84,16 @@ BaloonItem.prototype = {
         text = text.replace(/&#039;/g,"'");
         text = text.replace(/&lt;/g,"<");
         text = text.replace(/&gt;/g,">");
-        
+            
         var targetText = this;
-        $(targetText).hide();
+        //$(targetText).hide();
 
         focusedText = $( '<textarea style="text-align:center;" ></textarea>' )
                 .height( $(this).height() )
-                .width ( $(this).width() );
+                .width ( $(this).width() )
+                .css({position: 'absolute', left:-5 ,top: -5});
 
-        focusedText.appendTo($(this).parent())
+        focusedText.appendTo(this)
                 .focus()
                 .select()
                 .val(text)
@@ -96,14 +105,15 @@ BaloonItem.prototype = {
 			console.log(txt);
                         $('.text',targetText).html(txt);
                         $(this).remove();
-                        $(targetText).show();
+                        //$(targetText).show();
                 });
      }
 }
 
-var ImageItem = function(aview,asrc,apos){
+var ImageItem = function(aitem,aview,asrc,apos){
   //TODO remove tag or function  i
   this.view = aview;
+  this.item = aitem;
   this.content = this.view.content;
   this.src = asrc;
   this.pos = apos;
@@ -112,10 +122,10 @@ var ImageItem = function(aview,asrc,apos){
 
 ImageItem.prototype = {
   initialize: function(){
-     _.bindAll(this,"selectImage","hideButton");
+     _.bindAll(this,"selectImage");
   },
   body: function(){
-    return '<img class="Image" ></img>';
+    return '<img class="Image item"></img>';
   },
   appendTo:function(target){
     this.newImage = $(this.body());
@@ -135,9 +145,12 @@ ImageItem.prototype = {
          )
         .parent().draggable({
         containment: "parent"
-    }).dblclick(this.selectImage)
-      .hideButton()
-    ;
+    }).dblclick(this.selectImage);
+    hideButton(this.newImage.parent());
+    
+
+    //this.newImage.parent().addClass('item');
+
   }, 
   
   selectImage: function(ev){
@@ -146,21 +159,25 @@ ImageItem.prototype = {
   }
 }
 
- hideButton: function(){
-      body = '<div class="buttons"> <li><button class="btn --btn-remove"><i class="icon-remove-sign" /></button></li> </div>';
-      $(body).appendTo(this);
+function  hideButton(target){
+      var body = '<item_button class="btn item-remove"><i class="icon-remove-sign" /></button>';
+      var button = $(body);
+      button.appendTo(target);
+      button.hide();
       
-      var _self = this;
+      var _target = target;
       
-      $('--btn-remove',this).click(function(){ _self.remove(); });
+      $('item-remove',target).click(
+            function(){ console.log('item-remove'); target.remove() }
+         );
       
-      $(this)
+      target
         .mouseover(function(){
-            $(this).find('.buttons').show();
+            button.show();
         })
         .mouseout(function(){
-            $(this).find('.buttons').hide();
-        })
-        .find('.buttons').hide();
-   },
+            button.hide();
+        });
+
+   }
 

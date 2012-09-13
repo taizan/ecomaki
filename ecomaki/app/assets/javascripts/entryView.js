@@ -97,11 +97,6 @@ EntryView = Backbone.View.extend({
        _.bindAll(this,'click','addBaloon','addPicture','addDefaultBaloon','addDefaultPicture','remove','addEntry','changeLayer','hideButton');
        this.model.bind("change", this.render);
        
-       this.render();
-   },
-
-   render: function(){
-
       var template = _.template( $("#entry_template").html(),this.model.attributes);
       $(this.el).html( template);
       
@@ -111,10 +106,36 @@ EntryView = Backbone.View.extend({
 
 
       //cavas initialize
-      this.sketch = new OverlaySketch($('canvas',this.el));
-      this.sketch.init();
+       this.sketch = new OverlaySketch($('canvas',this.el));
+       this.sketch.init();
 
-      
+       this.render();
+
+   },
+
+   render: function(){
+     
+     var content = this.content;
+     var _self = this._self;
+
+     console.log('render');
+     console.log(arguments);
+     
+     $('.item',this.el).remove();
+
+     _(this.model.item).each(
+         function(item){
+            console.log(item);
+            if(item.type == 'baloon'){
+                var baloon = new BaloonItem(item , _self , item.text , item.pos , item.border );
+                baloon.appendTo( content);
+            }else if(item.type == 'image'){
+                var image = new ImageItem(item ,  _self , item.src , item.pos );
+                image.appendTo( content);
+            }
+         }
+     );
+
      /*
       _(this.model.baloons.models).each(function(baloon){ // in case collection is not empty
         	var baloonView = new BaloonView( { model: baloon } );
@@ -166,14 +187,33 @@ EntryView = Backbone.View.extend({
    
    addBaloon: function( str ){
         console.log("addBaloon");
-        var baloon =  new BaloonItem( this._self , str , { width: 100,height: 50 } );
-        baloon.appendTo( this.content );
+        this.model.item.push(
+          {
+             type: 'baloon',
+             pos: {left: 0,top: 0, width: 100, height: 50 },
+             text: str,
+             border: ''
+         });
+        
+       //temp
+       this.model.trigger('change');
+
+        //var baloon =  new BaloonItem( this._self , str , { width: 100,height: 50 } );
+        //baloon.appendTo( this.content );
    },
     
    addPicture: function( src ){
         console.log("addPicture");
-        var image = new ImageItem( this._self , src ,{});
-        image.appendTo( this.content);
+        //var image = new ImageItem( this._self , src ,{});
+        //image.appendTo( this.content);
+        this.model.item.push(
+          {
+             type: 'image',
+             pos: {left: 0,top: 0, width: 100, height: 100 },
+             src: src,
+         });
+        this.model.trigger('change');
+
    },
     
     
@@ -195,6 +235,9 @@ EntryView = Backbone.View.extend({
 	console.log("changeLayer");
    	var canvas = $('canvas',this.el);
         var index = 5;
+
+        $('.--btn-layer',this.el).toggleClass('btn-primary')
+        
         if(canvas.zIndex() == index){ canvas.zIndex(0); }
         else{ canvas.zIndex(index); }
         console.log(canvas);
