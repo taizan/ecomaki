@@ -10,7 +10,7 @@ $(function() {
 
         $("#picker").hide();
 
- 	$('img').dblclick(pickImage)
+ 	$('img').dblclick(Picker.pickImage)
     	
     });
 
