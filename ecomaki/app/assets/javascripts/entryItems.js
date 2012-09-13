@@ -44,6 +44,7 @@ BaloonItem.prototype = {
         containment: "parent",
         stop: this.onDragg
     })
+    .css({position: 'absolute'})
     .css(this.pos)
     .width(this.pos.width)
     .height(this.pos.height);
@@ -63,8 +64,8 @@ BaloonItem.prototype = {
   onDragg: function(event,ui){
     console.log(event.target);
     console.log(this.content);
-    this.pos.top = $(event.target).offset.top() - this.content.offset().top();
-    this.pos.left = $(event.target).offset.left() - this.content.offset().left();
+    this.pos.top = $(event.target).offset().top - this.content.offset().top;
+    this.pos.left = $(event.target).offset().left - this.content.offset().left;
   },
 
   onResize: function(event,ui){
@@ -125,7 +126,7 @@ var ImageItem = function(aitem,aview,asrc,apos){
 
 ImageItem.prototype = {
   initialize: function(){
-     _.bindAll(this,"selectImage");
+     _.bindAll(this,"selectImage","onResize","onDragg");
   },
   body: function(){
     return '<img class="Image item"></img>';
@@ -144,11 +145,17 @@ ImageItem.prototype = {
       .width(this.pos.width)
       .height(this.pos.height);
     this.newImage.resizable(
-            {containment: "parent parent" , aspectRatio: true }
+            {
+               containment: "parent parent" , 
+               aspectRatio: true,
+               stop: this.onResize
+            }
          )
-        .parent().draggable({
-        containment: "parent"
-    }).dblclick(this.selectImage);
+    this.newImage.parent().draggable({
+           containment: "parent",
+           stop: this.onDragg
+        })
+        .dblclick(this.selectImage);
     hideButton(this.newImage.parent());
     
 
@@ -159,6 +166,17 @@ ImageItem.prototype = {
   selectImage: function(ev){
      var picker = new Picker(ev.target , this);
      picker.pickImage(ev);
+  },
+
+  onDragg: function(event,ui){
+     this.pos.top = $(event.target).offset().top - $(this.content).offset().top;
+     this.pos.left = $(event.target).offset().left - $(this.content).offset().left;
+  },
+  
+  onResize: function(event,ui){
+     console.log(event.target);
+     this.pos.width = $(this.newImage).width();
+     this.pos.height = $(this.newImage).height();
   }
 }
 
