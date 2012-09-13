@@ -50,7 +50,7 @@ var Chapter = Backbone.Model.extend({
 	    this.entries.add(entries);
 	},
 	create_entry: function(attributes) {
-	    Entry
+	    //Entry 
 	    this.entries.create({novel_id: this.novel_id, chapter_id: this.id});
 	    return true;
 	},

@@ -9,7 +9,7 @@ ChapterView = Backbone.View.extend({
     className : 'chapter' ,
 	initialize: function(options){
         this.counter = 0;
-	    _.bindAll(this, "render","appendEntry","addEntry","addAll","addOne","onChange");
+	    _.bindAll(this, "render","addEntry","addAll","addOne","onChange");
         this.model.bind("change", this.render);
 
         this.model.entries.bind('add', this.addOne);
@@ -28,7 +28,7 @@ ChapterView = Backbone.View.extend({
 
     addOne: function (item,t,options) {
         //console.log(item);
-        var view = new EntryView({model: item});
+        var view = new EntryView({model: item , parentView: this});
         $(this.el).insertAt(options.index,view.render().el);
     },
 
@@ -59,16 +59,8 @@ ChapterView = Backbone.View.extend({
         // console.log("chapter click");
     },
     
-    appendEntry: function(entry){
-       var entryView = new EntryView({
-           model: entry
-       });
-       $( '#entrylist').append(entryView.render().el);
-       return entryView;
-    },
 
     addEntry: function(entry){
-      	this.model.entries.add(entry);
       	return this;
     },
 
@@ -76,9 +68,6 @@ ChapterView = Backbone.View.extend({
         console.log("onkeypress");
         alert(e.whitch );
     	if(e.which == 13){
-    	     var entry = new Entry({ novel_id: this.model.entries.novel_id , id: this.counter });
-	         this.addEntry(entry);   
-             this.appendEntry(entry).addBaloon( $('#inputform').val() );
 	         $('#inputform').val("");   
 	    }
     }
@@ -90,13 +79,16 @@ EntryView = Backbone.View.extend({
 
    className : 'entry',
 
-   initialize: function(){
+   initialize: function(arg){
        this._self = this;
-
+       this.parentView = arg.parentView;
+        //console.log(arg);
+       //console.log(arg.parentView);
        _.bindAll(this, "render");
        _.bindAll(this,'click','addBaloon','addPicture','addDefaultBaloon','addDefaultPicture','remove','addEntry','changeLayer','hideButton');
        this.model.bind("change", this.render);
        
+      
       var template = _.template( $("#entry_template").html(),this.model.attributes);
       $(this.el).html( template);
       
@@ -225,11 +217,16 @@ EntryView = Backbone.View.extend({
    },
    remove: function(e){
 	console.log("remove");
-        $(this.el).remove();
+        console.log(this);
+        //$(this.el).remove();
+        this.parentView.model.destroy_entry(this.model);
+        this.parentView.model.fetch();
    },
    addEntry: function(e){
         console.log("addEntry");
+        console.log(this);
    	//this.model.
+   	this.parentView.model.create_entry();
    },
    changeLayer: function(e){
 	console.log("changeLayer");
