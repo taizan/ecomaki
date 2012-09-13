@@ -39,6 +39,7 @@ jQuery.fn.insertAt = function(index, element) {
       },
 
       render: function() {
+          this.addAll();
       }
   });
 
