@@ -51,10 +51,11 @@ $(function() {
 			ok(entry.id != undefined, "entry.id = " + entry.id);
 		    });
 
-		test("Entry add test", function() {
+		test("Entry add/remove test", function() {
 			var chapter = novel.chapters.at(0);
 
-			ok(chapter.add_entry);
+			ok(chapter.create_entry());
+			ok(chapter.remove_entry(chapter.entries.at(0)));
 		    });
 	    }, 2000);
     });

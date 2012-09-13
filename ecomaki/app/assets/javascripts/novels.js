@@ -3,7 +3,13 @@ var Entry = Backbone.Model.extend({
 	    this.novel_id = arguments[0].novel_id;
 	    this.chapter_id = arguments[0].chapter_id;
 	    this.id = arguments[0].id;
-	    this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.id + ".json";
+	    this.url = function() {
+		if (typeof this.id == 'undefined') {
+		    return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/";
+		} else {
+		    return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.id + ".json";
+		}
+	    };
 	},
     });
 
@@ -36,8 +42,18 @@ var Chapter = Backbone.Model.extend({
 	    $(entries).each(function(index, value) { value.novel_id = novel_id });
 	    this.entries.add(entries);
 	},
-	add_entry: function() {
-	    this.entries.add({});
+	create_entry: function(attributes) {
+	    Entry
+	    this.entries.create({novel_id: this.novel_id, chapter_id: this.id});
+	    return true;
+	},
+	remove_entry: function(models) {
+	    models = _.isArray(models) ? models.slice() : [models];
+	    for (var i=0; i<models.length; i++) {
+		this.entries.remove(models[i]);
+		models[i].destroy();
+	    }
+	    return true;
 	}
     });
 
