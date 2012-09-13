@@ -4,7 +4,13 @@ var Entry = Backbone.Model.extend({
 	    this.chapter_id = arguments[0].chapter_id;
             this.item = [];
 	    this.id = arguments[0].id;
-	    this.url = "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.id + ".json";
+	    this.url = function() {
+		if (typeof this.id == 'undefined') {
+		    return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/";
+		} else {
+		    return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.id + ".json";
+		}
+	    };
 	},
     });
 
@@ -27,7 +33,13 @@ var Chapter = Backbone.Model.extend({
 	    var entries = arguments[0].entry;
 	    this.id = id;
 	    this.novel_id = novel_id;
-	    this.url = "/novel/" + this.novel_id + "/chapters/" + this.id + ".json";
+	    this.url = function() {
+		if (typeof this.id == 'undefined') {
+		    return "/novel/" + this.novel_id + "/chapters/";
+		} else {
+		    return "/novel/" + this.novel_id + "/chapters/" + this.id + ".json";
+		}
+	    };
 	    this.entries = new this.entrylist(null, 
 {novel_id: this.novel_id,
  chapter_id: this.id
@@ -37,8 +49,18 @@ var Chapter = Backbone.Model.extend({
 	    $(entries).each(function(index, value) { value.novel_id = novel_id });
 	    this.entries.add(entries);
 	},
-	add_entry: function() {
-	    this.entries.add({});
+	create_entry: function(attributes) {
+	    Entry
+	    this.entries.create({novel_id: this.novel_id, chapter_id: this.id});
+	    return true;
+	},
+	destroy_entry: function(models) {
+	    models = _.isArray(models) ? models.slice() : [models];
+	    for (var i=0; i<models.length; i++) {
+		this.entries.remove(models[i]);
+		models[i].destroy();
+	    }
+	    return true;
 	}
     });
 
@@ -81,5 +103,17 @@ Novel = Backbone.Model.extend({
 		    Backbone.Model.prototype.set.call(this, attr, val, options);
 		}
 	    }
+	},
+	create_chapter: function() {
+	    this.chapters.create({novel_id: this.id});
+	    return true;
+	},
+	destroy_chapter: function(models) {
+	    models = _.isArray(models) ? models.slice() : [models];
+	    for (var i=0; i<models.length; i++) {
+		this.chapters.remove(models[i]);
+		models[i].destroy();
+	    }
+	    return true;
 	}
     });
