@@ -1,4 +1,3 @@
-
 class EntriesController < ApplicationController
   def index
     chapter_id = params[:chapter_id]
@@ -22,5 +21,23 @@ class EntriesController < ApplicationController
     respond_to {|format|
       format.json { render :json => entry }
     }
+  end
+
+  def create
+    entry = Entry.new(params[:entry])
+    entry.save
+
+    respond_to do |format|
+      format.json { render :json => entry }
+    end
+  end
+
+  def destroy
+    entry = Entry.find(params[:id])
+    entry.destroy
+
+    respond_to do |format|
+      format.json { head :no_content }
+    end
   end
 end
