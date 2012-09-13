@@ -29,4 +29,22 @@ class ChaptersController < ApplicationController
       format.json { render :json => chapter }
     end
   end
+
+  def create
+    chapter = Chapter.new(params[:chapter])
+    chapter.save
+
+    respond_to do |format|
+      format.json { render :json => chapter }
+    end
+  end
+
+  def destroy
+    chapter = Chapter.find(params[:id])
+    chapter.destroy
+
+    respond_to do |format|
+      format.json { head :no_content }
+    end
+  end
 end
