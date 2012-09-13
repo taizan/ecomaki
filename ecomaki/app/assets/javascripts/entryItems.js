@@ -64,16 +64,16 @@ BaloonItem.prototype = {
   onDragg: function(event,ui){
     console.log(event.target);
     console.log(this.content);
-    this.pos.top = $(event.target).offset().top - this.content.offset().top;
-    this.pos.left = $(event.target).offset().left - this.content.offset().left;
+    this.pos.top = $(this.newBaloon).offset().top - this.content.offset().top;
+    this.pos.left = $(this.newBaloon).offset().left - this.content.offset().left;
   },
 
   onResize: function(event,ui){
     // console.log(this);
     // console.log(this.pos);
     // console.log(event);
-     this.pos.width = $(event.target).parent().width();
-     this.pos.height = $(event.target).parent().height(); 
+     this.pos.width = $(this.newBaloon).width();
+     this.pos.height = $(this.newBaloon).height(); 
   },
 
   editTextArea : function(){
@@ -169,8 +169,8 @@ ImageItem.prototype = {
   },
 
   onDragg: function(event,ui){
-     this.pos.top = $(event.target).offset().top - $(this.content).offset().top;
-     this.pos.left = $(event.target).offset().left - $(this.content).offset().left;
+     this.pos.top = $(this.newImage).offset().top - $(this.content).offset().top;
+     this.pos.left = $(this.newImage).offset().left - $(this.content).offset().left;
   },
   
   onResize: function(event,ui){
