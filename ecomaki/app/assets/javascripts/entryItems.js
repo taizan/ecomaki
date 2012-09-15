@@ -8,14 +8,14 @@ var Pos = function(atop,aleft,awidth,aheight){
 }
 
 //the character speack baloon
-var BaloonItem = function(aitem,aview,astr,apos){
+var BaloonItem = function(aitem,aview){
   //TODO remove tag or function
   this.view = aview;
   this.item = aitem;
   this.content = this.view.content;
   this._self = this;
-  this.str = astr;
-  this.pos = apos;
+  this.str = this.item.text;
+  this.pos = this.item.pos;
   
   this.initialize.apply(this, arguments);   
 }
@@ -23,7 +23,7 @@ var BaloonItem = function(aitem,aview,astr,apos){
 BaloonItem.prototype = {
   initialize: function(){
      console.log("init");
-     _.bindAll(this,'onResize','onDragg');
+     _.bindAll(this,"editText",'onResize','onDragg');
   },
  
   body: function(){
@@ -53,10 +53,11 @@ BaloonItem.prototype = {
     this.newBaloon.find(".text").css({'margin': '10px'});
 
     this.newBaloon.resizable({
+        containment: "parent",
  	stop: this.onResize
     })
 
-    this.newBaloon.dblclick(this.editTextArea);
+    this.newBaloon.dblclick(this.editText);
 
     hideButton(this.newBaloon);
   },
@@ -76,6 +77,41 @@ BaloonItem.prototype = {
      this.pos.height = $(this.newBaloon).height(); 
   },
 
+  editText: function(){
+       var text = this.item.text.split("<br>").join('\n');
+       text = text.replace(/&amp;/g,"&");
+       text = text.replace(/&quot;/g,"/");
+       text = text.replace(/&#039;/g,"'");
+       text = text.replace(/&lt;/g,"<");
+       text = text.replace(/&gt;/g,">");
+
+       var item = this.item;
+       var target = this.newBaloon;
+      
+       focusedText = $( '<textarea style="text-align:center;" ></textarea>' )
+                .height( item.pos.height )
+                .width ( item.pos.width )
+                .css({position: 'absolute', left:-5 ,top: -5});
+
+      focusedText.appendTo(this.newBaloon)
+                .focus()
+                .select()
+                .val(text)
+                .blur(function() {
+                        console.log(target);
+                        var txt = $(this).val();
+
+                        $('.text',target).text(txt);
+                        txt = $('.text',target).html().split('\n').join('<br>') ;
+                        //console.log(txt);
+                        $('.text',target).html(txt);
+			
+                        item.text = txt;
+                        
+                        $(this).remove();
+                 });        
+
+  },
   editTextArea : function(){
 
         $('item_button',this).hide();
@@ -114,25 +150,25 @@ BaloonItem.prototype = {
      }
 }
 
-var ImageItem = function(aitem,aview,asrc,apos){
+var ImageItem = function(aitem,aview){
   //TODO remove tag or function  i
   this.view = aview;
   this.item = aitem;
   this.content = this.view.content;
-  this.src = asrc;
-  this.pos = apos;
+  this.src = this.item.src;
+  this.pos = this.item.pos;
   this.initialize.apply(this,arguments);
 }
 
 ImageItem.prototype = {
   initialize: function(){
-     _.bindAll(this,"selectImage","onResize","onDragg");
+     _.bindAll(this,"setImage","selectImage","onResize","onDragg");
   },
-  body: function(){
-    return '<img class="Image item"></img>';
-  },
+
+  body: '<img class="Image item"></img>',
+ 
   appendTo:function(target){
-    this.newImage = $(this.body());
+    this.newImage = $(this.body);
     this.newImage.appendTo(target);
     this.init();
 
@@ -164,9 +200,41 @@ ImageItem.prototype = {
   }, 
   
   selectImage: function(ev){
-     var picker = new Picker(ev.target , this);
+     var picker = new Picker(this.setImage);
      picker.pickImage(ev);
   },
+
+  setImage: function(img){
+    console.log('setimage:');
+
+    this.item.src = img.src;
+    this.newImage.attr('src',img.src);
+    
+
+    var destHeight = this.content.offset().top + this.content.height() - this.newImage.offset().top;
+    if(destHeight < img.height ){
+        console.log('modefy height');
+        img.width =  img.width * destHeight / img.height;
+        img.height = destHeight;
+    }
+    var destWidth = this.content.offset().left + this.content.width() - this.newImage.offset().left;
+    if(destWidth < img.width ){
+         // this should just this jyunjyo
+        console.log('modefy height');
+        img.height =  img.height * destWidth / img.width;
+        img.width = destWidth;
+    }
+
+    // tmp
+    this.newImage.parent().width(img.width).height(img.height);
+   
+    this.newImage.height(img.height);
+    this.newImage.width(img.width);
+
+    this.pos.width = img.width;
+    this.pos.height = img.height;
+   
+  },  
 
   onDragg: function(event,ui){
      this.pos.top = $(this.newImage).offset().top - $(this.content).offset().top;
@@ -181,15 +249,19 @@ ImageItem.prototype = {
 }
 
 function  hideButton(target){
-      var body = '<item_button class="btn item-remove"><i class="icon-remove-sign" /></button>';
+      var body = '<i class="icon-remove-sign item-button item-remove" />';
       var button = $(body);
       button.appendTo(target);
       button.hide();
       
       var _target = target;
       
-      $('item-remove',target).click(
-            function(){ console.log('item-remove'); target.remove() }
+      $('.item-remove',target).click(
+            function(){
+                   console.log(target);
+                   $('.item',target).remove(); 
+                   target.remove();
+            }
          );
       
       target

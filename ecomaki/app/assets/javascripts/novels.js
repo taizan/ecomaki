@@ -12,6 +12,9 @@ var Entry = Backbone.Model.extend({
 		}
 	    };
 	},
+        deleateItemAt: function(i){
+            this.item.splice(i);
+        },
     });
 
 
