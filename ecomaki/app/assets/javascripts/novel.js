@@ -55,7 +55,8 @@ $(function() {
              });		
 
         $("#picker").hide();
-
+        
+        /*
 	$("#comment")
         	.jStageAligner("RIGHT_MIDDLE", {time: 150})
         	.click(function(){
@@ -83,6 +84,6 @@ $(function() {
       			$("#comment").val("").css({'z-index':2}); 
       		}  
   		});
-    	
+    	*/
     });
 
