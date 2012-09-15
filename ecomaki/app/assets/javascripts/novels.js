@@ -1,5 +1,6 @@
 var Entry = Backbone.Model.extend({
 	initialize: function() {
+            _.bindAll(this,"deleteItemAt","addItem");
 	    this.novel_id = arguments[0].novel_id;
 	    this.chapter_id = arguments[0].chapter_id;
             this.item = [];
@@ -12,8 +13,14 @@ var Entry = Backbone.Model.extend({
 		}
 	    };
 	},
-        deleateItemAt: function(i){
+        deleteItemAt: function(i){
             this.item.splice(i);
+        },
+        addItem: function(obj){
+            obj.id = this.item.length;
+            var remove = this.deleteItemAt;
+            obj.remove = function(){ remove(obj.id); };
+            this.item.push(obj);
         },
     });
 
@@ -34,7 +41,9 @@ var Chapter = Backbone.Model.extend({
 	    var novel_id = arguments[0].novel_id;
 	    var id = arguments[0].id;
 	    var entries = arguments[0].entry;
-	    this.id = id;
+	    
+            
+            this.id = id;
 	    this.novel_id = novel_id;
 	    this.url = function() {
 		if (typeof this.id == 'undefined') {

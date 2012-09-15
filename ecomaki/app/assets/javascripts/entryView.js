@@ -179,7 +179,7 @@ EntryView = Backbone.View.extend({
    
    addBaloon: function( str ){
         console.log("addBaloon");
-        this.model.item.push(
+        this.model.addItem(
           {
              type: 'baloon',
              pos: {left: 0,top: 0, width: 100, height: 50 },
@@ -198,7 +198,7 @@ EntryView = Backbone.View.extend({
         console.log("addPicture");
         //var image = new ImageItem( this._self , src ,{});
         //image.appendTo( this.content);
-        this.model.item.push(
+        this.model.addItem(
           {
              type: 'image',
              pos: {left: 0,top: 0, width: 100, height: 100 },

@@ -59,7 +59,7 @@ BaloonItem.prototype = {
 
     this.newBaloon.dblclick(this.editText);
 
-    hideButton(this.newBaloon);
+    hideButton(this.newBaloon,this.item);
   },
 
   onDragg: function(event,ui){
@@ -192,7 +192,7 @@ ImageItem.prototype = {
            stop: this.onDragg
         })
         .dblclick(this.selectImage);
-    hideButton(this.newImage.parent());
+    hideButton(this.newImage.parent(),this.item);
     
 
     //this.newImage.parent().addClass('item');
@@ -248,19 +248,19 @@ ImageItem.prototype = {
   }
 }
 
-function  hideButton(target){
+function  hideButton(target, item){
       var body = '<i class="icon-remove-sign item-button item-remove" />';
       var button = $(body);
       button.appendTo(target);
       button.hide();
       
-      var _target = target;
-      
+
       $('.item-remove',target).click(
             function(){
                    console.log(target);
                    $('.item',target).remove(); 
                    target.remove();
+                   item.remove();             
             }
          );
       
