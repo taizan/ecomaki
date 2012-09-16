@@ -123,7 +123,7 @@ EntryItem.prototype = {
 
 
 
-BaloonItem.prototype = EntryItem.extend({
+BaloonItem = EntryItem.extend({
 	tmpl : '<div class="item baloon item-resizable item-draggable sticky"><div class="text"></div></div>',
 	initialize: function(){
 		_.bindAll(this,"editText");
