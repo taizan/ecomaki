@@ -3,96 +3,15 @@ $(function(){   _.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
    });
 
 
-
-ChapterView = Backbone.View.extend({
-    //el : '#content',
-    className : 'chapter' ,
-	initialize: function(options){
-        this.counter = 0;
-	    _.bindAll(this, "render","appendEntry","addEntry","addAll","addOne","onChange");
-        this.model.bind("change", this.render);
-
-        this.model.entries.bind('add', this.addOne);
-        this.model.entries.bind('refresh', this.addAll);
-        this.model.entries.bind('change', this.onChange);
-        //	console.log("Current length: " + this.model.entries.length);
-	this.model.entries.bind('add', function() {
-        //		console.log("entry is changedlength:" + this.model.entries.length);
-	});
-        //console.log(this.model.entries);
-        console.log(this.model.entries.models);
-	chapter = this;
-        chapterModel = this.model;
-        this.render();
-	},
-
-    addOne: function (item,t,options) {
-        //console.log(item);
-        var view = new EntryView({model: item});
-        $(this.el).insertAt(options.index,view.render().el);
-    },
-
-    addAll: function () {
-        //_(this.model.entries.models).each(console.log) ;
-        $(this.el).empty();
- 	    //console.log(this.model.entries.models);
-        _(this.model.entries.models).each(this.addOne);
-    },
-
-    onChange: function(){
-        //console.log("onchange");
-    },
-
-    events: {
-	    "keypress #inputform" : "onKeyPress",    	
-	    "click .entry" : "click"
-    },
-
-    render: function(){
-        console.log("render");
-        this.addAll();
-        $(this.el).sortable();
-        return this;
-    },
-
-    click: function(){
-        // console.log("chapter click");
-    },
-    
-    appendEntry: function(entry){
-       var entryView = new EntryView({
-           model: entry
-       });
-       $( '#entrylist').append(entryView.render().el);
-       return entryView;
-    },
-
-    addEntry: function(entry){
-      	this.model.entries.add(entry);
-      	return this;
-    },
-
-    onKeyPress: function (e){
-        console.log("onkeypress");
-        alert(e.whitch );
-    	if(e.which == 13){
-    	     var entry = new Entry({ novel_id: this.model.entries.novel_id , id: this.counter });
-	         this.addEntry(entry);   
-             this.appendEntry(entry).addBaloon( $('#inputform').val() );
-	         $('#inputform').val("");   
-	    }
-    }
-
-});
-
-
 EntryView = Backbone.View.extend({
 
    className : 'entry',
 
-   initialize: function(){
+   initialize: function(arg){
        this._self = this;
-
+       this.parentView = arg.parentView;
+        //console.log(arg);
+       //console.log(arg.parentView);
        _.bindAll(this, "render");
        _.bindAll(this,'click','addBaloon','addPicture','addDefaultBaloon','addDefaultPicture','remove','addEntry','changeLayer','hideButton');
        this.model.bind("change", this.render);
@@ -104,13 +23,11 @@ EntryView = Backbone.View.extend({
       this.content = $(this.el).find('.entry-content');
       //console.log(this.content);
 
-
       //cavas initialize
        this.sketch = new OverlaySketch($('canvas',this.el));
        this.sketch.init();
 
        this.render();
-
    },
 
    render: function(){
@@ -122,15 +39,15 @@ EntryView = Backbone.View.extend({
      console.log(arguments);
      
      $('.item',this.el).remove();
-
+     
      _(this.model.item).each(
          function(item){
             console.log(item);
             if(item.type == 'baloon'){
-                var baloon = new BaloonItem(item , _self , item.text , item.pos , item.border );
+                var baloon = new BaloonItem(item , _self );
                 baloon.appendTo( content);
             }else if(item.type == 'image'){
-                var image = new ImageItem(item ,  _self , item.src , item.pos );
+                var image = new ImageItem(item ,  _self  );
                 image.appendTo( content);
             }
          }
@@ -187,10 +104,10 @@ EntryView = Backbone.View.extend({
    
    addBaloon: function( str ){
         console.log("addBaloon");
-        this.model.item.push(
+        this.model.addItem(
           {
              type: 'baloon',
-             pos: {left: 0,top: 0, width: 100, height: 50 },
+             eft: 0,top: 0, width: 100, height: 50 ,
              text: str,
              border: ''
          });
@@ -206,10 +123,10 @@ EntryView = Backbone.View.extend({
         console.log("addPicture");
         //var image = new ImageItem( this._self , src ,{});
         //image.appendTo( this.content);
-        this.model.item.push(
+        this.model.addItem(
           {
              type: 'image',
-             pos: {left: 0,top: 0, width: 100, height: 100 },
+             left: 0,top: 0, width: 100, height: 100 ,
              src: src,
          });
         this.model.trigger('change');
@@ -225,11 +142,16 @@ EntryView = Backbone.View.extend({
    },
    remove: function(e){
 	console.log("remove");
-        $(this.el).remove();
+        console.log(this);
+        //$(this.el).remove();
+        this.parentView.model.destroy_entry(this.model);
+        this.parentView.model.fetch();
    },
    addEntry: function(e){
         console.log("addEntry");
+        console.log(this);
    	//this.model.
+   	this.parentView.model.create_entry();
    },
    changeLayer: function(e){
 	console.log("changeLayer");

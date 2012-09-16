@@ -1,9 +1,8 @@
 //= require jquery.jStageAligner
 
 
-function Picker( target,view ){
-   this.target = target;
-   this.view = view;
+function Picker( callbackFunc ){
+   this.callback = callbackFunc;
    this.initialize.apply(this, arguments);   
 }
 
@@ -54,18 +53,19 @@ Picker.prototype = {
     //  add item to pickerList
     item.appendTo($('#pickerList'));
     
-    // var dim = getActualDimension( $('img',item)[0] );
-    //console.log(dim.height() + "," + dim.width() );
-
     var img = new Image();
     img.src = '/characters/image/'+id;
-    console.log(img.src);
-    var target = this.target;    
-     console.log(target);
-    var content = this.view.content;
-    console.log(this.view);
+    
+    var callback = this.callback;
+    var finish = this.finish; 
 
+    console.log(img.src);
+    
+    
     item.click(function(){
+       callback(img);
+       finish();
+       /*
        target.src = img.src;
        if(content.height() < img.height){
           img.width = img.width * content.height() / img.height;
@@ -84,6 +84,7 @@ Picker.prototype = {
        console.log(target.height + "," + target.width );
        $('#picker').find($('img')).remove();
        $('#picker').hide('fast') 
+       */
     });
 },
 
@@ -91,13 +92,14 @@ Picker.prototype = {
   //selectedImage = ev.target; 
   this.loadXml("/characters.xml" , this.parseCharacterXml );
   $('#picker').show('fast');
-  $("#pickerCancelBtn").click(function(){
-        $('#picker').find($('img')).remove();
-	$('#picker').hide();
-        }
-    );
+  $("#pickerCancelBtn").click(this.finish)
 
- }
+ },
+ 
+ finish: function(){
+     $('#picker').find($('img')).remove();
+     $('#picker').hide();
+ },
 
 }
 
