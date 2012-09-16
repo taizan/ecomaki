@@ -8,7 +8,7 @@
 	   position: relative;
 }
 
-item_button {
+.item-button {
   background-color: #eef;
   position: absolute;
   //float: right;
@@ -18,7 +18,7 @@ item_button {
   
 
 .Image{
-	position: 'absolute';
+	position: absolute;
 	top: 0;
 	left: 0;
 	height: 100px;
@@ -26,7 +26,7 @@ item_button {
 }
 
 .sticky{
-  position: 'absolute';
+  position: absolute;
 
   background-color: #fff;
   cursor: pointer;
@@ -58,7 +58,7 @@ item_button {
 }
 
 .baloon {
-  position: 'absolute';
+  position: absolute;
   background-color: #fff;
   cursor: pointer;
   border-radius: 20px;         /* CSS3 */
@@ -71,7 +71,7 @@ item_button {
 }
 
 .picture {
-        position: 'absolute';
+        position: absolute;
         top: 0;
         left: 0;
         height: 100px;
