@@ -3,7 +3,10 @@ var Entry = Backbone.Model.extend({
             _.bindAll(this,"deleteItemAt","addItem");
 	    this.novel_id = arguments[0].novel_id;
 	    this.chapter_id = arguments[0].chapter_id;
-            this.item = [];
+        
+		this.item = [];
+		
+		
 	    this.id = arguments[0].id;
 	    this.url = function() {
 		if (typeof this.id == 'undefined') {
@@ -53,9 +56,9 @@ var Chapter = Backbone.Model.extend({
 		}
 	    };
 	    this.entries = new this.entrylist(null, 
-{novel_id: this.novel_id,
- chapter_id: this.id
-});
+			{novel_id: this.novel_id,
+				chapter_id: this.id
+			});
 
 	    // Insert novel ID and add to the list.
 	    $(entries).each(function(index, value) { value.novel_id = novel_id });
