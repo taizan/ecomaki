@@ -20,7 +20,7 @@ EntryItem.prototype = {
 	tmpl: '',
 	
 	defaultInitialize: function(){
-		_.bindAll(this,"onResize","onDragg","setElement","setButton","init");
+		_.bindAll(this,"onResize","onDragg","setElement","setButton","init","extend");
 		
 		this.$el = $(this.tmpl);
 		this.el = $el[0];
@@ -28,7 +28,6 @@ EntryItem.prototype = {
 		this.$el
 			.css({position: 'absolute', top: this.item.top, left: this.item.left })
 			.width(this.item.width).height(this.item.height);
-		
 	},
 
 	appendTo: function(target){
@@ -39,6 +38,49 @@ EntryItem.prototype = {
 	},
 	
 	init: function(){},
+
+	extend: function (protoProps, classProps) {
+    	var child = this.inherits(this, protoProps, classProps);
+    	child.extend = this.extend;
+    	return child;
+  	},
+	
+	inherits: function(parent, protoProps, staticProps) {
+    var child;
+
+    // The constructor function for the new subclass is either defined by you
+    // (the "constructor" property in your `extend` definition), or defaulted
+    // by us to simply call the parent's constructor.
+    if (protoProps && protoProps.hasOwnProperty('constructor')) {
+      child = protoProps.constructor;
+    } else {
+      child = function(){ parent.apply(this, arguments); };
+    }
+
+    // Inherit class (static) properties from parent.
+    _.extend(child, parent);
+
+    // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`'s constructor function.
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor();
+
+    // Add prototype properties (instance properties) to the subclass,
+    // if supplied.
+    if (protoProps) _.extend(child.prototype, protoProps);
+
+    // Add static properties to the constructor function, if supplied.
+    if (staticProps) _.extend(child, staticProps);
+
+    // Correctly set child's `prototype.constructor`.
+    child.prototype.constructor = child;
+
+    // Set a convenience property in case the parent's prototype is needed later.
+    child.__super__ = parent.prototype;
+
+    return child;
+	},
+
 	
 	onResize: function(){
 		this.item.width = $(this.el).width();
@@ -76,9 +118,12 @@ EntryItem.prototype = {
             }
          );
    }
+   
 }
 
-BaloonItem = EntryItem.extend({
+
+
+BaloonItem.prototype = EntryItem.extend({
 	tmpl : '<div class="item baloon item-resizable item-draggable sticky"><div class="text"></div></div>',
 	initialize: function(){
 		_.bindAll(this,"editText");
@@ -127,6 +172,7 @@ BaloonItem = EntryItem.extend({
                  });        
   },
 });
+
 
 ImageItem = EntryItem.extend({
 	tmpl: '<img class="item image item-resizable item-draggable"">',
