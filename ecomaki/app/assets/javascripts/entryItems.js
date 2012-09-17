@@ -76,11 +76,13 @@ EntryItem.prototype = {
 	onResize: function(){
 		this.item.set('width',$(this.el).width());
 		this.item.set('height' , $(this.el).height());
+		this.item.save();
 	},
 	
 	onDragg: function(){
 		this.item.set('top' , $(this.el).offset().top - $(this.content).offset().top );
 		this.item.set('left' , $(this.el).offset().left - $(this.content).offset().left );
+		this.item.save();
 	},
 	
 	setButton: function(target){
@@ -167,6 +169,7 @@ BaloonItem = EntryItem.extend({
                         txt = $('.text',target).html().split('\n').join('<br>') ;
                         $('.text',target).html(txt);
                         item.set('content' , txt);
+			item.save();
                         $(this).remove();
                  });        
   },

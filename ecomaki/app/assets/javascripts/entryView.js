@@ -100,7 +100,7 @@ EntryView = Backbone.View.extend({
         this.model.balloons.create(
           {
              left: 0,top: 0, width: 100, height: 50 ,
-             text: str,
+             content: str,
              border: ''
          });
         
@@ -160,6 +160,7 @@ EntryView = Backbone.View.extend({
         $('#sketchTool').show();
 		
 		this.model.set('canvas' , this.sketch.getImg() );
+		this.model.save();
    }
 });
 
