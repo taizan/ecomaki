@@ -160,6 +160,7 @@ EntryView = Backbone.View.extend({
         $('#sketchTool').show();
 		
 		this.model.set('canvas' , this.sketch.getImg() );
+		this.model.save();
    }
 });
 
