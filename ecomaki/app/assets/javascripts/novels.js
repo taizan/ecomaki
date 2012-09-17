@@ -31,7 +31,7 @@ var Entry = Backbone.Model.extend({
 	entryCharacterList: EntryCharacterList,
 	initialize: function() {
 	    var balloons = arguments[0].entry_balloon;
-	    var characters = arguments[0].entry_characters;
+	    var characters = arguments[0].entry_character;
 
 	    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id});
 	    this.id = arguments[0].id;
