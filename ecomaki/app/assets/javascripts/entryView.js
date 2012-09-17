@@ -111,14 +111,14 @@ EntryView = Backbone.View.extend({
         //baloon.appendTo( this.content );
    },
     
-   addPicture: function( src ){
+   addPicture: function( id ){
         console.log("addPicture");
         //var image = new ImageItem( this._self , src ,{});
         //image.appendTo( this.content);
         this.model.characters.create(
           {
              left: 0,top: 0, width: 100, height: 100 ,
-             src: src,
+             id: Config.prototype.character_idtourl(id),
          });
         this.model.trigger('change');
 
