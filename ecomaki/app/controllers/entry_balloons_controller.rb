@@ -16,7 +16,7 @@ class EntryBalloonsController < ApplicationController
 
   def update
     balloon = EntryBalloon.find(params[:id])
-    balloon.updateAttributes!(params[:entry_balloon])
+    balloon.update_attributes!(params[:entry_balloon])
 
     respond_to do |format|
       format.json { render :json => balloon }
