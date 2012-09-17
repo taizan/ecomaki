@@ -60,6 +60,16 @@ var Entry = Backbone.Model.extend({
 	    entry_characters.push(item);
 	    this.set('entry_character', entry_characters);
 	},
+	
+	delete_character: function(id){
+		var entry_characters = this.get('entry_character');
+		for(var i = 0 ; i< entry_characters.length; i++){
+			if(entry_characters[i].id == id){
+				
+			}
+		}
+	},
+	
 	add_baloon: function(item) {
 	    var entry_balloons = this.get('entry_balloon');
 	    entry_balloons.push(item);

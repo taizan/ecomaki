@@ -39,14 +39,14 @@ EntryView = Backbone.View.extend({
      
      $('.item',this.el).remove();
      
-     _(this.model.get('entry_balloon')).each(
+     _(this.model.balloons).each(
          function(item){
                 console.log(item);
                 var baloon = new BaloonItem(item , _self );
                 baloon.appendTo( content);
             }
 	);
-     _(this.model.get('entry_character')).each(
+     _(this.model.characters).each(
          function(item){
                 console.log(item);
                 var image = new ImageItem(item ,  _self  );
@@ -93,7 +93,7 @@ EntryView = Backbone.View.extend({
    
    addBaloon: function( str ){
         console.log("addBaloon");
-        this.model.add_baloon(
+        this.model.baloons.create(
           {
              left: 0,top: 0, width: 100, height: 50 ,
              text: str,
@@ -111,7 +111,7 @@ EntryView = Backbone.View.extend({
         console.log("addPicture");
         //var image = new ImageItem( this._self , src ,{});
         //image.appendTo( this.content);
-        this.model.add_character(
+        this.model.characters.create(
           {
              left: 0,top: 0, width: 100, height: 100 ,
              src: src,
