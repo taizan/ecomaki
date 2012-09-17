@@ -1,16 +1,12 @@
 var EntryBalloon = Backbone.Model.extend({
 	initialize: function() {
-	    this.novel_id = this.collection.novel_id;
-	    this.chapter_id = this.collection.chapter_id;
-	    this.entry_id = this.collection.entry_id;
-	}
+	    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id, entry_id: this.collection.entry_id});
+	},
     });
 
 var EntryCharacter = Backbone.Model.extend({
 	initialize: function() {
-	    this.novel_id = this.collection.novel_id;
-	    this.chapter_id = this.collection.chapter_id;
-	    this.entry_id = this.collection.entry_id;
+	    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id, entry_id: this.collection.entry_id});
 	}
     });
 
@@ -37,8 +33,7 @@ var Entry = Backbone.Model.extend({
 	    var balloons = arguments[0].entry_balloon;
 	    var characters = arguments[0].entry_characters;
 
-	    this.novel_id = this.collection.novel_id;
-	    this.chapter_id = this.collection.chapter_id;
+	    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id});
 	    this.id = arguments[0].id;
 
 
@@ -54,27 +49,6 @@ var Entry = Backbone.Model.extend({
 	    this.balloons.add(balloons);
 	    this.characters.add(characters);
 	},
-
-	add_character: function(item) {
-	    var entry_characters = this.get('entry_character');
-	    entry_characters.push(item);
-	    this.set('entry_character', entry_characters);
-	},
-	
-	delete_character: function(id){
-		var entry_characters = this.get('entry_character');
-		for(var i = 0 ; i< entry_characters.length; i++){
-			if(entry_characters[i].id == id){
-				
-			}
-		}
-	},
-	
-	add_baloon: function(item) {
-	    var entry_balloons = this.get('entry_balloon');
-	    entry_balloons.push(item);
-	    this.set('entry_balloon', entry_balloons);
-	}
     });
 
 
@@ -88,13 +62,12 @@ var EntryList = Backbone.Collection.extend({
 var Chapter = Backbone.Model.extend({
 	entrylist: EntryList,
 	initialize: function() {
-	    this.id = arguments[0].id;
-	    this.novel_id = this.collection.novel_id;
+	    this.set({novel_id: this.collection.novel_id});
 
 	    // entries
 	    this.entries = new this.entrylist();
-	    this.entries.novel_id = this.novel_id;
-	    this.entries.chapter_id = this.id;
+	    this.entries.novel_id = this.get('novel_id');
+	    this.entries.chapter_id = this.get('id');
 	    this.entries.add(arguments[0].entry);
 	},
 	create_entry: function(attributes) {
@@ -104,7 +77,7 @@ var Chapter = Backbone.Model.extend({
 	destroy_entry: function(models) {
 	    models = _.isArray(models) ? models.slice() : [models];
 	    for (var i=0; i<models.length; i++) {
-		this.entries.remove(models[i]);
+		// the model will be removed from the collection automatically.
 		models[i].destroy();
 	    }
 	    return true;
@@ -124,10 +97,16 @@ Novel = Backbone.Model.extend({
 	chapterlist: ChapterList,
 	initialize: function() {
 	    this.url = "/novel/" + this.id + ".json";
-	    this.chapters = new this.chapterlist(null, {novel_id: this.id});
+
+	    // Create chapters.
+	    this.chapters = new this.chapterlist();
 	    this.chapters.novel_id = this.id;
+
+	    // Fetch the data from server.
 	    this.fetch();
 	},
+
+	// Override 'set' method to create chapters by fetch().
 	set: function(key, value, options) {
 	    var attr, attrs, options;
 	    if (_.isObject(key) || key == null) {
@@ -147,10 +126,12 @@ Novel = Backbone.Model.extend({
 		}
 	    }
 	},
+
 	create_chapter: function() {
 	    this.chapters.create({novel_id: this.id});
 	    return true;
 	},
+
 	destroy_chapter: function(models) {
 	    models = _.isArray(models) ? models.slice() : [models];
 	    for (var i=0; i<models.length; i++) {
