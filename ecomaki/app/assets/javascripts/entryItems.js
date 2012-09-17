@@ -56,8 +56,8 @@ EntryItem.prototype = {
 		this.el = this.$el[0];
 		
 		this.$el
-			.css({position: 'absolute', top: this.item.top, left: this.item.left })
-			.width(this.item.width).height(this.item.height);
+			.css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left') })
+			.width(this.item.get('width')).height(this.item.get('height'));
 	},
 
 	appendTo: function(target){
@@ -70,13 +70,13 @@ EntryItem.prototype = {
 
 	
 	onResize: function(){
-		this.item.width = $(this.el).width();
-		 this.item.height = $(this.el).height();
+		this.item.set('width',$(this.el).width());
+		this.item.set('height' , $(this.el).height());
 	},
 	
 	onDragg: function(){
-		this.item.top = $(this.el).offset().top - $(this.content).offset().top;
-		this.item.left = $(this.el).offset().left - $(this.content).offset().left;
+		this.item.set('top' , $(this.el).offset().top - $(this.content).offset().top );
+		this.item.set('left' , $(this.el).offset().left - $(this.content).offset().left );
 	},
 	
 	setButton: function(target){
@@ -118,7 +118,7 @@ BaloonItem = EntryItem.extend({
 	tmpl : '<div class="item baloon item-resizable item-draggable sticky"><div class="text"></div></div>',
 	initialize: function(){
 		_.bindAll(this,"editText");
-		$('.text',this.el).html(this.item.text);
+		$('.text',this.el).html(this.item.get('text'));
 	},
 	
 	init: function(){
@@ -139,7 +139,7 @@ BaloonItem = EntryItem.extend({
 	},
 	
 	editText: function(){
-       var text = this.item.text.split("<br>").join('\n');
+       var text = this.get('text').split("<br>").join('\n');
        text = text
 	   			.replace(/&amp;/g,"&")
 				.replace(/&quot;/g,"/")
@@ -151,7 +151,7 @@ BaloonItem = EntryItem.extend({
        var target = this.el;
       
        focusedText = $( '<textarea style="text-align:center;" ></textarea>' )
-                .height( item.height ).width ( item.width )
+                .height( item.get('height') ).width ( item.get('width') )
                 .css({position: 'absolute', left:-5 ,top: -5})
 				.appendTo(this.el)
                 .focus().select()
@@ -162,7 +162,7 @@ BaloonItem = EntryItem.extend({
                         $('.text',target).text(txt);
                         txt = $('.text',target).html().split('\n').join('<br>') ;
                         $('.text',target).html(txt);
-                        item.text = txt;
+                        item.set('text' , txt);
                         $(this).remove();
                  });        
   },
@@ -174,7 +174,7 @@ ImageItem = EntryItem.extend({
         //pre append method
 	initialize: function(){
 		_.bindAll(this,"selectImage","setImage","init");
-		$(this.el).attr('src',this.item.src);	
+		$(this.el).attr('src',this.item.get('src'));	
 	},
 	//post append messod
 	init: function(){
@@ -203,7 +203,7 @@ ImageItem = EntryItem.extend({
 	},
 
 	setImage: function(img){
-		this.item.src = img.src;
+		this.item.set('src' , img.src);
     	$(this.el).attr('src',img.src);
 
     	var destHeight = this.content.offset().top + this.content.height() - $(this.el).offset().top;
@@ -224,8 +224,8 @@ ImageItem = EntryItem.extend({
    
     	$(this.el).height(img.height).width(img.width);
 
-    	this.item.width = img.width;
-    	this.item.height = img.height;
+    	this.item.set('width' , img.width);
+    	this.item.set('height' , img.height);
    	},  
 
 });
