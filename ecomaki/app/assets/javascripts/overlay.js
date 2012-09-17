@@ -85,12 +85,12 @@ OverlaySketch.prototype = {
     flag: false,
     startX: 0,
     startY: 0,
-    context: [], 
     init: function(){
 		_.bindAll(this,'setImg','getImg');
 
         if(this.canvasElem.getContext) {
-	    OverlaySketch.prototype.context = this.canvasElem.getContext('2d');
+	   this.context = this.canvasElem.getContext('2d');
+	   OverlaySketch.prototype.context = this.context;
 	}
 
 	this.canvas.mousedown(function(e) {
@@ -168,9 +168,12 @@ OverlaySketch.prototype = {
 	
 	setImg: function(src){
 		console.log('setimg');
-		img = new Image();
+		var img = new Image();
+		var context = this.context;
 		img.onload = function(){
-			OverlaySketch.prototype.context.drawImage(img,0,0);
+			console.log('on load');
+			console.log(this);
+			context.drawImage(img,0,0);
 		}
 		img.src = src;
 	}
