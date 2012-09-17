@@ -1,6 +1,6 @@
 $(function() {
 	var novel_id = 1;
-	var novel = new Novel({
+	novel = new Novel({
 		id: novel_id
 	    });
 
@@ -33,7 +33,7 @@ $(function() {
 			ok(chapters.at(0), "chapters.at(0)");
 
 			var chapter = chapters.at(0);
-			ok(chapter.novel_id == novel.id, "chapter.novel_id = " + chapter.novel_id);
+			ok(chapter.get('novel_id') == novel.id, "chapter.novel_id = " + chapter.get('novel_id'));
 			ok(chapter.id, "chapter.id = " + chapter.id);
 			ok(chapter.save(), "chapter.save()");
 		    });
@@ -46,8 +46,8 @@ $(function() {
 
 			var entry = entries.at(0);
 			ok(entry.url, entry.url);
-			ok(entry.novel_id == novel.id, "entry.novel_id = " + entry.novel_id);
-			ok(entry.chapter_id == novel.chapters.at(0).id, "entry.chapter_id = " + entry.chapter_id);
+			ok(entry.get('novel_id') == novel.id, "entry.novel_id = " + entry.get('novel_id'));
+			ok(entry.get('chapter_id') == novel.chapters.at(0).id, "entry.chapter_id = " + entry.get('chapter_id'));
 			ok(entry.id != undefined, "entry.id = " + entry.id);
 		    });
 
