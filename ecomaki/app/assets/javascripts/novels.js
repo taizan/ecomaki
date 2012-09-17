@@ -55,10 +55,15 @@ var Entry = Backbone.Model.extend({
 	    this.characters.add(characters);
 	},
 
-	add_character: function() {
+	add_character: function(item) {
 	    var entry_characters = this.get('entry_character');
-	    entry_characters.push({});
+	    entry_characters.push(item);
 	    this.set('entry_character', entry_characters);
+	},
+	add_baloon: function(item) {
+	    var entry_balloons = this.get('entry_balloon');
+	    entry_balloons.push(item);
+	    this.set('entry_balloon', entry_balloons);
 	}
     });
 

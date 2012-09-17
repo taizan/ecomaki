@@ -1,42 +1,29 @@
 //= require jquery.jStageAligner
 //position obj is there some nomal one?
 
+var ctor = function(){};
 
 function inherits(parent, protoProps, staticProps) {
     var child;
 
-    // The constructor function for the new subclass is either defined by you
-    // (the "constructor" property in your `extend` definition), or defaulted
-    // by us to simply call the parent's constructor.
     if (protoProps && protoProps.hasOwnProperty('constructor')) {
       child = protoProps.constructor;
     } else {
       child = function(){ parent.apply(this, arguments); };
     }
 
-    // Inherit class (static) properties from parent.
     _.extend(child, parent);
 
-    // Set the prototype chain to inherit from `parent`, without calling
-    // `parent`'s constructor function.
     ctor.prototype = parent.prototype;
     child.prototype = new ctor();
 
-    // Add prototype properties (instance properties) to the subclass,
-    // if supplied.
     if (protoProps) _.extend(child.prototype, protoProps);
-
-    // Add static properties to the constructor function, if supplied.
     if (staticProps) _.extend(child, staticProps);
-
-    // Correctly set child's `prototype.constructor`.
     child.prototype.constructor = child;
-
-    // Set a convenience property in case the parent's prototype is needed later.
     child.__super__ = parent.prototype;
 
     return child;
-	};
+};
 
 var EntryItem = function(item,view){
 	this.view = view;
@@ -63,10 +50,10 @@ EntryItem.prototype = {
 	tmpl: '',
 	
 	defaultInitialize: function(){
-		_.bindAll(this,"onResize","onDragg","setElement","setButton","init","extend");
+		_.bindAll(this,"onResize","onDragg","appendTo","setButton","init");
 		
 		this.$el = $(this.tmpl);
-		this.el = $el[0];
+		this.el = this.$el[0];
 		
 		this.$el
 			.css({position: 'absolute', top: this.item.top, left: this.item.left })
@@ -75,19 +62,12 @@ EntryItem.prototype = {
 
 	appendTo: function(target){
 		this.$el.appendTo(target);
-		this.el = $el[0];
+		this.el = this.$el[0];
 		this.init();
-		this.setButton();
 	},
 	
 	init: function(){},
 
-	extend: function (protoProps, classProps) {
-    	var child = this.inherits(this, protoProps, classProps);
-    	child.extend = this.extend;
-    	return child;
-  	},
-	
 	
 	onResize: function(){
 		this.item.width = $(this.el).width();
@@ -99,21 +79,24 @@ EntryItem.prototype = {
 		this.item.left = $(this.el).offset().left - $(this.content).offset().left;
 	},
 	
-	setButton: function(){
+	setButton: function(target){
       var body = '<i class="icon-remove-sign item-button item-remove" />';
       var button = $(body);
-      button.appendTo(this.el);
-      button.hide();
-	  
-	  this.el
+      button.appendTo(target);
+      button.hide();	 
+
+      $(target).find('.ui-resizable-handle').hide();
+ 
+	  $(target)
         .mouseover(function(){
             button.show();
+            $(this).find('.ui-resizable-handle').show();
         })
         .mouseout(function(){
             button.hide();
+            $(this).find('.ui-resizable-handle').hide();
         });
       
-	  var target = this.el;
 	  var removeItem = function(){};
 	  
       $('.item-remove',target).click(
@@ -135,20 +118,24 @@ BaloonItem = EntryItem.extend({
 	tmpl : '<div class="item baloon item-resizable item-draggable sticky"><div class="text"></div></div>',
 	initialize: function(){
 		_.bindAll(this,"editText");
+		$('.text',this.el).html(this.item.text);
 	},
 	
 	init: function(){
-		$('.item-draggable',this.$el).draggable({
+                console.log('init baloon');
+                console.log(this.el);
+		$(this.el).draggable({
 			containment: "parent",
 			stop: this.onDragg
 		});
 		
-		$('.item-resizable',this.$el).resizable({
+		$(this.el).resizable({
 			containment: "parent",
 			stop: this.onResize,
 		});
 		
 		$(this.el).dblclick(this.editText);
+		this.setButton(this.el);
 	},
 	
 	editText: function(){
@@ -184,11 +171,12 @@ BaloonItem = EntryItem.extend({
 
 ImageItem = EntryItem.extend({
 	tmpl: '<img class="item image item-resizable item-draggable"">',
-	initiarize: function(){
-		_.bindAll(this,"selectImage","seImage");
-		
+        //pre append method
+	initialize: function(){
+		_.bindAll(this,"selectImage","setImage","init");
+		$(this.el).attr('src',this.item.src);	
 	},
-	
+	//post append messod
 	init: function(){
 		
 		$(this.el).resizable({
@@ -202,11 +190,14 @@ ImageItem = EntryItem.extend({
 			stop: this.onDragg
 		});
 		
-		
+                  	
 		$(this.el).dblclick(this.selectImage);
+		this.setButton($(this.el).parent());
 	},  
 
 	selectImage: function(ev){
+              console.log('selectimage');console.log(this);
+              console.log(this.setImage);
     	var picker = new Picker(this.setImage);
     	picker.pickImage(ev);
 	},
@@ -228,8 +219,8 @@ ImageItem = EntryItem.extend({
         	img.height =  img.height * destWidth / img.width;
         	img.width = destWidth;
     	}
-    // tmp
-    //this.newImage.parent().width(img.width).height(img.height);
+        // tmp
+        $(this.el).parent().width(img.width).height(img.height);
    
     	$(this.el).height(img.height).width(img.width);
 
