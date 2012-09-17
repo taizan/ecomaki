@@ -8,10 +8,12 @@ class EntriesController < ApplicationController
   end
 
   def update
-    novel_id = params[:novel_id]
-    id = params[:id]
-    balloons = params[:balloons]
-    characters = params[:characters]
+    entry = Entry.find(params[:id])
+    entry.update_attributes!(params[:entry])
+
+    respond_to {|format|
+      format.json { render :json => entry }
+    }
   end
 
   def show
