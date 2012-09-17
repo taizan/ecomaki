@@ -36,35 +36,24 @@ EntryView = Backbone.View.extend({
      var _self = this._self;
 
      console.log('render');
-     console.log(arguments);
      
      $('.item',this.el).remove();
      
-     _(this.model.item).each(
+     _(this.model.balloons).each(
          function(item){
-            console.log(item);
-            if(item.type == 'baloon'){
+                console.log(item);
                 var baloon = new BaloonItem(item , _self );
                 baloon.appendTo( content);
-            }else if(item.type == 'image'){
+            }
+	);
+     _(this.model.characters).each(
+         function(item){
+                console.log(item);
                 var image = new ImageItem(item ,  _self  );
                 image.appendTo( content);
             }
-         }
      );
 
-     /*
-      _(this.model.baloons.models).each(function(baloon){ // in case collection is not empty
-        	var baloonView = new BaloonView( { model: baloon } );
-                $( self.el ).find('.entry-content').append(baloonView.render().el);
-
-           }, this);
-      _(this.model.pictures.models).each(function(picture){ // in case collection is not empty
-                var pictureView = new PictureView( { model: picture } );
-                $( self.el ).find('.entry-content').append(pictureView.render().el);
-
-           }, this);
-      */
       this.hideButton();
       return this;
    },
@@ -104,10 +93,9 @@ EntryView = Backbone.View.extend({
    
    addBaloon: function( str ){
         console.log("addBaloon");
-        this.model.addItem(
+        this.model.baloons.create(
           {
-             type: 'baloon',
-             eft: 0,top: 0, width: 100, height: 50 ,
+             left: 0,top: 0, width: 100, height: 50 ,
              text: str,
              border: ''
          });
@@ -123,9 +111,8 @@ EntryView = Backbone.View.extend({
         console.log("addPicture");
         //var image = new ImageItem( this._self , src ,{});
         //image.appendTo( this.content);
-        this.model.addItem(
+        this.model.characters.create(
           {
-             type: 'image',
              left: 0,top: 0, width: 100, height: 100 ,
              src: src,
          });

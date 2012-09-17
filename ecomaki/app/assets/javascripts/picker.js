@@ -59,7 +59,7 @@ Picker.prototype = {
     var callback = this.callback;
     var finish = this.finish; 
 
-    console.log(img.src);
+    console.log(callback);
     
     
     item.click(function(){

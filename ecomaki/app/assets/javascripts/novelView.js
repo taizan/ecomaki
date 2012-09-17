@@ -39,6 +39,8 @@ jQuery.fn.insertAt = function(index, element) {
       },
 
       render: function() {
+          $('#title').text(this.model.get('title'));
+          $('#description').text(this.model.get('description'));
           this.addAll();
       }
   });
