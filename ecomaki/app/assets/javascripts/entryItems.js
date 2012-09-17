@@ -169,6 +169,7 @@ BaloonItem = EntryItem.extend({
                         txt = $('.text',target).html().split('\n').join('<br>') ;
                         $('.text',target).html(txt);
                         item.set('content' , txt);
+			item.save();
                         $(this).remove();
                  });        
   },
