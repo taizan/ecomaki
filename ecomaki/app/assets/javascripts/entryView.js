@@ -39,6 +39,7 @@ EntryView = Backbone.View.extend({
      
      $('.item',this.el).remove();
      
+	 
      _(this.model.balloons.models).each(
          function(item){
                 console.log(item);
@@ -53,6 +54,8 @@ EntryView = Backbone.View.extend({
                 image.appendTo( content);
             }
      );
+	 
+	 this.sketch.setImg(this.model.get('canvas'));
 
       this.hideButton();
       return this;
@@ -124,25 +127,28 @@ EntryView = Backbone.View.extend({
    addDefaultBaloon: function(e){
         this.addBaloon('');
    },
+   
    addDefaultPicture: function(e){
         this.addPicture('');
    },
+   
    remove: function(e){
 	console.log("remove");
         console.log(this);
         //$(this.el).remove();
         this.parentView.model.destroy_entry(this.model);
         this.parentView.model.fetch();
-   },
-   addEntry: function(e){
+	},
+	addEntry: function(e){
         console.log("addEntry");
         console.log(this);
    	//this.model.
-   	this.parentView.model.create_entry();
-   },
+		this.parentView.model.create_entry();
+	},
+	
    changeLayer: function(e){
 	console.log("changeLayer");
-   	var canvas = $('canvas',this.el);
+   		var canvas = $('canvas',this.el);
         var index = 5;
 
         $('.--btn-layer',this.el).toggleClass('btn-primary')
@@ -151,6 +157,8 @@ EntryView = Backbone.View.extend({
         else{ canvas.zIndex(index); }
         console.log(canvas);
         $('#sketchTool').show();
+		
+		this.model.set('canvas' , this.sketch.getImg() );
    }
 });
 

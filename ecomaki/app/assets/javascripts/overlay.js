@@ -87,6 +87,7 @@ OverlaySketch.prototype = {
     startY: 0,
     context: [], 
     init: function(){
+		_.bindAll(this,'setImg','getImg');
 
         if(this.canvasElem.getContext) {
 	    OverlaySketch.prototype.context = this.canvasElem.getContext('2d');
@@ -154,5 +155,15 @@ OverlaySketch.prototype = {
 		window.open(d, 'save');
 	    });
 
-    }
+    },
+	
+	getImg: function(){
+		var img = this.canvas.toDataURL();
+		return img;
+	},
+	
+	setImg: function(img){
+		this.canvas.src = img;
+	}
+	
 }
