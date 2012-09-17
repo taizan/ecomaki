@@ -1,0 +1,47 @@
+
+
+.item-button {
+  background-color: #eef;
+  position: absolute;
+  //float: right;
+  left: 0px;
+  top: 0px;
+}
+
+.baloon {
+  position: absolute;
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 20px;         /* CSS3 */
+   -moz-border-radius: 20px;    /* Firefox */
+   -webkit-border-radius: 20px; /* Safari,Chrome */
+
+   border: 1px black solid;
+   //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+.sticky{
+  position: absolute;
+
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 20px;         /* CSS3 */
+   -moz-border-radius: 20px;    /* Firefox */
+   -webkit-border-radius: 20px; /* Safari,Chrome */
+
+
+   border: 1px black solid;
+   //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+
+
+
+.Image{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100px;
+	width: 100px;
+}
