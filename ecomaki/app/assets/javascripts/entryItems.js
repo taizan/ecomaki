@@ -50,14 +50,18 @@ EntryItem.prototype = {
 	tmpl: '',
 	
 	defaultInitialize: function(){
-		_.bindAll(this,"onResize","onDragg","appendTo","setButton","init");
-		
+		_.bindAll(this,"onChange","onResize","onDragg","appendTo","setButton","init");
+	        this.item.on('change',this.onChange);	
 		this.$el = $(this.tmpl);
 		this.el = this.$el[0];
 		
 		this.$el
 			.css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left') })
 			.width(this.item.get('width')).height(this.item.get('height'));
+	},
+	onChange: function(){
+		console.log('on item change');
+		//this.item.save();	
 	},
 
 	appendTo: function(target){
@@ -97,14 +101,14 @@ EntryItem.prototype = {
             $(this).find('.ui-resizable-handle').hide();
         });
       
-	  var removeItem = function(){};
+	  var item = this.item;
 	  
       $('.item-remove',target).click(
             function(){
-                   console.log(target);
+                   //console.log(target);
                    $('.item',target).remove(); 
-                   target.remove();
-				   removeItem();
+                   $(target).remove();
+		   item.destroy();
             }
          );
    }
@@ -118,12 +122,12 @@ BaloonItem = EntryItem.extend({
 	tmpl : '<div class="item baloon item-resizable item-draggable sticky"><div class="text"></div></div>',
 	initialize: function(){
 		_.bindAll(this,"editText");
-		$('.text',this.el).html(this.item.get('text'));
+		$('.text',this.el).html(this.item.get('content'));
 	},
 	
 	init: function(){
-                console.log('init baloon');
-                console.log(this.el);
+                //console.log('init baloon');
+                //console.log(this.el);
 		$(this.el).draggable({
 			containment: "parent",
 			stop: this.onDragg
@@ -139,7 +143,7 @@ BaloonItem = EntryItem.extend({
 	},
 	
 	editText: function(){
-       var text = this.get('text').split("<br>").join('\n');
+       var text = this.item.get('content').split("<br>").join('\n');
        text = text
 	   			.replace(/&amp;/g,"&")
 				.replace(/&quot;/g,"/")
@@ -162,7 +166,7 @@ BaloonItem = EntryItem.extend({
                         $('.text',target).text(txt);
                         txt = $('.text',target).html().split('\n').join('<br>') ;
                         $('.text',target).html(txt);
-                        item.set('text' , txt);
+                        item.set('content' , txt);
                         $(this).remove();
                  });        
   },

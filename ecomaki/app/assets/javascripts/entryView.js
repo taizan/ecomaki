@@ -35,27 +35,28 @@ EntryView = Backbone.View.extend({
      var content = this.content;
      var _self = this._self;
 
-     console.log('render');
+//     console.log('render');
      
      $('.item',this.el).remove();
      
 	 
      _(this.model.balloons.models).each(
          function(item){
-                console.log(item);
+                //console.log(item);
                 var baloon = new BaloonItem(item , _self );
                 baloon.appendTo( content);
             }
 	);
      _(this.model.characters.models).each(
          function(item){
-                console.log(item);
+                //console.log(item);
                 var image = new ImageItem(item ,  _self  );
                 image.appendTo( content);
             }
      );
-	 
-	 this.sketch.setImg(this.model.get('canvas'));
+	console.log(this.model.get('canvas'));	 
+      this.sketch.clear();
+      this.sketch.setImg(this.model.get('canvas'));
 
       this.hideButton();
       return this;
