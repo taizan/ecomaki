@@ -3,41 +3,44 @@
 one:
   id: 0
   novel_id: 0
-  name: Chapter0
+  title: Chapter0
+  description: Dummy description
   order_number: 0
 
 two:
   id: 1
   novel_id: 0
-  name: Chapter1
+  title: Chapter1
+  description: this is chapter 1
   order_number: 1
 
 three:
   id: 2
   novel_id: 0
-  name: Chapter2
+  title: Chapter2
+  description: this is chapter 2
   order_number: 2
 
 four:
   id: 3
   novel_id: 1
-  name: Novel1Chapter3
+  title: Novel1Chapter3
   order_number: 0
 
 five:
   id: 4
   novel_id: 1
-  name: Novel1Chapter4
+  title: Novel1Chapter4
   order_number: 1
 
 six:
   id: 5
   novel_id: 1
-  name: Novel1Chapter5
+  title: Novel1Chapter5
   order_number: 2
 
 seven:
   id: 6
   novel_id: 1
-  name: Novel1Chapter6
+  title: Novel1Chapter6
   order_number: 3

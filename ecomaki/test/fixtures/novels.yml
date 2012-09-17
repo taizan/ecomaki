@@ -10,8 +10,10 @@ one:
 two:
   id: 1
   author_id: 0
+  parent_novel_id: 0
   title: Next Story
-  description: next
+  description: Next Story's description
+  author: You!
   status: publish
 
 three:
