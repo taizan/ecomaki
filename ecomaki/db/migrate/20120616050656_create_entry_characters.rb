@@ -3,10 +3,19 @@ class CreateEntryCharacters < ActiveRecord::Migration
     create_table :entry_characters do |t|
       t.integer :character_id
       t.integer :entry_id
-      t.integer :x
-      t.integer :y
+
+      # Size, Position
+      t.integer :top
+      t.integer :left
       t.integer :width
       t.integer :height
+      t.integer :angle
+      t.integer :clip_top
+      t.integer :clip_left
+      t.integer :clip_bottom
+      t.integer :clip_right
+
+      t.string :option
 
       t.timestamps
     end

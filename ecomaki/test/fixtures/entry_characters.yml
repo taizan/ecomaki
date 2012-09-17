@@ -3,15 +3,12 @@
 one:
   character_id: 0
   entry_id: 0
-  x: 1
-  y: 1
+  top: 1
+  left: 1
   width: 100
   height: 100
-
-two:
-  character_id: 1
-  entry_id: 0
-  x: 1
-  y: 1
-  width: 100
-  height: 100
+  angle: 0
+  clip_top: 0
+  clip_left: 0
+  clip_bottom: 100
+  clip_right: 100

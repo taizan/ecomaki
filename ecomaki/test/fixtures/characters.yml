@@ -4,6 +4,8 @@ one:
   id: 0
   name: Miku1
   content_type: image/jpeg
+  description: Hatsune
+  author: Me
   width: 100
   height: 100
 
