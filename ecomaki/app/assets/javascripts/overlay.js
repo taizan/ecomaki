@@ -150,20 +150,29 @@ OverlaySketch.prototype = {
 
 	$('#exit').click(function() {
 		//@TODO change method
-		var d = canvas.toDataURL('image/png');
+		var d = this.canvas[0].toDataURL('image/png');
 		d = d.replace('image/png', 'image/octet-stream');
 		window.open(d, 'save');
 	    });
 
     },
+	clear:function(){
+		OverlaySketch.prototype.context.clearRect(0, 0, $(this.canvas).width(), $(this.canvas).height());
+	},
 	
 	getImg: function(){
-		var img = this.canvas.toDataURL();
+		console.log(this.canvas[0]);
+		var img = this.canvas[0].toDataURL();
 		return img;
 	},
 	
-	setImg: function(img){
-		this.canvas.src = img;
+	setImg: function(src){
+		console.log('setimg');
+		img = new Image();
+		img.onload = function(){
+			OverlaySketch.prototype.context.drawImage(img,0,0);
+		}
+		img.src = src;
 	}
 	
 }
