@@ -36,17 +36,18 @@ var Entry = Backbone.Model.extend({
 	    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id});
 	    this.id = arguments[0].id;
 
-
+	    // Create balloons.
 	    this.balloons = new this.entryBalloonList();
-	    this.balloons.novel_id = this.novel_id;
-	    this.balloons.chapter_id = this.chapter_id;
+	    this.balloons.novel_id = this.get('novel_id');
+	    this.balloons.chapter_id = this.get('chapter_id');
 	    this.balloons.entry_id = this.id;
-	    this.characters = new this.entryCharacterList();
-	    this.characters.novel_id = this.novel_id;
-	    this.characters.chapter_id = this.chapter_id;
-	    this.characters.entry_id = this.id;
-
 	    this.balloons.add(balloons);
+
+	    // Create characters.
+	    this.characters = new this.entryCharacterList();
+	    this.characters.novel_id = this.get('novel_id');
+	    this.characters.chapter_id = this.get('chapter_id');
+	    this.characters.entry_id = this.id;
 	    this.characters.add(characters);
 	},
     });

@@ -62,5 +62,15 @@ $(function() {
 			ok(novel.create_chapter());
 			ok(novel.destroy_chapter(novel.chapters.last()));
 		    });
+
+		test("Add/Remove balloons", function() {
+			var entry = novel.chapters.at(0).entries.at(0);
+			var old_length = entry.balloons.length;
+			var new_model = entry.balloons.create();
+			var new_length = entry.balloons.length;
+			ok(new_length == old_length + 1);
+			setTimeout(function() {new_model.destroy()}, 2000);
+			//ok(entry.balloons.length == old_length);
+		    });
 	    }, 2000);
     });
