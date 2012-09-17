@@ -16,7 +16,7 @@ class EntryCharactersController < ApplicationController
 
   def update
     character = EntryCharacter.find(params[:id])
-    character.updateAttributes!(params[:entry_character])
+    character.update_attributes!(params[:entry_character])
 
     respond_to do |format|
       format.json { render :json => character }
