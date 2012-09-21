@@ -10,6 +10,8 @@ class CreateEntryCharacters < ActiveRecord::Migration
       t.integer :width
       t.integer :height
       t.integer :angle
+      t.integer :z_index
+
       t.integer :clip_top
       t.integer :clip_left
       t.integer :clip_bottom

@@ -11,6 +11,7 @@ class CreateEntryBalloons < ActiveRecord::Migration
       t.integer :left
       t.integer :width
       t.integer :height
+      t.integer :z_index
 
       # Font
       t.string :font_family
