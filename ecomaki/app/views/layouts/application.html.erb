@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <Html>
-<head>
   <meta charset="UTF-8">
   <title>Ecomaki</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
@@ -8,8 +7,10 @@
   <%= csrf_meta_tags %>
 </Head>
 <Body>
-<div id="fb-root"></div>
+<img class="bg"/>
 
+<div id="fb-root"></div>
+<!--
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
@@ -50,7 +51,7 @@
     <hr>
   </header>
 
+-->
   <%= yield %>
-
 </body>
 </html>

@@ -118,7 +118,7 @@ EntryView = Backbone.View.extend({
         this.model.characters.create(
           {
              left: 0,top: 0, width: 100, height: 100 ,
-             id: Config.prototype.character_idtourl(id),
+             character_id: Config.prototype.character_idtourl(id),
          });
         this.model.trigger('change');
 

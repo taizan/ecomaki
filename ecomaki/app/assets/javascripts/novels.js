@@ -72,7 +72,7 @@ var Chapter = Backbone.Model.extend({
 	    this.entries.add(arguments[0].entry);
 	},
 	create_entry: function(attributes) {
-	    //this.entries.create();
+	    this.entries.create(attributes);
 	    return true;
 	},
 	destroy_entry: function(models) {
