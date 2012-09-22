@@ -43,3 +43,46 @@ six:
   content_type: image/jpeg
   width: 100
   height: 100
+
+seven:
+  id: 6
+  name: Miku2
+  content_type: image/jpeg
+  width: 100
+  height: 100
+
+eight:
+  id: 7
+  name: Miku2
+  content_type: image/jpeg
+  width: 100
+  height: 100
+
+nine:
+  id: 8
+  name: Miku2
+  content_type: image/jpeg
+  width: 100
+  height: 100
+
+ten:
+  id: 9
+  name: Miku2
+  content_type: image/jpeg
+  width: 100
+  height: 100
+
+eleven:
+  id: 10
+  name: Miku2
+  content_type: image/jpeg
+  width: 100
+  height: 100
+
+twelve:
+  id: 11
+  name: Miku2
+  content_type: image/jpeg
+  width: 100
+  height: 100
+
