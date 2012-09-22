@@ -5,7 +5,7 @@ class CreateEntries < ActiveRecord::Migration
       t.integer :width
       t.integer :height
       t.integer :order_number
-
+      t.integer :canvas_index
       t.timestamps
     end
   end
