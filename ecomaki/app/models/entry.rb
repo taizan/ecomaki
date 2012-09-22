@@ -1,6 +1,6 @@
 class Entry < ActiveRecord::Base
   attr_accessor :canvas
-  attr_accessible :chapter_id, :width, :height, :order_number, :canvas
+  attr_accessible :chapter_id, :width, :height, :order_number, :canvas, :canvas_index
 
   belongs_to :chapter
 
