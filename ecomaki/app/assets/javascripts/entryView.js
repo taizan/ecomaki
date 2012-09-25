@@ -14,7 +14,8 @@ EntryView = Backbone.View.extend({
        //console.log(arg.parentView);
        _.bindAll(this, "render");
        _.bindAll(this,'click','addBaloon','addPicture','addDefaultBaloon','addDefaultPicture','remove','addEntry','changeLayer','hideButton');
-       this.model.bind("change", this.render);
+       
+	this.model.bind("change", this.render);
        
       var template = _.template( $("#entry_template").html(),this.model.attributes);
       $(this.el).html( template);
@@ -24,10 +25,10 @@ EntryView = Backbone.View.extend({
       //console.log(this.content);
 
       //cavas initialize
-       this.sketch = new OverlaySketch($('canvas',this.el));
+       this.sketch = new OverlaySketch($('canvas',this.el),this.model);
        this.sketch.init();
 
-       this.render();
+       //this.render();
    },
 
    render: function(){
@@ -54,9 +55,9 @@ EntryView = Backbone.View.extend({
                 image.appendTo( content);
             }
      );
-	console.log(this.model.get('canvas'));	 
+//	console.log(this.model.get('canvas'));	 
       this.sketch.clear();
-      this.sketch.setImg(this.model.get('canvas'));
+      this.sketch.loadImg(this.model.get('canvas'));
 
       this.hideButton();
       return this;
@@ -105,6 +106,7 @@ EntryView = Backbone.View.extend({
          });
         
        //temp
+       this.model.save();
        this.model.trigger('change');
 
         //var baloon =  new BaloonItem( this._self , str , { width: 100,height: 50 } );
@@ -120,6 +122,7 @@ EntryView = Backbone.View.extend({
              left: 0,top: 0, width: 100, height: 100 ,
              character_id: Config.prototype.character_idtourl(id),
          });
+        this.model.save();
         this.model.trigger('change');
 
    },
@@ -133,17 +136,17 @@ EntryView = Backbone.View.extend({
         this.addPicture('');
    },
    
-   remove: function(e){
-	console.log("remove");
-        console.log(this);
-        //$(this.el).remove();
-        this.parentView.model.destroy_entry(this.model);
-        this.parentView.model.fetch();
-	},
+   	remove: function(e){
+		console.log("remove");
+       		console.log(this);
+        	$(this.el).remove();
+        	this.parentView.model.destroy_entry(this.model);
+        	this.parentView.model.fetch();
+		},
 	addEntry: function(e){
-        console.log("addEntry");
-        console.log(this);
-   	//this.model.
+        	console.log("addEntry");
+        	console.log(this);
+   		//this.model.
 		this.parentView.model.create_entry();
 	},
 	
@@ -158,9 +161,9 @@ EntryView = Backbone.View.extend({
         else{ canvas.zIndex(index); }
         console.log(canvas);
         $('#sketchTool').show();
-		
-		this.model.set('canvas' , this.sketch.getImg() );
-		this.model.save();
+	this.sketch.setImg();	
+	//		this.model.set('canvas' , this.sketch.getImg() );
+	//	this.model.save();
    }
 });
 
