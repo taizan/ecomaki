@@ -72,9 +72,10 @@ SketchTool.prototype = {
 
 
 // acanvas is jquery obj
-OverlaySketch = function(acanvas){
+OverlaySketch = function(acanvas , amodel){
     this.canvas = acanvas;
     this.canvasElem = this.canvas.get(0);
+    this.model = amodel;
 };
 
 
@@ -86,7 +87,8 @@ OverlaySketch.prototype = {
     startX: 0,
     startY: 0,
     init: function(){
-		_.bindAll(this,'setImg','getImg');
+		_.bindAll(this,'loadImg','setImg','getImg');
+		var _self = this;
 
         if(this.canvasElem.getContext) {
 	   this.context = this.canvasElem.getContext('2d');
@@ -125,9 +127,11 @@ OverlaySketch.prototype = {
 	this.canvas
             .on('mouseup', function() {
 		    OverlaySketch.prototype.flag = false;
+		//    _self.setImg();
 		})
 	    .on('mouseleave', function() {
 		    OverlaySketch.prototype.flag = false;
+		    _self.setImg();
 		});
 
 	$("#slider").slider({
@@ -140,7 +144,7 @@ OverlaySketch.prototype = {
 	    });
 
         $('#paret li').click(function(e) {
-		OverlaySketch.prototype.context.strokeStyle = $(this).css('background-color');
+		this.context.strokeStyle = $(this).css('background-color');
 	    });
 
 	$('#clear').click(function(e) {
@@ -157,22 +161,31 @@ OverlaySketch.prototype = {
 
     },
 	clear:function(){
-		OverlaySketch.prototype.context.clearRect(0, 0, $(this.canvas).width(), $(this.canvas).height());
+		this.context.clearRect(0, 0, $(this.canvas).width(), $(this.canvas).height());
 	},
 	
 	getImg: function(){
-		console.log(this.canvas[0]);
+		console.log(this.canvas[0].toDataURL());
 		var img = this.canvas[0].toDataURL();
 		return img;
 	},
+
+	setImg: function(){
+		//console.log(this);
+		//console.log(this.model);
+		this.model.set('canvas', this.canvas[0].toDataURL());
+		this.model.save();
+       		//this.model.trigger('change');
+		
+	},
 	
-	setImg: function(src){
-		console.log('setimg');
+	loadImg: function(src){
+		//console.log('setimg');
 		var img = new Image();
 		var context = this.context;
 		img.onload = function(){
-			console.log('on load');
-			console.log(this);
+		//	console.log('on load');
+		//	console.log(this);
 			context.drawImage(img,0,0);
 		}
 		img.src = src;
