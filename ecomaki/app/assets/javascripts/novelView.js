@@ -14,14 +14,19 @@ jQuery.fn.insertAt = function(index, element) {
   var NovelView = Backbone.View.extend({
       className: 'novel',
       initialize: function() {
-          _.bindAll(this, "render","addOne","addAll");
+          _.bindAll(this, "render","addOne","addAll","saveTitle","saveDescription");
+
+	  var _self = this;
 
           this.model.bind('change', this.render, this);
           this.model.bind('destroy', this.render, this);
           //this.chapter = new ChapterView( { model: this.model.chapters.models[0]} );
 	  this.model.chapters.bind('add', this.addOne);
           this.model.chapters.bind('refresh', this.addAll);
-
+	  
+          $('#title').dblclick( function(){ editableTextarea(this,_self.saveTitle);});
+          $('#description').dblclick(function(){editableTextarea(this,_self.saveDescription);}); 
+ 
           this.addAll();
           console.log(this.model.chapters.models);
       },
@@ -39,9 +44,17 @@ jQuery.fn.insertAt = function(index, element) {
       },
 
       render: function() {
-          $('#title').text(this.model.get('title'));
-          $('#description').text(this.model.get('description'));
+          $('#title .text').text(this.model.get('title'));
+          $('#description .text').text(this.model.get('description'));
           this.addAll();
-      }
+      },
+      saveTitle: function(txt){
+          this.model.set('title',txt);
+	  this.model.save();
+      },
+      saveDescription: function(txt){
+          this.model.set('description',txt);
+          this.model.save();
+      },
   });
 
