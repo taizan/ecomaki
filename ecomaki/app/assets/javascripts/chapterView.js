@@ -1,31 +1,29 @@
 ChapterView = Backbone.View.extend({
     //el : '#content',
     className : 'chapter' ,
+	header : '<br><br><div class="title"><h2 class="text">chapter title</h2></div><div class="description"><p class="text">des</p></div><div class="entryList">',
 	initialize: function(options){
-        this.counter = 0;
-	    _.bindAll(this, "render","addEntry","addAll","addOne","onChange","onSortStart","onSortStop");
-        this.model.bind("change", this.render);
-
-        this.model.entries.bind('add', this.addOne);
-        this.model.entries.bind('refresh', this.addAll);
-        this.model.entries.bind('change', this.onChange);
-        //	console.log("Current length: " + this.model.entries.length);
-	this.model.entries.bind('add', function() {
-        //		console.log("entry is changedlength:" + this.model.entries.length);
-	});
-        //console.log(this.model.entries);
-        //console.log(this.model.entries.models);
-
-	chapter = this;
-        chapterModel = this.model;
-
-	$('<br><br><h2 class="title editable"></h2><p class="description editable"></p><div class="entryList">').appendTo(this.el);
-	$('.title',this.el).text(this.model.get('title'));
-
-        $('.description',this.el).text(this.model.get('description'));
-
-
-        //this.render();
+		_.bindAll(this, 
+			"render",
+			"addEntry",
+			"addAll",
+			"addOne",
+			"onChange",
+			"onSortStart",
+			"onSortStop",
+			"saveTitle",
+			"saveDescription");
+        	this.model.bind("change", this.render);
+        	this.model.entries.bind('add', this.addOne);
+        	this.model.entries.bind('refresh', this.addAll);
+        	this.model.entries.bind('change', this.onChange);
+	
+		$(this.header).appendTo(this.el);
+		
+		var _self = this;
+		
+		$('.title',this.el).dblclick( function(){ editableTextarea(this,_self.saveTitle)});
+		$('.description',this.el).dblclick( function(){ editableTextarea(this,_self.saveDescription)});
 	},
 
     addOne: function (item,t,options) {
@@ -51,7 +49,11 @@ ChapterView = Backbone.View.extend({
     },
 
     render: function(){
-        console.log("render");
+        console.log("chapter render");
+
+	$('.title .text',this.el).html(this.model.get('title'));
+       	$('.description .text',this.el).html(this.model.get('description'));
+
         this.addAll();
         $('.entryList',this.el).sortable({
 		start: this.onSortStart,
@@ -95,6 +97,16 @@ ChapterView = Backbone.View.extend({
     	if(e.which == 13){
 	         $('#inputform').val("");   
 	    }
-    }
+    },
+
+      saveTitle: function(txt){
+          this.model.set('title',txt);
+	  this.model.save();
+      },
+
+      saveDescription: function(txt){
+          this.model.set('description',txt);
+          this.model.save();
+      },
 
 });
