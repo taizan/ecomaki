@@ -44,17 +44,20 @@ jQuery.fn.insertAt = function(index, element) {
       },
 
       render: function() {
-          $('#title .text').text(this.model.get('title'));
-          $('#description .text').text(this.model.get('description'));
+          $('#title .text').html(this.model.get('title'));
+          $('#description .text').html(this.model.get('description'));
           this.addAll();
       },
+
       saveTitle: function(txt){
           this.model.set('title',txt);
 	  this.model.save();
       },
+
       saveDescription: function(txt){
           this.model.set('description',txt);
           this.model.save();
       },
+
   });
 

@@ -20,6 +20,7 @@ function editableTextarea(target,callback){
                         .css({position: 'absolute', left:-5 ,top: -5})
                         .appendTo(target)
                         .focus().select()
+			//.autosize()
                         .val(text);
 
                 focusedText.blur(
@@ -27,6 +28,7 @@ function editableTextarea(target,callback){
                                 var txt = $(this).val();
                                 $('.text',target).text(txt);
                                 txt = $('.text',target).html().split('\n').join('<br>') ;
+				console.log(txt);
                                 $('.text',target).html(txt);
 
                                 callback( txt);
