@@ -122,8 +122,9 @@ EntryItem.prototype = {
 
 BaloonItem = EntryItem.extend({
 	tmpl : '<div class="item baloon item-resizable item-draggable sticky"><div class="text"></div></div>',
+
 	initialize: function(){
-		_.bindAll(this,"editText");
+		_.bindAll(this,"editText","saveText");
 		$('.text',this.el).html(this.item.get('content'));
 	},
 	
@@ -145,34 +146,42 @@ BaloonItem = EntryItem.extend({
 	},
 	
 	editText: function(){
-       var text = this.item.get('content').split("<br>").join('\n');
-       text = text
-	   			.replace(/&amp;/g,"&")
-				.replace(/&quot;/g,"/")
-				.replace(/&#039;/g,"'")
-				.replace(/&lt;/g,"<")
-				.replace(/&gt;/g,">");
-
-       var item = this.item;
-       var target = this.el;
+		/*var text = this.item.get('content').split("<br>").join('\n');
+		text = text
+	   		.replace(/&amp;/g,"&")
+			.replace(/&quot;/g,"/")
+			.replace(/&#039;/g,"'")
+			.replace(/&lt;/g,"<")
+			.replace(/&gt;/g,">");
+		
+		var item = this.item;
+		var target = this.el;
       
-       focusedText = $( '<textarea style="text-align:center;" ></textarea>' )
-                .height( item.get('height') ).width ( item.get('width') )
-                .css({position: 'absolute', left:-5 ,top: -5})
-				.appendTo(this.el)
-                .focus().select()
-                .val(text);
+       		focusedText = $( '<textarea style="text-align:center;" ></textarea>' )
+                	.height( item.get('height') ).width ( item.get('width') )
+                	.css({position: 'absolute', left:-5 ,top: -5})
+			.appendTo(target)
+                	.focus().select()
+                	.val(text);
 
-      focusedText.blur(function() {
-                        var txt = $(this).val();
-                        $('.text',target).text(txt);
-                        txt = $('.text',target).html().split('\n').join('<br>') ;
-                        $('.text',target).html(txt);
-                        item.set('content' , txt);
-			item.save();
-                        $(this).remove();
-                 });        
-  },
+		focusedText.blur(
+			function() {
+                        	var txt = $(this).val();
+                        	$('.text',target).text(txt);
+                        	txt = $('.text',target).html().split('\n').join('<br>') ;
+                       	 	$('.text',target).html(txt);
+                        	item.set('content' , txt);
+				item.save();
+                        	$(this).remove();
+                 	});
+                 */
+                editableTextarea(this.el,this.saveText);         
+	},
+	saveText: function(txt){
+		this.item.set('content',txt);
+		this.item.save();
+	},
+
 });
 
 
