@@ -2,10 +2,6 @@
 entry_n = 0;
 
 $(function() {
-        tool = new SketchTool();
-	tool.appendTo('#novel_container');
-        tool.setDefaultParet();
-        tool.hide();
 /*	
 	$('#inputform').keypress(function (e) {
 		if(e.which == 13){

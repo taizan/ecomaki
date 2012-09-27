@@ -20,20 +20,18 @@ jQuery.fn.insertAt = function(index, element) {
 
           this.model.bind('change', this.render, this);
           this.model.bind('destroy', this.render, this);
-          //this.chapter = new ChapterView( { model: this.model.chapters.models[0]} );
 	  this.model.chapters.bind('add', this.addOne);
           this.model.chapters.bind('refresh', this.addAll);
 	  
           $('#title').dblclick( function(){ editableTextarea(this,_self.saveTitle);});
           $('#description').dblclick(function(){editableTextarea(this,_self.saveDescription);}); 
  
-          this.addAll();
           console.log(this.model.chapters.models);
       },
 
       addOne: function (item,t,options) {
           console.log(item);
-          console.log("add chapter");
+          console.log(options);
           view = new ChapterView({model: item});
           $(this.el).insertAt(options.index,view.render().el);
       },
