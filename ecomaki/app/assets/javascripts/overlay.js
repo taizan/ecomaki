@@ -18,7 +18,7 @@ SketchTool.prototype = {
         this.slider.slider();
 	this.exitButton = $(this.exitButtonBody);
 	this.clearButton = $(this.clearButtonBody);
-        this.colorPicker = new colorPicker(this.tool);
+        //this.colorPicker = new colorPicker(this.tool);
 	//this.colorPicker.hide();
 
         this.tool.draggable()
