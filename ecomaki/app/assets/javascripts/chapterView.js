@@ -12,18 +12,24 @@ ChapterView = Backbone.View.extend({
 			"onSortStart",
 			"onSortStop",
 			"saveTitle",
-			"saveDescription");
+			"saveDescription",
+                        "backgroundSelect");
         	this.model.bind("change", this.render);
         	this.model.entries.bind('add', this.addOne);
         	this.model.entries.bind('refresh', this.addAll);
         	this.model.entries.bind('change', this.onChange);
-	
-		$(this.header).appendTo(this.el);
+
+      		var template = _.template( $("#chapter_template").html(),this.model.attributes);
+		//console.log(template);
+		$(template).appendTo(this.el);
 		
 		var _self = this;
 		
 		$('.title',this.el).dblclick( function(){ editableTextarea(this,_self.saveTitle)});
 		$('.description',this.el).dblclick( function(){ editableTextarea(this,_self.saveDescription)});
+	        
+                $('.background_select',this.el).change( function(){ _self.backgroundSelect( $(this).val() );} );
+	        this.initBackgroundList();
 	},
 
     addOne: function (item,t,options) {
@@ -50,7 +56,7 @@ ChapterView = Backbone.View.extend({
 
     render: function(){
         console.log("chapter render");
-
+ 
 	$('.title .text',this.el).html(this.model.get('title'));
        	$('.description .text',this.el).html(this.model.get('description'));
 
@@ -59,6 +65,9 @@ ChapterView = Backbone.View.extend({
 		start: this.onSortStart,
 		stop: this.onSortStop
 	});
+       
+	$('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+
         return this;
     },
 
@@ -109,4 +118,23 @@ ChapterView = Backbone.View.extend({
           this.model.save();
       },
 
+      backgroundSelect: function(val){
+	  console.log('change bg');
+	  this.model.set('chapter_background_id',val);
+          this.model.save();
+          $('#background')[0].src = Config.prototype.background_idtourl(val);
+      },
+
+      initBackgroundList: function(){
+//	console.log('init list');
+          var x = 2;
+          for(var i=0; i < x; i++){
+	       var op = $('<option>').attr({ value: i }).text(i);
+	       $('.background_select',this.el).append(op);
+	       console.log(i);
+          }
+      },
+
 });
+
+
