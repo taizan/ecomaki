@@ -2,30 +2,15 @@
 entry_n = 0;
 
 $(function() {
-/*	
-	$('#inputform').keypress(function (e) {
-		if(e.which == 13){
+        tool = new SketchTool();
+        tool.appendTo('#novel_container');
+        tool.setDefaultParet();
+        tool.hide();
 
-		    //entry = new Entry();
-		    entry = new EntryHandle("normal","");
-                    entry.addWith($('#inputform').val(),
-	               {width: 200,height: 100,top: entry_height/2,left:entry_width/2, zIndex: 1},
-                       "/characters/image/0",
-	               {height: entry_height,top: 0,left:50, zIndex: 0});
-
-		    $('#inputform').val(""); 
-		}  
-	    });
-	$('#entrylist').sortable( ) .mousedown(function(){
-                focusedText.blur();
-
-        });//list > List?
-*/
-	$( "#chapterList" ).sortable();
+//	$( "#chapterList" ).sortable();
 
         novel = new Novel({ id:1});
 
-       // chapter = new ChapterView( { model: novel.chapters.models[0]} );
      	novelView = new NovelView({model: novel});
         $('#content').append(novelView.el);	
     
