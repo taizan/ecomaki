@@ -7,7 +7,7 @@
 #entrylist {
 	   position: relative;
 }
-  
+
 
 .entry {
   position: relative;
@@ -22,9 +22,10 @@
   width: 800px;
   height: 300px;
   border-radius: 2px;         /* CSS3 */
-   -moz-border-radius: 2px;    /* Firefox */
-   -webkit-border-radius: 2px; /* Safari,Chrome */
+  -moz-border-radius: 2px;    /* Firefox */
+  -webkit-border-radius: 2px; /* Safari,Chrome */
   border: 1px gray ridge;
+  overflow: hidden;
 }
 
 canvas {

@@ -21,7 +21,7 @@ EntryView = Backbone.View.extend({
     this.model.bind("change", this.render);
 
     var template = _.template( $("#entry_template").html(),this.model.attributes);
-    $(this.el).html( template);
+    $(this.el).html(template);
 
     // entry content of view
     this.content = $(this.el).find('.entry-content');
