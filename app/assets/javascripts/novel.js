@@ -33,34 +33,4 @@ $(function() {
     });
 
   $("#picker").hide();
-
-  /*
-   $("#comment")
-   .jStageAligner("RIGHT_MIDDLE", {time: 150})
-   .click(function(){
-   $(this).fadeTo("fast",1.0);
-   })
-   .blur(function() {
-   $(this).fadeTo("fast",0.5);
-   })
-   .keypress(function (e) {
-   if(e.which == 13){
-   text = $("#comment").val();
-   t = $("#comment").position().top;
-   l = $("#comment").position().left;
-
-   commented = $('<textarea readonly>'+text+'</textarea>');
-   commented
-   .appendTo($('#commentList'))
-   .css({position: "absolute",top: t, left: l})
-   .width($("#comment").width()).hide().css({'z-index':1})
-   .show("slow");
-
-   resizeTextarea(commented[0]);
-   commented.animate(commented.height(),"slow");
-
-   $("#comment").val("").css({'z-index':2});
-   }
-   });
-   */
 });
