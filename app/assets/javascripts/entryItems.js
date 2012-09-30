@@ -34,7 +34,7 @@ var EntryItem = function(item,view){
 
   this.initialize.apply(this,arguments);
 
-}
+};
 
 EntryItem.extend = function (protoProps, classProps) {
   var child = inherits(this, protoProps, classProps);
@@ -50,7 +50,7 @@ EntryItem.prototype = {
   tmpl: '',
 
   defaultInitialize: function(){
-    _.bindAll(this,"onChange","onResize","onDragg","appendTo","setButton","init");
+    _.bindAll(this,"onChange","onResize","onDragStart","onDragStop","appendTo","setButton","init");
     this.item.on('change',this.onChange);
     this.$el = $(this.tmpl);
     this.el = this.$el[0];
@@ -72,17 +72,21 @@ EntryItem.prototype = {
 
   init: function(){},
 
-
   onResize: function(){
     this.item.set('width',$(this.el).width());
     this.item.set('height' , $(this.el).height());
     this.item.save();
   },
 
-  onDragg: function(){
+  onDragStart: function(){
+    this.hideButton();
+  },
+
+  onDragStop: function(){
     this.item.set('top' , $(this.el).offset().top - $(this.content).offset().top );
     this.item.set('left' , $(this.el).offset().left - $(this.content).offset().left );
     this.item.save();
+    this.showButton();
   },
 
   setButton: function(target){
@@ -113,9 +117,21 @@ EntryItem.prototype = {
         item.destroy();
       }
     );
+  },
+
+  showButton: function() {
+    var parent = this.$el.parent();
+    parent.find('.item-remove').css({ display: 'block' });
+    parent.find('.ui-resizable-handle').css({ display: 'block'});
+  },
+
+  hideButton: function() {
+    var parent = this.$el.parent();
+    parent.find('.item-remove').css({ display: 'none' });
+    parent.find('.ui-resizable-handle').css({ display: 'none'});
   }
 
-}
+};
 
 
 
@@ -133,12 +149,13 @@ BaloonItem = EntryItem.extend({
     //console.log(this.el);
     $(this.el).draggable({
       containment: "parent",
-      stop: this.onDragg
+      start: this.onDragStart,
+      stop: this.onDragStop
     });
 
     $(this.el).resizable({
       containment: "parent",
-      stop: this.onResize,
+      stop: this.onResize
     });
 
     $(this.el).dblclick(this.editText);
@@ -202,8 +219,8 @@ ImageItem = EntryItem.extend({
     });
 
     $(this.el).parent().draggable({
-      containment: "parent",
-      stop: this.onDragg
+      start: this.onDragStart,
+      stop: this.onDragStop
     });
 
 
