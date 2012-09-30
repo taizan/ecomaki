@@ -1,6 +1,3 @@
-
-entry_n = 0;
-
 $(function() {
   tool = new SketchTool();
   tool.appendTo('#novel_container');
