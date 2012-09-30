@@ -13,10 +13,11 @@ window.musicPlayer = {
         self.$audio.prop('loop', true);
         self.$audio.prop('controls', false);
         $(document.body).append(self.$audio);
-        self.attr('src', url);
+        self.$audio.attr('src', url);
     },
     stop: function() {
         var self = this;
+        console.log('stop music');
         if (self.$audio) {
             self.$audio.remove();
         }

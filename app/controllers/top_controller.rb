@@ -1,5 +1,5 @@
 class TopController < ApplicationController
   def index
-    render
+    @novels = Novel.all
   end
 end

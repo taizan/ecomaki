@@ -1,3 +1,15 @@
+<div class="well">
+  <%= form_tag :controller => :novel, :action => :create do %>
+    <%= submit_tag "create a new novel", :class => "btn" %>
+  <% end %>
+</div>
 
-<h1>taizan.ecomaki.com/novel/1</h1>
-
+<div class="well">
+  <ul>
+    <% @novels.each do |novel| %>
+      <li>
+        <%= link_to "##{novel.id}", :controller => :novel, :action => :show, :id => novel.id %>
+      </li>
+    <% end %>
+  </ul>
+</div>

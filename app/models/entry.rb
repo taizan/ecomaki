@@ -9,34 +9,24 @@ class Entry < ActiveRecord::Base
   after_save :save_canvas
 
   def save_canvas
-    File.open(canvas_filename, 'wb') do |file|
+    File.open(data, 'wb') do |file|
       file.write(@canvas)
     end
   end
 
   def canvas
-    content = nil
-
-    begin
-      File.open(canvas_filename, 'rb') do |file|
-        content = file.read
-      end
-    rescue
-      # do nothing.
-    end
-
-    return content
+    data.binread rescue nil
   end
 
-  def as_json(options = nil)
-    options ||= {}
-    options[:methods] = ((options[:methods] || []) + [:canvas])
-    super options
+  def as_json(options = {})
+    options[:methods] ||= []
+    options[:methods] << :canvas
+    super
   end
 
   private
 
-  def canvas_filename
-    return RAILS_ROOT + "/data/images/entry_canvas/#{id}"
+  def data
+    Rails.root.join("data/images/entry_canvas/#{id}")
   end
 end
