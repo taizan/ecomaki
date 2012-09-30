@@ -20,7 +20,7 @@ class CharactersController < ApplicationController
 
     id = character.id
 
-    File.open(RAILS_ROOT + '/data/images/characters/%d' % id, 'wb') do |file|
+    File.open(Rails.root.join('app/assets/images/characters/%d' % id), 'rb') do |file|
       file.write(image.read)
     end
 
@@ -33,7 +33,7 @@ class CharactersController < ApplicationController
     character = Character.find(id)
     filetype = character.content_type
     
-    File.open(RAILS_ROOT + '/data/images/characters/%d' % id, 'rb') do |file|
+    File.open(Rails.root.join('app/assets/images/characters/%d' % id), 'rb') do |file|
       send_data(file.read, :disposition => "inline", :type => filetype)
     end
   end
