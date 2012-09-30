@@ -13,7 +13,8 @@ ChapterView = Backbone.View.extend({
               "onSortStop",
               "saveTitle",
               "saveDescription",
-              "backgroundSelect");
+              "backgroundSelect",
+              "bgmSelect");
     this.model.bind("change", this.render);
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
@@ -71,7 +72,7 @@ ChapterView = Backbone.View.extend({
     $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
 
     this.playMusicById(this.model.get('chapter_sound_id'));
-    $('#background')[0].src = Config.prototype.background_idtourl();
+    $('.bgm_select',this.el).find('option[value=' + this.model.get('chapter_sound_id') + ']').prop('selected', true);
 
     return this;
   },
