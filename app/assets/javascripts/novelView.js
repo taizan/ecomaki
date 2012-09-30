@@ -66,23 +66,23 @@ var NovelView = Backbone.View.extend({
     this.model.save();
   },
   onScroll: function(){
-    var window_height = getScreenSize().y;
+    var window_height = Config.prototype.getScreenSize().y;
     var height = document.documentElement.scrollHeight || document.body.scrollHeight;
     var scroll = document.documentElement.scrollTop || document.body.scrollTop;
     var offset = 100;
-    console.log(scroll);
-    console.log( window_height );
-    console.log( height);
+    //console.log(scroll + window_height + offset -  height);
     if(height < window_height + scroll + offset){
       var i =this.lastChapter++;
       if(i < this.chapterViews.length ){
         this.chapterViews[i].onLoad();
       }
-      for(var j = 0;j<this.chapterViews.length;j++){
-        if(scroll > $(this.chapterViews[j].el).offset().top ){
-          this.chapterViews[j].backgroundLoad();  
-        }
-      }
+    }
+    for(var j = 0;j<this.chapterViews.length;j++){
+      console.log(scroll - $(this.chapterViews[j].el).offset().top );
+      if(scroll > $(this.chapterViews[j].el).offset().top ){
+        this.chapterViews[j].backgroundLoad();  
+        console.log('loadbg');
+      } 
     }
   },
 });
