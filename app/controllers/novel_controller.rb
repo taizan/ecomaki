@@ -1,39 +1,40 @@
 class NovelController < ApplicationController
+  before_filter :require_novel, :only => %w[show update]
+
   def show
-    novel = Novel.includes(:author).find(params[:id])
-    respond_to {|format|
-      format.html { }
-      format.xml { render :xml => novel.to_xml(:include => [:author, :chapter => {:include => 
-              [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
-            }]) }
-      format.json { render :json => novel.to_json(:include => [:author, :chapter => {:include =>
-              [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
-            }]) }
+    hash = {
+      :include => [
+        :author,
+        :chapter => {
+          :include => [
+            :entry => {
+              :include => [
+                :entry_balloon,
+                :entry_character,
+              ],
+              :methods => :canvas,
+            },
+          ],
+        },
+      ],
     }
-  end
-
-  def update
-    novel = Novel.find(params[:id])
-
-    novel.update_attributes!(params[:novel])
-
     respond_to do |format|
-      format.json { render :json => novel }
+      format.html { }
+      format.json { render :json => @novel.to_json(hash) }
+      format.xml { render :xml => @novel.to_xml(hash) }
     end
   end
 
-  def update_entry
-  end
-  
-  def create_entry
-  end
-
-  def create_chapter
+  def update
+    @novel.update_attributes!(params[:novel])
+    respond_to do |format|
+      format.json { render :json => @novel }
+    end
   end
 
-  def update_chapter
-  end
+  private
 
-  def create
+  def require_novel
+    @novel = Novel.find(params[:id]) or redirect_to root_path
   end
 end
