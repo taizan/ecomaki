@@ -15,7 +15,7 @@ ChapterView = Backbone.View.extend({
               "saveTitle",
               "saveDescription",
               "backgroundLoad",
-              "backgroundSelect");
+              "backgroundSelect",
               "bgmSelect");
     this.model.bind("change", this.render);
     this.model.entries.bind('add', this.addOne);
