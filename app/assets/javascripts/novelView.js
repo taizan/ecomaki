@@ -77,12 +77,16 @@ var NovelView = Backbone.View.extend({
         this.chapterViews[i].onLoad();
       }
     }
+    var currentChapter = 0;
     for(var j = 0;j<this.chapterViews.length;j++){
-      console.log(scroll - $(this.chapterViews[j].el).offset().top );
+      //console.log($(this.chapterViews[j].el).offset().top - scroll);
       if(scroll > $(this.chapterViews[j].el).offset().top ){
-        this.chapterViews[j].backgroundLoad();  
-        console.log('loadbg');
+        //this.chapterViews[j].backgroundLoad();  
+        currentChapter = j;
+        //console.log(j);
       } 
     }
+    //console.log(currentChapter);
+    this.chapterViews[currentChapter].backgroundLoad();  
   },
 });
