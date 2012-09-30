@@ -9,12 +9,12 @@ ChapterView = Backbone.View.extend({
               "addAll",
               "addOne",
               "onLoad",
+              "displayed",
               "onChange",
               "onSortStart",
               "onSortStop",
               "saveTitle",
               "saveDescription",
-              "backgroundLoad",
               "backgroundSelect",
               "bgmSelect");
     this.model.bind("change", this.render);
@@ -42,6 +42,12 @@ ChapterView = Backbone.View.extend({
 
     this.render();
   },
+
+  displayed: function(){
+    $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+    this.playMusicById(this.model.get('chapter_music_id')); 
+  },
+
   addOne: function (item,t,options) {
     //console.log(item);
     var view = new EntryView({model: item , parentView: this});
@@ -78,11 +84,11 @@ ChapterView = Backbone.View.extend({
       });
 
       $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
-
-    this.playMusicById(this.model.get('chapter_sound_id'));
-    $('.bgm_select',this.el).find('option[value=' + this.model.get('chapter_sound_id') + ']').prop('selected', true);
+      $('.background_select',this.el).find('option[value=' + this.model.get('chapter_background_id') + ']').prop('selected', true);
 
       this.playMusicById(this.model.get('chapter_sound_id'));
+      $('.bgm_select',this.el).find('option[value=' + this.model.get('chapter_sound_id') + ']').prop('selected', true);
+
     }
     return this;
   },
@@ -133,9 +139,7 @@ ChapterView = Backbone.View.extend({
     this.model.set('description',txt);
     this.model.save();
   },
-  backgroundLoad: function(){
-    $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
-  },
+
   backgroundSelect: function(val){
     console.log('change bg');
     this.model.set('chapter_background_id',val);
