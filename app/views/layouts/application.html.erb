@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<Html>
-  <meta charset="UTF-8">
-  <title>Ecomaki</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</Head>
-<Body>
-<img id="background" class="background"/>
-
-<div id="fb-root"></div>
-  <%= yield %>
-</body>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Ecomaki</title>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <img id="background" class="background" />
+    <%= yield %>
+  </body>
 </html>
