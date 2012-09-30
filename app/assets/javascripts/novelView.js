@@ -87,6 +87,7 @@ var NovelView = Backbone.View.extend({
       } 
     }
     //console.log(currentChapter);
-    this.chapterViews[currentChapter].backgroundLoad();  
+    this.chapterViews[currentChapter].displayed();  
+
   },
 });
