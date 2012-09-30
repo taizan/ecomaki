@@ -32,10 +32,13 @@
   <div class="description">
     <p class="text">des</p>
   </div>
-  background <select class="background_select"></select>
+  background
+  <select class="background_select"></select>
+  bgm
   <select class="bgm_select">
-    {% ['dream', 'flower', 'orange'].forEach(function(name) { %}
-      <option name="bgm" value="{{ name }}">{{ name }}</option>
+    <option name="bgm" value="">なし</option>
+    {% ['dream', 'flower', 'orange'].forEach(function(name, i) { %}
+    <option name="bgm" value="{{ i + 1 }}">{{ name }}</option>
     {% }); %}
   </select>
 

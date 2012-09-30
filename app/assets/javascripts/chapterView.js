@@ -1,24 +1,30 @@
 ChapterView = Backbone.View.extend({
   //el : '#content',
   className : 'chapter' ,
-  header : '<br><br><div class="title"><h2 class="text">chapter title</h2></div><div class="description"><p class="text">des</p></div><div class="entryList">',
+  isLoaded: false,
   initialize: function(options){
     _.bindAll(this,
               "render",
               "addEntry",
               "addAll",
               "addOne",
+              "onLoad",
+              "displayed",
               "onChange",
               "onSortStart",
               "onSortStop",
               "saveTitle",
               "saveDescription",
-              "backgroundSelect");
+              "backgroundSelect",
+              "bgmSelect");
     this.model.bind("change", this.render);
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
     this.model.entries.bind('change', this.onChange);
 
+  },
+  onLoad: function(){
+    this.isLoaded = true;
     var template = _.template( $("#chapter_template").html(),this.model.attributes);
     //console.log(template);
     $(template).appendTo(this.el);
@@ -29,7 +35,17 @@ ChapterView = Backbone.View.extend({
     $('.description',this.el).dblclick( function(){ editableTextarea(this,_self.saveDescription); });
 
     $('.background_select',this.el).change( function(){ _self.backgroundSelect( $(this).val() );} );
+
     this.initBackgroundList();
+
+    $('.bgm_select',this.el).change( function(){ _self.bgmSelect( $(this).val() );} );
+
+    this.render();
+  },
+
+  displayed: function(){
+    $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+    this.playMusicById(this.model.get('chapter_music_id')); 
   },
 
   addOne: function (item,t,options) {
@@ -55,22 +71,25 @@ ChapterView = Backbone.View.extend({
   },
 
   render: function(){
-    console.log("chapter render");
+    if(this.isLoaded){
+      console.log("chapter render");
 
-    $('.title .text',this.el).html(this.model.get('title'));
-    $('.description .text',this.el).html(this.model.get('description'));
+      $('.title .text',this.el).html(this.model.get('title'));
+      $('.description .text',this.el).html(this.model.get('description'));
 
-    this.addAll();
-    $('.entryList',this.el).sortable({
-      start: this.onSortStart,
-      stop: this.onSortStop
-    });
+      this.addAll();
+      $('.entryList',this.el).sortable({
+        start: this.onSortStart,
+        stop: this.onSortStop
+      });
 
-    $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+      $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+      $('.background_select',this.el).find('option[value=' + this.model.get('chapter_background_id') + ']').prop('selected', true);
 
-    this.playMusicById(this.model.get('chapter_sound_id'));
-    $('#background')[0].src = Config.prototype.background_idtourl();
+      $('.bgm_select',this.el).find('option[value=' + this.model.get('chapter_sound_id') + ']').prop('selected', true);
 
+      this.playMusicById(this.model.get('chapter_sound_id'));
+    }
     return this;
   },
 
@@ -138,9 +157,15 @@ ChapterView = Backbone.View.extend({
     }
   },
 
+  bgmSelect: function(bgm_id){
+    this.model.set('chapter_sound_id',bgm_id);
+    this.model.save();
+    this.playMusicById(bgm_id);
+  },
+
   playMusicById: function(music_id) {
-      if (music_id !== null) {
-          window.musicPlayer.play(Config.prototype.music_id_to_url(music_id));
+      if (+music_id > 0) {
+          window.musicPlayer.playURL(Config.prototype.music_id_to_url(music_id));
       } else {
           window.musicPlayer.stop();
       }
