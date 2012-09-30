@@ -9,7 +9,7 @@ class Entry < ActiveRecord::Base
   after_save :save_canvas
 
   def save_canvas
-    File.open(canvas_filename, 'wb') do |file|
+    File.open(data, 'wb') do |file|
       file.write(@canvas)
     end
   end
