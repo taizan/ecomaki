@@ -32,6 +32,11 @@ class NovelController < ApplicationController
     end
   end
 
+  def create
+    @novel = Novel.create(params[:novel])
+    redirect_to :action => :show, :id => @novel.id
+  end
+
   private
 
   def require_novel
