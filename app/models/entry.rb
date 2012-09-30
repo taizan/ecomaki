@@ -18,10 +18,10 @@ class Entry < ActiveRecord::Base
     data.binread rescue nil
   end
 
-  def as_json(options = nil)
-    options ||= {}
-    options[:methods] = ((options[:methods] || []) + [:canvas])
-    super options
+  def as_json(options = {})
+    options[:methods] ||= []
+    options[:methods] << :canvas
+    super
   end
 
   private
