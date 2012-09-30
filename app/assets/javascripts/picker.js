@@ -2,78 +2,78 @@
 
 
 function Picker( callbackFunc ){
-   this.callback = callbackFunc;
-   this.initialize.apply(this, arguments);   
+  this.callback = callbackFunc;
+  this.initialize.apply(this, arguments);
 }
 
-Picker.prototype = { 
- initialize: function(){
-       _.bindAll(this, "parseCharacterXml","setItem");
-       console.log(this.target);
- },
+Picker.prototype = {
+  initialize: function(){
+    _.bindAll(this, "parseCharacterXml","setItem");
+    console.log(this.target);
+  },
 
- loadXml: function(url,func){
+  loadXml: function(url,func){
     //alert("load");
     $.ajax({
-        url:url,
-        type:'get',
-        dataType:'xml',
-        timeout:1000,
-        success:func
+      url:url,
+      type:'get',
+      dataType:'xml',
+      timeout:1000,
+      success:func
     });
- },
+  },
 
 
- parseCharacterXml: function(xml,status){
+  parseCharacterXml: function(xml,status){
     //alert('parse');
     if(status!='success')return;
     console.log(this.disp_picker);
     var _self = this;
 
     $(xml).find('character').each(
-       function(){
-          var id = $(this).find('id').text();
-          var name = $(this).find('name').text();
-          var height = $(this).find('height').text();
-          _self.setItem(id);
-       }
-     );
- },
+      function(){
+        var id = $(this).find('id').text();
+        var name = $(this).find('name').text();
+        var height = $(this).find('height').text();
+        _self.setItem(id);
+      }
+    );
+  },
 
- disp_picker: function(){
+  disp_picker: function(){
     // alert();
     var id = $(this).find('id').text();
     var name = $(this).find('name').text();
     var height = $(this).find('height').text();
     this.setItem(id);
- },
+  },
 
- setItem: function(id){
+  setItem: function(id){
     var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/characters/image/' + id + '"></li>');
     //  add item to pickerList
     item.appendTo($('#pickerList'));
-    
+
     var img = new Image();
     img.src = '/characters/image/'+id;
-    
+
     var callback = this.callback;
-    var finish = this.finish; 
+    var finish = this.finish;
 
     console.log(callback);
-    
-    
+
+
     item.click(function(){
-       callback(img);
-       finish();
-       /*
+      callback(img);
+      finish();
+      /*
        target.src = img.src;
        if(content.height() < img.height){
-          img.width = img.width * content.height() / img.height;
-          img.height=content.height(); //this must do after upper line
+       img.width = img.width * content.height() / img.height;
+       img.height=content.height(); //this must do after upper line
        }
-       if(content.width() < img.width){ 
-           img.height = img.height * content.width() / img.width;
-           img.width=content.width();
+       if(content.width() < img.width){
+       img.height = img.height * content.width() / img.width;
+       img.width=content.width();
        }
 
        $(target).width(img.width).height(img.height);
@@ -83,37 +83,35 @@ Picker.prototype = {
        console.log(img.height + "," + img.width );
        console.log(target.height + "," + target.width );
        $('#picker').find($('img')).remove();
-       $('#picker').hide('fast') 
+       $('#picker').hide('fast')
        */
     });
-},
+  },
 
- pickImage: function(ev){
-  //selectedImage = ev.target; 
-  this.loadXml("/characters.xml" , this.parseCharacterXml );
-  $('#picker').show('fast');
-  $("#pickerCancelBtn").click(this.finish)
+  pickImage: function(ev){
+    //selectedImage = ev.target;
+    this.loadXml("/characters.xml" , this.parseCharacterXml );
+    $('#picker').show('fast');
+    $("#pickerCancelBtn").click(this.finish);
 
- },
- 
- finish: function(){
-     $('#picker').find($('img')).remove();
-     $('#picker').hide();
- },
+  },
 
-}
+  finish: function(){
+    $('#picker').find($('img')).remove();
+    $('#picker').hide();
+  }
+
+};
 
 // character upload
 $(function () {
-    $('#character_upload').fileupload({
-         dataType: 'json',
-         done: function(e, data) {
-         alert('done');
-     },
+  $('#character_upload').fileupload({
+    dataType: 'json',
+    done: function(e, data) {
+      alert('done');
+    },
     fail: function(e, data) {
-         alert(data)
+      alert(data);
     }
-    });
- });
-
-
+  });
+});

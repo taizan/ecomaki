@@ -1,61 +1,60 @@
 
 jQuery.fn.insertAt = function(index, element) {
-  var lastIndex = this.children().size()
+  var lastIndex = this.children().size();
   if (index < 0) {
-    index = Math.max(0, lastIndex + 1 + index)
+    index = Math.max(0, lastIndex + 1 + index);
   }
-  this.append(element)
+  this.append(element);
   if (index < lastIndex) {
-    this.children().eq(index).before(this.children().last())
+    this.children().eq(index).before(this.children().last());
   }
   return this;
-}
+};
 
-  var NovelView = Backbone.View.extend({
-      className: 'novel',
-      initialize: function() {
-          _.bindAll(this, "render","addOne","addAll","saveTitle","saveDescription");
+var NovelView = Backbone.View.extend({
+  className: 'novel',
+  initialize: function() {
+    _.bindAll(this, "render","addOne","addAll","saveTitle","saveDescription");
 
-	  var _self = this;
+    var _self = this;
 
-          this.model.bind('change', this.render, this);
-          this.model.bind('destroy', this.render, this);
-	  this.model.chapters.bind('add', this.addOne);
-          this.model.chapters.bind('refresh', this.addAll);
-	  
-          $('#title').dblclick( function(){ editableTextarea(this,_self.saveTitle);});
-          $('#description').dblclick(function(){editableTextarea(this,_self.saveDescription);}); 
- 
-          console.log(this.model.chapters.models);
-      },
+    this.model.bind('change', this.render, this);
+    this.model.bind('destroy', this.render, this);
+    this.model.chapters.bind('add', this.addOne);
+    this.model.chapters.bind('refresh', this.addAll);
 
-      addOne: function (item,t,options) {
-          console.log(item);
-          console.log(options);
-          view = new ChapterView({model: item});
-          $(this.el).insertAt(options.index,view.render().el);
-      },
+    $('#title').dblclick( function(){ editableTextarea(this,_self.saveTitle);});
+    $('#description').dblclick(function(){editableTextarea(this,_self.saveDescription);});
 
-      addAll: function () {
-          $(this.el).empty();
-          _(this.model.chapters.models).each(this.addOne);
-      },
+    console.log(this.model.chapters.models);
+  },
 
-      render: function() {
-          $('#title .text').html(this.model.get('title'));
-          $('#description .text').html(this.model.get('description'));
-          this.addAll();
-      },
+  addOne: function (item,t,options) {
+    console.log(item);
+    console.log(options);
+    view = new ChapterView({model: item});
+    $(this.el).insertAt(options.index,view.render().el);
+  },
 
-      saveTitle: function(txt){
-          this.model.set('title',txt);
-	  this.model.save();
-      },
+  addAll: function () {
+    $(this.el).empty();
+    _(this.model.chapters.models).each(this.addOne);
+  },
 
-      saveDescription: function(txt){
-          this.model.set('description',txt);
-          this.model.save();
-      },
+  render: function() {
+    $('#title .text').html(this.model.get('title'));
+    $('#description .text').html(this.model.get('description'));
+    this.addAll();
+  },
 
-  });
+  saveTitle: function(txt){
+    this.model.set('title',txt);
+    this.model.save();
+  },
 
+  saveDescription: function(txt){
+    this.model.set('description',txt);
+    this.model.save();
+  },
+
+});
