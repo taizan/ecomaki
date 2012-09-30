@@ -2,6 +2,7 @@
   isIE = (navigator.appName.toLowerCase().indexOf('internet explorer')+1?1:0);
   isOpera = (navigator.userAgent.toLowerCase().indexOf('opera')+1?1:0);
   if (isOpera) isIE = false;
+  isSafari = (navigator.appVersion.toLowerCase().indexOf('safari')+1?1:0);
 
 function Config()
 {
