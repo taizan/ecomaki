@@ -1,24 +1,29 @@
 ChapterView = Backbone.View.extend({
   //el : '#content',
   className : 'chapter' ,
-  header : '<br><br><div class="title"><h2 class="text">chapter title</h2></div><div class="description"><p class="text">des</p></div><div class="entryList">',
+  isLoaded: false,
   initialize: function(options){
     _.bindAll(this,
               "render",
               "addEntry",
               "addAll",
               "addOne",
+              "onLoad",
               "onChange",
               "onSortStart",
               "onSortStop",
               "saveTitle",
               "saveDescription",
+              "backgroundLoad",
               "backgroundSelect");
     this.model.bind("change", this.render);
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
     this.model.entries.bind('change', this.onChange);
 
+  },
+  onLoad: function(){
+    this.isLoaded = true;
     var template = _.template( $("#chapter_template").html(),this.model.attributes);
     //console.log(template);
     $(template).appendTo(this.el);
@@ -29,9 +34,11 @@ ChapterView = Backbone.View.extend({
     $('.description',this.el).dblclick( function(){ editableTextarea(this,_self.saveDescription); });
 
     $('.background_select',this.el).change( function(){ _self.backgroundSelect( $(this).val() );} );
-    this.initBackgroundList();
-  },
 
+    this.initBackgroundList();
+
+    this.render();
+  },
   addOne: function (item,t,options) {
     //console.log(item);
     var view = new EntryView({model: item , parentView: this});
@@ -55,22 +62,23 @@ ChapterView = Backbone.View.extend({
   },
 
   render: function(){
-    console.log("chapter render");
+    if(this.isLoaded){
+      console.log("chapter render");
 
-    $('.title .text',this.el).html(this.model.get('title'));
-    $('.description .text',this.el).html(this.model.get('description'));
+      $('.title .text',this.el).html(this.model.get('title'));
+      $('.description .text',this.el).html(this.model.get('description'));
 
-    this.addAll();
-    $('.entryList',this.el).sortable({
-      start: this.onSortStart,
-      stop: this.onSortStop
-    });
+      this.addAll();
+      $('.entryList',this.el).sortable({
+        start: this.onSortStart,
+        stop: this.onSortStop
+      });
 
-    $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+      $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
 
-    this.playMusicById(this.model.get('chapter_sound_id'));
-    $('#background')[0].src = Config.prototype.background_idtourl();
-
+      this.playMusicById(this.model.get('chapter_sound_id'));
+      $('#background')[0].src = Config.prototype.background_idtourl();
+    }
     return this;
   },
 
@@ -120,7 +128,9 @@ ChapterView = Backbone.View.extend({
     this.model.set('description',txt);
     this.model.save();
   },
-
+  backgroundLoad: function(){
+    $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+  },
   backgroundSelect: function(val){
     console.log('change bg');
     this.model.set('chapter_background_id',val);
