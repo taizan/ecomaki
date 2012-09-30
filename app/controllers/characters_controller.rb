@@ -1,4 +1,3 @@
-
 class CharactersController < ApplicationController
   def index
     characters = Character.all
@@ -32,10 +31,9 @@ class CharactersController < ApplicationController
 
     character = Character.find(id)
     filetype = character.content_type
-    
+
     File.open(Rails.root.join('app/assets/images/characters/%d' % id), 'rb') do |file|
       send_data(file.read, :disposition => "inline", :type => filetype)
     end
   end
-
 end
