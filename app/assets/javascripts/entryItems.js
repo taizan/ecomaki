@@ -213,7 +213,7 @@ ImageItem = EntryItem.extend({
   init: function(){
 
     $(this.el).resizable({
-      containment: "parent parent" ,
+  //    containment: "parent parent" ,
       aspectRatio: true,
       stop: this.onResize
     });
