@@ -13,8 +13,10 @@ jQuery.fn.insertAt = function(index, element) {
 
 var NovelView = Backbone.View.extend({
   className: 'novel',
+  lastChapter: 0,
+  chapterViews: [],
   initialize: function() {
-    _.bindAll(this, "render","addOne","addAll","saveTitle","saveDescription");
+    _.bindAll(this, "render","addOne","addAll","saveTitle","saveDescription","onScroll");
 
     var _self = this;
 
@@ -25,7 +27,8 @@ var NovelView = Backbone.View.extend({
 
     $('#title').dblclick( function(){ editableTextarea(this,_self.saveTitle);});
     $('#description').dblclick(function(){editableTextarea(this,_self.saveDescription);});
-
+    
+    $(window).scroll(this.onScroll);
     console.log(this.model.chapters.models);
   },
 
@@ -33,7 +36,13 @@ var NovelView = Backbone.View.extend({
     console.log(item);
     console.log(options);
     view = new ChapterView({model: item});
+    this.chapterViews.push(view);
     $(this.el).insertAt(options.index,view.render().el);
+
+    if(this.chapterViews.length == 1) {
+      view.onLoad();
+      this.lastChapter =1;
+    }
   },
 
   addAll: function () {
@@ -56,5 +65,24 @@ var NovelView = Backbone.View.extend({
     this.model.set('description',txt);
     this.model.save();
   },
-
+  onScroll: function(){
+    var window_height = getScreenSize().y;
+    var height = document.documentElement.scrollHeight || document.body.scrollHeight;
+    var scroll = document.documentElement.scrollTop || document.body.scrollTop;
+    var offset = 100;
+    console.log(scroll);
+    console.log( window_height );
+    console.log( height);
+    if(height < window_height + scroll + offset){
+      var i =this.lastChapter++;
+      if(i < this.chapterViews.length ){
+        this.chapterViews[i].onLoad();
+      }
+      for(var j = 0;j<this.chapterViews.length;j++){
+        if(scroll > $(this.chapterViews[j].el).offset().top ){
+          this.chapterViews[j].backgroundLoad();  
+        }
+      }
+    }
+  },
 });

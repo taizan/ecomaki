@@ -1,4 +1,4 @@
-# Ecomaki
+
 Open source web comic builder
 
 ## Install
