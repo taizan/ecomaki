@@ -32,6 +32,7 @@ Ecomaki::Application.routes.draw do
   # Novels
   match 'novel/:id' => 'novel#update', :via => :put
   match 'novel/:id' => 'novel#show', :via => :get
+  match 'novel/create' => 'novel#create', :via => :post
 
   # Characters
   match 'characters' => 'characters#index', :via => :get
