@@ -30,6 +30,8 @@ ChapterView = Backbone.View.extend({
 
     $('.background_select',this.el).change( function(){ _self.backgroundSelect( $(this).val() );} );
     this.initBackgroundList();
+
+    $('.bgm_select',this.el).change( function(){ _self.bgmSelect( $(this).val() );} );
   },
 
   addOne: function (item,t,options) {
@@ -138,9 +140,15 @@ ChapterView = Backbone.View.extend({
     }
   },
 
+  bgmSelect: function(bgm_id){
+    this.model.set('chapter_sound_id',bgm_id);
+    this.model.save();
+    this.playMusicById(bgm_id);
+  },
+
   playMusicById: function(music_id) {
-      if (music_id !== null) {
-          window.musicPlayer.play(Config.prototype.music_id_to_url(music_id));
+      if (+music_id > 0) {
+          window.musicPlayer.playURL(Config.prototype.music_id_to_url(music_id));
       } else {
           window.musicPlayer.stop();
       }
