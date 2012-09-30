@@ -37,6 +37,6 @@ class Entry < ActiveRecord::Base
   private
 
   def canvas_filename
-    return RAILS_ROOT + "/data/images/entry_canvas/#{id}"
+    Rails.root.join("data/images/entry_canvas/#{id}")
   end
 end
