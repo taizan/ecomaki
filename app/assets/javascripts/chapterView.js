@@ -86,9 +86,9 @@ ChapterView = Backbone.View.extend({
       $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
       $('.background_select',this.el).find('option[value=' + this.model.get('chapter_background_id') + ']').prop('selected', true);
 
-      this.playMusicById(this.model.get('chapter_sound_id'));
       $('.bgm_select',this.el).find('option[value=' + this.model.get('chapter_sound_id') + ']').prop('selected', true);
 
+      this.playMusicById(this.model.get('chapter_sound_id'));
     }
     return this;
   },
