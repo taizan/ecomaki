@@ -1,6 +1,9 @@
 // change deletemeter from <%= %> to {{ }}
 $(function(){
-  _.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
+  _.templateSettings = {
+      interpolate : /\{\{(.+?)\}\}/g,
+      evaluate : /\{%(.+?)%\}/g,
+  };
 });
 
 EntryView = Backbone.View.extend({
