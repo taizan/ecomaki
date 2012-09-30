@@ -33,7 +33,12 @@
     <p class="text">des</p>
   </div>
   background <select class="background_select"></select>
-  bgm <select class="bgm_select"></select>
+  <select class="bgm_select">
+    {% ['dream', 'flower', 'orange'].forEach(function(name) { %}
+      <option name="bgm" value="{{ name }}">{{ name }}</option>
+    {% }); %}
+  </select>
+
   <div class="entryList">',
 </script>
 
