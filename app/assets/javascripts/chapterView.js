@@ -68,6 +68,9 @@ ChapterView = Backbone.View.extend({
 
     $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
 
+    this.playMusicById(this.model.get('chapter_sound_id'));
+    $('#background')[0].src = Config.prototype.background_idtourl();
+
     return this;
   },
 
@@ -133,5 +136,13 @@ ChapterView = Backbone.View.extend({
       $('.background_select',this.el).append(op);
       console.log(i);
     }
+  },
+
+  playMusicById: function(music_id) {
+      if (music_id !== null) {
+          window.musicPlayer.play(Config.prototype.music_id_to_url(music_id));
+      } else {
+          window.musicPlayer.stop();
+      }
   }
 });
