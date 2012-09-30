@@ -17,6 +17,7 @@ window.musicPlayer = {
     },
     stop: function() {
         var self = this;
+        console.log('stop music');
         if (self.$audio) {
             self.$audio.remove();
         }
