@@ -15,17 +15,7 @@ class Entry < ActiveRecord::Base
   end
 
   def canvas
-    content = nil
-
-    begin
-      File.open(canvas_filename, 'rb') do |file|
-        content = file.read
-      end
-    rescue
-      # do nothing.
-    end
-
-    return content
+    data.binread rescue nil
   end
 
   def as_json(options = nil)
@@ -36,7 +26,7 @@ class Entry < ActiveRecord::Base
 
   private
 
-  def canvas_filename
+  def data
     Rails.root.join("data/images/entry_canvas/#{id}")
   end
 end
