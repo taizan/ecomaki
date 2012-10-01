@@ -35,8 +35,7 @@ ChapterView = Backbone.View.extend({
     $('.title',this.el).dblclick( function(){ editableTextarea(this,_self.saveTitle); });
     $('.description',this.el).dblclick( function(){ editableTextarea(this,_self.saveDescription); });
     
-    //comment out because background is not change allways onloaded
-    //$('.background_select',this.el).change( function(){ _self.backgroundSelect( $(this).val() );} );
+    $('.background_select',this.el).change( function(){ _self.backgroundSelect( $(this).val() );} );
 
     this.initBackgroundList();
 
