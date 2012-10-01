@@ -43,14 +43,18 @@ ChapterView = Backbone.View.extend({
     $('.bgm_select',this.el).change( function(){ _self.bgmSelect( $(this).val() );} );
 
     this.render();
+    return this;
   },
 
   displayed: function(isDisplayed){
+    console.log(isDisplayed);
+    console.log(this);
     this.isDisplayed = isDisplayed;
     if(isDisplayed){
       $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
       this.playMusicById(this.model.get('chapter_music_id')); 
     }
+    return this;
   },
 
   addOne: function (item,t,options) {
