@@ -83,10 +83,10 @@ var NovelView = Backbone.View.extend({
       if(scroll > $(this.chapterViews[j].el).offset().top ){
         //this.chapterViews[j].backgroundLoad();  
         currentChapter = j;
-        //console.log(j);
       } 
     }
-    if (this.lastCurrentChapter !== currentChapter) {
+    console.log(currentChapter);
+    if (this.lastCurrentChapter != currentChapter) {
         this.chapterViews[currentChapter].displayed();
         this.lastCurrentChapter = currentChapter;
     }
