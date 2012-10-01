@@ -68,33 +68,37 @@ var NovelView = Backbone.View.extend({
     this.model.set('description',txt);
     this.model.save();
   },
+
   onScroll: function(){
     var window_height = Config.prototype.getScreenSize().y;
     var height = document.documentElement.scrollHeight || document.body.scrollHeight;
     var scroll = document.documentElement.scrollTop || document.body.scrollTop;
     var offset = 100;
     //console.log(scroll + window_height + offset -  height);
+    // load chapter if scroll to end 
+    // too short chapter canbe bug reason
     if(height < window_height + scroll + offset){
       var i =this.lastChapter++;
       if(i < this.chapterViews.length ){
         this.chapterViews[i].onLoad();
-        return true;
+        return this;
       }
     }
+    // detect currentchapter and isdisplayed
+    // this should be in chapter view?
+    /*
     var currentChapter = 0;
     for(var j = 0;j<this.chapterViews.length;j++){
-      //console.log($(this.chapterViews[j].el).offset().top - scroll);
       if(scroll > $(this.chapterViews[j].el).offset().top ){
-        //this.chapterViews[j].backgroundLoad();  
         currentChapter = j;
       } 
     }
     console.log(currentChapter);
     if (this.lastCurrentChapter != currentChapter) {
         this.chapterViews[currentChapter].displayed(true);
-        if(this.lastCarrentChapter)this.chapterViews[this.lastCurrentChapter].displayed(false);
+        if(this.lastCurrentChapter) this.chapterViews[this.lastCurrentChapter].displayed(false);
         this.lastCurrentChapter = currentChapter;
     }
-
+    */
   },
 });

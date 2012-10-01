@@ -3,6 +3,7 @@ ChapterView = Backbone.View.extend({
   className : 'chapter' ,
   isLoaded: false,
   isDisplayed: false,
+
   initialize: function(options){
     _.bindAll(this,
               "render",
@@ -10,6 +11,7 @@ ChapterView = Backbone.View.extend({
               "addAll",
               "addOne",
               "onLoad",
+              "onScroll",
               "displayed",
               "onChange",
               "onSortStart",
@@ -40,18 +42,33 @@ ChapterView = Backbone.View.extend({
     this.initBackgroundList();
 
     $('.bgm_select',this.el).change( function(){ _self.bgmSelect( $(this).val() );} );
+    
+    $(window).scroll(this.onScroll);
 
     this.render();
     return this;
   },
 
-  displayed: function(isDisplayed){
-    console.log(isDisplayed);
-    console.log(this);
-    this.isDisplayed = isDisplayed;
-    if(isDisplayed){
-      $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
-      this.playMusicById(this.model.get('chapter_music_id')); 
+  displayed: function(){
+    //console.log('isDisplayed');
+    //console.log(this);
+    $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+    this.playMusicById(this.model.get('chapter_music_id')); 
+    return this;
+  },
+
+  onScroll: function(){ 
+    var scroll = document.documentElement.scrollTop || document.body.scrollTop;
+    //console.log(this.isDisplayed);
+    if( $(this.el).offset().top < scroll
+        && scroll < $(this.el).offset().top + $(this.el).height() )
+    {
+      if(this.isDisplayed == false){
+        this.isDisplayed = true;
+        this.displayed();
+      }
+    } else if(this.isDisplayed) {
+      this.isDisplayed = false;
     }
     return this;
   },
