@@ -9,6 +9,7 @@ $(function(){
 EntryView = Backbone.View.extend({
 
   className : 'entry',
+  isDisplayed: false,
 
   initialize: function(arg){
     this._self = this;
@@ -16,7 +17,18 @@ EntryView = Backbone.View.extend({
     //console.log(arg);
     //console.log(arg.parentView);
     _.bindAll(this, "render");
-    _.bindAll(this,'click','addBaloon','addPicture','addDefaultBaloon','addDefaultPicture','remove','addEntry','changeLayer','hideButton');
+    _.bindAll(this,
+        'click',
+        'onScroll',
+        'displayed',
+        'addBaloon',
+        'addPicture',
+        'addDefaultBaloon',
+        'addDefaultPicture',
+        'remove',
+        'addEntry',
+        'changeLayer',
+        'hideButton');
 
     this.model.bind("change", this.render);
 
@@ -30,6 +42,8 @@ EntryView = Backbone.View.extend({
     //cavas initialize
     this.sketch = new OverlaySketch($('canvas',this.el),this.model);
     this.sketch.init();
+    
+    $(window).scroll(this.onScroll);
 
     //this.render();
   },
@@ -51,6 +65,7 @@ EntryView = Backbone.View.extend({
         baloon.appendTo( content);
       }
     );
+
     _(this.model.characters.models).each(
       function(item){
         //console.log(item);
@@ -58,6 +73,7 @@ EntryView = Backbone.View.extend({
         image.appendTo( content);
       }
     );
+
     //  console.log(this.model.get('canvas'));
     this.sketch.clear();
     this.sketch.loadImg(this.model.get('canvas'));
@@ -74,6 +90,27 @@ EntryView = Backbone.View.extend({
     "click .--btn-remove": "remove",
     "click .--btn-entry": "addEntry",
     "click .--btn-layer": "changeLayer"
+  },
+  
+  displayed: function(){
+    // do something when entry displayed
+    console.log('disp entry');
+  },
+
+  onScroll: function(){ 
+    var scroll = document.documentElement.scrollTop || document.body.scrollTop;
+    //console.log(this.isDisplayed);
+    if( $(this.el).offset().top < scroll
+        && scroll < $(this.el).offset().top + $(this.el).height() )
+    {
+      if(this.isDisplayed == false){
+        this.isDisplayed = true;
+        this.displayed();
+      }
+    } else if(this.isDisplayed) {
+      this.isDisplayed = false;
+    }
+    return this;
   },
 
   click: function(ev){
