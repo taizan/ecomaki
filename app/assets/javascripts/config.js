@@ -1,8 +1,18 @@
+$(function(){
   isWin9X = (navigator.appVersion.toLowerCase().indexOf('windows 98')+1);
   isIE = (navigator.appName.toLowerCase().indexOf('internet explorer')+1?1:0);
   isOpera = (navigator.userAgent.toLowerCase().indexOf('opera')+1?1:0);
   if (isOpera) isIE = false;
   isSafari = (navigator.appVersion.toLowerCase().indexOf('safari')+1?1:0);
+
+  if (!window.console){
+    window.console = {
+      log : function(msg){
+          // do nothing.
+      }
+    };
+  }
+});
 
 function Config()
 {
