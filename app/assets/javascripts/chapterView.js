@@ -45,6 +45,7 @@ ChapterView = Backbone.View.extend({
 
   displayed: function(){
     $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+    console.log($('#background'));
     this.playMusicById(this.model.get('chapter_music_id')); 
   },
 
