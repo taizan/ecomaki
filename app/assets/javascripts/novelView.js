@@ -48,6 +48,9 @@ var NovelView = Backbone.View.extend({
   addAll: function () {
     $(this.el).empty();
     _(this.model.chapters.models).each(this.addOne);
+    if(this.chapterViews.length > 0){
+      this.chapterViews[0].onLoad();
+    }
   },
 
   render: function() {
@@ -75,6 +78,7 @@ var NovelView = Backbone.View.extend({
       var i =this.lastChapter++;
       if(i < this.chapterViews.length ){
         this.chapterViews[i].onLoad();
+        return true;
       }
     }
     var currentChapter = 0;
@@ -87,7 +91,8 @@ var NovelView = Backbone.View.extend({
     }
     console.log(currentChapter);
     if (this.lastCurrentChapter != currentChapter) {
-        this.chapterViews[currentChapter].displayed();
+        this.chapterViews[currentChapter].displayed(true);
+        this.chapterViews[this.lastCurrentChapter].displayed(false);
         this.lastCurrentChapter = currentChapter;
     }
 

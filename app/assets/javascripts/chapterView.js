@@ -2,6 +2,7 @@ ChapterView = Backbone.View.extend({
   //el : '#content',
   className : 'chapter' ,
   isLoaded: false,
+  isDisplayed: false,
   initialize: function(options){
     _.bindAll(this,
               "render",
@@ -33,8 +34,9 @@ ChapterView = Backbone.View.extend({
 
     $('.title',this.el).dblclick( function(){ editableTextarea(this,_self.saveTitle); });
     $('.description',this.el).dblclick( function(){ editableTextarea(this,_self.saveDescription); });
-
-    $('.background_select',this.el).change( function(){ _self.backgroundSelect( $(this).val() );} );
+    
+    //comment out because background is not change allways onloaded
+    //$('.background_select',this.el).change( function(){ _self.backgroundSelect( $(this).val() );} );
 
     this.initBackgroundList();
 
@@ -43,10 +45,12 @@ ChapterView = Backbone.View.extend({
     this.render();
   },
 
-  displayed: function(){
-    $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
-    console.log($('#background'));
-    this.playMusicById(this.model.get('chapter_music_id')); 
+  displayed: function(isDisplayed){
+    this.isDisplayed = isDisplayed;
+    if(isDisplayed){
+      $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+      this.playMusicById(this.model.get('chapter_music_id')); 
+    }
   },
 
   addOne: function (item,t,options) {
@@ -84,7 +88,9 @@ ChapterView = Backbone.View.extend({
         stop: this.onSortStop
       });
 
-      $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+      if(this.isDisplayed) { 
+        $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
+      }
       $('.background_select',this.el).find('option[value=' + this.model.get('chapter_background_id') + ']').prop('selected', true);
 
       $('.bgm_select',this.el).find('option[value=' + this.model.get('chapter_sound_id') + ']').prop('selected', true);
@@ -150,7 +156,7 @@ ChapterView = Backbone.View.extend({
 
   initBackgroundList: function(){
     //  console.log('init list');
-    var x = 2;
+    var x = 3;
     for(var i=0; i < x; i++){
       var op = $('<option>').attr({ value: i }).text(i);
       $('.background_select',this.el).append(op);
