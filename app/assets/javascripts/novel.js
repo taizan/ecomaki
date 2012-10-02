@@ -15,4 +15,5 @@ $(function() {
   
 
   $("#picker").hide();
+  $('#side_menu').hide();
 });

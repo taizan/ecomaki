@@ -183,6 +183,7 @@ EntryView = Backbone.View.extend({
     this.parentView.model.destroy_entry(this.model);
     this.parentView.model.fetch();
   },
+
   addEntry: function(e){
     console.log("addEntry");
     console.log(this);

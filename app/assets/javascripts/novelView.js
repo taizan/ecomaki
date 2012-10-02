@@ -35,7 +35,8 @@ var NovelView = Backbone.View.extend({
   addOne: function (item,t,options) {
     console.log(item);
     console.log(options);
-    view = new ChapterView({model: item});
+    view = new ChapterView({model: item , parentView: this });
+    console.log(view.parentView);
     this.chapterViews.push(view);
     $(this.el).insertAt(options.index,view.render().el);
 

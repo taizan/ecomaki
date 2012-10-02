@@ -4,8 +4,11 @@ ChapterView = Backbone.View.extend({
   isLoaded: false,
   isDisplayed: false,
 
-  initialize: function(options){
-    _.bindAll(this,
+  initialize: function(arg){
+
+    this.parentView = arg.parentView;
+  
+  _.bindAll(this,
               "render",
               "addEntry",
               "addAll",
@@ -16,6 +19,7 @@ ChapterView = Backbone.View.extend({
               "onChange",
               "onSortStart",
               "onSortStop",
+              "addChapter",
               "saveTitle",
               "saveDescription",
               "backgroundSelect",
@@ -26,6 +30,14 @@ ChapterView = Backbone.View.extend({
     this.model.entries.bind('change', this.onChange);
 
   },
+
+  events: {
+    "keypress #inputform" : "onKeyPress",
+    //"click .entry" : "click",
+    "click .add_chapter" : "addChapter",
+    "click .add_entry" : "addEntry",
+  },
+
   onLoad: function(){
     this.isLoaded = true;
     var template = _.template( $("#chapter_template").html(),this.model.attributes);
@@ -90,9 +102,17 @@ ChapterView = Backbone.View.extend({
     //console.log("onchange");
   },
 
-  events: {
-    "keypress #inputform" : "onKeyPress",
-    "click .entry" : "click"
+  addEntry: function(e){
+    console.log("addEntry");
+    console.log(this);
+    //this.model.
+    this.model.create_entry();
+  },
+
+  addChapter: function(e){
+    console.log("addChapter");
+    console.log(this.parentView);
+    this.parentView.model.create_chapter();
   },
 
   render: function(){
@@ -141,12 +161,7 @@ ChapterView = Backbone.View.extend({
   },
 
   click: function(){
-    // console.log("chapter click");
-  },
-
-
-  addEntry: function(entry){
-    return this;
+     console.log("chapter click");
   },
 
   onKeyPress: function (e){

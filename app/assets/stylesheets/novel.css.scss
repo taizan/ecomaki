@@ -8,6 +8,7 @@
     //margin-right: auto;
     left: 200px;
 }
+
 body {
     text-align: center;
 }
@@ -26,6 +27,9 @@ body {
   left: 0;
 }
 
+#console{
+  position: fixed;
+}
 
 #menu {
    position:fixed;
@@ -82,8 +86,10 @@ body {
 }
 
 #content {
-    position: absolute;
-    margin-left: 200px;
+//for console margin
+  margin: 40px;
+  position: absolute;
+  margin-left: 200px;
 }
 
 
