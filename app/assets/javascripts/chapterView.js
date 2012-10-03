@@ -65,7 +65,7 @@ ChapterView = Backbone.View.extend({
     //console.log('isDisplayed');
     //console.log(this);
     $('#background')[0].src = Config.prototype.background_idtourl(this.model.get('chapter_background_id'));
-    this.playMusicById(this.model.get('chapter_music_id')); 
+    this.playMusicById(this.model.get('chapter_sound_id')); 
     return this;
   },
 
@@ -135,7 +135,7 @@ ChapterView = Backbone.View.extend({
 
       $('.bgm_select',this.el).find('option[value=' + this.model.get('chapter_sound_id') + ']').prop('selected', true);
 
-      this.playMusicById(this.model.get('chapter_sound_id'));
+      //this.playMusicById(this.model.get('chapter_sound_id'));
     }
     return this;
   },
@@ -206,7 +206,9 @@ ChapterView = Backbone.View.extend({
   },
 
   playMusicById: function(music_id) {
-      if (+music_id > 0) {
+      //console.log(music_id);
+      if (music_id != null) {
+          //console.log(+music_id);
           window.musicPlayer.playURL(Config.prototype.music_id_to_url(music_id));
       } else {
           window.musicPlayer.stop();
