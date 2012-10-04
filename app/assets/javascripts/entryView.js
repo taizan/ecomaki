@@ -14,6 +14,8 @@ EntryView = Backbone.View.extend({
   initialize: function(arg){
     this._self = this;
     this.parentView = arg.parentView;
+    this.isEditable = arg.isEditable;
+
     //console.log(arg);
     //console.log(arg.parentView);
     _.bindAll(this, "render");
@@ -38,20 +40,21 @@ EntryView = Backbone.View.extend({
     // entry content of view
     this.content = $(this.el).find('.entry-content');
     //console.log(this.content);
-
-    //cavas initialize
-    this.sketch = new OverlaySketch($('canvas',this.el),this.model);
-    this.sketch.init();
     
     $(window).scroll(this.onScroll);
 
-    //this.render();
+    if(this.isEditable){
+
+      //cavas initialize
+      this.sketch = new OverlaySketch($('canvas',this.el),this.model);
+      this.sketch.init();
+    }
   },
 
   render: function(){
 
     var content = this.content;
-    var _self = this._self;
+    var _self = this;
 
     //     console.log('render');
 
@@ -61,7 +64,7 @@ EntryView = Backbone.View.extend({
     _(this.model.balloons.models).each(
       function(item){
         //console.log(item);
-        var baloon = new BaloonItem(item , _self );
+        var baloon = new BaloonItem(item , _self ,_self.isEditable);
         baloon.appendTo( content);
       }
     );
@@ -69,16 +72,19 @@ EntryView = Backbone.View.extend({
     _(this.model.characters.models).each(
       function(item){
         //console.log(item);
-        var image = new ImageItem(item ,  _self  );
+        var image = new ImageItem(item ,  _self  ,_self.isEditable);
         image.appendTo( content);
       }
     );
 
-    //  console.log(this.model.get('canvas'));
-    this.sketch.clear();
-    this.sketch.loadImg(this.model.get('canvas'));
-
+    if(this.isEditable){
+      //  console.log(this.model.get('canvas'));
+      this.sketch.clear();
+      this.sketch.loadImg(this.model.get('canvas'));
+    }
+    
     this.hideButton();
+    
     return this;
   },
 
@@ -128,9 +134,12 @@ EntryView = Backbone.View.extend({
 
   hideButton: function(){
     var button = '.buttons';
+    var _self = this;
     $(this.el)
       .mouseover(function(){
-        $(this).find(button).show();
+        if(_self.isEditable){
+          $(this).find(button).show();
+        }
       })
       .mouseout(function(){
         $(this).find(button).hide();

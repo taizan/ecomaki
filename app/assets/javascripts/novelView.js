@@ -13,9 +13,11 @@ jQuery.fn.insertAt = function(index, element) {
 
 var NovelView = Backbone.View.extend({
   className: 'novel',
+  isEditable: false,
   lastChapter: 0,
   chapterViews: [],
-  initialize: function() {
+
+  initialize: function(arg) {
     _.bindAll(this, "render","addOne","addAll","appendTo","saveTitle","saveDescription","addChapter","onScroll");
 
     var _self = this;
@@ -41,13 +43,15 @@ var NovelView = Backbone.View.extend({
     var _self = this;
     $(this.el).appendTo(target);
 
-    $('#title').dblclick( function(){ editableTextarea(this,_self.saveTitle);});
-    $('#description').dblclick(function(){editableTextarea(this,_self.saveDescription);});
+    if(this.isEditable){
+      $('#title').dblclick( function(){ editableTextarea(this,_self.saveTitle);});
+      $('#description').dblclick(function(){editableTextarea(this,_self.saveDescription);});
+    }
   },
 
   addOne: function (item,t,options) {
     //console.log(item);
-    view = new ChapterView({model: item , parentView: this });
+    view = new ChapterView({model: item , parentView: this ,isEditable: this.isEditable});
     this.chapterViews.push(view);
     $('.chapterList',this.el).insertAt(options.index,view.render().el);
 

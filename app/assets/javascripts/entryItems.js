@@ -25,11 +25,12 @@ function inherits(parent, protoProps, staticProps) {
   return child;
 };
 
-var EntryItem = function(item,view){
+var EntryItem = function(item,view,isEditable){
   this.view = view;
   this.item = item;
+  this.isEditable = isEditable;
   this.content = this.view.content;
-
+  
   this.defaultInitialize.apply(this,arguments);
 
   this.initialize.apply(this,arguments);
@@ -59,8 +60,9 @@ EntryItem.prototype = {
       .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left') })
       .width(this.item.get('width')).height(this.item.get('height'));
   },
+
   onChange: function(){
-    console.log('on item change');
+    //console.log('on item change');
     //this.item.save();
   },
 
@@ -90,6 +92,7 @@ EntryItem.prototype = {
   },
 
   setButton: function(target){
+    var _self = this;
     var body = '<i class="icon-remove-sign item-button item-remove" />';
     var button = $(body);
     button.appendTo(target);
@@ -99,8 +102,10 @@ EntryItem.prototype = {
 
     $(target)
       .mouseover(function(){
-        button.show();
-        $(this).find('.ui-resizable-handle').show();
+        if(_self.isEditable){
+          button.show();
+          $(this).find('.ui-resizable-handle').show();
+        }
       })
       .mouseout(function(){
         button.hide();
@@ -145,55 +150,29 @@ BaloonItem = EntryItem.extend({
   },
 
   init: function(){
-    //console.log('init baloon');
     //console.log(this.el);
-    $(this.el).draggable({
-      containment: "parent",
-      start: this.onDragStart,
-      stop: this.onDragStop
-    });
+    if(this.isEditable){
 
-    $(this.el).resizable({
-      containment: "parent",
-      stop: this.onResize
-    });
+      $(this.el).draggable({
+        containment: "parent",
+        start: this.onDragStart,
+        stop: this.onDragStop
+      });
 
-    $(this.el).dblclick(this.editText);
-    this.setButton(this.el);
+      $(this.el).resizable({
+        containment: "parent",
+        stop: this.onResize
+      });
+
+      $(this.el).dblclick(this.editText);
+      this.setButton(this.el);
+    }
   },
 
   editText: function(){
-    /*var text = this.item.get('content').split("<br>").join('\n');
-     text = text
-     .replace(/&amp;/g,"&")
-     .replace(/&quot;/g,"/")
-     .replace(/&#039;/g,"'")
-     .replace(/&lt;/g,"<")
-     .replace(/&gt;/g,">");
-
-     var item = this.item;
-     var target = this.el;
-
-     focusedText = $( '<textarea style="text-align:center;" ></textarea>' )
-     .height( item.get('height') ).width ( item.get('width') )
-     .css({position: 'absolute', left:-5 ,top: -5})
-     .appendTo(target)
-     .focus().select()
-     .val(text);
-
-     focusedText.blur(
-     function() {
-     var txt = $(this).val();
-     $('.text',target).text(txt);
-     txt = $('.text',target).html().split('\n').join('<br>') ;
-     $('.text',target).html(txt);
-     item.set('content' , txt);
-     item.save();
-     $(this).remove();
-     });
-     */
     editableTextarea(this.el,this.saveText);
   },
+
   saveText: function(txt){
     this.item.set('content',txt);
     this.item.save();
@@ -211,21 +190,21 @@ ImageItem = EntryItem.extend({
   },
   //post append messod
   init: function(){
+    if(this.isEditable){
+      $(this.el).resizable({
+        //  containment: "parent parent" ,
+        aspectRatio: true,
+        stop: this.onResize
+      });
 
-    $(this.el).resizable({
-  //    containment: "parent parent" ,
-      aspectRatio: true,
-      stop: this.onResize
-    });
+      $(this.el).parent().draggable({
+        start: this.onDragStart,
+        stop: this.onDragStop
+      });
 
-    $(this.el).parent().draggable({
-      start: this.onDragStart,
-      stop: this.onDragStop
-    });
-
-
-    $(this.el).dblclick(this.selectImage);
-    this.setButton($(this.el).parent());
+      $(this.el).dblclick(this.selectImage);
+      this.setButton($(this.el).parent());
+    }
   },
 
   selectImage: function(ev){
