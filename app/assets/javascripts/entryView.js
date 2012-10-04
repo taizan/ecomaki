@@ -95,6 +95,7 @@ EntryView = Backbone.View.extend({
   displayed: function(){
     // do something when entry displayed
     console.log('disp entry');
+    return this;
   },
 
   onScroll: function(){ 
@@ -126,14 +127,16 @@ EntryView = Backbone.View.extend({
   },
 
   hideButton: function(){
+    var button = '.buttons';
     $(this.el)
       .mouseover(function(){
-        $(this).find('.buttons').show();
+        $(this).find(button).show();
       })
       .mouseout(function(){
-        $(this).find('.buttons').hide();
+        $(this).find(button).hide();
       })
-      .find('.buttons').hide();
+      .find(button).hide();
+    return this;
   },
 
   addBaloon: function( str ){

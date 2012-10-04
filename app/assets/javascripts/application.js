@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require underscore
 //= require backbone
+//= require config
 //= require_tree .
 //= require bootstrap.min
 //= require jquery-ui-1.8.16.custom.min
