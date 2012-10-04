@@ -16,7 +16,7 @@ var NovelView = Backbone.View.extend({
   lastChapter: 0,
   chapterViews: [],
   initialize: function() {
-    _.bindAll(this, "render","addOne","addAll","saveTitle","saveDescription","onScroll");
+    _.bindAll(this, "render","addOne","addAll","appendTo","saveTitle","saveDescription","addChapter","onScroll");
 
     var _self = this;
 
@@ -25,20 +25,31 @@ var NovelView = Backbone.View.extend({
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
 
+    var template = _.template( $("#novel_template").html(),this.model.attributes);
+    $(template).appendTo(this.el);
+    //console.log(this.el);
+
+    $(window).scroll(this.onScroll);
+    //console.log(this.model.chapters.models);
+  },
+
+  events: {
+    "click #add_chapter" : "addChapter",
+  },
+
+  appendTo: function(target){
+    var _self = this;
+    $(this.el).appendTo(target);
+
     $('#title').dblclick( function(){ editableTextarea(this,_self.saveTitle);});
     $('#description').dblclick(function(){editableTextarea(this,_self.saveDescription);});
-    
-    $(window).scroll(this.onScroll);
-    console.log(this.model.chapters.models);
   },
 
   addOne: function (item,t,options) {
-    console.log(item);
-    console.log(options);
+    //console.log(item);
     view = new ChapterView({model: item , parentView: this });
-    console.log(view.parentView);
     this.chapterViews.push(view);
-    $(this.el).insertAt(options.index,view.render().el);
+    $('.chapterList',this.el).insertAt(options.index,view.render().el);
 
     if(this.chapterViews.length == 1) {
       view.onLoad();
@@ -47,7 +58,7 @@ var NovelView = Backbone.View.extend({
   },
 
   addAll: function () {
-    $(this.el).empty();
+    $('.chapterList',this.el).empty();
     this.chapterViews = [];
 
     _(this.model.chapters.models).each(this.addOne);
@@ -70,6 +81,11 @@ var NovelView = Backbone.View.extend({
     this.model.save();
   },
 
+  addChapter: function(e){
+    console.log("addChapter");
+    this.model.create_chapter();
+  },
+
   onScroll: function(){
     var window_height = Config.prototype.getScreenSize().y;
     var height = document.documentElement.scrollHeight || document.body.scrollHeight;
@@ -85,21 +101,5 @@ var NovelView = Backbone.View.extend({
         return this;
       }
     }
-    // detect currentchapter and isdisplayed
-    // this should be in chapter view?
-    /*
-    var currentChapter = 0;
-    for(var j = 0;j<this.chapterViews.length;j++){
-      if(scroll > $(this.chapterViews[j].el).offset().top ){
-        currentChapter = j;
-      } 
-    }
-    console.log(currentChapter);
-    if (this.lastCurrentChapter != currentChapter) {
-        this.chapterViews[currentChapter].displayed(true);
-        if(this.lastCurrentChapter) this.chapterViews[this.lastCurrentChapter].displayed(false);
-        this.lastCurrentChapter = currentChapter;
-    }
-    */
   },
 });

@@ -1,12 +1,12 @@
 $(function() {
   var urls = location.href.split('/');
   var id = urls[urls.length-1];
-  console.log(id);
+  //console.log(id);
   novel = new Novel({ id: id});
 
   novelView = new NovelView({model: novel});
-  $('#content').append(novelView.el);
-  
+  novelView.appendTo($('#content'));
+  //$('#content').append(novelView.el);
 
   tool = new SketchTool();
   tool.appendTo('#novel_container');

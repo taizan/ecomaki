@@ -20,6 +20,7 @@ ChapterView = Backbone.View.extend({
               "onSortStart",
               "onSortStop",
               "addChapter",
+              "removeChapter",
               "saveTitle",
               "saveDescription",
               "backgroundSelect",
@@ -36,6 +37,7 @@ ChapterView = Backbone.View.extend({
     //"click .entry" : "click",
     "click .add_chapter" : "addChapter",
     "click .add_entry" : "addEntry",
+    "click .remove_chapter" : "removeChapter",
   },
 
   onLoad: function(){
@@ -113,6 +115,13 @@ ChapterView = Backbone.View.extend({
     console.log("addChapter");
     console.log(this.parentView);
     this.parentView.model.create_chapter();
+  },
+
+  removeChapter: function(e){
+    $(this.el).remove();
+    this.parentView.model.destroy_chapter(this.model);
+    //this.parentView.model.fetch();
+    this.parentView.model.save();
   },
 
   render: function(){
