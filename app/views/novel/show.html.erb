@@ -32,17 +32,19 @@
   <br>
 
   <div id="title" class="title">
-    <h2 class="help">[[novel title]]</h2>
+    <h2 class="help  editer_item">[[novel title]]</h2>
     <h2 class="text">novel title</h2>
   </div>
   <div id="description" class="description">
-    <p class="help">[[novel description]]</p>
+    <p class="help  editer_item">[[novel description]]</p>
     <p class="text">des</p>
   </div>
-
-  <button id="add_chapter" class="btn add_chapter"> 
-    +chapter 
-  </button>
+  
+  <div class="buttons editer_item">
+    <button id="add_chapter" class="btn add_chapter"> 
+      +chapter 
+    </button>
+  </div>
 
   <div class="chapterList">
   </div>
@@ -53,35 +55,39 @@
   <br>
 
   <div class="title">
-    <h2 class="help">[[chapter title]]</h2>
+    <h2 class="help editer_item">[[chapter title]]</h2>
     <h2 class="text">chapter title</h2>
   </div>
   <div class="description">
-    <p class="help">[[chapter description]]</p>
+    <p class="help editer_item">[[chapter description]]</p>
     <p class="text">des</p>
   </div>
-  background
-  <select class="background_select"></select>
-  bgm
-  <select class="bgm_select">
-    <option name="bgm" value="">なし</option>
-    {% ['dream', 'flower', 'orange'].forEach(function(name, i) { %}
-    <option name="bgm" value="{{ i + 1 }}">{{ name }}</option>
-    {% }); %}
-  </select>
+  <div class="selecter_item editer_item">
+    background
+    <select class="background_select"></select>
+    bgm
+    <select class="bgm_select">
+      <option name="bgm" value="">なし</option>
+      {% ['dream', 'flower', 'orange'].forEach(function(name, i) { %}
+      <option name="bgm" value="{{ i + 1 }}">{{ name }}</option>
+      {% }); %}
+    </select>
+  </div>
 
   <div class="entryList">
   </div>
 
-  <button class="btn add_entry">
-    +entry 
-  </button>
-  <button class="btn add_chapter"> 
-    +chapter 
-  </button>
-  <button class="btn remove_chapter"> 
-    remove chapter 
-  </button>
+  <div class="buttons editer_item">
+    <button class="btn add_entry">
+      +entry 
+    </button>
+    <button class="btn add_chapter"> 
+      +chapter 
+    </button>
+    <button class="btn remove_chapter"> 
+      remove chapter 
+    </button>
+  </div>
 
 </script>
 
@@ -89,7 +95,7 @@
   <div class="entry-content">
     <canvas width= "800" height="300" ></canvas>
   </div>
-  <div class="buttons">
+  <div class="buttons editer_item">
     <li><i class="icon-move" /></li>
     <li><button class="btn --btn-remove"><i class="icon-remove-sign" /></button></li>
     <li><button class="btn --btn-baloon"><i class="icon-comment" /></button></li>

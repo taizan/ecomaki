@@ -13,7 +13,7 @@ jQuery.fn.insertAt = function(index, element) {
 
 var NovelView = Backbone.View.extend({
   className: 'novel',
-  isEditable: false,
+  isEditable: true,
   lastChapter: 0,
   chapterViews: [],
 
@@ -46,6 +46,8 @@ var NovelView = Backbone.View.extend({
     if(this.isEditable){
       $('#title').dblclick( function(){ editableTextarea(this,_self.saveTitle);});
       $('#description').dblclick(function(){editableTextarea(this,_self.saveDescription);});
+    }else{
+      $(".editer_item",this.el).hide();
     }
   },
 

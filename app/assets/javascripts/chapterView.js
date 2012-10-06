@@ -54,6 +54,8 @@ ChapterView = Backbone.View.extend({
       $('.background_select',this.el).change( function(){ _self.backgroundSelect( $(this).val() );} );
       this.initBackgroundList();
       $('.bgm_select',this.el).change( function(){ _self.bgmSelect( $(this).val() );} );
+    }else{
+      $(".editer_item",this.el).hide();
     }
 
     $(window).scroll(this.onScroll);
