@@ -57,6 +57,13 @@ EntryView = Backbone.View.extend({
     var _self = this;
 
     //     console.log('render');
+    var model_width = this.model.get('width');
+    var model_height = this.model.get('height');
+    var button_offset = 40;
+
+    this.content.width( model_width ).height( model_height );
+    $(this.el).width( this.content.width() + button_offset ).height( this.content.height() );
+    $('.buttons',this.el).css( { left: this.content.width() } );
 
     $('.item',this.el).remove();
 

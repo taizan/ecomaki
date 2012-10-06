@@ -57,7 +57,7 @@ EntryItem.prototype = {
     this.el = this.$el[0];
 
     this.$el
-      .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left') })
+      .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left'), zIndex: this.item.get('z-index') })
       .width(this.item.get('width')).height(this.item.get('height'));
   },
 
