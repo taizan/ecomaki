@@ -8,10 +8,10 @@ $(function() {
   novelView.appendTo($('#content'));
   //$('#content').append(novelView.el);
 
-  tool = new SketchTool();
-  tool.appendTo('#novel_container');
-  tool.setDefaultParet();
-  tool.hide();
+  //tool = new SketchTool();
+  //tool.appendTo('#novel_container');
+  //tool.setDefaultParet();
+  //tool.hide();
   
 
   $("#picker").hide();

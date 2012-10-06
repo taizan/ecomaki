@@ -46,8 +46,8 @@ EntryView = Backbone.View.extend({
     if(this.isEditable){
 
       //cavas initialize
-      this.sketch = new OverlaySketch($('canvas',this.el),this.model);
-      this.sketch.init();
+      //this.sketch = new OverlaySketch($('canvas',this.el),this.model);
+      //this.sketch.init();
     }
   },
 
@@ -67,6 +67,20 @@ EntryView = Backbone.View.extend({
 
     $('.item',this.el).remove();
 
+    if(this.isEditable){
+      $('canvas',this.content).remove();
+      $('._wPaint_textInput',this.content).remove();
+      this.content
+        .wPaint({image: this.model.get('canvas')})
+        .mouseout(function(){ 
+            _self.model.set('canvas', $('.paint', _self.el)[0].toDataURL() );
+            console.log($('.paint', _self.el));
+        });
+      //  console.log(this.model.get('canvas'));
+      //this.sketch.clear();
+      //this.sketch.loadImg(this.model.get('canvas'));
+      //$('canvas',this.el).width(model_width).height(model_height).css({ zindex: this.model.canvas_index});
+    }
 
     _(this.model.balloons.models).each(
       function(item){
@@ -84,12 +98,6 @@ EntryView = Backbone.View.extend({
       }
     );
 
-    if(this.isEditable){
-      //  console.log(this.model.get('canvas'));
-      this.sketch.clear();
-      this.sketch.loadImg(this.model.get('canvas'));
-      $('canvas',this.el).width(model_width).height(model_height).css({ zindex: this.model.canvas_index});
-    }
     
     this.hideButton();
     
