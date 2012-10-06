@@ -88,6 +88,7 @@ EntryView = Backbone.View.extend({
       //  console.log(this.model.get('canvas'));
       this.sketch.clear();
       this.sketch.loadImg(this.model.get('canvas'));
+      $('canvas',this.el).width(model_width).height(model_height).css({ zindex: this.model.canvas_index});
     }
     
     this.hideButton();
