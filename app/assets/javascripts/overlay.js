@@ -98,8 +98,10 @@ OverlaySketch.prototype = {
     this.canvas.mousedown(function(e) {
       if(e.target.getContext) {
         OverlaySketch.prototype.context = e.target.getContext('2d');
+        _self.context = e.target.getContext('2d');
       }
       t =OverlaySketch.prototype;
+      t = _self;
       t.flag = true;
       t.startX = e.pageX - $(this).offset().left - t.offset;
       t.startY = e.pageY - $(this).offset().top - t.offset;
@@ -108,10 +110,12 @@ OverlaySketch.prototype = {
 
     this.canvas.mousemove(function(e) {
       t = OverlaySketch.prototype;
+      t = _self;
       if (t.flag) {
         endX = e.pageX - $(this).offset().left - t.offset;
+        //console.log(endX);
         endY = e.pageY - $(this).offset().top - t.offset;
-        // alert(e.pageX +','+ e.pageY + ' ; ' + $('canvas').offset().left  +','+$('canvas').offset().top);
+        //alert(e.pageX +','+ e.pageY + ' ; ' + $('canvas').offset().left  +','+$('canvas').offset().top);
         t.context.lineWidth = t.brushSize;
         t.context.lineJoin= "round";
         t.context.lineCap = "round";
@@ -127,10 +131,12 @@ OverlaySketch.prototype = {
     this.canvas
       .on('mouseup', function() {
         OverlaySketch.prototype.flag = false;
+        _self.flag = false;
         //    _self.setImg();
       })
       .on('mouseleave', function() {
         OverlaySketch.prototype.flag = false;
+        _self.flag = false;
         _self.setImg();
       });
 
