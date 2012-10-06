@@ -41,6 +41,7 @@
 			
 			return hit;
 		}
+    
 
 		//clean up some variables
 		settings = $.extend({}, $.fn.wPaint.defaultSettings, settings || {});
@@ -50,7 +51,11 @@
 		settings.fontSizeMin = parseInt(settings.fontSizeMin);
 		settings.fontSizeMax = parseInt(settings.fontSizeMax);
 		settings.fontSize = parseInt(settings.fontSize);
-		
+	
+    if(MainMenu.prototype.menu == null){
+      $('body').append( MainMenu.prototype.init() );
+    }
+
 		return this.each(function()
 		{			
 			var elem = $(this);
@@ -72,37 +77,17 @@
 			elem.append(canvas.generateTemp());
 			elem.append(canvas.generateTextInput());
 			
-			$('body')
-			.append(mainMenu.generate(canvas, textMenu))
-			.append(textMenu.generate(canvas, mainMenu));
+		
+			mainMenu.generate(canvas)
+			
 
 			//init the snap on the text menu
-			mainMenu.moveTextMenu(mainMenu, textMenu);
+			//mainMenu.moveTextMenu(mainMenu, textMenu);
 
 			//init mode
-			mainMenu.set_mode(mainMenu, canvas, $settings.mode);
+			//mainMenu.set_mode(mainMenu, canvas, $settings.mode);
 			
-			//pull from css so that it is dynamic
-			var buttonSize = $("._wPaint_icon").outerHeight() - (parseInt($("._wPaint_icon").css('paddingTop').split('px')[0]) + parseInt($("._wPaint_icon").css('paddingBottom').split('px')[0]));
 			
-			mainMenu.menu.find("._wPaint_fillColorPicker").wColorPicker({
-				mode: "click",
-				initColor: $settings.fillStyle,
-				buttonSize: buttonSize,
-				onSelect: function(color){
-					canvas.settings.fillStyle = color;
-					canvas.textInput.css({color: color});
-				}
-			});
-			
-			mainMenu.menu.find("._wPaint_strokeColorPicker").wColorPicker({
-				mode: "click",
-				initColor: $settings.strokeStyle,
-				buttonSize: buttonSize,
-				onSelect: function(color){
-					canvas.settings.strokeStyle = color;
-				}
-			});
 			
 			if($settings.image) canvas.setImage($settings.image);
 			
@@ -176,6 +161,7 @@
 		generate: function(width, height)
 		{	
 			this.canvas = document.createElement('canvas');
+      $(this.canvas).addClass('paint');
 			this.ctx = this.canvas.getContext('2d');
 			
 			//create local reference
@@ -563,51 +549,97 @@
 	
 	MainMenu.prototype = 
 	{
-		generate: function(canvas, textMenu)
-		{
-			var $canvas = canvas;
-			this.textMenu = textMenu;
-			var $this = this;
-			
-			//setup the line width select
-			var options = '';
-			for(var i=$canvas.settings.lineWidthMin; i<=$canvas.settings.lineWidthMax; i++) options += '<option value="' + i + '" ' + ($canvas.settings.lineWidth == i ? 'selected="selected"' : '') + '>' + i + '</option>';
-			
-			var lineWidth = $('<div class="_wPaint_lineWidth _wPaint_dropDown" title="line width"></div>').append(
-				$('<select>' + options + '</select>')
-				.change(function(e){ $canvas.settings.lineWidth = parseInt($(this).val()); })
-			)
-			
-			//content
-			var menuContent = 
-			$('<div class="_wPaint_options"></div>')
-			.append($('<div class="_wPaint_icon _wPaint_rectangle" title="rectangle"></div>').click(function(){ $this.set_mode($this, $canvas, 'Rectangle'); }))
-			.append($('<div class="_wPaint_icon _wPaint_ellipse" title="ellipse"></div>').click(function(){ $this.set_mode($this, $canvas, 'Ellipse'); }))
-			.append($('<div class="_wPaint_icon _wPaint_line" title="line"></div>').click(function(){ $this.set_mode($this, $canvas, 'Line'); }))
-			.append($('<div class="_wPaint_icon _wPaint_pencil" title="pencil"></div>').click(function(){ $this.set_mode($this, $canvas, 'Pencil'); }))
-			.append($('<div class="_wPaint_icon _wPaint_text" title="text"></div>').click(function(){ $this.set_mode($this, $canvas, 'Text'); }))
-			.append($('<div class="_wPaint_icon _wPaint_eraser" title="eraser"></div>').click(function(e){ $this.set_mode($this, $canvas, 'Eraser'); }))
-			.append($('<div class="_wPaint_fillColorPicker _wPaint_colorPicker" title="fill color"></div>'))
-			.append(lineWidth)
-			.append($('<div class="_wPaint_strokeColorPicker _wPaint_colorPicker" title="stroke color"></div>'))
+    menu: null,
+    canvases: [],
+    init: function(){
+      var fillStyle = '#FFFFFF';
+      var strokeStyle = '#FFFF00';
+			var buttonSize  = 15;
 
-			//handle
-			var menuHandle = $('<div class="_wPaint_handle"></div>')
+      var menuContent =
+         $('<div id="paint_options" class="_wPaint_options"></div>')
+           .append($('<div class="_wPaint_icon _wPaint_rectangle" title="rectangle"></div>'))
+           .append($('<div class="_wPaint_icon _wPaint_ellipse" title="ellipse"></div>'))
+           .append($('<div class="_wPaint_icon _wPaint_line" title="line"></div>'))
+           .append($('<div class="_wPaint_icon _wPaint_pencil" title="pencil"></div>'))
+           //.append($('<div class="_wPaint_icon _wPaint_text" title="text"></div>'))
+           .append($('<div class="_wPaint_icon _wPaint_eraser" title="eraser"></div>'))
+           .append($('<div class="_wPaint_fillColorPicker _wPaint_colorPicker" title="fill color"></div>'))
+           .append($('<div class="_wPaint_slider"></div>'))
+           .append($('<div class="_wPaint_strokeColorPicker _wPaint_colorPicker" title="stroke color"></div>'));
+
+      
+
+			var menuHandle = $('<div class="_wPaint_handle"></div>');
 			
-			//get position of canvas
-			var offset = $($canvas.canvas).offset();
-			
+      
 			//menu
-			return this.menu = 
+			MainMenu.prototype.menu = 
 			$('<div class="_wPaint_menu"></div>')
-			.css({position: 'absolute', left: offset.left + 5, top: offset.top + 5})
+			.css({position: 'absolute', left:  5, top:  5})
 			.draggable({
 				handle: menuHandle, 
-				drag: function(){$this.moveTextMenu($this, $this.textMenu)}, 
-				stop: function(){$this.moveTextMenu($this, $this.textMenu)}
+		//		drag: function(){$this.moveTextMenu($this, $this.textMenu)}, 
+		//		stop: function(){$this.moveTextMenu($this, $this.textMenu)}
 			})
 			.append(menuHandle)
 			.append(menuContent);
+
+      $('body').append(MainMenu.prototype.menu);
+
+			$("._wPaint_fillColorPicker").wColorPicker({
+				mode: "click",
+				initColor: fillStyle,
+				buttonSize: buttonSize,
+				onSelect: function(color){
+          var canvases = MainMenu.prototype.canvases;
+          for( var i = 0 ; i < canvases.length ; i++){
+					  canvases[i].settings.fillStyle = color;
+					  canvases[i].textInput.css({color: color});
+          }
+				}
+			})
+			$("._wPaint_strokeColorPicker").wColorPicker({
+				mode: "click",
+				initColor: strokeStyle,
+				buttonSize: buttonSize,
+				onSelect: function(color){
+          var canvases = MainMenu.prototype.canvases;
+          for( var i = 0 ; i < canvases.length ; i++){
+					  canvases[i].settings.strokeStyle = color;
+          }
+				}
+			});
+
+
+    },
+		generate: function(canvas)
+		{
+			var $canvas = canvas;
+			var $this = this;
+
+      MainMenu.prototype.canvases.push($canvas);
+			
+	    this.menu = MainMenu.prototype.menu;		
+			//content
+			$("#paint_options ._wPaint_rectangle").click(function(){ $this.set_mode($this, $canvas, 'Rectangle'); })
+			$("#paint_options ._wPaint_ellipse").click(function(){ $this.set_mode($this, $canvas, 'Ellipse'); })
+			$("#paint_options ._wPaint_line").click(function(){ console.log('lint'); $this.set_mode($this, $canvas, 'Line'); })
+			$("#paint_options ._wPaint_pencil").click(function(){ $this.set_mode($this, $canvas, 'Pencil'); })
+			//.find("._wPaint_text" ).click(function(){ $this.set_mode($this, $canvas, 'Text'); })
+			$("#paint_options ._wPaint_eraser" ).click(function(e){ $this.set_mode($this, $canvas, 'Eraser'); })
+			$("#paint_options ._wPaint_slider").slider({
+          min: 0,
+          max: 100,
+          value : 1,
+          slide: function(evnt,ui){ 
+            var canvases = MainMenu.prototype.canvases;
+            for( var i = 0 ; i < canvases.length ; i++){
+					    canvases[i].settings.lineWidth = ui.value;
+            }
+          }
+        });
+			
 		},
 		
 		moveTextMenu: function(mainMenu, textMenu)
@@ -622,13 +654,13 @@
 		{
 			$canvas.settings.mode = mode;
 			
-			if(mode == 'Text') $this.textMenu.menu.show();
-			else
-			{
-				$canvas.drawTextUp(null, $canvas);
-				$this.textMenu.menu.hide();
-				$canvas.textInput.hide();
-			}
+			//if(mode == 'Text') $this.textMenu.menu.show();
+			//else
+			//{
+				//$canvas.drawTextUp(null, $canvas);
+				//$this.textMenu.menu.hide();
+				//$canvas.textInput.hide();
+			//}
 			
 			$this.menu.find("._wPaint_icon").removeClass('active');
 			$this.menu.find("._wPaint_" + mode.toLowerCase()).addClass('active');

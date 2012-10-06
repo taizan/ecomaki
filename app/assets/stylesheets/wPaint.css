@@ -9,6 +9,14 @@
 	border-style:solid; border-width:1px; padding:3px; border-radius:5px;
 }
 
+._wPaint_slider{
+  float: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 100px;
+  height: 5px;
+}
+
 ._wPaint_icon,._wPaint_color{width:18px;}
 
 ._wPaint_icon,
