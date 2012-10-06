@@ -11,16 +11,16 @@
 
 .entry {
   position: relative;
-  width: 840px;
-  height: 300px;
+//  width: 840px;
+//  height: 300px;
 }
 
 .entry-content {
   position: absolute;
   left: 0px;
   top: 0px;
-  width: 800px;
-  height: 300px;
+//  width: 800px;
+//  height: 300px;
   border-radius: 2px;         /* CSS3 */
   -moz-border-radius: 2px;    /* Firefox */
   -webkit-border-radius: 2px; /* Safari,Chrome */
@@ -37,6 +37,6 @@ canvas {
   position: absolute;
   //float: right;
   list-style:none;
-  left: 800px;
+  //  left: 800px;
   top: 0px;
 }
