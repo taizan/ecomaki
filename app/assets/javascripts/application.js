@@ -22,3 +22,4 @@
 //= require jquery.fileupload
 //= require jquery.autosize
 //= require jquery.autosize-min
+//= require wColorPicker.1.2.min
