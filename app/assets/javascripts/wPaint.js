@@ -493,7 +493,7 @@
 			//menu
 			MainMenu.prototype.menu = 
 			$('<div class="_wPaint_menu"></div>')
-			.css({position: 'absolute', left:  5, top:  5})
+			.css({position: 'fixed', left:  5, top:  5})
 			.draggable({
 				handle: menuHandle, 
 		//		drag: function(){$this.moveTextMenu($this, $this.textMenu)}, 
