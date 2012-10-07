@@ -13,6 +13,8 @@ EntryView = Backbone.View.extend({
 
   initialize: function(arg){
     var _self = this;
+
+    this.itemNum = 1;
     this.parentView = arg.parentView;
     this.isEditable = arg.isEditable;
 
@@ -92,19 +94,27 @@ EntryView = Backbone.View.extend({
 
     $('.item',this.el).remove();
 
+    // set image to canvas
     if(this.isEditable){
       this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
+      $('.paint',this.content).css( { zIndex:this.model.get('canvas-index') } );
       //
       //this.sketch.clear();
       //this.sketch.loadImg(this.model.get('canvas'));
       //$('canvas',this.el).width(model_width).height(model_height).css({ zindex: this.model.canvas_index});
     }
 
+    this.itemNum = 1;
+    this.maxIndex = this.model.get('canvas_index') != null ? this.model.get('canvas_index') : 0;
+    
+
     _(this.model.balloons.models).each(
       function(item){
         //console.log(item);
         var baloon = new BaloonItem(item , _self ,_self.isEditable);
         baloon.appendTo( content);
+        this.itemNum ++;
+        this.maxIndex = item.get('z_index') > this.maxIndex ? item.get('z_index') : this.maxIndex;
       }
     );
 
@@ -113,6 +123,8 @@ EntryView = Backbone.View.extend({
         //console.log(item);
         var image = new ImageItem(item ,  _self  ,_self.isEditable);
         image.appendTo( content);
+        this.itemNum ++;
+        this.maxIndex = item.get('z_index') > this.maxIndex ? item.get('z_index') : this.maxIndex;
       }
     );
 
@@ -246,16 +258,21 @@ EntryView = Backbone.View.extend({
   changeLayer: function(e){
     console.log("changeLayer");
     var canvas = $('canvas',this.el);
-    var index = 5;
+    //var index = 5;
 
     $('.--btn-layer',this.el).toggleClass('btn-primary');
-
-    if(canvas.zIndex() == index){ canvas.zIndex(0); }
-    else{ canvas.zIndex(index); }
-    console.log(canvas);
-    $('#sketchTool').show();
-    this.sketch.setImg();
-    //  this.model.set('canvas' , this.sketch.getImg() );
-    //  this.model.save();
+    if( $('.--btn-layer',this.el).hasClass('btn-primary')){
+      canvas.zIndex( this.maxIndex + 1 ); 
+      this.maxIndex ++;
+      this.model.set('canvas-index',this.maxIndex);
+      this.model.save();
+    }
+    else{ 
+      canvas.zIndex(0);
+      this.model.save();
+    }
+      console.log(canvas);
+    //$('#sketchTool').show();
+    //this.sketch.setImg();
   }
 });
