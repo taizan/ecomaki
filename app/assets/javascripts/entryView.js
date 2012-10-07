@@ -23,6 +23,7 @@ EntryView = Backbone.View.extend({
         'click',
         'onScroll',
         'displayed',
+        'onLoad',
         'addBaloon',
         'addPicture',
         'addDefaultBaloon',
@@ -41,19 +42,36 @@ EntryView = Backbone.View.extend({
     this.content = $(this.el).find('.entry-content');
     //console.log(this.content);
     
-    $(window).scroll(this.onScroll);
+    $window).scroll(this.onScroll);
+
+  },
+
+  onLoad: function(){
+    var _self = this;
+
+    // init height width
+    var model_width = this.model.get('width');
+    var model_height = this.model.get('height');
+    var button_offset = 40;
+
+    this.content.width( model_width ).height( model_height );
+    $(this.el).width( this.content.width() + button_offset ).height( this.content.height() );
+    $('.buttons',this.el).css( { left: this.content.width() } );
+
 
     if(this.isEditable){
-      this.painter = this.content.wPaint({image: this.model.get('canvas')});
+      //console.log(this.model.get('canvas'));
+      this.content.wPaint({image: this.model.get('canvas')});
       this.content.mouseout(function(){ 
-            _self.model.set('canvas', $('.paint', _self.el)[0].toDataURL() );
+            _self.model.set('canvas', $('.paint', _self.el)[0].toDataURL('image/png') );
             _self.model.save();
-            //console.log($('.paint', _self.el));
+            console.log('save');
         });
       //cavas initialize
       //this.sketch = new OverlaySketch($('canvas',this.el),this.model);
       //this.sketch.init();
     }
+    return this.render();
   },
 
   render: function(){
@@ -62,6 +80,8 @@ EntryView = Backbone.View.extend({
     var _self = this;
 
     //     console.log('render');
+
+    // init height width
     var model_width = this.model.get('width');
     var model_height = this.model.get('height');
     var button_offset = 40;
@@ -73,15 +93,8 @@ EntryView = Backbone.View.extend({
     $('.item',this.el).remove();
 
     if(this.isEditable){
-      $('canvas',this.content).remove();
-      $('._wPaint_textInput',this.content).remove();
-      this.content.wPaint( {image: this.model.get('canvas')} );
-      //console.log($(this.content).data('_wPaint_canvas'));
-      //$(this.content).data('_wPaint_canvas').setImage( this.model.get('canvas') );
-      
-      //this.painter.setImage( this.model.get('canvas') );
-
-      //  console.log(this.model.get('canvas'));
+      this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
+      //
       //this.sketch.clear();
       //this.sketch.loadImg(this.model.get('canvas'));
       //$('canvas',this.el).width(model_width).height(model_height).css({ zindex: this.model.canvas_index});
