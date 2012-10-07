@@ -15,7 +15,7 @@
 {
 	var shapes = ['Rectangle', 'Ellipse', 'Line', 'Text'];
 
-	$.fn.wPaint = function(option, settings)
+	$.fn.wPaint = function(option, settings) // == $("#container").wPaint
 	{
 		if(typeof option === 'object')
 		{
@@ -410,89 +410,6 @@
 			$this.ctx.closePath();
 		},
 
-		/*******************************************************************************
-		 * draw text
-		 *******************************************************************************/
-		
-		drawTextDown: function(e, $this)
-		{
-			$this.textInput.val('').show().focus();
-		},
-		
-		drawTextUp: function(e, $this)
-		{
-			var fontString = '';
-			if($this.settings.fontTypeItalic) fontString += 'italic ';
-			//if($this.settings.fontTypeUnderline) fontString += 'underline ';
-			if($this.settings.fontTypeBold) fontString += 'bold ';
-			
-			fontString += $this.settings.fontSize + 'px ' + $this.settings.fontFamily;
-			
-			//setup lines
-			var lines = $this.textInput.val().split('\n');
-			var linesNew = [];
-			var textInputWidth = $this.textInput.width() - 2;
-			
-			var width = 0;
-			var lastj = 0;
-			
-			for(var i=0, ii=lines.length; i<ii; i++)
-			{
-				$this.textCalc.html('');
-				lastj = 0;
-				
-				for(var j=0, jj=lines[0].length; j<jj; j++)
-				{
-					width = $this.textCalc.append(lines[i][j]).width();
-					
-					if(width > textInputWidth)
-					{
-						linesNew.push(lines[i].substring(lastj,j));
-						lastj = j;
-						$this.textCalc.html(lines[i][j]);
-					}
-				}
-				
-				if(lastj != j) linesNew.push(lines[i].substring(lastj,j));
-			}
-			
-			lines = $this.textInput.val(linesNew.join('\n')).val().split('\n');
-			
-			var offset = $this.textInput.position();
-			var left = offset.left;// + parseInt($this.fontOffsets[$this.settings.fontFamily][$this.settings.fontSize][0] || 0);
-			var top = offset.top;// + parseInt($this.fontOffsets[$this.settings.fontFamily][$this.settings.fontSize][1] || 0);
-			var underlineOffset = 0;// = parseInt($this.fontOffsets[$this.settings.fontFamily][$this.settings.fontSize][2] || 0);
-			
-			for(var i=0, ii=lines.length; i<ii; i++)
-			{
-				$this.ctx.fillStyle = $this.settings.fillStyle;
-				
-				$this.ctx.textBaseline = 'top';
-				$this.ctx.font = fontString;
-				$this.ctx.fillText(lines[i], left, top);
-				
-				top += $this.settings.fontSize;
-				
-				if(lines[i] != '' && $this.settings.fontTypeUnderline)
-				{
-					width = $this.textCalc.html(lines[i]).width();
-					
-					//manually set pixels for underline since to avoid antialiasing 1px issue, and lack of support for underline in canvas
-					var imgData = $this.ctx.getImageData(0, top+underlineOffset, width, 1);
-					
-					for (j=0; j<imgData.width*imgData.height*4; j+=4)
-					{
-						imgData.data[j] = parseInt($this.settings.fillStyle.substring(1,3), 16);
-						imgData.data[j+1] = parseInt($this.settings.fillStyle.substring(3,5), 16);
-						imgData.data[j+2] = parseInt($this.settings.fillStyle.substring(5,7), 16);
-						imgData.data[j+3] = 255;
-					}
-					
-					$this.ctx.putImageData(imgData, left, top+underlineOffset);
-				}
-			}
-		},
-		
 		/*******************************************************************************
 		 * eraser
 		 *******************************************************************************/
