@@ -91,7 +91,8 @@ ChapterView = Backbone.View.extend({
   addOne: function (item,t,options) {
     //console.log(item);
     var view = new EntryView({model: item , parentView: this ,isEditable: this.isEditable });
-    $('.entryList' ,this.el).insertAt(options.index,view.render().el);
+    $('.entryList' ,this.el).insertAt(options.index,view.el);
+    view.onLoad();
   },
 
   addAll: function () {
