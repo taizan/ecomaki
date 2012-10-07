@@ -55,9 +55,11 @@ EntryItem.prototype = {
     this.item.on('change',this.onChange);
     this.$el = $(this.tmpl);
     this.el = this.$el[0];
+    var z;
+    z = this.item.get('z-index') != null ? this.item.get('z-index') : 0;  
 
     this.$el
-      .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left'), zIndex: this.item.get('z-index') })
+      .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left'), zIndex: z })
       .width(this.item.get('width')).height(this.item.get('height'));
   },
 
@@ -88,6 +90,7 @@ EntryItem.prototype = {
     this.item.set('top' , $(this.el).offset().top - $(this.content).offset().top );
     this.item.set('left' , $(this.el).offset().left - $(this.content).offset().left );
     this.item.save();
+    console.log(this);
     this.showButton();
   },
 
@@ -124,16 +127,20 @@ EntryItem.prototype = {
     );
   },
 
+  //for ajust 
+  target: {},
+
   showButton: function() {
-    var parent = this.$el.parent();
-    parent.find('.item-remove').css({ display: 'block' });
-    parent.find('.ui-resizable-handle').css({ display: 'block'});
+    var target = this.target;
+    console.log(parent);
+    target.find('.item-remove').css({ display: 'block' });
+    target.find('.ui-resizable-handle').css({ display: 'block'});
   },
 
   hideButton: function() {
-    var parent = this.$el.parent();
-    parent.find('.item-remove').css({ display: 'none' });
-    parent.find('.ui-resizable-handle').css({ display: 'none'});
+    var target = this.target;
+    target.find('.item-remove').css({ display: 'none' });
+    target.find('.ui-resizable-handle').css({ display: 'none'});
   }
 
 };
@@ -152,6 +159,8 @@ BaloonItem = EntryItem.extend({
   init: function(){
     //console.log(this.el);
     if(this.isEditable){
+
+    this.target = $(this.el);
 
       $(this.el).draggable({
         containment: "parent",
@@ -196,6 +205,8 @@ ImageItem = EntryItem.extend({
         aspectRatio: true,
         stop: this.onResize
       });
+
+    this.target = $(this.el).parent();
 
       $(this.el).parent().draggable({
         start: this.onDragStart,
