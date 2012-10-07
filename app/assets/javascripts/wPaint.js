@@ -230,13 +230,16 @@
 		{
 			$e = jQuery.extend(true, {}, e);
 			
+			//console.log(e);
+			//console.log($e);
 			var canvas_offset = $($this.canvas).offset();
 			
-			$e.pageX = Math.floor($e.pageX - canvas_offset.left);
-			$e.pageY = Math.floor($e.pageY - canvas_offset.top);
+			$e.pageX = Math.floor($e.pageX - canvas_offset.left); // == $e.offsetX == e.offsetX
+			$e.pageY = Math.floor($e.pageY - canvas_offset.top); // == $e.offsetY == e.offsetY
 			
+			// call call a general function before a specific function for each shape if it exists
 			var mode = $.inArray($this.settings.mode, shapes) > -1 ? 'Shape' : $this.settings.mode;
-			var func = $this['draw' + mode + '' + event];	
+			var func = $this['draw' + mode + '' + event];
 			
 			if(func) func($e, $this);
 		},
@@ -244,6 +247,7 @@
 		/*******************************************************************************
 		 * draw any shape
 		 *******************************************************************************/
+		// be called before specific function for each shape
 		drawShapeDown: function(e, $this)
 		{
 			if($this.settings.mode == 'Text')
@@ -265,7 +269,7 @@
 			
 			var func = $this['draw' + $this.settings.mode + 'Down'];
 			
-			if(func) func(e, $this);
+			if(func) func(e, $this); // call specific function
 		},
 		
 		drawShapeMove: function(e, $this)
@@ -305,7 +309,7 @@
 				$this.ctxTemp.strokeStyle = $this.settings.strokeStyle;
 				$this.ctxTemp.lineWidth = $this.settings.lineWidth*factor;
 				
-				func(e, $this);
+				func(e, $this); // call specific function
 			}
 		},
 		
@@ -313,12 +317,19 @@
 		{
 			if($this.settings.mode != 'Text')
 			{
+				console.log("==================================");
+				console.log($this.canvasTemp);
+				console.log($this.canvasTempLeftNew);
+				console.log($this.canvasTempTopNew);
+				console.log($this.ctx.drawImage);
+				console.log($this.ctx);
+				console.log("==================================");
 				$this.ctx.drawImage($this.canvasTemp ,$this.canvasTempLeftNew, $this.canvasTempTopNew);
 				
 				$($this.canvasTemp).hide();
 				
 				var func = $this['draw' + $this.settings.mode + 'Up'];
-				if(func) func(e, $this);
+				if(func) func(e, $this); // call specific function
 			}
 		},
 		
@@ -411,6 +422,66 @@
 		},
 
 		/*******************************************************************************
+		 * Harmony brushes
+		 *******************************************************************************/
+		//=== chrome ===================================================================
+		drawChromeDown: function(e, $this){
+			//console.log($this.canvasTempLeftOriginal)
+			//console.log($this.canvasTempTopOriginal)
+			
+			//start the path for a drag
+			$this.canvasTempLeftOriginal = e.pageX;
+			$this.canvasTempTopOriginal = e.pageY;
+   		$this.ctx.lineWidth = 1 + $this.settings.lineWidth/10;
+			//console.log($this.ctx.lineWidth);
+			$this.ctx.lineCap = "round";
+			$this.strokeColor = [
+				parseInt( $this.settings.strokeStyle.slice(1,1+2), 16 ),
+				parseInt( $this.settings.strokeStyle.slice(3,3+2), 16 ),
+				parseInt( $this.settings.strokeStyle.slice(5,5+2), 16 ) ];
+			//console.log($this.settings.strokeStyle);
+			//$this.ctx.globalCompositeOperation = 'darker';
+			//console.log($this.ctx.globalCompositeOperation);
+			$this.ctx.beginPath();
+		  $this.points = new Array();
+			$this.count = 0;
+			//console.log($this.ctx.strokeStyle);
+		},
+
+		drawChromeMove: function(e, $this){
+			//console.error($this.ctx.strokeStyle);
+		  $this.points.push([ e.pageX, e.pageY ]);
+			$this.ctx.strokeStyle = "rgba(" + $this.strokeColor[0] + ", " + $this.strokeColor[1] + ", " + $this.strokeColor[2] + ", 0.1)";
+			$this.ctx.moveTo($this.canvasTempLeftOriginal, $this.canvasTempTopOriginal);
+			$this.ctx.lineTo(e.pageX, e.pageY);
+			$this.ctx.stroke();
+
+			(function(){
+				var i, dx, dy, d;
+				for (i = 0; i < $this.points.length; i++)
+				{
+					dx = $this.points[i][0] - $this.points[$this.count][0];
+					dy = $this.points[i][1] - $this.points[$this.count][1];
+					d = dx * dx + dy * dy;
+
+					if (d < 1000){
+						$this.ctx.strokeStyle = "rgba(" + Math.floor(Math.random() * $this.strokeColor[0]) + ", " + Math.floor(Math.random() * $this.strokeColor[1]) + ", " + Math.floor(Math.random() * $this.strokeColor[2]) + ", 0.1 )";
+						//$this.ctx.beginPath();
+						$this.ctx.moveTo( $this.points[$this.count][0] + (dx * 0.2), $this.points[$this.count][1] + (dy * 0.2));
+						$this.ctx.lineTo( $this.points[i][0] - (dx * 0.2), $this.points[i][1] - (dy * 0.2));
+						$this.ctx.stroke();
+					}
+				}
+			})();
+			$this.canvasTempLeftOriginal = e.pageX;
+			$this.canvasTempTopOriginal = e.pageY;
+
+			$this.count++;
+		},
+
+		drawChromeUp: function(e, $this){},
+
+		/*******************************************************************************
 		 * eraser
 		 *******************************************************************************/
 		drawEraserDown: function(e, $this)
@@ -479,6 +550,7 @@
            .append($('<div class="_wPaint_icon _wPaint_ellipse" title="ellipse"></div>'))
            .append($('<div class="_wPaint_icon _wPaint_line" title="line"></div>'))
            .append($('<div class="_wPaint_icon _wPaint_pencil" title="pencil"></div>'))
+           .append($('<div class="_wPaint_icon _wPaint_chrome" title="chrome"></div>'))
            //.append($('<div class="_wPaint_icon _wPaint_text" title="text"></div>'))
            .append($('<div class="_wPaint_icon _wPaint_eraser" title="eraser"></div>'))
            .append($('<div class="_wPaint_fillColorPicker _wPaint_colorPicker" title="fill color"></div>'))
@@ -543,6 +615,7 @@
 			$("#paint_options ._wPaint_ellipse").click(function(){ $this.set_mode($this, $canvas, 'Ellipse'); })
 			$("#paint_options ._wPaint_line").click(function(){ console.log('lint'); $this.set_mode($this, $canvas, 'Line'); })
 			$("#paint_options ._wPaint_pencil").click(function(){ $this.set_mode($this, $canvas, 'Pencil'); })
+			$("#paint_options ._wPaint_chrome").click(function(){ $this.set_mode($this, $canvas, 'Chrome'); })
 			//.find("._wPaint_text" ).click(function(){ $this.set_mode($this, $canvas, 'Text'); })
 			$("#paint_options ._wPaint_eraser" ).click(function(e){ $this.set_mode($this, $canvas, 'Eraser'); })
 			$("#paint_options ._wPaint_slider").slider({
