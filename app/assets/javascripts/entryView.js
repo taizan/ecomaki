@@ -42,7 +42,7 @@ EntryView = Backbone.View.extend({
     this.content = $(this.el).find('.entry-content');
     //console.log(this.content);
     
-    $window).scroll(this.onScroll);
+    $(window).scroll(this.onScroll);
 
   },
 
