@@ -109,7 +109,13 @@ ChapterView = Backbone.View.extend({
     console.log("addEntry");
     console.log(this);
     //this.model.
-    this.model.create_entry();
+    this.model.create_entry(
+      {
+        height: 200,
+        width:  500,
+        canvas_index: 1,
+      }
+    );
   },
 
   addChapter: function(e){

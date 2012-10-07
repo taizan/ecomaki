@@ -12,7 +12,7 @@ EntryView = Backbone.View.extend({
   isDisplayed: false,
 
   initialize: function(arg){
-    this._self = this;
+    var _self = this;
     this.parentView = arg.parentView;
     this.isEditable = arg.isEditable;
 
@@ -44,7 +44,12 @@ EntryView = Backbone.View.extend({
     $(window).scroll(this.onScroll);
 
     if(this.isEditable){
-
+      this.painter = this.content.wPaint({image: this.model.get('canvas')});
+      this.content.mouseout(function(){ 
+            _self.model.set('canvas', $('.paint', _self.el)[0].toDataURL() );
+            _self.model.save();
+            //console.log($('.paint', _self.el));
+        });
       //cavas initialize
       //this.sketch = new OverlaySketch($('canvas',this.el),this.model);
       //this.sketch.init();
@@ -70,12 +75,12 @@ EntryView = Backbone.View.extend({
     if(this.isEditable){
       $('canvas',this.content).remove();
       $('._wPaint_textInput',this.content).remove();
-      this.content
-        .wPaint({image: this.model.get('canvas')})
-        .mouseout(function(){ 
-            _self.model.set('canvas', $('.paint', _self.el)[0].toDataURL() );
-            console.log($('.paint', _self.el));
-        });
+      this.content.wPaint( {image: this.model.get('canvas')} );
+      //console.log($(this.content).data('_wPaint_canvas'));
+      //$(this.content).data('_wPaint_canvas').setImage( this.model.get('canvas') );
+      
+      //this.painter.setImage( this.model.get('canvas') );
+
       //  console.log(this.model.get('canvas'));
       //this.sketch.clear();
       //this.sketch.loadImg(this.model.get('canvas'));
@@ -216,7 +221,13 @@ EntryView = Backbone.View.extend({
     console.log("addEntry");
     console.log(this);
     //this.model.
-    this.parentView.model.create_entry();
+    this.parentView.model.create_entry(
+      {
+        height: 200,
+        width: 500,
+        canvas_index: i,
+      }
+    );
   },
 
   changeLayer: function(e){
