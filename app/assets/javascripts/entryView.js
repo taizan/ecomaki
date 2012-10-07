@@ -64,9 +64,8 @@ EntryView = Backbone.View.extend({
     if(this.isEditable){
       //console.log(this.model.get('canvas'));
       this.content.wPaint({image: this.model.get('canvas')});
-      this.content.mouseout(function(){ 
-            _self.model.set('canvas', $('.paint', _self.el)[0].toDataURL('image/png') );
-            _self.model.save();
+      this.content.mouseleave(function(){ 
+            _self.model.save({canvas: $('.paint', _self.el)[0].toDataURL('image/png')},{wait: true});
             console.log('save');
         });
       //cavas initialize
