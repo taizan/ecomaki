@@ -26,10 +26,10 @@ function inherits(parent, protoProps, staticProps) {
 };
 
 var EntryItem = function(item,view,isEditable){
-  this.view = view;
+  this.parentView = view;
   this.item = item;
   this.isEditable = isEditable;
-  this.content = this.view.content;
+  this.content = this.parentView.content;
   
   this.defaultInitialize.apply(this,arguments);
 
@@ -84,12 +84,19 @@ EntryItem.prototype = {
 
   onDragStart: function(){
     this.hideButton();
+    var z = this.parentView.maxIndex + 1;
+    this.parentView.maxIndex++;
+    $(this.el).css({zIndex: z});
+    $(this.target).css({zIndex: z});
+    this.item.set('z-index', z);
   },
 
   onDragStop: function(){
     this.item.set('top' , $(this.el).offset().top - $(this.content).offset().top );
     this.item.set('left' , $(this.el).offset().left - $(this.content).offset().left );
+
     this.item.save();
+    
     console.log(this);
     this.showButton();
   },
@@ -100,7 +107,6 @@ EntryItem.prototype = {
     var button = $(body);
     button.appendTo(target);
     button.hide();
-
     $(target).find('.ui-resizable-handle').hide();
 
     $(target)
@@ -132,7 +138,6 @@ EntryItem.prototype = {
 
   showButton: function() {
     var target = this.target;
-    console.log(parent);
     target.find('.item-remove').css({ display: 'block' });
     target.find('.ui-resizable-handle').css({ display: 'block'});
   },
