@@ -67,6 +67,9 @@ EntryView = Backbone.View.extend({
           image: this.model.get('canvas') , 
           drawDown: function(){ _self.isDrawDown = true; } 
         });
+      $('.paint',this.content).zIndex(this.model.get('canvas_index'));
+      console.log(this.model.get('canvas_index'));
+      console.log($('.paint',this.content));
       this.content.mouseleave(function(){ 
           if(_self.isDrawDown){
             _self.isDrawDown = false;
@@ -107,14 +110,14 @@ EntryView = Backbone.View.extend({
     if(this.isEditable){
       if(this.canvasFlag){
         this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
-        $('.paint',this.content).css( { zIndex:this.model.get('canvas-index') } );
+        $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
         console.log('reflesh canvas');
       }else{
         this.canvasFlag = true;
       }
     }else{
       this.canvasImage.src = this.model.get('canvas'); 
-      $(this.canvasImage).css( { zIndex:this.model.get('canvas-index') } );
+      $(this.canvasImage).css( { zIndex:this.model.get('canvas_index') } );
     }
 
     this.itemNum = 1;
@@ -277,7 +280,7 @@ EntryView = Backbone.View.extend({
     if( $('.--btn-layer',this.el).hasClass('btn-primary')){
       canvas.zIndex( this.maxIndex + 1 ); 
       this.maxIndex ++;
-      this.model.set('canvas-index',this.maxIndex);
+      this.model.set('canvas_index',this.maxIndex);
       this.model.save();
     }
     else{ 
