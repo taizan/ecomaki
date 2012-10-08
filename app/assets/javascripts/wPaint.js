@@ -242,6 +242,8 @@
 			var func = $this['draw' + mode + '' + event];
 			
 			if(func) func($e, $this);
+
+		  if($this.settings['draw' + event]) $this.settings['draw' + event].apply($this, [e, mode]);	
 		},
 		
 		/*******************************************************************************

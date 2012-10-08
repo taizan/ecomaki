@@ -15,8 +15,8 @@
       <li class="nav-header">New File Upload</li>
       <input id="character_upload" type="file" name="character_image" data-url="/characters" multiple>
       <li class="nav-header">Selecct Image from Libraly</li>
-      <li><button class="btn" id ="pickerCancelBtn">cancel</button></li>
     </ul>
+      <button class="btn" id ="pickerCancelBtn">cancel</button></li>
   </aside>
 
   <div id="content" >
@@ -25,6 +25,7 @@
   <div id="console">
     <h3>console:<textarea id="command_line" class="span12" rows="1" ></textarea></h3>
   </div>
+  <button class="btn" id ="editButton">changeEditMode</button></li>
 </div>
 
 
@@ -63,15 +64,19 @@
     <p class="text">des</p>
   </div>
   <div class="selecter_item editer_item">
-    background
-    <select class="background_select"></select>
-    bgm
-    <select class="bgm_select">
-      <option name="bgm" value="">なし</option>
-      {% ['dream', 'flower', 'orange'].forEach(function(name, i) { %}
-      <option name="bgm" value="{{ i + 1 }}">{{ name }}</option>
-      {% }); %}
-    </select>
+    <div>
+      Background
+      <select class="background_select"></select>
+    </div>
+    <div>
+      BGM
+      <select class="bgm_select">
+        <option name="bgm" value="">なし</option>
+        {% ['dream', 'flower', 'orange'].forEach(function(name, i) { %}
+        <option name="bgm" value="{{ i + 1 }}">{{ name }}</option>
+        {% }); %}
+      </select>
+    </div>
   </div>
 
   <div class="entryList">

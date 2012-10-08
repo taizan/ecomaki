@@ -11,15 +11,15 @@ EntryView = Backbone.View.extend({
   className : 'entry',
   isDisplayed: false,
 
-  initialize: function(arg){
+  initialize: function(args){
     var _self = this;
 
     this.itemNum = 1;
-    this.parentView = arg.parentView;
-    this.isEditable = arg.isEditable;
+    this.parentView = args.parentView;
+    this.isEditable = args.isEditable;
 
-    //console.log(arg);
-    //console.log(arg.parentView);
+    //console.log(args);
+    //console.log(args.parentView);
     _.bindAll(this, "render");
     _.bindAll(this,
         'click',
@@ -60,27 +60,37 @@ EntryView = Backbone.View.extend({
     $(this.el).width( this.content.width() + button_offset ).height( this.content.height() );
     $('.buttons',this.el).css( { left: this.content.width() } );
 
-
+    this.canvasFlag = true;
+    this.isDrawDown = false;
     if(this.isEditable){
-      //console.log(this.model.get('canvas'));
-      this.content.wPaint({image: this.model.get('canvas')});
-      this.content.mouseleave(function(){ 
-            _self.model.save({canvas: $('.paint', _self.el)[0].toDataURL('image/png')},{wait: true});
-            console.log('save');
+      this.content.wPaint({
+          image: this.model.get('canvas') , 
+          drawDown: function(){ _self.isDrawDown = true; } 
         });
-      //cavas initialize
-      //this.sketch = new OverlaySketch($('canvas',this.el),this.model);
-      //this.sketch.init();
+      this.content.mouseleave(function(){ 
+          if(_self.isDrawDown){
+            _self.isDrawDown = false;
+            _self.canvasFlag = false;
+            _self.model.save({canvas: $('.paint', _self.el)[0].toDataURL('image/png')},{wait: true});
+            // do not reflesh canvas at mouse leave
+            console.log('save');
+          } 
+        });
+    }else{
+      this.canvasImage = new Image();
+      this.canvasImage.src = this.model.get('canvas');
+      $(this.canvasImage).appendTo(this.content).width( model_width ).height( model_height );
     }
+    
     return this.render();
   },
 
   render: function(){
 
-    var content = this.content;
     var _self = this;
+    var content = this.content;
 
-    //     console.log('render');
+     //console.log('render');
 
     // init height width
     var model_width = this.model.get('width');
@@ -95,12 +105,16 @@ EntryView = Backbone.View.extend({
 
     // set image to canvas
     if(this.isEditable){
-      this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
-      $('.paint',this.content).css( { zIndex:this.model.get('canvas-index') } );
-      //
-      //this.sketch.clear();
-      //this.sketch.loadImg(this.model.get('canvas'));
-      //$('canvas',this.el).width(model_width).height(model_height).css({ zindex: this.model.canvas_index});
+      if(this.canvasFlag){
+        this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
+        $('.paint',this.content).css( { zIndex:this.model.get('canvas-index') } );
+        console.log('reflesh canvas');
+      }else{
+        this.canvasFlag = true;
+      }
+    }else{
+      this.canvasImage.src = this.model.get('canvas'); 
+      $(this.canvasImage).css( { zIndex:this.model.get('canvas-index') } );
     }
 
     this.itemNum = 1;
