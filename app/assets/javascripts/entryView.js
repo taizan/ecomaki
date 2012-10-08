@@ -263,7 +263,7 @@ EntryView = Backbone.View.extend({
       {
         height: 200,
         width: 500,
-        canvas_index: i,
+        canvas_index: 0,
       }
     );
   },
