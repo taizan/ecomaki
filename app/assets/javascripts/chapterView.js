@@ -4,10 +4,10 @@ ChapterView = Backbone.View.extend({
   isLoaded: false,
   isDisplayed: false,
 
-  initialize: function(arg){
+  initialize: function(args){
 
-    this.parentView = arg.parentView;
-    this.isEditable = arg.isEditable;
+    this.parentView = args.parentView;
+    this.isEditable = args.isEditable;
 
   _.bindAll(this,
               "render",

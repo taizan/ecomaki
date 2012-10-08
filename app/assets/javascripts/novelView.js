@@ -17,10 +17,12 @@ var NovelView = Backbone.View.extend({
   lastChapter: 0,
   chapterViews: [],
 
-  initialize: function(arg) {
+  initialize: function(args) {
     _.bindAll(this, "render","addOne","addAll","appendTo","saveTitle","saveDescription","addChapter","onScroll");
 
     var _self = this;
+
+    this.isEditable = args.isEditable;
 
     this.model.bind('change', this.render, this);
     this.model.bind('destroy', this.render, this);
@@ -49,6 +51,7 @@ var NovelView = Backbone.View.extend({
     }else{
       $(".editer_item",this.el).hide();
     }
+    this.render();
   },
 
   addOne: function (item,t,options) {
