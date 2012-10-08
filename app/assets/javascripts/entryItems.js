@@ -51,7 +51,7 @@ EntryItem.prototype = {
   tmpl: '',
 
   defaultInitialize: function(){
-    _.bindAll(this,"onChange","onResize","onDragStart","onDragStop","appendTo","setButton","init");
+    _.bindAll(this,"onChange","onResize","onDragStart","onDragStop","appendTo","setButton","showOutLine","init");
     this.item.on('change',this.onChange);
     this.$el = $(this.tmpl);
     this.el = this.$el[0];
@@ -101,7 +101,22 @@ EntryItem.prototype = {
     this.showButton();
   },
 
-  setButton: function(target){
+  showOutLine: function(){
+    var target = this.target; 
+    var _self = this;
+    $(target)
+      .mouseover(function(){
+        if(_self.isEditable){
+          $(target).css({ border: '1px solid gray'});
+        }
+      })
+      .mouseout(function(){
+        $(target).css({ border: 'none'});
+      });
+  },
+
+  setButton: function(){
+    var target = this.target;
     var _self = this;
     var body = '<i class="icon-remove-sign item-button item-remove" />';
     var button = $(body);
@@ -179,7 +194,7 @@ BaloonItem = EntryItem.extend({
       });
 
       $(this.el).dblclick(this.editText);
-      this.setButton(this.el);
+      this.setButton();
     }
   },
 
@@ -219,7 +234,8 @@ ImageItem = EntryItem.extend({
       });
 
       $(this.el).dblclick(this.selectImage);
-      this.setButton($(this.el).parent());
+      this.setButton();
+      this.showOutLine();
     }
   },
 
