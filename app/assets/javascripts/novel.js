@@ -8,6 +8,7 @@ $(function() {
   //novelView = new NovelView({model: novel , isEditable: isEditable});
   //novelView.appendTo($('#content'));
   novelView = new NovelView({model: novel , isEditable: isEditable});
+  novelView.appendTo($('#content'));
 
   $('#editButton').click( function() {
         if(isEditable){
