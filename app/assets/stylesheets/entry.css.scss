@@ -32,6 +32,10 @@ canvas {
     z-index: 0;
 }
 
+.paint{
+  cursor: crosshair;
+}
+
 .entry .buttons {
   background-color: #eef;
   position: absolute;

@@ -128,12 +128,10 @@ EntryItem.prototype = {
       .mouseover(function(){
         if(_self.isEditable){
           button.show();
-          $(this).find('.ui-resizable-handle').show();
         }
       })
       .mouseout(function(){
         button.hide();
-        $(this).find('.ui-resizable-handle').hide();
       });
 
     var item = this.item;
@@ -190,7 +188,8 @@ BaloonItem = EntryItem.extend({
 
       $(this.el).resizable({
         containment: "parent",
-        stop: this.onResize
+        stop: this.onResize ,
+        autoHide: true
       });
 
       $(this.el).dblclick(this.editText);
@@ -223,7 +222,9 @@ ImageItem = EntryItem.extend({
       $(this.el).resizable({
         //  containment: "parent parent" ,
         aspectRatio: true,
-        stop: this.onResize
+        stop: this.onResize,
+        autoHide: true,
+        "handles": "n, e, s, w, ne, se, sw, nw",
       });
 
     this.target = $(this.el).parent();

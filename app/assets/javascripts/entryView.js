@@ -26,6 +26,7 @@ EntryView = Backbone.View.extend({
         'onScroll',
         'displayed',
         'onLoad',
+        "onResize",
         'addBaloon',
         'addPicture',
         'addDefaultBaloon',
@@ -63,13 +64,16 @@ EntryView = Backbone.View.extend({
     this.canvasFlag = true;
     this.isDrawDown = false;
     if(this.isEditable){
+
+      //--
+      //set painting options
       this.content.wPaint({
           image: this.model.get('canvas') , 
           drawDown: function(){ _self.isDrawDown = true; } 
         });
       $('.paint',this.content).zIndex(this.model.get('canvas_index'));
-      console.log(this.model.get('canvas_index'));
-      console.log($('.paint',this.content));
+      //console.log(this.model.get('canvas_index'));
+      //console.log($('.paint',this.content));
       this.content.mouseleave(function(){ 
           if(_self.isDrawDown){
             _self.isDrawDown = false;
@@ -79,6 +83,18 @@ EntryView = Backbone.View.extend({
             console.log('save');
           } 
         });
+      //--
+
+      this.content.resizable({
+          stop: this.onResize,
+          maxHeight: 480,
+          minHeight: 120,
+          maxWidth: 1024,
+          minWidth: 240,
+          grid: [40,40],
+          autoHide: true,
+        });
+
     }else{
       this.canvasImage = new Image();
       this.canvasImage.src = this.model.get('canvas');
@@ -210,6 +226,13 @@ EntryView = Backbone.View.extend({
     return this;
   },
 
+  onResize: function(){
+    this.model.set('height',this.content.height());
+    this.model.set('width',this.content.width());
+    this.model.save();
+    this.parentView.render();
+  },
+
   addBaloon: function( str ){
     console.log("addBaloon");
     this.model.balloons.create(
@@ -280,11 +303,12 @@ EntryView = Backbone.View.extend({
     if( $('.--btn-layer',this.el).hasClass('btn-primary')){
       canvas.zIndex( this.maxIndex + 1 ); 
       this.maxIndex ++;
-      this.model.set('canvas_index',this.maxIndex);
+      this.model.set('canvas_index',canvas.zIndex());
       this.model.save();
     }
     else{ 
       canvas.zIndex(0);
+      this.model.set('canvas_index',canvas.zIndex());
       this.model.save();
     }
       console.log(canvas);
