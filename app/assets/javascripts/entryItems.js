@@ -56,7 +56,7 @@ EntryItem.prototype = {
     this.$el = $(this.tmpl);
     this.el = this.$el[0];
     var z;
-    z = this.item.get('z-index') != null ? this.item.get('z-index') : 0;  
+    z = this.item.get('z_index') != null ? this.item.get('z_index') : 0;  
 
     this.$el
       .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left'), zIndex: z })
@@ -88,7 +88,8 @@ EntryItem.prototype = {
     this.parentView.maxIndex++;
     $(this.el).css({zIndex: z});
     $(this.target).css({zIndex: z});
-    this.item.set('z-index', z);
+    this.item.set('z_index', z);
+    this.item.save();
   },
 
   onDragStop: function(){

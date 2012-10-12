@@ -122,23 +122,9 @@ EntryView = Backbone.View.extend({
 
     $('.item',this.el).remove();
 
-    // set image to canvas
-    if(this.isEditable){
-      if(this.canvasFlag){
-        this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
-        $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
-        console.log('reflesh canvas');
-      }else{
-        this.canvasFlag = true;
-      }
-    }else{
-      this.canvasImage.src = this.model.get('canvas'); 
-      $(this.canvasImage).css( { zIndex:this.model.get('canvas_index') } );
-    }
-
     this.itemNum = 1;
-    this.maxIndex = this.model.get('canvas_index') != null ? this.model.get('canvas_index') : 0;
-    
+    this.maxIndex = this.model.get('canvas_index')  ? this.model.get('canvas_index') : 0;
+    console.log(this.maxIndex);
 
     _(this.model.balloons.models).each(
       function(item){
@@ -146,7 +132,10 @@ EntryView = Backbone.View.extend({
         var baloon = new BaloonItem(item , _self ,_self.isEditable);
         baloon.appendTo( content);
         this.itemNum ++;
-        this.maxIndex = item.get('z_index') > this.maxIndex ? item.get('z_index') : this.maxIndex;
+        _self.maxIndex = ( item.get('z_index') > _self.maxIndex ) ?   item.get('z_index') : _self.maxIndex;
+        console.log(item.get('z_index'));
+        console.log(_self.maxIndex);
+        
       }
     );
 
@@ -156,9 +145,31 @@ EntryView = Backbone.View.extend({
         var image = new ImageItem(item ,  _self  ,_self.isEditable);
         image.appendTo( content);
         this.itemNum ++;
-        this.maxIndex = item.get('z_index') > this.maxIndex ? item.get('z_index') : this.maxIndex;
+        _self.maxIndex = (item.get('z_index') > _self.maxIndex) ? item.get('z_index') : _self.maxIndex;
+        console.log(item.get('z_index'));
+        console.log(_self.maxIndex);
       }
     );
+
+    // set image to canvas
+    if(this.isEditable){
+      if(this.canvasFlag){
+        this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
+        $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
+        console.log('reflesh canvas');
+        console.log(this.maxIndex);
+        if( this.model.get('canvas_index') == this.maxIndex ) {
+          $('.--btn-layer',this.el).addClass('btn-primary');
+          console.log('add btnprimary');
+        }else{
+        }
+      }else{
+        this.canvasFlag = true;
+      }
+    }else{
+      this.canvasImage.src = this.model.get('canvas'); 
+      $(this.canvasImage).css( { zIndex:this.model.get('canvas_index') } );
+    }
 
     
     this.hideButton();
@@ -238,9 +249,11 @@ EntryView = Backbone.View.extend({
     this.model.balloons.create(
       {
         left: 0,top: 0, width: 100, height: 50 ,
+        z_index: this.maxIndx+1,
         content: str,
         border: ''
       });
+    this.maxIndex++;
 
     //temp
     this.model.save();
@@ -257,8 +270,10 @@ EntryView = Backbone.View.extend({
     this.model.characters.create(
       {
         left: 0,top: 0, width: 100, height: 100,
+        z_index: this.maxIndx+1,
         character_id: Config.prototype.character_idtourl(id)
       });
+    this.maxIndex++;
     this.model.save();
     this.model.trigger('change');
 
