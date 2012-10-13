@@ -104,8 +104,8 @@
 		lineWidthMin		: '0', 				// line width min for select drop down
 		lineWidthMax		: '10',				// line widh max for select drop down
 		lineWidth			: '2', 				// starting line width
-		fillStyle			: '#FFFFFF',		// starting fill style
-		strokeStyle			: '#FFFF00',		// start stroke style
+		fillStyle			: {r:255, g:255, b:255, a:1.0},		// starting fill style
+		strokeStyle			: {r:255, g:255, b:0, a:1.0},		// start stroke style
 		fontSizeMin			: '8',				// min font size in px
 		fontSizeMax			: '20',				// max font size in px
 		fontSize			: '12',				// current font size for text input
@@ -114,7 +114,7 @@
 		fontTypeBold		: false,			// text input bold enable/disable
 		fontTypeItalic		: false,			// text input italic enable/disable
 		fontTypeUnderline	: false,			// text input italic enable/disable
-		alpha				:	1.0,		// alpha blend
+		//alpha				:	1.0,		// alpha blend
 		image				: null,				// preload image - base64 encoded data
 		drawDown			: null,				// function to call when start a draw
 		drawMove			: null,				// function to call during a draw
@@ -303,8 +303,8 @@
     menu: null,
     //canvases: [],
     init: function(){
-      var fillStyle = '#FFFFFF';
-      var strokeStyle = '#FFFF00';
+			var fillStyle		= {r:255, g:255, b:255, a:1};		// starting fill style
+			var strokeStyle	= {r:255, g:255, b:0, a:1};		// start stroke style
 			var buttonSize  = 15;
 
       var menuContent = $('<div id="paint_options" class="_wPaint_options"></div>')
@@ -339,7 +339,7 @@
 			//@@@stroke|fill collor
 			$("._wPaint_fillColorPicker").wColorPicker({
 				mode: "click",
-				initColor: fillStyle,
+				initColor: Config.prototype.rgb2hex(fillStyle),
 				buttonSize: buttonSize,
 				onSelect: function(color){
 //          var canvases = MainMenu.prototype.canvases;
@@ -347,7 +347,10 @@
 //					  canvases[i].settings.fillStyle = color;
 //					  canvases[i].textInput.css({color: color});
 //          }
-					Canvas.prototype.settings.fillStyle = color;
+					$.each(Config.prototype.hex2rgb(color), function(key, val){
+						Canvas.prototype.settings.fillStyle = Canvas.prototype.settings.fillStyle || {};
+						Canvas.prototype.settings.fillStyle[key] = val;
+					});
 					/* fix me ************************************************/
 					//Canvas.prototype.textInput.css({color: color});
 					/*********************************************************/
@@ -355,14 +358,17 @@
 			})
 			$("._wPaint_strokeColorPicker").wColorPicker({
 				mode: "click",
-				initColor: strokeStyle,
+				initColor: Config.prototype.rgb2hex(strokeStyle),
 				buttonSize: buttonSize,
 				onSelect: function(color){
 //          var canvases = MainMenu.prototype.canvases;
 //          for( var i = 0 ; i < canvases.length ; i++){
 //					  canvases[i].settings.strokeStyle = color;
 //          }
-					  Canvas.prototype.settings.strokeStyle = color;
+					$.each(Config.prototype.hex2rgb(color), function(key, val){
+						Canvas.prototype.settings.strokeStyle = Canvas.prototype.settings.strokeStyle || {};
+						Canvas.prototype.settings.strokeStyle[key] = val;
+					});
 				}
 			});
 
@@ -402,6 +408,8 @@
 //            for( var i = 0 ; i < canvases.length ; i++){
 //					    canvases[i].settings.alpha = ui.value/100;
 //            }
+					Canvas.prototype.settings.strokeStyle.a = ui.value/100;
+					Canvas.prototype.settings.fillStyle.a = ui.value/100;
           }
         });
 			
