@@ -123,8 +123,7 @@ EntryView = Backbone.View.extend({
     $('.item',this.el).remove();
 
     this.itemNum = 1;
-    this.maxIndex = this.model.get('canvas_index')  ? this.model.get('canvas_index') : 0;
-    console.log(this.maxIndex);
+    this.maxIndex = this.model.get('canvas_index') != null  ? this.model.get('canvas_index') : 0;
 
     _(this.model.balloons.models).each(
       function(item){
@@ -133,8 +132,8 @@ EntryView = Backbone.View.extend({
         baloon.appendTo( content);
         this.itemNum ++;
         _self.maxIndex = ( item.get('z_index') > _self.maxIndex ) ?   item.get('z_index') : _self.maxIndex;
-        console.log(item.get('z_index'));
-        console.log(_self.maxIndex);
+        //console.log(item.get('z_index'));
+        //console.log(_self.maxIndex);
         
       }
     );
@@ -146,8 +145,8 @@ EntryView = Backbone.View.extend({
         image.appendTo( content);
         this.itemNum ++;
         _self.maxIndex = (item.get('z_index') > _self.maxIndex) ? item.get('z_index') : _self.maxIndex;
-        console.log(item.get('z_index'));
-        console.log(_self.maxIndex);
+        //console.log(item.get('z_index'));
+        //console.log(_self.maxIndex);
       }
     );
 
@@ -156,8 +155,8 @@ EntryView = Backbone.View.extend({
       if(this.canvasFlag){
         this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
         $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
-        console.log('reflesh canvas');
-        console.log(this.maxIndex);
+        //console.log('reflesh canvas');
+        //console.log(this.maxIndex);
         if( this.model.get('canvas_index') == this.maxIndex ) {
           $('.--btn-layer',this.el).addClass('btn-primary');
           console.log('add btnprimary');
