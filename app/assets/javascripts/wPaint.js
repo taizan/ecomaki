@@ -110,6 +110,7 @@
 		fontTypeBold		: false,			// text input bold enable/disable
 		fontTypeItalic		: false,			// text input italic enable/disable
 		fontTypeUnderline	: false,			// text input italic enable/disable
+		alpha				:	1.0,		// alpha blend
 		image				: null,				// preload image - base64 encoded data
 		drawDown			: null,				// function to call when start a draw
 		drawMove			: null,				// function to call during a draw
@@ -437,10 +438,11 @@
    		$this.ctx.lineWidth = 1 + $this.settings.lineWidth/10;
 			//console.log($this.ctx.lineWidth);
 			$this.ctx.lineCap = "round";
-			$this.strokeColor = [
-				parseInt( $this.settings.strokeStyle.slice(1,1+2), 16 ),
-				parseInt( $this.settings.strokeStyle.slice(3,3+2), 16 ),
-				parseInt( $this.settings.strokeStyle.slice(5,5+2), 16 ) ];
+			$this.strokeColor = Config.prototype.hex2rgb($this.settings.strokeStyle);
+//			[
+//				parseInt( $this.settings.strokeStyle.slice(1,1+2), 16 ),
+//				parseInt( $this.settings.strokeStyle.slice(3,3+2), 16 ),
+//				parseInt( $this.settings.strokeStyle.slice(5,5+2), 16 ) ];
 			//console.log($this.settings.strokeStyle);
 			//$this.ctx.globalCompositeOperation = 'darker';
 			//console.log($this.ctx.globalCompositeOperation);
@@ -453,7 +455,9 @@
 		drawChromeMove: function(e, $this){
 			//console.error($this.ctx.strokeStyle);
 		  $this.points.push([ e.pageX, e.pageY ]);
-			$this.ctx.strokeStyle = "rgba(" + $this.strokeColor[0] + ", " + $this.strokeColor[1] + ", " + $this.strokeColor[2] + ", 0.1)";
+			$this.ctx.strokeStyle = Config.prototype.rgba2string( {r: $this.strokeColor.r , g: $this.strokeColor.g , b: $this.strokeColor.b , a: $this.settings.alpha });
+			//console.log( Config.prototype.rgba2string( {r: $this.strokeColor.r , g: $this.strokeColor.g , b: $this.strokeColor.b , a: $this.settings.alpha }) == "rgba(" + $this.strokeColor.r + ", " + $this.strokeColor.g + ", " + $this.strokeColor.b + ", " + $this.settings.alpha + ")" );
+			//console.log($this.ctx.strokeStyle);
 			$this.ctx.moveTo($this.canvasTempLeftOriginal, $this.canvasTempTopOriginal);
 			$this.ctx.lineTo(e.pageX, e.pageY);
 			$this.ctx.stroke();
@@ -467,7 +471,8 @@
 					d = dx * dx + dy * dy;
 
 					if (d < 1000){
-						$this.ctx.strokeStyle = "rgba(" + Math.floor(Math.random() * $this.strokeColor[0]) + ", " + Math.floor(Math.random() * $this.strokeColor[1]) + ", " + Math.floor(Math.random() * $this.strokeColor[2]) + ", 0.1 )";
+						//$this.ctx.strokeStyle = Config.prototype.rgba2string( {r: Math.floor(Math.random() * $this.strokeColor.r) , g: Math.floor(Math.random() * $this.strokeColor.g) , b: Math.floor(Math.random() * $this.strokeColor.b) , a: $this.settings.alpha });
+						//console.log($this.ctx.strokeStyle);
 						//$this.ctx.beginPath();
 						$this.ctx.moveTo( $this.points[$this.count][0] + (dx * 0.2), $this.points[$this.count][1] + (dy * 0.2));
 						$this.ctx.lineTo( $this.points[i][0] - (dx * 0.2), $this.points[i][1] - (dy * 0.2));
@@ -557,6 +562,7 @@
            .append($('<div class="_wPaint_icon _wPaint_eraser" title="eraser"></div>'))
            .append($('<div class="_wPaint_fillColorPicker _wPaint_colorPicker" title="fill color"></div>'))
            .append($('<div class="_wPaint_slider"></div>'))
+           .append($('<div class="_wPaint_slider"></div>'))
            .append($('<div class="_wPaint_strokeColorPicker _wPaint_colorPicker" title="stroke color"></div>'));
 
       
@@ -578,6 +584,7 @@
 
       $('body').append(MainMenu.prototype.menu);
 
+			//@@@stroke|fill collor
 			$("._wPaint_fillColorPicker").wColorPicker({
 				mode: "click",
 				initColor: fillStyle,
@@ -620,7 +627,7 @@
 			$("#paint_options ._wPaint_chrome").click(function(){ $this.set_mode($this, $canvas, 'Chrome'); })
 			//.find("._wPaint_text" ).click(function(){ $this.set_mode($this, $canvas, 'Text'); })
 			$("#paint_options ._wPaint_eraser" ).click(function(e){ $this.set_mode($this, $canvas, 'Eraser'); })
-			$("#paint_options ._wPaint_slider").slider({
+			$($("#paint_options ._wPaint_slider")[0]).slider({
           min: 0,
           max: 100,
           value : 1,
@@ -628,6 +635,17 @@
             var canvases = MainMenu.prototype.canvases;
             for( var i = 0 ; i < canvases.length ; i++){
 					    canvases[i].settings.lineWidth = ui.value;
+            }
+          }
+        })
+			$($("#paint_options ._wPaint_slider")[1]).slider({
+          min: 0,
+          max: 100,
+          value : 100,
+          slide: function(evnt,ui){ 
+            var canvases = MainMenu.prototype.canvases;
+            for( var i = 0 ; i < canvases.length ; i++){
+					    canvases[i].settings.alpha = ui.value/100;
             }
           }
         });

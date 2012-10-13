@@ -62,3 +62,15 @@ Config.prototype.getScreenSize = function() {
   return obj;
 }
 
+Config.prototype.hex2rgb = function(hexColorString){
+	// Argument's value is expected String value formed such as "#FFFFFF"
+	// Return value is also Array of three Integers such as [255, 255, 255]
+	return {
+		r: parseInt( hexColorString.slice(1,1+2), 16 ),
+    g: parseInt( hexColorString.slice(3,3+2), 16 ),
+    b: parseInt( hexColorString.slice(5,5+2), 16 ) };
+}
+
+Config.prototype.rgba2string = function(rgba){
+	return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
+}
