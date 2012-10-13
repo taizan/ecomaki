@@ -187,9 +187,10 @@ EntryView = Backbone.View.extend({
 
   onScroll: function(){ 
     var scroll = document.documentElement.scrollTop || document.body.scrollTop;
+    var window_center_height = Config.prototype.getScreenSize().my;
     //console.log(this.isDisplayed);
-    if( $(this.el).offset().top < scroll
-        && scroll < $(this.el).offset().top + $(this.el).height() )
+    if( $(this.el).offset().top - window_center_height < scroll
+        && scroll < $(this.el).offset().top - window_center_height + $(this.el).height() )
     {
       if(this.isDisplayed == false){
         this.isDisplayed = true;
