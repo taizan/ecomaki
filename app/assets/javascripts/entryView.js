@@ -10,7 +10,7 @@ EntryView = Backbone.View.extend({
 
   className : 'entry',
   isDisplayed: false,
-
+  itemList: [],
   initialize: function(args){
     var _self = this;
 
@@ -24,7 +24,7 @@ EntryView = Backbone.View.extend({
     _.bindAll(this,
         'click',
         'onScroll',
-        'displayed',
+        'onDisplayed',
         'onLoad',
         "onResize",
         'addBaloon',
@@ -123,32 +123,23 @@ EntryView = Backbone.View.extend({
     $('.item',this.el).remove();
 
     this.itemNum = 1;
+    this.itemList = [];
     this.maxIndex = this.model.get('canvas_index') != null  ? this.model.get('canvas_index') : 0;
-
-    _(this.model.balloons.models).each(
-      function(item){
+    
+    var initItemView = function(item, itemClass) {
         //console.log(item);
-        var baloon = new BaloonItem(item , _self ,_self.isEditable);
-        baloon.appendTo( content);
-        this.itemNum ++;
+        var itemView = new itemClass(item , _self ,_self.isEditable);
+        itemView.appendTo( content);
+        _self.itemNum ++;
+        _self.itemList.push(itemView);
         _self.maxIndex = ( item.get('z_index') > _self.maxIndex ) ?   item.get('z_index') : _self.maxIndex;
         //console.log(item.get('z_index'));
         //console.log(_self.maxIndex);
-        
       }
-    );
 
-    _(this.model.characters.models).each(
-      function(item){
-        //console.log(item);
-        var image = new ImageItem(item ,  _self  ,_self.isEditable);
-        image.appendTo( content);
-        this.itemNum ++;
-        _self.maxIndex = (item.get('z_index') > _self.maxIndex) ? item.get('z_index') : _self.maxIndex;
-        //console.log(item.get('z_index'));
-        //console.log(_self.maxIndex);
-      }
-    );
+    _(this.model.balloons.models).each( function(item){ initItemView(item, BaloonItem); } );
+
+    _(this.model.characters.models).each( function(item){ initItemView(item ,ImageItem ); } );
 
     // set image to canvas
     if(this.isEditable){
@@ -169,7 +160,6 @@ EntryView = Backbone.View.extend({
       this.canvasImage.src = this.model.get('canvas'); 
       $(this.canvasImage).css( { zIndex:this.model.get('canvas_index') } );
     }
-
     
     this.hideButton();
     
@@ -186,9 +176,12 @@ EntryView = Backbone.View.extend({
     "click .--btn-layer": "changeLayer"
   },
   
-  displayed: function(){
+  onDisplayed: function(){
     // do something when entry displayed
     console.log('disp entry');
+    for(var i = 0; i < this.itemList.length; i++){
+      this.itemList[i].onDisplay();
+    }
     return this;
   },
 
@@ -200,7 +193,7 @@ EntryView = Backbone.View.extend({
     {
       if(this.isDisplayed == false){
         this.isDisplayed = true;
-        this.displayed();
+        this.onDisplayed();
       }
     } else if(this.isDisplayed) {
       this.isDisplayed = false;

@@ -50,8 +50,23 @@ EntryItem.prototype = {
   // for over ride
   tmpl: '',
 
+  //for ajust 
+  target: {},
+
   defaultInitialize: function(){
-    _.bindAll(this,"onChange","onResize","onDragStart","onDragStop","appendTo","setButton","showOutLine","init");
+    _.bindAll(this,
+        "onChange",
+        "onResize",
+        "onDragStart",
+        "onDragStop",
+        "appendTo",
+        "setButton",
+        "showOutLine",
+        "init",
+        "runEffect",
+        "effectCallback",
+        "onDisplay"
+      );
     this.item.on('change',this.onChange);
     this.$el = $(this.tmpl);
     this.el = this.$el[0];
@@ -84,6 +99,7 @@ EntryItem.prototype = {
 
   onDragStart: function(){
     this.hideButton();
+
     var z = this.parentView.maxIndex ;
     if(this.item.get('z_index') < z) {
       z ++;
@@ -150,20 +166,38 @@ EntryItem.prototype = {
     );
   },
 
-  //for ajust 
-  target: {},
-
   showButton: function() {
     var target = this.target;
-    target.find('.item-remove').css({ display: 'block' });
-    target.find('.ui-resizable-handle').css({ display: 'block'});
+    target.find('.item-remove').show();
+    //target.find('.ui-resizable-handle').show();
   },
 
   hideButton: function() {
     var target = this.target;
-    target.find('.item-remove').css({ display: 'none' });
-    target.find('.ui-resizable-handle').css({ display: 'none'});
-  }
+    target.find('.item-remove').hide();
+    //target.find('.ui-resizable-handle').hide();
+  },
+  
+  onDisplay: function(){
+    this.runEffect("shake");
+    //this.runEffect(this.model.get('option'));
+  },
+
+  runEffect: function(selectedEffect){
+    var options = {};
+    // some effects have required parameters
+    if ( selectedEffect === "scale" ) {
+      options = { percent: 0 };
+    } else if ( selectedEffect === "size" ) {
+      options = { to: { width: 200, height: 60 } };
+    } 
+
+    $(this.target).effect( selectedEffect, options, 500, this.effectCallback );
+  },
+
+  effectCallback: function(){
+    ;
+  },
 
 };
 
@@ -231,7 +265,7 @@ ImageItem = EntryItem.extend({
         "handles": "n, e, s, w, ne, se, sw, nw",
       });
 
-    this.target = $(this.el).parent();
+      this.target = $(this.el).parent();
 
       $(this.el).parent().draggable({
         start: this.onDragStart,
