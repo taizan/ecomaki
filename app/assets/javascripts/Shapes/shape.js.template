@@ -1,0 +1,8 @@
+Config.Shapes[""] = {
+	"drawDown": function(e, $this){
+	},
+	"drawMove": function(e, $this){
+	},
+	"drawUp": function(e, $this){
+	}
+}

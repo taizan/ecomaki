@@ -74,3 +74,5 @@ Config.prototype.hex2rgb = function(hexColorString){
 Config.prototype.rgba2string = function(rgba){
 	return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
 }
+
+Config.Shapes = {};
