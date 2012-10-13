@@ -71,6 +71,18 @@ Config.prototype.hex2rgb = function(hexColorString){
     b: parseInt( hexColorString.slice(5,5+2), 16 ) };
 }
 
+Config.prototype.rgb2hex = function(rgbObject){
+	var xx = function(num){
+		var str = num.toString(16);
+		if(str.length == 1){
+			return "0" + str;
+		}else{
+			return str;
+		}
+	}
+	return "#" + xx(rgbObject.r) + xx(rgbObject.g) + xx(rgbObject.b);
+}
+
 Config.prototype.rgba2string = function(rgba){
 	return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
 }

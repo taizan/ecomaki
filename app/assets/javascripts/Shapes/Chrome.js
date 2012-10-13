@@ -9,7 +9,6 @@ Config.Shapes["Chrome"] = {
    		$this.ctx.lineWidth = 1 + $this.settings.lineWidth/10;
 			//console.log($this.ctx.lineWidth);
 			$this.ctx.lineCap = "round";
-			$this.strokeColor = Config.prototype.hex2rgb($this.settings.strokeStyle);
 //			[
 //				parseInt( $this.settings.strokeStyle.slice(1,1+2), 16 ),
 //				parseInt( $this.settings.strokeStyle.slice(3,3+2), 16 ),
@@ -25,7 +24,7 @@ Config.Shapes["Chrome"] = {
 	"drawMove": function(e, $this){
 			//console.error($this.ctx.strokeStyle);
 		  $this.points.push([ e.pageX, e.pageY ]);
-			$this.ctx.strokeStyle = Config.prototype.rgba2string( {r: $this.strokeColor.r , g: $this.strokeColor.g , b: $this.strokeColor.b , a: $this.settings.alpha });
+			$this.ctx.strokeStyle = Config.prototype.rgba2string( $this.settings.strokeStyle );
 			//console.log( Config.prototype.rgba2string( {r: $this.strokeColor.r , g: $this.strokeColor.g , b: $this.strokeColor.b , a: $this.settings.alpha }) == "rgba(" + $this.strokeColor.r + ", " + $this.strokeColor.g + ", " + $this.strokeColor.b + ", " + $this.settings.alpha + ")" );
 			//console.log($this.ctx.strokeStyle);
 			$this.ctx.moveTo($this.canvasTempLeftOriginal, $this.canvasTempTopOriginal);
@@ -41,7 +40,7 @@ Config.Shapes["Chrome"] = {
 					d = dx * dx + dy * dy;
 
 					if (d < 1000){
-						//$this.ctx.strokeStyle = Config.prototype.rgba2string( {r: Math.floor(Math.random() * $this.strokeColor.r) , g: Math.floor(Math.random() * $this.strokeColor.g) , b: Math.floor(Math.random() * $this.strokeColor.b) , a: $this.settings.alpha });
+						//$this.ctx.strokeStyle = Config.prototype.rgba2string( {r: Math.floor(Math.random() * $this.settings.strokeStyle.r) , g: Math.floor(Math.random() * $this.settings.strokeStyle.g) , b: Math.floor(Math.random() * $this.settings.strokeStyle.b) , a: $this.settings.strokeStyle.a });
 						//console.log($this.ctx.strokeStyle);
 						//$this.ctx.beginPath();
 						$this.ctx.moveTo( $this.points[$this.count][0] + (dx * 0.2), $this.points[$this.count][1] + (dy * 0.2));

@@ -2,8 +2,9 @@ Config.Shapes["Pencil"] = {
 	"drawDown": function(e, $this){
 			$this.ctx.lineJoin = "round";
 			$this.ctx.lineCap = "round";
-			$this.ctx.strokeStyle = $this.settings.strokeStyle;
-			$this.ctx.fillStyle = $this.settings.strokeStyle;
+			$this.ctx.strokeStyle = Config.prototype.rgba2string($this.settings.strokeStyle);
+			//console.log($this.ctx.strokeStyle);
+			$this.ctx.fillStyle = Config.prototype.rgba2string($this.settings.strokeStyle);
 			$this.ctx.lineWidth = $this.settings.lineWidth;
 			
 			//draw single dot in case of a click without a move

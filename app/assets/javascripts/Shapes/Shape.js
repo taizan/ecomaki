@@ -53,8 +53,8 @@ Config.Shapes["Shape"] = {
 				e.w = width - $this.settings.lineWidth*factor;
 				e.h = height - $this.settings.lineWidth*factor;
 				
-				$this.ctxTemp.fillStyle = $this.settings.fillStyle;
-				$this.ctxTemp.strokeStyle = $this.settings.strokeStyle;
+				$this.ctxTemp.fillStyle = Config.prototype.rgba2string($this.settings.fillStyle);
+				$this.ctxTemp.strokeStyle = Config.prototype.rgba2string($this.settings.strokeStyle);
 				$this.ctxTemp.lineWidth = $this.settings.lineWidth*factor;
 				
 				func(e, $this); // call specific function
