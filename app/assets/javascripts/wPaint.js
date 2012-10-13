@@ -129,6 +129,7 @@
 	function Canvas(settings)
 	{
 		Canvas.prototype.settings = settings;
+    this.localSettings = settings;
 		
 		this.draw = false;
 
@@ -185,6 +186,7 @@
 				e.stopPropagation();
 				$this.draw = true;
 				$this.callFunc(e, $this, 'Down');
+        console.log($this);
 			});
 			
 			$(document)
@@ -252,7 +254,7 @@
 			
 			if(func) func($e, $this);
 
-		  if($this.settings['draw' + event]) $this.settings['draw' + event].apply($this, [e, mode]);	
+		  if($this.localSettings['draw' + event]) $this.localSettings['draw' + event].apply($this, [e, mode]);	
 		},
 		
 		/*******************************************************************************

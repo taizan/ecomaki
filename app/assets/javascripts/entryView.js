@@ -69,12 +69,16 @@ EntryView = Backbone.View.extend({
       //set painting options
       this.content.wPaint({
           image: this.model.get('canvas') , 
-          drawDown: function(){ _self.isDrawDown = true; } 
+          drawDown: function(){ _self.isDrawDown = true;
+          console.log(_self);
+          } 
         });
       $('.paint',this.content).zIndex(this.model.get('canvas_index'));
       //console.log(this.model.get('canvas_index'));
       //console.log($('.paint',this.content));
       this.content.mouseleave(function(){ 
+          console.log(_self.isDrawDown);
+          console.log(_self);
           if(_self.isDrawDown){
             _self.isDrawDown = false;
             _self.canvasFlag = false;

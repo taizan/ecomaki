@@ -27,7 +27,6 @@ Picker.prototype = {
   parseCharacterXml: function(xml,status){
     //alert('parse');
     if(status!='success')return;
-    console.log(this.disp_picker);
     var _self = this;
 
     $(xml).find('character').each(
@@ -35,18 +34,14 @@ Picker.prototype = {
         var id = $(this).find('id').text();
         var name = $(this).find('name').text();
         var height = $(this).find('height').text();
+        var width = $(this).find('width').text();
+        var auther = $(this).find('auther').text();
+        var description = $(this).find('description').text();
         _self.setItem(id);
       }
     );
   },
 
-  disp_picker: function(){
-    // alert();
-    var id = $(this).find('id').text();
-    var name = $(this).find('name').text();
-    var height = $(this).find('height').text();
-    this.setItem(id);
-  },
 
   setItem: function(id){
     var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/characters/image/' + id + '"></li>');
@@ -92,7 +87,8 @@ Picker.prototype = {
     //selectedImage = ev.target;
     this.loadXml("/characters.xml" , this.parseCharacterXml );
     $('#picker').show('fast');
-    $("#pickerCancelBtn").click(this.finish);
+    $('#pickerCancelBtn').click(this.finish);
+    $('#picker').blur(this.finish);
 
   },
 
