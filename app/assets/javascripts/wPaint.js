@@ -15,16 +15,6 @@
 {
 	var shapes = ['Rectangle', 'Ellipse', 'Line', 'Text'];
 
-	var Shapelist = [
-		"Shape",
-		"Pencil",
-		"Rectangle",
-		"Ellipse",
-		"Line",
-		"Chrome",
-		"Eraser"
-	];
-
 	$.fn.wPaint = function(option, settings) // == $("#container").wPaint
 	{
 		if(typeof option === 'object')
@@ -243,7 +233,7 @@
 		
 		callFunc: function(e, $this, event)
 		{
-			console.log($this)
+			//console.log($this)
 			$e = jQuery.extend(true, {}, e);
 			
 			//console.log(e);
@@ -286,10 +276,12 @@
 	}
 	
 	var appendShape = (function($canvas){
-		$.each(Shapelist, function(inx, val){
-			$canvas["draw" + val + "Down"] = Config.Shapes[val].drawDown;
-			$canvas["draw" + val + "Move"] = Config.Shapes[val].drawMove;
-			$canvas["draw" + val + "Up"] = Config.Shapes[val].drawUp;
+		$.each(Config.Shapes, function(name, shape){
+			//console.log(name);
+			//console.log(shape);
+			$canvas["draw" + name + "Down"] = shape.drawDown;
+			$canvas["draw" + name + "Move"] = shape.drawMove;
+			$canvas["draw" + name + "Up"] = shape.drawUp;
 		});
 	})(Canvas.prototype);
 
@@ -312,21 +304,17 @@
       var strokeStyle = '#FFFF00';
 			var buttonSize  = 15;
 
-      var menuContent =
-         $('<div id="paint_options" class="_wPaint_options"></div>')
-           .append($('<div class="_wPaint_icon _wPaint_rectangle" title="rectangle"></div>'))
-           .append($('<div class="_wPaint_icon _wPaint_ellipse" title="ellipse"></div>'))
-           .append($('<div class="_wPaint_icon _wPaint_line" title="line"></div>'))
-           .append($('<div class="_wPaint_icon _wPaint_pencil" title="pencil"></div>'))
-           .append($('<div class="_wPaint_icon _wPaint_chrome" title="chrome"></div>'))
+      var menuContent = $('<div id="paint_options" class="_wPaint_options"></div>')
            //.append($('<div class="_wPaint_icon _wPaint_text" title="text"></div>'))
-           .append($('<div class="_wPaint_icon _wPaint_eraser" title="eraser"></div>'))
            .append($('<div class="_wPaint_fillColorPicker _wPaint_colorPicker" title="fill color"></div>'))
            .append($('<div class="_wPaint_slider"></div>'))
            .append($('<div class="_wPaint_slider"></div>'))
            .append($('<div class="_wPaint_strokeColorPicker _wPaint_colorPicker" title="stroke color"></div>'));
-
-      
+			$.each(Config.Shapes, function(name, shape){
+				if( name != "Shape" ){
+					menuContent.append($('<div class="_wPaint_icon' + ' _wPaint_' + name + '" title="'+ name + '"></div>'));
+				}
+			});
 
 			var menuHandle = $('<div class="_wPaint_handle"></div>');
 			
@@ -381,13 +369,10 @@
 			
 	    this.menu = MainMenu.prototype.menu;		
 			//content
-			$("#paint_options ._wPaint_rectangle").click(function(){ $this.set_mode($this, $canvas, 'Rectangle'); })
-			$("#paint_options ._wPaint_ellipse").click(function(){ $this.set_mode($this, $canvas, 'Ellipse'); })
-			$("#paint_options ._wPaint_line").click(function(){ console.log('lint'); $this.set_mode($this, $canvas, 'Line'); })
-			$("#paint_options ._wPaint_pencil").click(function(){ $this.set_mode($this, $canvas, 'Pencil'); })
-			$("#paint_options ._wPaint_chrome").click(function(){ $this.set_mode($this, $canvas, 'Chrome'); })
+			$.each(Config.Shapes, function(name, shape){
+					$("#paint_options ._wPaint_" + name).click(function(){ $this.set_mode($this, $canvas, name);})
+			});
 			//.find("._wPaint_text" ).click(function(){ $this.set_mode($this, $canvas, 'Text'); })
-			$("#paint_options ._wPaint_eraser" ).click(function(e){ $this.set_mode($this, $canvas, 'Eraser'); })
 			$($("#paint_options ._wPaint_slider")[0]).slider({
           min: 0,
           max: 100,
