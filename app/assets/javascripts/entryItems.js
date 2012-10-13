@@ -179,11 +179,13 @@ EntryItem.prototype = {
   },
   
   onDisplay: function(){
-    this.runEffect("shake");
+      this.runEffect("shake",500,{});
     //this.runEffect(this.model.get('option'));
   },
 
-  runEffect: function(selectedEffect){
+  isRunnable: true,
+
+  runEffect: function(selectedEffect , speed , options){
     var options = {};
     // some effects have required parameters
     if ( selectedEffect === "scale" ) {
@@ -191,12 +193,15 @@ EntryItem.prototype = {
     } else if ( selectedEffect === "size" ) {
       options = { to: { width: 200, height: 60 } };
     } 
-
-    $(this.target).effect( selectedEffect, options, 500, this.effectCallback );
+    //prevent overrapping of effect    
+    if(this.isRunnable){
+      $(this.target).effect( selectedEffect, options, speed, this.effectCallback );
+      this.isRunnable = false;
+    }
   },
 
   effectCallback: function(){
-    ;
+    this.isRunnable = true;
   },
 
 };
