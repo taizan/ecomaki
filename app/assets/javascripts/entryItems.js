@@ -101,10 +101,10 @@ EntryItem.prototype = {
     this.hideButton();
 
     var z = this.parentView.maxIndex ;
-    if(this.item.get('z_index') < z) {
+    //if(this.item.get('z_index') < z) {
       z ++;
       this.parentView.maxIndex++;
-    }
+    //}
     $(this.el).css({zIndex: z});
     $(this.target).css({zIndex: z});
     this.item.set('z_index', z);
