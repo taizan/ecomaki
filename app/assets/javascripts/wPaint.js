@@ -128,7 +128,7 @@
 	 */
 	function Canvas(settings)
 	{
-		this.settings = settings;
+		Canvas.prototype.settings = settings;
 		
 		this.draw = false;
 
@@ -144,7 +144,8 @@
 		this.canvasTempLeftNew = null;
 		this.canvasTempTopNew = null;
 		
-		this.textInput = null;
+		//this.textInput = null;
+		Canvas.prototype.textInput = null;
 		
 		return this;
 	}
@@ -160,6 +161,8 @@
 			'Verdana'	: {'8': [2,2,-1,1], '9': [2,2,-1,1], '10': [2,2,-1,1], '11': [2,2,-1,1], '12': [2,3,-2,1], '13': [2,3,-2,1], '14': [2,2,-1,1], '15': [2,2,-1,1], '16': [2,2,-1,1], '17': [2,2,-2,1], '18': [2,3,-2,1], '19': [2,3,-2,1], '20': [2,3,-2,1]},
 		},*/
 		
+		settings: {},
+		textInput: null,
 		/*******************************************************************************
 		 * Generate canvases and events
 		 *******************************************************************************/
@@ -298,7 +301,7 @@
 	MainMenu.prototype = 
 	{
     menu: null,
-    canvases: [],
+    //canvases: [],
     init: function(){
       var fillStyle = '#FFFFFF';
       var strokeStyle = '#FFFF00';
@@ -339,11 +342,15 @@
 				initColor: fillStyle,
 				buttonSize: buttonSize,
 				onSelect: function(color){
-          var canvases = MainMenu.prototype.canvases;
-          for( var i = 0 ; i < canvases.length ; i++){
-					  canvases[i].settings.fillStyle = color;
-					  canvases[i].textInput.css({color: color});
-          }
+//          var canvases = MainMenu.prototype.canvases;
+//          for( var i = 0 ; i < canvases.length ; i++){
+//					  canvases[i].settings.fillStyle = color;
+//					  canvases[i].textInput.css({color: color});
+//          }
+					Canvas.prototype.settings.fillStyle = color;
+					/* fix me ************************************************/
+					//Canvas.prototype.textInput.css({color: color});
+					/*********************************************************/
 				}
 			})
 			$("._wPaint_strokeColorPicker").wColorPicker({
@@ -351,10 +358,11 @@
 				initColor: strokeStyle,
 				buttonSize: buttonSize,
 				onSelect: function(color){
-          var canvases = MainMenu.prototype.canvases;
-          for( var i = 0 ; i < canvases.length ; i++){
-					  canvases[i].settings.strokeStyle = color;
-          }
+//          var canvases = MainMenu.prototype.canvases;
+//          for( var i = 0 ; i < canvases.length ; i++){
+//					  canvases[i].settings.strokeStyle = color;
+//          }
+					  Canvas.prototype.settings.strokeStyle = color;
 				}
 			});
 
@@ -365,7 +373,7 @@
 			var $canvas = canvas;
 			var $this = this;
 
-      MainMenu.prototype.canvases.push($canvas);
+      //MainMenu.prototype.canvases.push($canvas);
 			
 	    this.menu = MainMenu.prototype.menu;		
 			//content
@@ -378,10 +386,11 @@
           max: 100,
           value : 1,
           slide: function(evnt,ui){ 
-            var canvases = MainMenu.prototype.canvases;
-            for( var i = 0 ; i < canvases.length ; i++){
-					    canvases[i].settings.lineWidth = ui.value;
-            }
+//            var canvases = MainMenu.prototype.canvases;
+//            for( var i = 0 ; i < canvases.length ; i++){
+//					    canvases[i].settings.lineWidth = ui.value;
+//            }
+						Canvas.prototype.settings.lineWidth = ui.value;
           }
         })
 			$($("#paint_options ._wPaint_slider")[1]).slider({
@@ -389,10 +398,10 @@
           max: 100,
           value : 100,
           slide: function(evnt,ui){ 
-            var canvases = MainMenu.prototype.canvases;
-            for( var i = 0 ; i < canvases.length ; i++){
-					    canvases[i].settings.alpha = ui.value/100;
-            }
+//            var canvases = MainMenu.prototype.canvases;
+//            for( var i = 0 ; i < canvases.length ; i++){
+//					    canvases[i].settings.alpha = ui.value/100;
+//            }
           }
         });
 			
