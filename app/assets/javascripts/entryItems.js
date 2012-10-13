@@ -84,8 +84,11 @@ EntryItem.prototype = {
 
   onDragStart: function(){
     this.hideButton();
-    var z = this.parentView.maxIndex + 1;
-    this.parentView.maxIndex++;
+    var z = this.parentView.maxIndex ;
+    if(this.item.get('z_index') < z) {
+      z ++;
+      this.parentView.maxIndex++;
+    }
     $(this.el).css({zIndex: z});
     $(this.target).css({zIndex: z});
     this.item.set('z_index', z);

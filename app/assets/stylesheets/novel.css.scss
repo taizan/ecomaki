@@ -3,10 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #novel_container {
-    width: 1000px;
-    //margin-left: auto;
-    //margin-right: auto;
-    left: 200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 body {
@@ -26,6 +24,13 @@ body {
   top: 0;
   left: 0;
   z-index: -1;
+}
+
+#content{
+  margin-left: auto;
+  margin-right: auto;
+  //position: absolute;
+	position: relative;
 }
 
 #console{
@@ -85,14 +90,6 @@ body {
     font-size: 12px;
     line-height: 1.5em;
 }
-
-#content {
-//for console margin
-  margin: 40px;
-  position: absolute;
-  margin-left: 200px;
-}
-
 
 
 #entrylist {
