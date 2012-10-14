@@ -55,7 +55,35 @@ var EntryList = Backbone.Collection.extend({
   model: Entry,
   url: function() {
     return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries";
-  }
+  },
+  sort: function(options) {
+    Backbone.Collection.prototype.sort.call(this, options);
+    console.log("sort called");
+    for (var i = 0; i < this.models.length; i++) {
+	this.models[i].order_number = i;
+    }
+  },
+  add: function(models, options) {
+	    options || (options = {});
+	    models = _.isArray(models) ? models.slice() : [models];
+	    index = options.at != null ? options.at : this.models.length;
+	    for (var i = 0; i < models.length; i++) {
+		models[i].order_number = index + (i+1.0) / (models.length+1);
+	    }
+	    Backbone.Collection.prototype.add.call(this, models, options);
+	},
+  create: function(model, options) {
+    if (typeof model.order_number === "undefined")
+      model.order_number = this.length;
+    Backbone.Collection.prototype.create.call(this, model, options);
+	},
+  comparator: function(entry) { entry.order_number },
+  // Save all models in collection.
+  save: function() {
+	    for (var i = 0; i < this.models.length; i++) {
+		this.models[i].save();
+	    }
+	}
 });
 
 var Chapter = Backbone.Model.extend({
