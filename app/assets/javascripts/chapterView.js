@@ -179,7 +179,7 @@ ChapterView = Backbone.View.extend({
     console.log(entry);
     this.model.entries.remove(entry);
     this.model.entries.add(entry,{at:i});
-    this.model.save();
+    this.model.entries.save();
     this.model.trigger('change');
     //this.model.fetch();
   },
