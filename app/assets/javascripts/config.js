@@ -1,10 +1,14 @@
 $(function(){
+
+
+  // browser typr detection
   isWin9X = (navigator.appVersion.toLowerCase().indexOf('windows 98')+1);
   isIE = (navigator.appName.toLowerCase().indexOf('internet explorer')+1?1:0);
   isOpera = (navigator.userAgent.toLowerCase().indexOf('opera')+1?1:0);
   if (isOpera) isIE = false;
   isSafari = (navigator.appVersion.toLowerCase().indexOf('safari')+1?1:0);
 
+  // for IE console dose not define problem
   if (!window.console){
     window.console = {
       log : function(msg){
@@ -12,7 +16,17 @@ $(function(){
       }
     };
   }
-  
+
+
+  // for use template arguments
+  // change deletemeter from <%= %> to {{ }}
+  _.templateSettings = {
+      interpolate : /\{\{(.+?)\}\}/g,
+      evaluate : /\{%(.+?)%\}/g,
+  };
+ 
+
+  // for easy call of config function
   config = new Config();
 });
 
