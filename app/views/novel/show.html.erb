@@ -107,6 +107,8 @@
     <li><button class="btn --btn-layer"><i class="icon-edit" /></button></li>
     <li><button class="btn --btn-entry"><i class="icon-arrow-down" /></button></li>
   </div>
+  <div class="itemEffectSelecters">
+  </div>
 </script>
 
 <script type="text/template" id="baloon_template">
@@ -115,4 +117,65 @@
 
 <script type="text/template" id="picture_template">
   <img class="--picture-img "  > </img>
+</script>
+
+
+<script type="text/template" id="effect_selecter_template">
+  <div class="effect_selecter">
+    <div class="item_name selecter_item">item name</div>
+    <select name="effects" class="effectTypes selecter_item">
+      <option value="none">None</option>
+      <option value="blind">Blind</option>
+      <option value="bounce">Bounce</option>
+      <option value="clip">Clip</option>
+      <option value="drop">Drop</option>
+      <option value="explode">Explode</option>
+      <option value="fade">Fade</option>
+      <option value="fold">Fold</option>
+      <option value="highlight">Highlight</option>
+      <option value="puff">Puff</option>
+      <option value="pulsate">Pulsate</option>
+      <option value="scale">Scale</option>
+      <option value="shake">Shake</option>
+      <option value="size">Size</option>
+      <option value="slide">Slide</option>
+      <option value="transfer">Transfer</option>
+    </select>
+    <select name="ease" class="easeTypes selecter_item">
+      <option value="linear" >linear</option>
+      <option value="swing" >swing</option>
+      <option value="jswing" >jswing</option>
+      <option value="easeInQuad" >easeInQuad</option>
+      <option value="easeInCubic" >easeInCubic</option>
+      <option value="easeInQuart" >easeInQuart</option>
+      <option value="easeInQuint" >easeInQuint</option>
+      <option value="easeInSine" >easeInSine</option>
+      <option value="easeInExpo" >easeInExpo</option>
+      <option value="easeInCirc" >easeInCirc</option>
+      <option value="easeInElastic" >easeInElastic</option>
+      <option value="easeInBack" >easeInBack</option>
+      <option value="easeInBounce" >easeInBounce</option>
+      <option value="easeOutQuad" >easeOutQuad</option>
+      <option value="easeOutCubic" >easeOutCubic</option>
+      <option value="easeOutQuart" >easeOutQuart</option>
+      <option value="easeOutQuint" >easeOutQuint</option>
+      <option value="easeOutSine" >easeOutSine</option>
+      <option value="easeOutExpo" >easeOutExpo</option>
+      <option value="easeOutCirc" >easeOutCirc</option>
+      <option value="easeOutElastic" >easeOutElastic</option>
+      <option value="easeOutBack" >easeOutBack</option>
+      <option value="easeOutBounce" >easeOutBounce</option>
+      <option value="easeInOutQuad" >easeInOutQuad</option>
+      <option value="easeInOutCubic" >easeInOutCubic</option>
+      <option value="easeInOutQuart" >easeInOutQuart</option>
+      <option value="easeInOutQuint" >easeInOutQuint</option>
+      <option value="easeInOutSine" >easeInOutSine</option>
+      <option value="easeInOutExpo" >easeInOutExpo</option>
+      <option value="easeInOutCirc" >easeInOutCirc</option>
+      <option value="easeInOutElastic" >easeInOutElastic</option>
+      <option value="easeInOutBack" >easeInOutBack</option>
+      <option value="easeInOutBounce" >easeInOutBounce</option>
+    </select>
+    <input name="duration" class="duration selecter_item" value="500" size="4" maxlength="4">
+  </div>
 </script>

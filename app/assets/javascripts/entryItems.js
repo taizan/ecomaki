@@ -65,7 +65,10 @@ EntryItem.prototype = {
         "init",
         "runEffect",
         "effectCallback",
-        "onDisplay"
+        "onDisplay",
+        "appendEffectSelecterTo",
+        "setEffect"
+
       );
     this.item.on('change',this.onChange);
     this.$el = $(this.tmpl);
@@ -203,7 +206,25 @@ EntryItem.prototype = {
   effectCallback: function(){
     this.isRunnable = true;
   },
+  
+  appendEffectSelecterTo: function(target){    
+    var selecterTemplate =  $("#effect_selecter_template").html();
+    this.selecter = $(selecterTemplate);
+    $(this.selecter).appendTo(target);
+    _self = this;
+    $(this.selecter).find('.effectType').change( _self.setEffect );
+    $(this.selecter).find('.easeType').change( _self.setEffect );
+    $(this.selecter).find('.duration').change( _self.setEffect );  
+  },
 
+  setEffect: function(){
+    var optionString = 
+        $(this.selecter).find('.effectType').val() + "," +
+        $(this.selecter).find('.easeType').val() + "," +
+        $(this.selecter).find('.duration').val();
+    console.log(optionString);
+    this.model.set('option',optionString);
+  }
 };
 
 
