@@ -12,6 +12,8 @@ $(function(){
       }
     };
   }
+  
+  config = new Config();
 });
 
 function Config()
