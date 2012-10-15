@@ -119,12 +119,15 @@ EntryView = Backbone.View.extend({
     var model_width = this.model.get('width');
     var model_height = this.model.get('height');
     var button_offset = 40;
+    var selecter_offset = 350;
 
     this.content.width( model_width ).height( model_height );
-    $(this.el).width( this.content.width() + button_offset ).height( this.content.height() );
+    $(this.el).width( this.content.width() + button_offset + selecter_offset).height( this.content.height() );
     $('.buttons',this.el).css( { left: this.content.width() } );
-
+    $('.itemEffectSelecters',this.el).css({ left: this.content.width() + button_offset });
+    
     $('.item',this.el).remove();
+    $('.itemEffectSelecters',this.el).empty();
 
     this.itemNum = 1;
     this.itemList = [];
@@ -139,6 +142,9 @@ EntryView = Backbone.View.extend({
         _self.maxIndex = ( item.get('z_index') > _self.maxIndex ) ?   item.get('z_index') : _self.maxIndex;
         //console.log(item.get('z_index'));
         //console.log(_self.maxIndex);
+
+        itemView.appendEffectSelecterTo($('.itemEffectSelecters',_self.el));
+        console.log(_self.itemNum);
       }
 
     _(this.model.balloons.models).each( function(item){ initItemView(item, BaloonItem); } );
@@ -278,11 +284,11 @@ EntryView = Backbone.View.extend({
 
 
   addDefaultBaloon: function(e){
-    this.addBaloon('');
+    this.addBaloon('dbl click here');
   },
 
   addDefaultPicture: function(e){
-    this.addPicture('');
+    this.addPicture(0);
   },
 
   remove: function(e){
