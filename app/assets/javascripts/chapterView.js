@@ -175,10 +175,9 @@ ChapterView = Backbone.View.extend({
     var i =  $(ui.item).parent().children().index(ui.item);
     console.log(i);
     var entry = this.model.entries.at(this.sortItemIndex);
-
+    var dest = this.model.entries.at(i);
     console.log(entry);
-    this.model.entries.remove(entry);
-    this.model.entries.add(entry,{at:i});
+    this.model.entries.move_at(entry, i);
     this.model.entries.save();
     this.model.trigger('change');
     //this.model.fetch();
