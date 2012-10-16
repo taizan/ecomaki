@@ -26,7 +26,6 @@ $(function(){
  
 
   // for easy call of config function
-  config = new Config();
 });
 
 
@@ -42,10 +41,37 @@ jQuery.fn.insertAt = function(index, element) {
   return this;
 };
 
+config = new Config();
+
 function Config()
 {
 
 }
+
+
+var ctor = function(){};
+
+Config.prototype.inherits = function(parent, protoProps, staticProps) {
+  var child;
+
+  if (protoProps && protoProps.hasOwnProperty('constructor')) {
+    child = protoProps.constructor;
+  } else {
+    child = function(){ parent.apply(this, arguments); };
+  }
+
+  _.extend(child, parent);
+
+  ctor.prototype = parent.prototype;
+  child.prototype = new ctor();
+
+  if (protoProps) _.extend(child.prototype, protoProps);
+  if (staticProps) _.extend(child, staticProps);
+  child.prototype.constructor = child;
+  child.__super__ = parent.prototype;
+
+  return child;
+};
 
 Config.prototype.character_idtourl = function(id) {
     return '/characters/image/' + id;
