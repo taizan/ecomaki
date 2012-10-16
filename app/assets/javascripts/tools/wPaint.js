@@ -341,7 +341,7 @@
 			//@@@stroke|fill collor
 			$("._wPaint_fillColorPicker").wColorPicker({
 				mode: "click",
-				initColor: Config.prototype.rgb2hex(fillStyle),
+				initColor: config.rgb2hex(fillStyle),
 				buttonSize: buttonSize,
 				onSelect: function(color){
 //          var canvases = MainMenu.prototype.canvases;
@@ -349,7 +349,7 @@
 //					  canvases[i].settings.fillStyle = color;
 //					  canvases[i].textInput.css({color: color});
 //          }
-					$.each(Config.prototype.hex2rgb(color), function(key, val){
+					$.each(config.hex2rgb(color), function(key, val){
 						Canvas.prototype.settings.fillStyle = Canvas.prototype.settings.fillStyle || {};
 						Canvas.prototype.settings.fillStyle[key] = val;
 					});
@@ -360,14 +360,14 @@
 			})
 			$("._wPaint_strokeColorPicker").wColorPicker({
 				mode: "click",
-				initColor: Config.prototype.rgb2hex(strokeStyle),
+				initColor: config.rgb2hex(strokeStyle),
 				buttonSize: buttonSize,
 				onSelect: function(color){
 //          var canvases = MainMenu.prototype.canvases;
 //          for( var i = 0 ; i < canvases.length ; i++){
 //					  canvases[i].settings.strokeStyle = color;
 //          }
-					$.each(Config.prototype.hex2rgb(color), function(key, val){
+					$.each(config.hex2rgb(color), function(key, val){
 						Canvas.prototype.settings.strokeStyle = Canvas.prototype.settings.strokeStyle || {};
 						Canvas.prototype.settings.strokeStyle[key] = val;
 					});

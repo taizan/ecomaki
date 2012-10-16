@@ -1,6 +1,6 @@
+
 $(function(){
-
-
+	
   // browser typr detection
   isWin9X = (navigator.appVersion.toLowerCase().indexOf('windows 98')+1);
   isIE = (navigator.appName.toLowerCase().indexOf('internet explorer')+1?1:0);
@@ -17,7 +17,6 @@ $(function(){
     };
   }
 
-
   // for use template arguments
   // change deletemeter from <%= %> to {{ }}
   _.templateSettings = {
@@ -29,6 +28,19 @@ $(function(){
   // for easy call of config function
   config = new Config();
 });
+
+
+jQuery.fn.insertAt = function(index, element) {
+  var lastIndex = this.children().size();
+  if (index < 0) {
+    index = Math.max(0, lastIndex + 1 + index);
+  }
+  this.append(element);
+  if (index < lastIndex) {
+    this.children().eq(index).before(this.children().last());
+  }
+  return this;
+};
 
 function Config()
 {
@@ -88,15 +100,15 @@ Config.prototype.hex2rgb = function(hexColorString){
 }
 
 Config.prototype.rgb2hex = function(rgbObject){
-	var xx = function(num){
-		var str = num.toString(16);
-		if(str.length == 1){
-			return "0" + str;
-		}else{
-			return str;
-		}
-	}
-	return "#" + xx(rgbObject.r) + xx(rgbObject.g) + xx(rgbObject.b);
+  var xx = function(num){
+    var str = num.toString(16);
+    if(str.length == 1){
+      return "0" + str;
+    }else{
+      return str;
+    }
+  }
+  return "#" + xx(rgbObject.r) + xx(rgbObject.g) + xx(rgbObject.b);
 }
 
 Config.prototype.rgba2string = function(rgba){
