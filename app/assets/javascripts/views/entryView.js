@@ -190,7 +190,7 @@ EntryView = Backbone.View.extend({
 
   onScroll: function(){ 
     var scroll = document.documentElement.scrollTop || document.body.scrollTop;
-    var window_center_height = Config.prototype.getScreenSize().my;
+    var window_center_height = config.getScreenSize().my;
     //console.log(this.isDisplayed);
     if( $(this.el).offset().top - window_center_height < scroll
         && scroll < $(this.el).offset().top - window_center_height + $(this.el).height() )
@@ -267,7 +267,7 @@ EntryView = Backbone.View.extend({
       {
         left: 0,top: 0, width: 100, height: 100,
         z_index: this.maxIndx+1,
-        character_id: Config.prototype.character_idtourl(id)
+        character_id: config.character_idtourl(id)
       });
     this.maxIndex++;
     this.model.save();
