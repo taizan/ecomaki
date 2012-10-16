@@ -1,0 +1,39 @@
+._tool_menu{
+  position: fixed;
+  padding:1px; 
+  background:#EFEFEF; 
+  border:solid #000000 2px; 
+  border-radius:5px; 
+  box-shadow:3px 3px 5px #555555; 
+  z-index:999999;
+}
+
+._tool_handle{float:left; width:10px; height:30px; background: #AFAFAF; border-radius:3px 0 0 3px; cursor:pointer;}
+
+._tool_options{float:left;padding: 2px;}
+
+
+._tool_icon,
+._tool_dropDown
+{
+	float:left; height:18px; margin:0 2px; line-height:16px;
+	background-position:center center; background-repeat:no-repeat; cursor:pointer;
+	border-style:solid; border-width:1px; padding:3px; border-radius:5px;
+}
+
+._tool_icon{width:18px;}
+
+._tool_icon,
+._tool_dropDown{border-color:#999999}
+
+._tool_icon:hover,
+._tool_icon.active{border-color:#F88017; background-color:#E5E5E5;}
+
+._tool_dropDown select{margin-top:-2px; background-color:#EFEFEF; border:none; cursor:pointer;}
+
+
+
+/***********************************************************
+ * Images
+ ***********************************************************/
+._wPaint_handle{background-image: url('/assets/paint/menu_handle.png');}
