@@ -33,6 +33,7 @@ EntryItem.prototype = {
   defaultInitialize: function(){
     _.bindAll(this,
         "onChange",
+        "onClick",
         "onResize",
         "onDragStart",
         "onDragStop",
@@ -66,6 +67,8 @@ EntryItem.prototype = {
   appendTo: function(target){
     this.$el.appendTo(target);
     this.el = this.$el[0];
+
+    $(this.el).click(this.onClick);
     this.init();
   },
 
@@ -159,8 +162,18 @@ EntryItem.prototype = {
   },
   
   onDisplay: function(){
-      this.runEffect("shake",500,{});
+      var option = this.item.get('option');
+      if(option != null){
+        var options = option.split(',');
+        this.runEffect(options[0],parseInt(options[2]),{});
+      }
     //this.runEffect(this.model.get('option'));
+  },
+
+  onClick: function(){
+    console.log('on item click');
+    $('._tool_menu .effect_selecter').remove();
+    this.appendEffectSelecterTo($('._tool_menu'));
   },
 
   isRunnable: true,
@@ -189,22 +202,21 @@ EntryItem.prototype = {
     this.selecter = $(selecterTemplate);
     $(this.selecter).appendTo(target);
     _self = this;
-    $(this.selecter).find('.effectType').change( _self.setEffect );
-    $(this.selecter).find('.easeType').change( _self.setEffect );
-    $(this.selecter).find('.duration').change( _self.setEffect );  
+    $(this.selecter).find('.effectTypes').change( _self.setEffect );
+    $(this.selecter).find('.easeTypes').change( _self.setEffect );
+    $(this.selecter).find('.durations').change( _self.setEffect );  
   },
 
   setEffect: function(){
     var optionString = 
-        $(this.selecter).find('.effectType').val() + "," +
-        $(this.selecter).find('.easeType').val() + "," +
-        $(this.selecter).find('.duration').val();
+        $(this.selecter).find('.effectTypes').val() + "," +
+        $(this.selecter).find('.easeTypes').val() + "," +
+        $(this.selecter).find('.durations').val();
     console.log(optionString);
-    this.model.set('option',optionString);
+    this.item.set('option',optionString);
+    this.item.save();
   }
 };
-
-
 
 
 BaloonItem = EntryItem.extend({
