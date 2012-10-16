@@ -15,7 +15,6 @@ NovelView = ecomakiView.extend({
     this.model.chapters.bind('refresh', this.addAll);
 
     this.childModels = this.model.chapters.models;
-
   },
 
   events: {
@@ -24,7 +23,9 @@ NovelView = ecomakiView.extend({
 
   onLoad: function(){
     var _self = this;
-    
+
+    this.addAll();	
+
     if (this.isEditable) {
 		  $('#title').dblclick(function(){
 			    editableTextarea(this, _self.saveTitle);
@@ -36,7 +37,6 @@ NovelView = ecomakiView.extend({
 	  else {
 		  $(".editer_item", this.el).hide();
 	  }
-    this.addAll();	
 		this.render();
   },
 
@@ -47,6 +47,7 @@ NovelView = ecomakiView.extend({
   },
 
   onAddChild: function(){
+    // run onScrollEnd method of this if it was scroll end
     this.onScroll();
   },
 
