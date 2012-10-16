@@ -1,7 +1,7 @@
 ChapterView = ecomakiView.extend({
   //el : '#content',
   className : 'chapter' ,
-  tmplId: "#entry_template",
+  tmplId: "#chapter_template",
   childViewType: EntryView,
   elementList: ".entryList",
 
@@ -20,6 +20,8 @@ ChapterView = ecomakiView.extend({
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
     this.model.entries.bind('change', this.onChange);
+
+    this.childModels = this.model.entries.models;
   },
 
   events: {
@@ -30,7 +32,6 @@ ChapterView = ecomakiView.extend({
   },
 
   onLoad: function(){
-
     var _self = this;
 
     if(this.isEditable){
@@ -43,13 +44,14 @@ ChapterView = ecomakiView.extend({
     }else{
       $(".editer_item",this.el).hide();
     }
-		
-    for(var i=0;i < this.childViews.length;i++){
-			childViews[i].load();
-		}
 
+    this.addAll();
     this.render();
     return this;
+  },
+
+  onAddChild: function(view){
+    view.load();
   },
 
   onDisplay: function(){
@@ -95,8 +97,6 @@ ChapterView = ecomakiView.extend({
       $('.title .text',this.el).html(this.model.get('title'));
       $('.description .text',this.el).html(this.model.get('description'));
 
-      this.addAll();
-
       if(this.isDisplayed) { 
         $('#background')[0].src = config.background_idtourl(this.model.get('chapter_background_id'));
         //this.playMusicById(this.model.get('chapter_sound_id'));
@@ -116,6 +116,7 @@ ChapterView = ecomakiView.extend({
       }
 
     }
+
     return this;
   },
 
@@ -164,7 +165,7 @@ ChapterView = ecomakiView.extend({
     for(var i=0; i < x; i++){
       var op = $('<option>').attr({ value: i }).text(i);
       $('.background_select',this.el).append(op);
-      console.log(i);
+      //console.log(i);
     }
   },
 

@@ -15,6 +15,10 @@
 //= require underscore
 //= require backbone
 //= require config
+//= require ./views/ecomakiView
+//= require ./views/entryView
+//= require ./views/chapterView
+//= require ./views/novelView
 //= require_tree .
 //= require bootstrap.min
 //= require jquery-ui-1.8.16.custom.min

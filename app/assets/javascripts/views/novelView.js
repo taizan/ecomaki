@@ -1,9 +1,10 @@
 
 
-var NovelView = ecomakiView.extend({
+NovelView = ecomakiView.extend({
   className: 'novel',
   lastChapter: 0,
   parentView: null,
+  isLoaded: true,
   tmplId: "#novel_template",
   childViewType: ChapterView,
   elementList: ".chapterList",
@@ -12,45 +13,43 @@ var NovelView = ecomakiView.extend({
     _.bindAll(this, "addChapter");
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
-		this.load();
+
+    this.childModels = this.model.chapters.models;
+
   },
 
   events: {
     "click #add_chapter" : "addChapter",
   },
 
-  onAppend: function(){
+  onLoad: function(){
     var _self = this;
     
     if (this.isEditable) {
-		$('#title').dblclick(function(){
-			editableTextarea(this, _self.saveTitle);
-		});
-		$('#description').dblclick(function(){
-			editableTextarea(this, _self.saveDescription);
-		});
-	}
-	else {
-		$(".editer_item", this.el).hide();
-	}
-	
-      //for detect scroll amount 
-    this.onScroll();
-		
+		  $('#title').dblclick(function(){
+			    editableTextarea(this, _self.saveTitle);
+		    });
+		  $('#description').dblclick(function(){
+			    editableTextarea(this, _self.saveDescription);
+		    });
+	  }
+	  else {
+		  $(".editer_item", this.el).hide();
+	  }
+    this.addAll();	
 		this.render();
   },
 
   render: function() {
     $('#title .text').html(this.model.get('title'));
     $('#description .text').html(this.model.get('description'));
-    this.addAll();
+    //this.addAll();
   },
 
-  addChapter: function(e){
-    console.log("addChapter");
-    this.model.create_chapter();
+  onAddChild: function(){
+    this.onScroll();
   },
-	
+
 	onScrollEnd: function(){
     console.log('end scroll');
 		if(this.lastChapter < this.childViews.length){
@@ -58,5 +57,15 @@ var NovelView = ecomakiView.extend({
 		  this.lastChapter++;
     }
 	},
+
+  addChapter: function(e){
+    console.log("addChapter");
+    this.model.create_chapter();
+  },
+
+  changeMode: function(mode){
+    $(this.el).empty();
+
+  }
 
 });
