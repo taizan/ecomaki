@@ -1,8 +1,9 @@
-var ecomakilView = Backbone.View.extend({
+ecomakiView = Backbone.View.extend({
   isEditable: true,
   isDisplayed: false,
   parentView: {},
   childViews: [],
+  elementList: "",
   tmpl: "",
   childViewType: {},
 
@@ -31,7 +32,7 @@ var ecomakilView = Backbone.View.extend({
     this.model.bind('destroy', this.render, this);
 
 
-    var template = _.template( $(this.tmpl).html(),this.model.attributes);
+    var template = _.template( $(this.tmplId).html(),this.model.attributes);
     $(template).appendTo(this.el);
     //console.log(this.el);
 
@@ -41,7 +42,7 @@ var ecomakilView = Backbone.View.extend({
 		this.hideButton();
 		
 		//call each vie initialize
-    this.init(args);
+    this.onInit(args);
   },
 
   onInit: function(args){},
@@ -97,6 +98,7 @@ var ecomakilView = Backbone.View.extend({
 
   onScroll: function(){
     var window_height = config.getScreenSize().y;
+    var window_center_height = config.getScreenSize().my;
     var height = document.documentElement.scrollHeight || document.body.scrollHeight;
     var scroll = document.documentElement.scrollTop || document.body.scrollTop;
     var offset = 100;
@@ -112,7 +114,7 @@ var ecomakilView = Backbone.View.extend({
       this.isDisplayed = false;
     }
 
-    if(height =< window_height + scroll + offset ){
+    if(height <= window_height + scroll + offset ){
       this.onScrollEnd();
     }
 
