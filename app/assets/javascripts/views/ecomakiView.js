@@ -1,20 +1,23 @@
 ecomakiView = Backbone.View.extend({
   isEditable: true,
   isDisplayed: false,
+  isLoaded: false,
   parentView: {},
   childViews: [],
   elementList: "",
   tmpl: "",
-  childViewType: {},
+  childViewType: function(){},
 
   initialize: function(args) {
     _.bindAll(this, 
 		    "onInit",
+				"onLoad",
 				"onAppend",
 				"render",
 				"addOne",
 				"addAll",
 				"appendTo",
+				"load",
 				"saveTitle",
 				"saveDescription",
 				"onScroll",
@@ -32,34 +35,41 @@ ecomakiView = Backbone.View.extend({
     this.model.bind('destroy', this.render, this);
 
 
-    var template = _.template( $(this.tmplId).html(),this.model.attributes);
-    $(template).appendTo(this.el);
-    //console.log(this.el);
-
-    $(window).scroll(this.onScroll);
-    //console.log(this.model.chapters.models);
-		
-		this.hideButton();
-		
 		//call each vie initialize
     this.onInit(args);
   },
 
   onInit: function(args){},
 
-  onAppend: function(){},
+
+  load: function(){
+		this.isLoaded = true;
+		var template = _.template( $(this.tmplId).html(),this.model.attributes);
+    $(template).appendTo(this.el);
+    //console.log(this.el);
+    $(window).scroll(this.onScroll);
+    //console.log(this.model.chapters.models);
+
+
+    this.hideButton();
+    this.onLoad();
+
+	},
+
+  onLoad: function(){},
+
 
   events: {
     
   },
 
   appendTo: function(target){
-    var _self = this;
     $(this.el).appendTo(target);
-
     this.onAppend();
-    //this.render();
   },
+	
+  onAppend: function(){},
+
 
   addOne: function (item,t,options) {
     //console.log(item);
@@ -67,8 +77,9 @@ ecomakiView = Backbone.View.extend({
     this.childViews.push(view);
     $(this.elementList,this.el).insertAt(options.index,view.render().el);
 
-    //for detect scroll amount 
-    this.onScroll();
+    this.onAppend();
+
+
   },
 
   addAll: function () {

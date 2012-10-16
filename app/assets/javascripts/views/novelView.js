@@ -12,6 +12,7 @@ var NovelView = ecomakiView.extend({
     _.bindAll(this, "addChapter");
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
+		this.load();
   },
 
   events: {
@@ -21,12 +22,21 @@ var NovelView = ecomakiView.extend({
   onAppend: function(){
     var _self = this;
     
-    if(this.isEditable){
-      $('#title').dblclick( function(){ editableTextarea(this,_self.saveTitle);});
-      $('#description').dblclick(function(){editableTextarea(this,_self.saveDescription);});
-    }else{
-      $(".editer_item",this.el).hide();
-    }
+    if (this.isEditable) {
+		$('#title').dblclick(function(){
+			editableTextarea(this, _self.saveTitle);
+		});
+		$('#description').dblclick(function(){
+			editableTextarea(this, _self.saveDescription);
+		});
+	}
+	else {
+		$(".editer_item", this.el).hide();
+	}
+	
+      //for detect scroll amount 
+    this.onScroll();
+		
 		this.render();
   },
 
@@ -44,7 +54,7 @@ var NovelView = ecomakiView.extend({
 	onScrollEnd: function(){
     console.log('end scroll');
 		if(this.lastChapter < this.childViews.length){
-		  this.childViews[this.lastChapter].onLoad();
+		  this.childViews[this.lastChapter].load();
 		  this.lastChapter++;
     }
 	},

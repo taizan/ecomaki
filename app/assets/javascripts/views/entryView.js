@@ -1,24 +1,16 @@
 
-EntryView = Backbone.View.extend({
+EntryView = ecomakiView.extend({
 
   className : 'entry',
-  isDisplayed: false,
+  tmplId: "#entry_template",
   itemList: [],
-  initialize: function(args){
-    var _self = this;
-
+	
+  onInit: function(args){
     this.itemNum = 1;
-    this.parentView = args.parentView;
-    this.isEditable = args.isEditable;
-
-    //console.log(args);
-    //console.log(args.parentView);
+    
     _.bindAll(this, "render");
     _.bindAll(this,
         'click',
-        'onScroll',
-        'onDisplayed',
-        'onLoad',
         "onResize",
         'addBaloon',
         'addPicture',
@@ -26,25 +18,15 @@ EntryView = Backbone.View.extend({
         'addDefaultPicture',
         'remove',
         'addEntry',
-        'changeLayer',
-        'hideButton');
-
-    this.model.bind("change", this.render);
-
-    var template = _.template( $("#entry_template").html(),this.model.attributes);
-    $(this.el).html(template);
-
-    // entry content of view
-    this.content = $(this.el).find('.entry-content');
-    //console.log(this.content);
-    
-    $(window).scroll(this.onScroll);
-
+        'changeLayer'
+      );
   },
 
   onLoad: function(){
     var _self = this;
-
+    // entry content of view
+    this.content = $(this.el).find('.entry-content');
+		
     // init height width
     var model_width = this.model.get('width');
     var model_height = this.model.get('height');
@@ -70,8 +52,7 @@ EntryView = Backbone.View.extend({
       //console.log(this.model.get('canvas_index'));
       //console.log($('.paint',this.content));
       this.content.mouseleave(function(){ 
-          console.log(_self.isDrawDown);
-          console.log(_self);
+          //console.log(_self.isDrawDown);
           if(_self.isDrawDown){
             _self.isDrawDown = false;
             _self.canvasFlag = false;
@@ -188,22 +169,6 @@ EntryView = Backbone.View.extend({
     return this;
   },
 
-  onScroll: function(){ 
-    var scroll = document.documentElement.scrollTop || document.body.scrollTop;
-    var window_center_height = config.getScreenSize().my;
-    //console.log(this.isDisplayed);
-    if( $(this.el).offset().top - window_center_height < scroll
-        && scroll < $(this.el).offset().top - window_center_height + $(this.el).height() )
-    {
-      if(this.isDisplayed == false){
-        this.isDisplayed = true;
-        this.onDisplayed();
-      }
-    } else if(this.isDisplayed) {
-      this.isDisplayed = false;
-    }
-    return this;
-  },
 
   click: function(ev){
     //console.log("click entry");
@@ -217,21 +182,7 @@ EntryView = Backbone.View.extend({
     //if( $(ev.target).hasClass('sticky') == false ){$('textarea').blur();}
   },
 
-  hideButton: function(){
-    var button = '.buttons';
-    var _self = this;
-    $(this.el)
-      .mouseover(function(){
-        if(_self.isEditable){
-          $(this).find(button).show();
-        }
-      })
-      .mouseout(function(){
-        $(this).find(button).hide();
-      })
-      .find(button).hide();
-    return this;
-  },
+
 
   onResize: function(){
     this.model.set('height',this.content.height());

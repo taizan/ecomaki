@@ -1,32 +1,22 @@
-ChapterView = Backbone.View.extend({
+ChapterView = ecomakiView.extend({
   //el : '#content',
   className : 'chapter' ,
-  isLoaded: false,
-  isDisplayed: false,
+  tmplId: "#entry_template",
+  childViewType: EntryView,
+  elementList: ".entryList",
 
-  initialize: function(args){
 
-    this.parentView = args.parentView;
-    this.isEditable = args.isEditable;
+  onInit: function(args){
 
   _.bindAll(this,
-              "render",
               "addEntry",
-              "addAll",
-              "addOne",
               "onLoad",
-              "onScroll",
-              "displayed",
-              "onChange",
               "onSortStart",
               "onSortStop",
               "addChapter",
               "removeChapter",
-              "saveTitle",
-              "saveDescription",
               "backgroundSelect",
               "bgmSelect");
-    this.model.bind("change", this.render);
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
     this.model.entries.bind('change', this.onChange);
@@ -40,10 +30,6 @@ ChapterView = Backbone.View.extend({
   },
 
   onLoad: function(){
-    this.isLoaded = true;
-    var template = _.template( $("#chapter_template").html(),this.model.attributes);
-    //console.log(template);
-    $(template).appendTo(this.el);
 
     var _self = this;
 
@@ -57,14 +43,16 @@ ChapterView = Backbone.View.extend({
     }else{
       $(".editer_item",this.el).hide();
     }
-
-    $(window).scroll(this.onScroll);
+		
+    for(var i=0;i < this.childViews.length;i++){
+			childViews[i].load();
+		}
 
     this.render();
     return this;
   },
 
-  displayed: function(){
+  onDisplay: function(){
     //console.log('isDisplayed');
     //console.log(this);
     $('#background')[0].src = config.background_idtourl(this.model.get('chapter_background_id'));
@@ -72,40 +60,7 @@ ChapterView = Backbone.View.extend({
     return this;
   },
 
-  onScroll: function(){ 
-    var scroll = document.documentElement.scrollTop || document.body.scrollTop;
-    var window_center_height = config.getScreenSize().my;
-    //console.log(this.isDisplayed);
-    if( $(this.el).offset().top - window_center_height < scroll
-        && scroll < $(this.el).offset().top - window_center_height + $(this.el).height() )
-    {
-      if(this.isDisplayed == false){
-        this.isDisplayed = true;
-        this.displayed();
-      }
-    } else if(this.isDisplayed) {
-      this.isDisplayed = false;
-    }
-    return this;
-  },
 
-  addOne: function (item,t,options) {
-    //console.log(item);
-    var view = new EntryView({model: item , parentView: this ,isEditable: this.isEditable });
-    $('.entryList' ,this.el).insertAt(options.index,view.el);
-    view.onLoad();
-  },
-
-  addAll: function () {
-    //_(this.model.entries.models).each(console.log) ;
-    $('.entryList' ,this.el).empty();
-    //console.log(this.model.entries.models);
-    _(this.model.entries.models).each(this.addOne);
-  },
-
-  onChange: function(){
-    //console.log("onchange");
-  },
 
   addEntry: function(e){
     console.log("addEntry");
@@ -195,15 +150,6 @@ ChapterView = Backbone.View.extend({
     }
   },
 
-  saveTitle: function(txt){
-    this.model.set('title',txt);
-    this.model.save();
-  },
-
-  saveDescription: function(txt){
-    this.model.set('description',txt);
-    this.model.save();
-  },
 
   backgroundSelect: function(val){
     console.log('change bg');
