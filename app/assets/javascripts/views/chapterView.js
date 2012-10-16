@@ -34,6 +34,8 @@ ChapterView = ecomakiView.extend({
   onLoad: function(){
     var _self = this;
 
+    this.addAll();
+
     if(this.isEditable){
       $('.title',this.el).dblclick( function(){ editableTextarea(this,_self.saveTitle); });
       $('.description',this.el).dblclick( function(){ editableTextarea(this,_self.saveDescription); });
@@ -45,7 +47,6 @@ ChapterView = ecomakiView.extend({
       $(".editer_item",this.el).hide();
     }
 
-    this.addAll();
     this.render();
     return this;
   },
