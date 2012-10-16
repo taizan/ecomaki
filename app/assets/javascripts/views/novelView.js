@@ -4,11 +4,14 @@ var NovelView = ecomakiView.extend({
   className: 'novel',
   lastChapter: 0,
   parentView: null,
-  tmpl: $("#novel_template").html(),
+  tmplId: "#novel_template",
   childViewType: ChapterView,
+  elementList: ".chapterList",
 
   onInit: function(args) {
     _.bindAll(this, "addChapter");
+    this.model.chapters.bind('add', this.addOne);
+    this.model.chapters.bind('refresh', this.addAll);
   },
 
   events: {
@@ -39,9 +42,11 @@ var NovelView = ecomakiView.extend({
   },
 	
 	onScrollEnd: function(){
-		if(lastChapter < this.childViews.length)
-		this.childViews[lastChapter].onLoad();
-		this.lastChapter++;
+    console.log('end scroll');
+		if(this.lastChapter < this.childViews.length){
+		  this.childViews[this.lastChapter].onLoad();
+		  this.lastChapter++;
+    }
 	},
 
 });
