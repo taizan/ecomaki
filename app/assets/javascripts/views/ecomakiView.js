@@ -4,6 +4,7 @@ ecomakiView = Backbone.View.extend({
   isLoaded: false,
   parentView: {},
   childViews: [],
+  childModels: {},
   elementList: "",
   tmpl: "",
   childViewType: function(){},
@@ -16,6 +17,7 @@ ecomakiView = Backbone.View.extend({
 				"render",
 				"addOne",
 				"addAll",
+        "onAddChild",
 				"appendTo",
 				"load",
 				"saveTitle",
@@ -46,10 +48,8 @@ ecomakiView = Backbone.View.extend({
 		this.isLoaded = true;
 		var template = _.template( $(this.tmplId).html(),this.model.attributes);
     $(template).appendTo(this.el);
-    //console.log(this.el);
+    console.log(this.el);
     $(window).scroll(this.onScroll);
-    //console.log(this.model.chapters.models);
-
 
     this.hideButton();
     this.onLoad();
@@ -68,25 +68,27 @@ ecomakiView = Backbone.View.extend({
     this.onAppend();
   },
 	
-  onAppend: function(){},
+  onAppend: function(){
+    if(this.isLoaded)this.load();
+  },
 
 
   addOne: function (item,t,options) {
     //console.log(item);
     view = new (this.childViewType)({model: item , parentView: this ,isEditable: this.isEditable});
+    //console.log(view);
     this.childViews.push(view);
     $(this.elementList,this.el).insertAt(options.index,view.render().el);
-
-    this.onAppend();
-
-
+    view.onAppend();
+    this.onAddChild(view);
   },
+
+  onAddChild: function(view){},
 
   addAll: function () {
     $(this.elementList,this.el).empty();
     this.childViews = [];
-
-    _(this.model.chapters.models).each(this.addOne);
+    _(this.childModels).each(this.addOne);
 
   },
 	
@@ -142,11 +144,11 @@ ecomakiView = Backbone.View.extend({
     $(this.el)
       .mouseover(function(){
         if(_self.isEditable){
-          $(this).find(button).show();
+          $(this).children(button).show();
         }
       })
       .mouseout(function(){
-        $(this).find(button).hide();
+        $(this).children(button).hide();
       })
       .find(button).hide();
     return this;

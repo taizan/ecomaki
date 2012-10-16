@@ -23,6 +23,7 @@ EntryView = ecomakiView.extend({
   },
 
   onLoad: function(){
+    console.log('entry load');
     var _self = this;
     // entry content of view
     this.content = $(this.el).find('.entry-content');
@@ -83,31 +84,31 @@ EntryView = ecomakiView.extend({
   },
 
   render: function(){
+    if(this.isLoaded){
+      var _self = this;
+      var content = this.content;
 
-    var _self = this;
-    var content = this.content;
+      //console.log('render');
 
-     //console.log('render');
+      // init height width
+      var model_width = this.model.get('width');
+      var model_height = this.model.get('height');
+      var button_offset = 40;
+      var selecter_offset = 350;
 
-    // init height width
-    var model_width = this.model.get('width');
-    var model_height = this.model.get('height');
-    var button_offset = 40;
-    var selecter_offset = 350;
-
-    this.content.width( model_width ).height( model_height );
-    $(this.el).width( this.content.width() + button_offset + selecter_offset).height( this.content.height() );
-    $('.buttons',this.el).css( { left: this.content.width() } );
-    $('.itemEffectSelecters',this.el).css({ left: this.content.width() + button_offset });
+      this.content.width( model_width ).height( model_height );
+      $(this.el).width( this.content.width() + button_offset + selecter_offset).height( this.content.height() );
+      $('.buttons',this.el).css( { left: this.content.width() } );
+      $('.itemEffectSelecters',this.el).css({ left: this.content.width() + button_offset });
     
-    $('.item',this.el).remove();
-    $('.itemEffectSelecters',this.el).empty();
+      $('.item',this.el).remove();
+      $('.itemEffectSelecters',this.el).empty();
 
-    this.itemNum = 1;
-    this.itemList = [];
-    this.maxIndex = this.model.get('canvas_index') != null  ? this.model.get('canvas_index') : 0;
+      this.itemNum = 1;
+      this.itemList = [];
+      this.maxIndex = this.model.get('canvas_index') != null  ? this.model.get('canvas_index') : 0;
     
-    var initItemView = function(item, itemClass) {
+      var initItemView = function(item, itemClass) {
         //console.log(item);
         var itemView = new itemClass(item , _self ,_self.isEditable);
         itemView.appendTo( content);
@@ -121,32 +122,32 @@ EntryView = ecomakiView.extend({
         console.log(_self.itemNum);
       }
 
-    _(this.model.balloons.models).each( function(item){ initItemView(item, BaloonItem); } );
+      _(this.model.balloons.models).each( function(item){ initItemView(item, BaloonItem); } );
 
-    _(this.model.characters.models).each( function(item){ initItemView(item ,ImageItem ); } );
+      _(this.model.characters.models).each( function(item){ initItemView(item ,ImageItem ); } );
 
-    // set image to canvas
-    if(this.isEditable){
-      if(this.canvasFlag){
-        this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
-        $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
-        //console.log('reflesh canvas');
-        //console.log(this.maxIndex);
-        if( this.model.get('canvas_index') == this.maxIndex ) {
-          $('.--btn-layer',this.el).addClass('btn-primary');
-          console.log('add btnprimary');
+      // set image to canvas
+      if(this.isEditable){
+        if(this.canvasFlag){
+          this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
+          $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
+          //console.log('reflesh canvas');
+          //console.log(this.maxIndex);
+          if( this.model.get('canvas_index') == this.maxIndex ) {
+            $('.--btn-layer',this.el).addClass('btn-primary');
+            console.log('add btnprimary');
+          }else{
+          }
         }else{
+          this.canvasFlag = true;
         }
       }else{
-        this.canvasFlag = true;
+        this.canvasImage.src = this.model.get('canvas'); 
+        $(this.canvasImage).css( { zIndex:this.model.get('canvas_index') } );
       }
-    }else{
-      this.canvasImage.src = this.model.get('canvas'); 
-      $(this.canvasImage).css( { zIndex:this.model.get('canvas_index') } );
+    
     }
-    
-    this.hideButton();
-    
+
     return this;
   },
 
@@ -160,7 +161,7 @@ EntryView = ecomakiView.extend({
     "click .--btn-layer": "changeLayer"
   },
   
-  onDisplayed: function(){
+  onDisplay: function(){
     // do something when entry displayed
     console.log('disp entry');
     for(var i = 0; i < this.itemList.length; i++){
