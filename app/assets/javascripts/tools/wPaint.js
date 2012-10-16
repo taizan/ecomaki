@@ -53,7 +53,7 @@
 		settings.fontSize = parseInt(settings.fontSize);
 	
     if(MainMenu.prototype.menu == null){
-      $('body').append( MainMenu.prototype.init() );
+       MainMenu.prototype.init() ;
     }
 
 		//appendShape(Canvas.prototype);
@@ -321,22 +321,8 @@
 				}
 			});
 
-			var menuHandle = $('<div class="_wPaint_handle"></div>');
 			
-      
-			//menu
-			MainMenu.prototype.menu = 
-			$('<div class="_wPaint_menu"></div>')
-			.css({position: 'fixed', left:  5, top:  5})
-			.draggable({
-				handle: menuHandle, 
-		//		drag: function(){$this.moveTextMenu($this, $this.textMenu)}, 
-		//		stop: function(){$this.moveTextMenu($this, $this.textMenu)}
-			})
-			.append(menuHandle)
-			.append(menuContent);
-
-      $('body').append(MainMenu.prototype.menu);
+     MainMenu.prototype.menu = $('._tool_menu').append(menuContent);
 
 			//@@@stroke|fill collor
 			$("._wPaint_fillColorPicker").wColorPicker({
