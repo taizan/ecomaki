@@ -159,6 +159,14 @@ EntryView = ecomakiView.extend({
     return this;
   },
 
+  onPreDisplay: function(){
+    // do something when entry displayed
+    console.log('pre disp entry');
+    for(var i = 0; i < this.itemList.length; i++){
+      this.itemList[i].onPreDisplay();
+    }
+    return this;
+  },
 
   click: function(ev){
     //console.log("click entry");
