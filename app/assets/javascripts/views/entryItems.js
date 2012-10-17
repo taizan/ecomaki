@@ -41,9 +41,11 @@ EntryItem.prototype = {
         "setButton",
         "showOutLine",
         "init",
+				"onDisplay",
+				"onPreDisplay",
         "runEffect",
         "effectCallback",
-        "onDisplay",
+        "resetEffect",
         "appendEffectSelecterTo",
         "setEffect"
 
@@ -162,12 +164,16 @@ EntryItem.prototype = {
   },
   
   onDisplay: function(){
-      var option = this.item.get('option');
-      if(option != null){
-        var options = option.split(',');
-        this.runEffect(options[0],parseInt(options[2]),{});
-      }
+    var option = this.item.get('option');
+    if(option != null){
+      var options = option.split(',');
+      this.runEffect(options[0],options[1],parseInt(options[2]),{});
+    }
     //this.runEffect(this.model.get('option'));
+  },
+
+	onPreDisplay: function(){
+    this.resetEffect(); 
   },
 
   onClick: function(){
@@ -178,7 +184,7 @@ EntryItem.prototype = {
 
   isRunnable: true,
 
-  runEffect: function(selectedEffect , speed , options){
+  runEffect: function(selectedFunction , selectedEffect , speed , options){
     var options = {};
     // some effects have required parameters
     if ( selectedEffect === "scale" ) {
@@ -188,7 +194,18 @@ EntryItem.prototype = {
     } 
     //prevent overrapping of effect    
     if(this.isRunnable){
-      $(this.target).effect( selectedEffect, options, speed, this.effectCallback );
+      switch(selectedFunction){
+        case "show" :
+          $(this.target).show( selectedEffect, options, speed, this.effectCallback );
+          break; 
+        case "hide" :
+          $(this.target).hide( selectedEffect, options, speed, this.effectCallback );
+          break; 
+        case "effect" :
+          $(this.target).effect( selectedEffect, options, speed, this.effectCallback );
+          break;
+      }
+
       this.isRunnable = false;
     }
   },
@@ -196,21 +213,43 @@ EntryItem.prototype = {
   effectCallback: function(){
     this.isRunnable = true;
   },
+
+  resetEffect: function(){
+      console.log("reset effect");
+      $(this.target).stop();
+      var option = this.item.get('option');
+      if(option != null){
+        var options = option.split(',');
+        switch(options[0]){
+          case "show" :
+            $(this.target).hide();
+            break; 
+          case "hide" :
+            $(this.target).show();
+            break; 
+          case "effect" :
+            $(this.target).show();
+            break;
+       }
+    }
+  },
   
   appendEffectSelecterTo: function(target){    
     var selecterTemplate =  $("#effect_selecter_template").html();
     this.selecter = $(selecterTemplate);
     $(this.selecter).appendTo(target);
     _self = this;
+    $(this.selecter).find('.functionTypes').change( _self.setEffect );
     $(this.selecter).find('.effectTypes').change( _self.setEffect );
-    $(this.selecter).find('.easeTypes').change( _self.setEffect );
+    //$(this.selecter).find('.easeTypes').change( _self.setEffect );
     $(this.selecter).find('.durations').change( _self.setEffect );  
   },
 
   setEffect: function(){
     var optionString = 
+        $(this.selecter).find('.functionTypes').val() + "," +
         $(this.selecter).find('.effectTypes').val() + "," +
-        $(this.selecter).find('.easeTypes').val() + "," +
+        //$(this.selecter).find('.easeTypes').val() + "," +
         $(this.selecter).find('.durations').val();
     console.log(optionString);
     this.item.set('option',optionString);
@@ -248,6 +287,7 @@ BaloonItem = EntryItem.extend({
       $(this.el).dblclick(this.editText);
       this.setButton();
     }
+    this.resetEffect(); 
   },
 
   editText: function(){
@@ -291,6 +331,7 @@ ImageItem = EntryItem.extend({
       this.setButton();
       this.showOutLine();
     }
+    this.resetEffect(); 
   },
 
   selectImage: function(ev){

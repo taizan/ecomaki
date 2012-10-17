@@ -1,7 +1,11 @@
 ecomakiView = Backbone.View.extend({
   isEditable: true,
+
+  isDisplay: false,
   isDisplayed: false,
+
   isLoaded: false,
+
   parentView: {},
   childViews: [],
   childModels: {},
@@ -25,6 +29,8 @@ ecomakiView = Backbone.View.extend({
 				"onScroll",
 				"onScrollEnd",
 				"onDisplay",
+				"onPreDisplay",
+				"onPostDisplay",
 				"hideButton"
 			);
 
@@ -116,24 +122,35 @@ ecomakiView = Backbone.View.extend({
     var scroll = document.documentElement.scrollTop || document.body.scrollTop;
     var offset = 100;
 
-    if( $(this.el).offset().top - window_center_height < scroll
+    if( scroll < $(this.el).offset().top - window_center_height )
+    {
+      if(this.isDisplayed == true || this.isDisplay == true){ this.onPreDisplay();}
+      this.isDisplayed = false;
+      this.isDisplay = false;
+    }else if( $(this.el).offset().top - window_center_height < scroll
         && scroll < $(this.el).offset().top - window_center_height + $(this.el).height() )
     {
-      if(this.isDisplayed == false){
-        this.isDisplayed = true;
+      if(this.isDisplay == false){
+        this.isDisplay = true;
         this.onDisplay();
       }
-    } else if(this.isDisplayed) {
-      this.isDisplayed = false;
+    } else if( $(this.el).offset().top - window_center_height + $(this.el).height() < scroll) {
+      if(this.isDisplayed == false){ this.onPostDisplay();}
+      this.isDisplayed = true;
+      this.isDisplay = false;
     }
 
-    if(height <= window_height + scroll + offset ){
+    if( height <= window_height + scroll + offset ){
       this.onScrollEnd();
     }
 
   },
 	
 	onDisplay: function(){},
+
+	onPreDisplay: function(){},
+
+	onPostDisplay: function(){},
 	
 	onScrollEnd: function(){},
 	
