@@ -253,11 +253,19 @@ EntryItem.prototype = {
     var selecterTemplate =  $("#effect_selecter_template").html();
     this.selecter = $(selecterTemplate);
     $(this.selecter).appendTo(target);
+    
+    var option = this.item.get('option');
+    if(option != null){
+      var options = option.split(',');
+      $('.functionTypes option[value="'+options[0]+'"]',this.selecter).prop('selected',true); 
+      $('.effectTypes option[value="'+options[1]+'"]',this.selecter).prop('selected',true); 
+      $('.durations',this.selecter).val(options[2]); 
+    }
     _self = this;
-    $(this.selecter).find('.functionTypes').change( _self.setEffect );
-    $(this.selecter).find('.effectTypes').change( _self.setEffect );
+    $('.functionTypes',this.selecter).change( _self.setEffect );
+    $('.effectTypes',this.selecter).change( _self.setEffect );
     //$(this.selecter).find('.easeTypes').change( _self.setEffect );
-    $(this.selecter).find('.durations').change( _self.setEffect );  
+    $('.durations',this.selecter).change( _self.setEffect );  
   },
 
   setEffect: function(){
