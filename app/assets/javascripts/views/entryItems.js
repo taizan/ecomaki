@@ -196,13 +196,25 @@ EntryItem.prototype = {
     if(this.isRunnable){
       switch(selectedFunction){
         case "show" :
-          $(this.target).show( selectedEffect, options, speed, this.effectCallback );
+          if(selectedEffect == 'none'){
+            $(this.target).show( speed, this.effectCallback );
+          }else{
+            $(this.target).show( selectedEffect, options, speed, this.effectCallback );
+          }
           break; 
         case "hide" :
-          $(this.target).hide( selectedEffect, options, speed, this.effectCallback );
+          if(selectedEffect == 'none'){
+            $(this.target).hide( speed, this.effectCallback );
+          }else{
+            $(this.target).hide( selectedEffect, options, speed, this.effectCallback );
+          }
           break; 
         case "effect" :
-          $(this.target).effect( selectedEffect, options, speed, this.effectCallback );
+          if(selectedEffect == 'none'){
+            $(this.target).show( speed, this.effectCallback );
+          }else{
+            $(this.target).effect( selectedEffect, options, speed, this.effectCallback );
+          }
           break;
       }
 
@@ -215,12 +227,15 @@ EntryItem.prototype = {
   },
 
   resetEffect: function(){
-      console.log("reset effect");
-      $(this.target).stop();
+      //console.log("reset effect");
+      //$(this.target).stop();
       var option = this.item.get('option');
       if(option != null){
         var options = option.split(',');
         switch(options[0]){
+          case "none" :
+            $(this.target).show();
+            break; 
           case "show" :
             $(this.target).hide();
             break; 
