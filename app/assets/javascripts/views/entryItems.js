@@ -17,7 +17,8 @@ var EntryItem = function(item,view,isEditable){
 EntryItem.extend = function (protoProps, classProps) {
   var child = config.inherits(this, protoProps, classProps);
   child.extend = this.extend;
-  return child;
+  
+	return child;
 };
 
 EntryItem.prototype = {
@@ -26,9 +27,6 @@ EntryItem.prototype = {
 
   // for over ride
   tmpl: '',
-
-  //for ajust 
-  target: {},
 
   defaultInitialize: function(){
     _.bindAll(this,
@@ -48,13 +46,11 @@ EntryItem.prototype = {
         "resetEffect",
         "appendEffectSelecterTo",
         "setEffect"
-
       );
     this.item.on('change',this.onChange);
     this.$el = $(this.tmpl);
     this.el = this.$el[0];
-    var z;
-    z = this.item.get('z_index') != null ? this.item.get('z_index') : 0;  
+    var z = this.item.get('z_index') != null ? this.item.get('z_index') : 0;  
 
     this.$el
       .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left'), zIndex: z })
@@ -164,120 +160,17 @@ EntryItem.prototype = {
   },
   
   onDisplay: function(){
-    var option = this.item.get('option');
-    if(option != null){
-      var options = option.split(',');
-      this.runEffect(options[0],options[1],parseInt(options[2]),{});
-    }
-    //this.runEffect(this.model.get('option'));
+    this.effecter.runSelectedEffect();
   },
 
 	onPreDisplay: function(){
-    this.resetEffect(); 
+    this.effecter.resetEffect(); 
   },
 
   onClick: function(){
-    console.log('on item click');
-    $('._tool_menu .effect_selecter').remove();
-    this.appendEffectSelecterTo($('._tool_menu'));
+    this.effecter.changeSlecter();
   },
 
-  isRunnable: true,
-
-  runEffect: function(selectedFunction , selectedEffect , speed , options){
-    var options = {};
-    // some effects have required parameters
-    if ( selectedEffect === "scale" ) {
-      options = { percent: 0 };
-    } else if ( selectedEffect === "size" ) {
-      options = { to: { width: 200, height: 60 } };
-    } 
-    //prevent overrapping of effect    
-    if(this.isRunnable){
-      switch(selectedFunction){
-        case "show" :
-          if(selectedEffect == 'none'){
-            $(this.target).show( speed, this.effectCallback );
-          }else{
-            $(this.target).show( selectedEffect, options, speed, this.effectCallback );
-          }
-          break; 
-        case "hide" :
-          if(selectedEffect == 'none'){
-            $(this.target).hide( speed, this.effectCallback );
-          }else{
-            $(this.target).hide( selectedEffect, options, speed, this.effectCallback );
-          }
-          break; 
-        case "effect" :
-          if(selectedEffect == 'none'){
-            $(this.target).show( speed, this.effectCallback );
-          }else{
-            $(this.target).effect( selectedEffect, options, speed, this.effectCallback );
-          }
-          break;
-      }
-
-      this.isRunnable = false;
-    }
-  },
-
-  effectCallback: function(){
-    this.isRunnable = true;
-  },
-
-  resetEffect: function(){
-      //console.log("reset effect");
-      //$(this.target).stop();
-      var option = this.item.get('option');
-      if(option != null){
-        var options = option.split(',');
-        switch(options[0]){
-          case "none" :
-            $(this.target).show();
-            break; 
-          case "show" :
-            $(this.target).hide();
-            break; 
-          case "hide" :
-            $(this.target).show();
-            break; 
-          case "effect" :
-            $(this.target).show();
-            break;
-       }
-    }
-  },
-  
-  appendEffectSelecterTo: function(target){    
-    var selecterTemplate =  $("#effect_selecter_template").html();
-    this.selecter = $(selecterTemplate);
-    $(this.selecter).appendTo(target);
-    
-    var option = this.item.get('option');
-    if(option != null){
-      var options = option.split(',');
-      $('.functionTypes option[value="'+options[0]+'"]',this.selecter).prop('selected',true); 
-      $('.effectTypes option[value="'+options[1]+'"]',this.selecter).prop('selected',true); 
-      $('.durations',this.selecter).val(options[2]); 
-    }
-    _self = this;
-    $('.functionTypes',this.selecter).change( _self.setEffect );
-    $('.effectTypes',this.selecter).change( _self.setEffect );
-    //$(this.selecter).find('.easeTypes').change( _self.setEffect );
-    $('.durations',this.selecter).change( _self.setEffect );  
-  },
-
-  setEffect: function(){
-    var optionString = 
-        $(this.selecter).find('.functionTypes').val() + "," +
-        $(this.selecter).find('.effectTypes').val() + "," +
-        //$(this.selecter).find('.easeTypes').val() + "," +
-        $(this.selecter).find('.durations').val();
-    console.log(optionString);
-    this.item.set('option',optionString);
-    this.item.save();
-  }
 };
 
 
@@ -294,7 +187,8 @@ BaloonItem = EntryItem.extend({
     if(this.isEditable){
 
     this.target = $(this.el);
-
+    this.effectr = new Effecter(this.target,this.item,'option');
+		
       $(this.el).draggable({
         containment: "parent",
         start: this.onDragStart,
@@ -344,6 +238,7 @@ ImageItem = EntryItem.extend({
       });
 
       this.target = $(this.el).parent();
+			this.effectr = new Effecter(this.target,this.item,'option');
 
       $(this.el).parent().draggable({
         start: this.onDragStart,
