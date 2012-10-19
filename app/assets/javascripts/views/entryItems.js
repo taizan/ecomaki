@@ -40,12 +40,7 @@ EntryItem.prototype = {
         "showOutLine",
         "init",
 				"onDisplay",
-				"onPreDisplay",
-        "runEffect",
-        "effectCallback",
-        "resetEffect",
-        "appendEffectSelecterTo",
-        "setEffect"
+				"onPreDisplay"
       );
     this.item.on('change',this.onChange);
     this.$el = $(this.tmpl);
@@ -168,7 +163,7 @@ EntryItem.prototype = {
   },
 
   onClick: function(){
-    this.effecter.changeSlecter();
+    this.effecter.changeSelecter();
   },
 
 };
@@ -187,7 +182,7 @@ BaloonItem = EntryItem.extend({
     if(this.isEditable){
 
     this.target = $(this.el);
-    this.effectr = new Effecter(this.target,this.item,'option');
+    this.effecter = new Effecter(this.target,this.item,'option');
 		
       $(this.el).draggable({
         containment: "parent",
@@ -204,7 +199,7 @@ BaloonItem = EntryItem.extend({
       $(this.el).dblclick(this.editText);
       this.setButton();
     }
-    this.resetEffect(); 
+    this.effecter.resetEffect(); 
   },
 
   editText: function(){
@@ -238,7 +233,7 @@ ImageItem = EntryItem.extend({
       });
 
       this.target = $(this.el).parent();
-			this.effectr = new Effecter(this.target,this.item,'option');
+			this.effecter = new Effecter(this.target,this.item,'option');
 
       $(this.el).parent().draggable({
         start: this.onDragStart,
@@ -249,7 +244,7 @@ ImageItem = EntryItem.extend({
       this.setButton();
       this.showOutLine();
     }
-    this.resetEffect(); 
+    this.effecter.resetEffect(); 
   },
 
   selectImage: function(ev){
