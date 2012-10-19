@@ -5,7 +5,6 @@ function Effecter(target,item,key){
 	 _.bindAll(this,
         "changeSelecter",
         "runSelectedEffect",
-        "onPreDisplay",
         "runEffect",
         "effectCallback",
         "resetEffect",
@@ -16,14 +15,14 @@ function Effecter(target,item,key){
 
 Effecter.prototype = {
 	
-  changeSeleccter: function(){
+  changeSelecter: function(){
     console.log('on item click');
     $('._tool_menu .effect_selecter').remove();
     this.appendEffectSelecterTo($('._tool_menu'));
   },
 	
 	runSelectedEffect: function(){
-		var option = this.item.get(key);
+		var option = this.item.get(this.key);
     if(option != null){
       var options = option.split(',');
       this.runEffect(options[0],options[1],parseInt(options[2]),{});
