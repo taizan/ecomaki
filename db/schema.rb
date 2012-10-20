@@ -46,10 +46,14 @@ ActiveRecord::Schema.define(:version => 20120616050920) do
     t.integer  "chapter_id"
     t.integer  "width"
     t.integer  "height"
+    t.integer  "margin_top"
+    t.integer  "margin_left"
+    t.integer  "margin_bottom"
+    t.integer  "margin_right"
     t.integer  "order_number"
     t.integer  "canvas_index"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "entry_balloons", :force => true do |t|
