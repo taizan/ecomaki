@@ -1,7 +1,5 @@
 Config.Shapes["Eraser"] = {
 	"drawDown": function(e, $this){
-			$this.ctx.save();
-			$this.ctx.globalCompositeOperation = 'destination-out';
 			//$this.drawPencilDown(e, $this);
      	$this.ctx.lineJoin = "round";
 			$this.ctx.lineCap = "round";
@@ -21,11 +19,13 @@ Config.Shapes["Eraser"] = {
 	},
 	"drawMove": function(e, $this){
 			//$this.drawPencilMove(e, $this);
+			$this.ctx.save();
+			$this.ctx.globalCompositeOperation = 'destination-out';
 			$this.ctx.lineTo(e.pageX, e.pageY);
 			$this.ctx.stroke();
+			$this.ctx.restore();
 	},
 	"drawUp": function(e, $this){
 			//$this.drawPencilUp(e, $this);
-			$this.ctx.restore();
 	}
 }
