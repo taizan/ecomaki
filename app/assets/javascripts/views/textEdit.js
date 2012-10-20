@@ -1,4 +1,83 @@
+function FontSelecter(target,item){
+  this.target = target;	
+  this.item = item;
+  _.bindAll(this,'changeSelecter','appendFontSelecterTo','setFont','applyFont')
+};
 
+FontSelecter.prototype = {
+  changeSelecter: function(){
+    console.log('on item click');
+    $('._tool_menu .font_selecter').remove();
+    this.appendFontSelecterTo($('._tool_menu'));
+  },
+	
+  appendFontSelecterTo: function(target){    
+    var selecterTemplate =  $("#font_selecter_template").html();
+    this.selecter = $(selecterTemplate);
+    $(this.selecter).appendTo(target);
+    if(this.item.get('font_size')) 
+		  $('.fontSizes option[value="'+this.item.get('font_size')+'"]',this.selecter).prop('selected',true);
+		if(this.item.get('font_color')) 
+      $('.fontColors option[value="'+this.item.get('font_color')+'"]',this.selecter).prop('selected',true);
+    
+		_self = this;
+    $('.fontSizes',this.selecter).change( _self.setFont );
+    $('.fontStyleTypes',this.selecter).change( _self.setFont );
+		$('.fontFamilyTypes',this.selecter).change( _self.setFont );
+		$('.fontColors',this.selecter).change( _self.setFont );
+    $('.borderTypes',this.selecter).change( _self.setFont );
+  },
+
+  setFont: function(){
+    this.item.set('font_size', $('.fontSizes',this.selecter).val());
+		this.item.set('font_style', $('.fontStyleTypes',this.selecter).val());
+		this.item.set('font_family', $('.fontFamilyTypes',this.selecter).val());
+		this.item.set('font_color', $('.fontColors',this.selecter).val());
+    this.item.set('border_style', $('.borderTypes',this.selecter).val());
+    this.item.save();
+		this.applyFont();
+  },
+	
+	applyFont: function(){
+	  console.log('app font');	
+		var border = '';
+		border += this.item.get('border_width') ? this.item.get('border_width'): 1;
+		border += 'px ';
+		border += this.item.get('border_color') ? this.item.get('border_color')+' ': 'black ';
+		border += this.item.get('border_style') ? this.item.get('border_style') : 'solid';
+				
+		var color = this.item.get('font_color')!=null ? this.item.get('font_color'): 'balck';
+    console.log(color);
+		
+		var size = this.item.get('font_size');
+		if(!size) size = 10;
+		else if (size > 80) size = 80;
+		else if (size < 8 ) size = 8;
+		
+		var family = this.item.get('font_family');
+		if(!family) {family = "Arial,'ＭＳ Ｐゴシック',sans-serif" ;}
+		else { family += ", Arial,'ＭＳ Ｐゴシック',sans-serif"; }
+		
+		var borderRadius = this.item.get('borde_radius');
+		if(!borderRadius){ boderRadius = 20; }
+		
+		var background = this.item.get('background_color');
+		if(!background){ background = 'white'; }
+
+		$(this.target).css({
+			'color': color,
+			'font-size': size,
+			'font-family': family,
+			'boder': border,
+		  'border-radius': borderRadius,         /* CSS3 */
+      '-moz-border-radius': borderRadius,    /* Firefox */
+      '-webkit-border-radius': borderRadius, /* Safari,Chrome */
+			'background': background
+		});
+		
+	},
+
+}
 
 function editableTextarea(target,callback){
   console.log(target);

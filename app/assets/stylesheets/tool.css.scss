@@ -10,6 +10,18 @@
 
 ._tool_handle{float:left; width:10px; height:30px; background: #AFAFAF; border-radius:3px 0 0 3px; cursor:pointer;}
 
+.itemEffectSelecters { position: absolute; }
+
+.effect_selecter { position: relative; }
+
+.font_selecter { position: relative; }
+
+._tool_menu .selecter_item{
+  width: 80px;
+  float: left;
+}
+
+
 ._tool_options{float:left;padding: 2px;}
 
 
