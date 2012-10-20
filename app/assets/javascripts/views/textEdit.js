@@ -1,8 +1,10 @@
-function TextEditer(){
-	
+function FontSelecter(target,item){
+  this.target = target;	
+  this.item = item;
+  _.bindAll(this,'changeSelecter','appendFontSelecterTo','setFont','applyFont')
 };
 
-TextEditer.prototype = {
+FontSelecter.prototype = {
   changeSelecter: function(){
     console.log('on item click');
     $('._tool_menu .font_selecter').remove();
@@ -13,10 +15,10 @@ TextEditer.prototype = {
     var selecterTemplate =  $("#font_selecter_template").html();
     this.selecter = $(selecterTemplate);
     $(this.selecter).appendTo(target);
-    if(this.item.get(font-size)) 
-		  $('.fontSizes option[value="'+this.item.get(font-size)+'"]',this.selecter).prop('selected',true);
-		if(this.item.get(font-color)) 
-      $('.fontColors option[value="'+this.item.get(font-color)+'"]',this.selecter).prop('selected',true);
+    if(this.item.get('font_size')) 
+		  $('.fontSizes option[value="'+this.item.get('font_size')+'"]',this.selecter).prop('selected',true);
+		if(this.item.get('font_color')) 
+      $('.fontColors option[value="'+this.item.get('font_color')+'"]',this.selecter).prop('selected',true);
     
 		_self = this;
     $('.fontSizes',this.selecter).change( _self.setFont );
@@ -30,21 +32,22 @@ TextEditer.prototype = {
     this.item.set('font_size', $('.fontSizes',this.selecter).val());
 		this.item.set('font_style', $('.fontStyleTypes',this.selecter).val());
 		this.item.set('font_family', $('.fontFamilyTypes',this.selecter).val());
-		this.item.set('font_color', $('.fontColor',this.selecter).val());
+		this.item.set('font_color', $('.fontColors',this.selecter).val());
     this.item.set('border_style', $('.borderTypes',this.selecter).val());
     this.item.save();
 		this.applyFont();
   },
 	
 	applyFont: function(){
-		
+	  console.log('app font');	
 		var border = '';
 		border += this.item.get('border_width') ? this.item.get('border_width'): 1;
 		border += 'px ';
 		border += this.item.get('border_color') ? this.item.get('border_color')+' ': 'black ';
 		border += this.item.get('border_style') ? this.item.get('border_style') : 'solid';
 				
-		var color = this.item.get('font_color')!=null ? this.item.get('font_color'): balck;
+		var color = this.item.get('font_color')!=null ? this.item.get('font_color'): 'balck';
+    console.log(color);
 		
 		var size = this.item.get('font_size');
 		if(!size) size = 10;
@@ -55,13 +58,13 @@ TextEditer.prototype = {
 		if(!family) {family = "Arial,'ＭＳ Ｐゴシック',sans-serif" ;}
 		else { family += ", Arial,'ＭＳ Ｐゴシック',sans-serif"; }
 		
-		var borderRadius = this.nobel.get('borde_radius');
+		var borderRadius = this.item.get('borde_radius');
 		if(!borderRadius){ boderRadius = 20; }
 		
 		var background = this.item.get('background_color');
-		if(!background){ background = white; }
+		if(!background){ background = 'white'; }
 
-		$('font',this.target).css({
+		$(this.target).css({
 			'color': color,
 			'font-size': size,
 			'font-family': family,
