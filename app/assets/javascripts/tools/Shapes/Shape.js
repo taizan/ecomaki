@@ -46,7 +46,8 @@ Config.Shapes["Shape"] = {
 			
 			if(func)
 			{
-			    var factor = $this.settings.mode == 'Line' ? 1 : 2;
+				//console.log("drawmove");
+			  var factor = $this.settings.mode == 'Line' ? 1 : 2;
 			    
 				e.x = half_line_width*factor;
 				e.y = half_line_width*factor;
