@@ -316,9 +316,7 @@
            .append($('<div class="_wPaint_slider"></div>'))
            .append($('<div class="_wPaint_strokeColorPicker _wPaint_colorPicker" title="stroke color"></div>'));
 			$.each(Config.Shapes, function(name, shape){
-				if( name != "Shape" ){
-					menuContent.append($('<div class="_wPaint_icon' + ' _wPaint_' + name + '" title="'+ name + '"></div>'));
-				}
+					if( name.length > 0 && name != "Shape") menuContent.append($('<div class="_wPaint_icon' + ' _wPaint_' + name + ($.fn.wPaint.defaultSettings.mode == name ? ' active' : '') + '" title="'+ name + '"></div>'));
 			});
 
 			
@@ -372,7 +370,7 @@
 	    this.menu = MainMenu.prototype.menu;		
 			//content
 			$.each(Config.Shapes, function(name, shape){
-					$("#paint_options ._wPaint_" + name).click(function(){ $this.set_mode($this, $canvas, name);})
+					if( name.length > 0 && name != "Shape") $("#paint_options ._wPaint_" + name).click(function(){ $this.set_mode($this, $canvas, name);})
 			});
 			//.find("._wPaint_text" ).click(function(){ $this.set_mode($this, $canvas, 'Text'); })
 			$($("#paint_options ._wPaint_slider")[0]).slider({
@@ -424,7 +422,7 @@
 			//}
 			
 			$this.menu.find("._wPaint_icon").removeClass('active');
-			$this.menu.find("._wPaint_" + mode.toLowerCase()).addClass('active');
+			$this.menu.find("._wPaint_" + mode).addClass('active');
 		}
 	}
 	
@@ -530,4 +528,19 @@
 			$canvas.textInput.css({textDecoration: fontTypeUnderline}); $canvas.textCalc.css({textDecoration: fontTypeUnderline});
 		}
 	}
+	
+	//var tmp = Canvas.prototype.settings.strokeStyle;
+//	setInterval(function(){
+//		var tmp2 = Canvas.prototype.settings.strokeStyle;
+//		console.log(tmp2);
+//		console.log("-----------");
+////		if(tmp && tmp2){
+////			if( tmp.r != tmp2.r || tmp.g != tmp2.g || tmp.b != tmp2.b || tmp.a != tmp2.a ){
+////				console.log("===========================================================");
+////				console.log(tmp + " -> " + tmp2);
+////				console.log("===========================================================");
+////			}
+////		}
+//		//tmp = tmp2;
+//	}, 1000);
 })(jQuery);
