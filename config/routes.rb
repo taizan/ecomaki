@@ -38,4 +38,7 @@ Ecomaki::Application.routes.draw do
   match 'characters' => 'characters#index', :via => :get
   match 'characters' => 'characters#create', :via => :post
   match 'characters/image/:id' => 'characters#show_image'
+
+  # Edit mode
+  match 'edit/:id/:password' => 'novel#edit', :via => :get
 end
