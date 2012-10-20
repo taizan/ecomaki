@@ -86,9 +86,7 @@ ChapterView = ecomakiView.extend({
 
   removeChapter: function(e){
     $(this.el).remove();
-    this.parentView.model.destroy_chapter(this.model);
-    //this.parentView.model.fetch();
-    this.parentView.model.save();
+    this.model.destroy();
   },
 
   render: function(){
