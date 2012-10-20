@@ -9,10 +9,10 @@ Config.Shapes["Line"] = {
 			if(e.pageY < yo) { e.y = e.y + e.h; e.h = e.h * -1}
 			
 			$this.ctxTemp.lineJoin = "round";
+			$this.ctxTemp.lineCap = "round";
 			$this.ctxTemp.beginPath();
 			$this.ctxTemp.moveTo(e.x, e.y);
 			$this.ctxTemp.lineTo(e.x + e.w, e.y + e.h);
-			$this.ctxTemp.closePath();
 			$this.ctxTemp.stroke();
 	},
 	"drawUp": function(e, $this){

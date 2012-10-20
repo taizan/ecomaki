@@ -195,7 +195,7 @@
 				e.stopPropagation();
 				$this.draw = true;
 				$this.callFunc(e, $this, 'Down');
-        console.log($this);
+        //console.log($this);
 			});
 			
 			$(document)
@@ -221,7 +221,7 @@
 			this.canvasTemp = document.createElement('canvas');
 			this.ctxTemp = this.canvasTemp.getContext('2d');
 			
-			$(this.canvasTemp).css({position: 'absolute'}).hide();
+			$(this.canvasTemp).css({position: 'absolute', "z-index": 999999}).hide();
 			
 			return $(this.canvasTemp);
 		},
