@@ -9,12 +9,7 @@ Config.Shapes["Chrome"] = {
    		$this.ctx.lineWidth = 1 + $this.settings.lineWidth/10;
 			//console.log($this.ctx.lineWidth);
 			$this.ctx.lineCap = "round";
-//			[
-//				parseInt( $this.settings.strokeStyle.slice(1,1+2), 16 ),
-//				parseInt( $this.settings.strokeStyle.slice(3,3+2), 16 ),
-//				parseInt( $this.settings.strokeStyle.slice(5,5+2), 16 ) ];
 			//console.log($this.settings.strokeStyle);
-			//$this.ctx.globalCompositeOperation = 'darker';
 			//console.log($this.ctx.globalCompositeOperation);
 			$this.ctx.beginPath();
 		  $this.points = new Array();
