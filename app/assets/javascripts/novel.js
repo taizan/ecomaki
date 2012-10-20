@@ -1,3 +1,22 @@
+//= require underscore
+//= require backbone
+//= require wColorPicker.1.2.min
+//= require ./models
+//= require ./views/ecomakiView
+//= require ./views/entryItems
+//= require ./views/entryView
+//= require ./views/chapterView
+//= require ./views/novelView
+//= require ./views/musicPlayer
+//= require ./views/textEdit
+//= require ./tools/toolMenu
+//= require ./tools/picker
+//= require ./tools/effecter
+//= require ./tools/console
+//= require ./tools/wPaint
+
+
+
 $(function() {
   var urls = location.href.split('/');
   var id = urls[urls.length-1];
