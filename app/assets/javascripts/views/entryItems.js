@@ -183,6 +183,7 @@ BaloonItem = EntryItem.extend({
 
     this.target = $(this.el);
     this.effecter = new Effecter(this.target,this.item,'option');
+    this.fontSelecter = new FontSelecter(this.target,this.item);
 		
       $(this.el).draggable({
         containment: "parent",
@@ -197,9 +198,11 @@ BaloonItem = EntryItem.extend({
       });
 
       $(this.el).dblclick(this.editText);
+      $(this.el).click(this.fontSelecter.changeSelecter);
       this.setButton();
     }
     this.effecter.resetEffect(); 
+    this.fontSelecter.applyFont();
   },
 
   editText: function(){
