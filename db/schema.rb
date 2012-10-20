@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20120616050920) do
     t.string   "boarder_style"
     t.integer  "boarder_width"
     t.string   "boarder_color"
+    t.string   "background_color"
     t.integer  "entry_balloon_background_id"
     t.string   "option"
     t.datetime "created_at",                  :null => false
