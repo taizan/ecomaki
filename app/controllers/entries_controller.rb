@@ -1,7 +1,7 @@
 class EntriesController < ApplicationController
   def index
     chapter_id = params[:chapter_id]
-    entries = Entry.joins(:chapter => :novel).select("entries.id, chapter_id, novel_id, height, width").where("chapters.id = ?", chapter_id)
+    entries = Entry.joins(:chapter => :novel).select("entries.id, chapter_id, novel_id, height, width, margin_top, margin_left, margin_bottom, margin_right").where("chapters.id = ?", chapter_id)
     respond_to {|format|
       format.json { render :json => entries }
     }
@@ -18,7 +18,7 @@ class EntriesController < ApplicationController
 
   def show
     entry_id = params[:id]
-    entry = Entry.joins({:chapter => :novel}).includes(:entry_character, :entry_balloon).select("entries.id, chapter_id, novel_id, entries.height, entries.width, entry_characters.height").find(entry_id)
+    entry = Entry.joins({:chapter => :novel}).includes(:entry_character, :entry_balloon).select("entries.id, chapter_id, novel_id, entries.height, entries.width, entries.margin_top, entries.margin_left, entries.margin_bottom, entries.margin_right").find(entry_id)
 
     respond_to {|format|
       format.json { render :json => entry }
