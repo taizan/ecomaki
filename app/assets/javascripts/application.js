@@ -13,17 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require underscore
-//= require backbone
 //= require config
-//= require ./views/ecomakiView
-//= require ./views/entryView
-//= require ./views/chapterView
-//= require ./views/novelView
-//= require_tree .
 //= require bootstrap.min
 //= require jquery-ui-1.8.16.custom.min
 //= require jquery.iframe-transport
 //= require jquery.fileupload
 //= require jquery.autosize
 //= require jquery.autosize-min
-//= require wColorPicker.1.2.min

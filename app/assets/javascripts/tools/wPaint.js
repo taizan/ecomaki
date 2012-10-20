@@ -1,4 +1,13 @@
+//=require ./Shapes/Chrome
+//=require ./Shapes/Line
+//=require ./Shapes/Shape
+//=require ./Shapes/Ellipse
+//=require ./Shapes/Pencil
+//=require ./Shapes/Eraser
+//=require ./Shapes/Rectangle
+
 /******************************************
+ *
  * Websanova.com
  *
  * Resources for web entrepreneurs
