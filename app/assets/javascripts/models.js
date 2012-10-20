@@ -163,14 +163,5 @@ Novel = Backbone.Model.extend({
   create_chapter: function() {
     this.chapters.create({novel_id: this.id});
     return true;
-  },
-
-  destroy_chapter: function(models) {
-    models = _.isArray(models) ? models.slice() : [models];
-    for (var i=0; i<models.length; i++) {
-      this.chapters.remove(models[i]);
-      models[i].destroy();
-    }
-    return true;
   }
 });
