@@ -11,6 +11,7 @@ class CreateNovels < ActiveRecord::Migration
       t.string :description
       t.string :author
       t.string :status # private, publish
+      t.string :password
 
       t.timestamps
     end
