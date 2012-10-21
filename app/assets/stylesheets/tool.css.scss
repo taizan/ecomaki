@@ -12,15 +12,17 @@
 
 .itemEffectSelecters { position: absolute; }
 
-.effect_selecter { position: relative; }
-
-.font_selecter { position: relative; }
 
 ._tool_menu .selecter_item{
   width: 80px;
   float: left;
+  margin-bottom: 2px;
+  //clear: left;
 }
 
+._tool_menu .floatEnd{
+  clear: left
+}
 
 ._tool_options{float:left;padding: 2px;}
 
