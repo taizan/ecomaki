@@ -9,7 +9,8 @@ EntryView = ecomakiView.extend({
     this.itemNum = 1;
     
     _.bindAll(this,
-        "click",
+        "onClick",
+        "onCanvasClick",
         "applySize",
         "onResize",
         "addBaloon",
@@ -51,7 +52,7 @@ EntryView = ecomakiView.extend({
       //--
       //set painting options
       this.content.wPaint({
-          drawDown: function(){ _self.isDrawDown = true;} 
+          drawDown:  _self.onCanvasClick
         });
 
       this.content.mouseleave(function(){ 
@@ -78,9 +79,11 @@ EntryView = ecomakiView.extend({
 
     }else{
       this.canvasImage = new Image();
+      $(this.canvasImage).addClass('paint');
       this.canvasImage.src = this.model.get('canvas');
       $(this.canvasImage).appendTo(this.content).width( model_width ).height( model_height );
     }
+    this.effecter = new Effecter($('.paint',this.el),this.model,'option');
     
     return this.render();
   },
@@ -134,14 +137,14 @@ EntryView = ecomakiView.extend({
         this.canvasImage.src = this.model.get('canvas'); 
         $(this.canvasImage).css( { zIndex:this.model.get('canvas_index') } );
       }
-    
+      this.effecter.resetEffect();
     }
 
     return this;
   },
 
   events: {
-    "click" : "click",
+    "click" : "onClick",
     "dblclick" : "dblclick",
     "click .--btn-baloon": "addDefaultBaloon",
     "click .--btn-picture": "addDefaultPicture",
@@ -156,6 +159,7 @@ EntryView = ecomakiView.extend({
     for(var i = 0; i < this.itemList.length; i++){
       this.itemList[i].onDisplay();
     }
+    this.effecter.runSelectedEffect();
     return this;
   },
 
@@ -165,11 +169,12 @@ EntryView = ecomakiView.extend({
     for(var i = 0; i < this.itemList.length; i++){
       this.itemList[i].onPreDisplay();
     }
+    this.effecter.resetEffect();
     return this;
   },
 
-  click: function(ev){
-    //console.log("click entry");
+  onClick: function(ev){
+    console.log("click entry");
     //console.log(ev.target);
     if( $(ev.target).is('.sticky') == false && $(ev.target).is('textarea') == false){$('textarea').blur();}
   },
@@ -180,6 +185,11 @@ EntryView = ecomakiView.extend({
     //if( $(ev.target).hasClass('sticky') == false ){$('textarea').blur();}
   },
 
+  onCanvasClick: function(){
+    $('textarea').blur();
+    this.isDrawDown = true;
+    this.effecter.changeSelecter();
+  },
 
 
   onResize: function(){
