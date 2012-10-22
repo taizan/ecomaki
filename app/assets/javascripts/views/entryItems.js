@@ -61,7 +61,7 @@ EntryItem.prototype = {
     this.$el.appendTo(target);
     this.el = this.$el[0];
 
-    $(this.el).click(this.onClick);
+    if(this.isEditable) $(this.el).click(this.onClick);
     this.init();
   },
 
@@ -179,11 +179,11 @@ BaloonItem = EntryItem.extend({
 
   init: function(){
     //console.log(this.el);
-    if(this.isEditable){
-
     this.target = $(this.el);
     this.effecter = new Effecter(this.target,this.item,'option');
     this.fontSelecter = new FontSelecter(this.target,this.item);
+    if(this.isEditable){
+
 		
       $(this.el).draggable({
         containment: "parent",
@@ -246,6 +246,9 @@ ImageItem = EntryItem.extend({
       $(this.el).dblclick(this.selectImage);
       this.setButton();
       this.showOutLine();
+    }else{
+      this.target = $(this.el);
+      this.effecter = new Effecter(this.target,this.item,'option');
     }
     this.effecter.resetEffect(); 
   },
