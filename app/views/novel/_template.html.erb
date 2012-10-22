@@ -69,7 +69,7 @@
 <script type="text/template" id="entry_template">
   <div class="entry-content">
   </div>
-  <div class="buttons editer_item">
+  <div class="hide_buttons editer_item">
     <li><i class="icon-move" /></li>
     <li><button class="btn --btn-remove"><i class="icon-remove-sign" /></button></li>
     <li><button class="btn --btn-baloon"><i class="icon-comment" /></button></li>
@@ -92,10 +92,11 @@
 
 <script type="text/template" id="font_selecter_template">
   <div class="font_selecter">
+    <div class="floatEnd"></div>
     <div class="item_name selecter_item">item name</div>
     <select name="fontSize" class="fontSizes selecter_item">
       <option value="8">8</option>
-      <option value="10">10</option>
+      <option value="10" selected="selected">10</option>
       <option value="12">12</option>
       <option value="14">14</option>
       <option value="16">16</option>
@@ -117,8 +118,7 @@
     <select name="fontFamily" class="fontFamilyTypes selecter_item">
     </select>
     <select name="fontColor" class="fontColors selecter_item">
-      <option value="Transparent" style="background-color:Transparent" >Transparent</option>
-      <option value="black" style="background-color:black" >black</option>
+      <option value="black" selected="selected" style="background-color:black" >black</option>
       <option value="gray" style="background-color:gray" >gray</option>
       <option value="silver" style="background-color:silver" >silver</option>
       <option value="white" style="background-color:white" >white</option>
@@ -137,8 +137,7 @@
     </select>
     <select name="border" class="borderTypes selecter_item">
       <option value="none">None</option>
-      <option value="hidden">Hidden</option>
-      <option value="solid">Solid</option>
+      <option value="solid" selected="selected">Solid</option>
       <option value="double">Double</option>
       <option value="groove">Groove</option>
       <option value="ridge">Ridge</option>
@@ -149,7 +148,7 @@
     </select>
     <select name="borderWidth" class="borderWidths selecter_item">
       <option value="0">0</option>
-      <option value="1">1</option>
+      <option value="1" selected="selected">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4">4</option>
@@ -159,7 +158,7 @@
       <option value="0">0</option>
       <option value="5">5</option>
       <option value="10">10</option>
-      <option value="20">20</option>
+      <option value="20" selected="selected">20</option>
       <option value="25">25</option>
       <option value="30">30</option>
     </select>
@@ -168,7 +167,7 @@
       <option value="black" style="background-color:black" >black</option>
       <option value="gray" style="background-color:gray" >gray</option>
       <option value="silver" style="background-color:silver" >silver</option>
-      <option value="white" style="background-color:white" >white</option>
+      <option value="white" selected="selected" style="background-color:white" >white</option>
       <option value="blue" style="background-color:blue" >blue</option>
       <option value="navy" style="background-color:navy" >navy</option>
       <option value="teal" style="background-color:teal" >teal</option>
@@ -189,15 +188,16 @@
 
 <script type="text/template" id="effect_selecter_template">
   <div class="effect_selecter">
+    <div class="floatEnd"></div>
     <div class="item_name selecter_item">item name</div>
     <select name="function" class="functionTypes selecter_item">
-      <option value="none">None</option>
+      <option value="none" selected="selected">None</option>
       <option value="effect">Effect</option>
       <option value="show">Show</option>
       <option value="hide">Hide</option>
     </select>
     <select name="effects" class="effectTypes selecter_item">
-      <option value="none">None</option>
+      <option value="none" selected="selected">None</option>
       <option value="blind">Blind</option>
       <option value="bounce">Bounce</option>
       <option value="clip">Clip</option>

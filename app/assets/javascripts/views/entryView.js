@@ -31,7 +31,7 @@ EntryView = ecomakiView.extend({
 
     this.content.width( this.model_width ).height( this.model_height );
     $(this.el).width( this.content.width() + button_offset ).height( this.content.height() );
-    $('.buttons',this.el).css( { left: this.content.width() } );
+    $('.hide_buttons',this.el).css( { left: this.content.width() } );
   },
 
   onLoad: function(){
@@ -135,7 +135,7 @@ EntryView = ecomakiView.extend({
         }
       }else{
         this.canvasImage.src = this.model.get('canvas'); 
-        $(this.canvasImage).css( { zIndex:this.model.get('canvas_index') } );
+        $(this.canvasImage).css( { position: 'relative', zIndex:this.model.get('canvas_index') } );
       }
       this.effecter.resetEffect();
     }

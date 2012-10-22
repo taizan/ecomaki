@@ -27,10 +27,11 @@ $(function() {
   //console.log(id);
   console.log(mode);
   novel = new Novel({ id: id});
-  var isEditable = false;
+  //var isEditable = false;
+  var isEditable = true;
   if(mode == 'edit') isEditable = true;
   //for debug only
-  if(urls.length > 5) isEditable = true;
+  //if(urls.length > 5) isEditable = true;
 
   novelView = new NovelView({model: novel , isEditable: isEditable});
   novelView.appendTo($('#content'));

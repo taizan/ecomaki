@@ -15,6 +15,7 @@ FontSelecter.prototype = {
     var selecterTemplate =  $("#font_selecter_template").html();
     this.selecter = $(selecterTemplate);
     $(this.selecter).appendTo(target);
+
     if(this.item.get('font_size')) 
 		  $('.fontSizes option[value="'+this.item.get('font_size')+'"]',this.selecter).prop('selected',true);
 		if(this.item.get('font_color')) 
