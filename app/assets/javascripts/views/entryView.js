@@ -25,11 +25,11 @@ EntryView = ecomakiView.extend({
 
   applySize: function(){
     // init height width
-    var model_width = this.model.get('width');
-    var model_height = this.model.get('height');
+    this.model_width = this.model.get('width');
+    this.model_height = this.model.get('height');
     var button_offset = 40;
 
-    this.content.width( model_width ).height( model_height );
+    this.content.width( this.model_width ).height( this.model_height );
     $(this.el).width( this.content.width() + button_offset ).height( this.content.height() );
     $('.buttons',this.el).css( { left: this.content.width() } );
   },
@@ -81,7 +81,7 @@ EntryView = ecomakiView.extend({
       this.canvasImage = new Image();
       $(this.canvasImage).addClass('paint');
       this.canvasImage.src = this.model.get('canvas');
-      $(this.canvasImage).appendTo(this.content).width( model_width ).height( model_height );
+      $(this.canvasImage).appendTo(this.content).width( this.model_width ).height( this.model_height );
     }
     this.effecter = new Effecter($('.paint',this.el),this.model,'option');
     

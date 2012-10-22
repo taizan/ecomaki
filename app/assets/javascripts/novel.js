@@ -18,38 +18,25 @@
 
 
 $(function() {
+  //http://ecomaki.com/novel/1
+  //http://ecomaki.com/edit/1/[hash]
   var urls = location.href.split('/');
-  var id = urls[urls.length-1];
+  console.log(urls);
+  var mode = urls[3]
+  var id = urls[4];
   //console.log(id);
+  console.log(mode);
   novel = new Novel({ id: id});
-  var isEditable = true;
+  var isEditable = false;
+  if(mode == 'edit') isEditable = true;
+  //for debug only
+  if(urls.length > 5) isEditable = true;
 
-  //novelView = new NovelView({model: novel , isEditable: isEditable});
-  //novelView.appendTo($('#content'));
   novelView = new NovelView({model: novel , isEditable: isEditable});
   novelView.appendTo($('#content'));
 
-  $('#editButton').click( function() {
-        if(isEditable){
-          isEditable = false;
-        }else{
-          isEditable = true;    
-        }
-        $('#content').empty();
-        novelView = new NovelView({model: novel , isEditable: isEditable});
-        novelView.appendTo($('#content'));
-  if(isEditable){
-    $('._wPaint_menu').show();
-    //$('#console').show();  
-  }
-  else{
-    $('._wPaint_menu').hide();
-  }
-} ).css({zIndex: 9999});
 
-    $('#console').hide();  
-  //$('#content').append(novelView.el);
-  
+  $('#console').hide();  
   
 
   $("#picker").hide();
