@@ -244,6 +244,9 @@ ImageItem = EntryItem.extend({
       });
 
       $(this.el).dblclick(this.selectImage);
+      $(this.el).click(function(){
+        $('._tool_menu .font_selecter').remove();
+      });
       this.setButton();
       this.showOutLine();
     }else{

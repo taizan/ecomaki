@@ -156,7 +156,7 @@ ecomakiView = Backbone.View.extend({
 	
 	
   hideButton: function(){
-    var button = '.buttons';
+    var button = '.hide_buttons';
     var _self = this;
     $(this.el)
       .mouseover(function(){
