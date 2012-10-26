@@ -12,18 +12,19 @@ class CharactersController < ApplicationController
 
     unless ["image/jpeg", "image/png"].include?(content_type)
       render :text => "The uploaded type is not allowed", :status => 500
+    else
+      
+      character = Character.new(:name => 'test', :content_type => content_type)
+      character.save
+      
+      id = character.id
+      
+      File.open(RAILS_ROOT + '/data/images/characters/%d' % id, 'wb') do |file|
+        file.write(image.read)
+      end
+      
+      render :json => []
     end
-
-    character = Character.new(:name => 'test', :content_type => content_type)
-    character.save
-
-    id = character.id
-
-    File.open(RAILS_ROOT + '/data/images/characters/%d' % id, 'wb') do |file|
-      file.write(image.read)
-    end
-
-    render :json => []
   end
 
   def show_image
