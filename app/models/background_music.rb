@@ -13,7 +13,7 @@ class BackgroundMusic < ActiveRecord::Base
   end
 
   def music
-    music_path.binread
+    music_path.binread rescue nil
   end
 
   private

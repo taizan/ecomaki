@@ -13,7 +13,7 @@ class BackgroundImage < ActiveRecord::Base
   end
 
   def image
-    return image_path.binread
+    image_path.binread rescue nil
   end
 
   private
