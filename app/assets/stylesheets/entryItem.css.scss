@@ -32,9 +32,21 @@
    //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
 }
 
+.sticky .text{
+  display: table-cell;
+  vertical-align: middle;
 
+}
 
+* html .sticky .text {/* IE 6 */
+display:inline;
+zoom:1;
+}
 
+*:first-child+html .sticky .text{/* IE 7 */
+display:inline;
+zoom:1;
+}
 .image{
 	position: absolute;
 	top: 10;
@@ -43,3 +55,10 @@
 	width: 100px;
   cursor: pointer;
 }
+
+.sticky textarea{
+text-align: center;
+vertical-align: middle;
+}
+
+

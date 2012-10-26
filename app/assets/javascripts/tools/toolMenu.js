@@ -15,7 +15,7 @@ ToolMenu.prototype = {
 
     ToolMenu.prototype.menu =  
         $('<div class="_tool_menu"></div>')
-          .css({position: 'fixed', left:  5, top:  5})
+          .css({position: 'fixed', left:  5, top:  50})
           .draggable({
               handle: menuHandle,
             })

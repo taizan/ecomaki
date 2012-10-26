@@ -16,3 +16,8 @@
  *= require wPaint
  *= require tool
  */
+
+body{
+
+  padding-top: 50px;
+}

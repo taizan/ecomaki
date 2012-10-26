@@ -50,6 +50,8 @@ EntryItem.prototype = {
     this.$el
       .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left'), zIndex: z })
       .width(this.item.get('width')).height(this.item.get('height'));
+     
+    this.$el.children().width(this.item.get('width')).height(this.item.get('height'));
   },
 
   onChange: function(){
@@ -192,6 +194,7 @@ BaloonItem = EntryItem.extend({
       });
 
       $(this.el).resizable({
+        alsoResize: $('.text',this.el),
         containment: "parent",
         stop: this.onResize ,
         autoHide: true

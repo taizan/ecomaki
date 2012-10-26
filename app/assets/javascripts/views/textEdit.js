@@ -115,7 +115,7 @@ function editableTextarea(target,callback){
       .replace(/&gt;/g,">");
   }
 
-  var focusedText = $( '<textarea style="text-align:center;" ></textarea>' )
+  var focusedText = $( '<textarea style="vertical-align: middle text-align:center;" ></textarea>' )
         .height( $(target).height() ).width ( $(target).width() )
         .css({position: 'absolute', left:-5 ,top: -5})
         .appendTo(target)
