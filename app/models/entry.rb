@@ -15,7 +15,7 @@ class Entry < ActiveRecord::Base
   end
 
   def canvas
-    canvas_path.binread
+    canvas_path.binread rescue nil
   end
 
   def as_json(options = {})
