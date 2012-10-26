@@ -23,7 +23,7 @@ class BackgroundImagesController < ApplicationController
 
   def show_image
     id = params[:id]
-    image = BackgroundImages.find(id)
+    image = BackgroundImage.find(id)
     send_data(image.image, :disposition => 'inline', :type => image.content_type)
   end
 end

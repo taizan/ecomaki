@@ -15,8 +15,6 @@ class BackgroundMusicsController < ApplicationController
     unless ["audio/mp3"].include?(content_type)
       render :text => "The uploaded type '#{content_type}' is not allowed", :status => 500
     else
-      
-      
       background_music = BackgroundMusic.new(:name => params[:name], :music => music.read, :content_type => content_type)
       background_music.save
       
@@ -26,7 +24,7 @@ class BackgroundMusicsController < ApplicationController
 
   def show_music
     id = params[:id]
-    music = BackgroundMusics.find(id)
+    music = BackgroundMusic.find(id)
     send_data(music.music, :disposition => "inline", :type => music.content_type)
   end
 end
