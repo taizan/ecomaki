@@ -1,6 +1,6 @@
 class BackgroundImagesController < ApplicationController
   def index
-    images = BackgroundImages.all
+    images = BackgroundImage.all
     respond_to do |format|
       format.xml { render :xml => images }
       format.json { render :json => images }

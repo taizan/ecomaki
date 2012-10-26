@@ -1,6 +1,6 @@
 class BackgroundMusicsController < ApplicationController
   def index
-    musics = BackgroundMusics.all
+    musics = BackgroundMusic.all
     respond_to do |format|
       format.xml { render :xml => musics }
       format.json { render :json => musics }
