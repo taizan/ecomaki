@@ -33,11 +33,22 @@ Ecomaki::Application.routes.draw do
   match 'novel/:id' => 'novel#update', :via => :put
   match 'novel/:id' => 'novel#show', :via => :get
   match 'novel/create' => 'novel#create', :via => :post
+  match 'novel/' => 'novel#create', :via => :post
 
   # Characters
   match 'characters' => 'characters#index', :via => :get
   match 'characters' => 'characters#create', :via => :post
   match 'characters/image/:id' => 'characters#show_image'
+
+  # Musics
+  match 'background_musics' => 'background_musics#index', :via => :get
+  match 'background_musics' => 'background_musics#create', :via => :post
+  match 'background_musics/musics/:id' => 'background_musics#show_music'
+
+  # Background images
+  match 'background_images' => 'background_images#index', :via => :get
+  match 'background_images' => 'background_images#create', :via => :post
+  match 'background_images/images/:id' => 'background_images#show_image'
 
   # Edit mode
   match 'edit/:id/:password' => 'novel#edit', :via => :get

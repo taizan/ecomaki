@@ -9,13 +9,13 @@ class Entry < ActiveRecord::Base
   after_save :save_canvas
 
   def save_canvas
-    File.open(data, 'wb') do |file|
+    File.open(canvas_path, 'wb') do |file|
       file.write(@canvas)
     end
   end
 
   def canvas
-    data.binread rescue nil
+    canvas_path.binread
   end
 
   def as_json(options = {})
@@ -26,7 +26,7 @@ class Entry < ActiveRecord::Base
 
   private
 
-  def data
+  def canvas_path
     Rails.root.join("data/images/entry_canvas/#{id}")
   end
 end
