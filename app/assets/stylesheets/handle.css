@@ -1,0 +1,9 @@
+#chapter_handle {
+  position: fixed;
+  width: 200;
+}
+
+.chapter_handle_item {
+  border: 1px gray solid;
+  margin: 2px;
+}
