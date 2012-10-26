@@ -110,4 +110,28 @@ $(function () {
       alert(data);
     }
   });
+
+
+  $('#music_upload').fileupload({
+    dataType: 'json',
+    done: function(e, data) {
+      alert('done');
+    },
+    fail: function(e, data) {
+      alert(data);
+    }
+  });
+
+
+  $('#background_upload').fileupload({
+    dataType: 'json',
+    done: function(e, data) {
+      alert('done');
+    },
+    fail: function(e, data) {
+      alert(data);
+    }
+  });
+
+
 });

@@ -15,6 +15,7 @@
  *= require wColorPicker.1.2.min
  *= require wPaint
  *= require tool
+ *= require handle
  */
 
 body{

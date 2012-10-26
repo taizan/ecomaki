@@ -36,6 +36,17 @@ $(function() {
   novelView = new NovelView({model: novel , isEditable: isEditable});
   novelView.appendTo($('#content'));
 
+  if(isEditable){
+    $('#preview').show().click(function(){
+        isEditable = isEditable ? false : true;
+        $('#content').empty();
+        novelView = new NovelView({model: novel , isEditable: isEditable});
+        novelView.appendTo($('#content'));
+        if(isEditable) $('#preview').html('Preview');
+        else $('#preview').html('Edit');
+      });
+  
+  }
 
   $('#console').hide();  
   
