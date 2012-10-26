@@ -60,10 +60,15 @@ ActiveRecord::Schema.define(:version => 20121026120929) do
     t.integer  "chapter_id"
     t.integer  "width"
     t.integer  "height"
+    t.integer  "margin_top"
+    t.integer  "margin_left"
+    t.integer  "margin_bottom"
+    t.integer  "margin_right"
+    t.string   "option"
     t.integer  "order_number"
     t.integer  "canvas_index"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "entry_balloons", :force => true do |t|
@@ -78,10 +83,12 @@ ActiveRecord::Schema.define(:version => 20121026120929) do
     t.string   "font_style"
     t.string   "font_color"
     t.integer  "font_size"
-    t.string   "boarder_style"
-    t.integer  "boarder_width"
-    t.string   "boarder_color"
+    t.string   "border_style"
+    t.integer  "border_width"
+    t.integer  "border_radius"
+    t.string   "border_color"
     t.integer  "entry_balloon_background_id"
+    t.string   "background_color"
     t.string   "option"
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
