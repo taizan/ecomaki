@@ -3,7 +3,7 @@ Config.Shapes["Pencil"] = {
 			//console.log($this.canvas)
 			console.log(e)
 			$($this.canvasTemp)
-				.css({left: 0, top: $this.canvas.top}) //I don't know why left = 0.
+				.css({left: 0, top: 0})
 				.attr('width', $this.canvas.width)
 				.attr('height', $this.canvas.height)
 				.show()
