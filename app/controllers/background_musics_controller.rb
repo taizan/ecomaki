@@ -16,7 +16,7 @@ class BackgroundMusicsController < ApplicationController
       render :text => "The uploaded type is not allowed", :status => 500
     end
 
-    background_music = BackgroundMusic.new(:name => params[:name], :content_type => content_type)
+    background_music = BackgroundMusic.new(:name => params[:name], :music => music.read, :content_type => content_type)
     background_music.save
   end
 
