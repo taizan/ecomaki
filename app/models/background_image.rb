@@ -1,6 +1,6 @@
 class BackgroundImage < ActiveRecord::Base
   attr_accessor :image
-  attr_accessible :name, :content_type
+  attr_accessible :name, :content_type, :image
 
   belongs_to :chapter
 
