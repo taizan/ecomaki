@@ -1,5 +1,24 @@
 class BackgroundImage < ActiveRecord::Base
-  # attr_accessible :title, :body
+  attr_accessor :image
+  attr_accessible :name, :content_type
 
   belongs_to :chapter
+
+  after_save :save_image
+
+  def save_image
+    File.open(image_path, 'wb') do |file|
+      file.write(@image)
+    end
+  end
+
+  def image
+    return image_path.binread
+  end
+
+  private
+
+  def image_path
+    return Rails.root.join('data', 'images', 'background', @id)
+  end
 end
