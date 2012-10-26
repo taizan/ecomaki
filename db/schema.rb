@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120616050920) do
+ActiveRecord::Schema.define(:version => 20121026114706) do
 
   create_table "authors", :force => true do |t|
     t.string   "name"
@@ -20,15 +20,21 @@ ActiveRecord::Schema.define(:version => 20120616050920) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "background_musics", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "chapters", :force => true do |t|
     t.integer  "novel_id"
-    t.integer  "chapter_background_id"
-    t.integer  "chapter_sound_id"
+    t.integer  "background_image_id"
+    t.integer  "backfounrd_music_id"
     t.string   "title"
     t.string   "description"
     t.integer  "order_number"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "characters", :force => true do |t|
@@ -46,15 +52,10 @@ ActiveRecord::Schema.define(:version => 20120616050920) do
     t.integer  "chapter_id"
     t.integer  "width"
     t.integer  "height"
-    t.integer  "margin_top"
-    t.integer  "margin_left"
-    t.integer  "margin_bottom"
-    t.integer  "margin_right"
-    t.string   "option"
     t.integer  "order_number"
     t.integer  "canvas_index"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "entry_balloons", :force => true do |t|
@@ -69,11 +70,9 @@ ActiveRecord::Schema.define(:version => 20120616050920) do
     t.string   "font_style"
     t.string   "font_color"
     t.integer  "font_size"
-    t.string   "border_style"
-    t.integer  "border_width"
-    t.integer  "border_radius"
-    t.string   "border_color"
-    t.string   "background_color"
+    t.string   "boarder_style"
+    t.integer  "boarder_width"
+    t.string   "boarder_color"
     t.integer  "entry_balloon_background_id"
     t.string   "option"
     t.datetime "created_at",                  :null => false
