@@ -19,6 +19,6 @@ class BackgroundMusic < ActiveRecord::Base
   private
 
   def music_path
-    return Rails.root.join('data', 'musics', 'background', @id)
+    return Rails.root.join('data', 'musics', 'background', self.id.to_s)
   end
 end

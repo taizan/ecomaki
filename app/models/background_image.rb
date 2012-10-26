@@ -19,6 +19,6 @@ class BackgroundImage < ActiveRecord::Base
   private
 
   def image_path
-    return Rails.root.join('data', 'images', 'background', id)
+    return Rails.root.join('data', 'images', 'background', self.id.to_s)
   end
 end
