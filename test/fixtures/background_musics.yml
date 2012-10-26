@@ -1,5 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 zero:
+  id: 0
   name: lion
   content_type: audio/mpeg
