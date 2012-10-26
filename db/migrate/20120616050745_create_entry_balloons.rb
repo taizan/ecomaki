@@ -19,13 +19,15 @@ class CreateEntryBalloons < ActiveRecord::Migration
       t.string :font_color
       t.integer :font_size
 
-      # Boarder
-      t.string :boarder_style
-      t.integer :boarder_width
-      t.string :boarder_color
+      # Border
+      t.string :border_style
+      t.integer :border_width
+      t.integer :border_radius
+      t.string :border_color
 
       # Background
       t.integer :entry_balloon_background_id
+      t.string :background_color
       
       # Other options
       t.string :option
