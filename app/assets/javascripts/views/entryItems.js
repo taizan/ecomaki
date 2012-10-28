@@ -51,7 +51,6 @@ EntryItem.prototype = {
       .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left'), zIndex: z })
       .width(this.item.get('width')).height(this.item.get('height'));
      
-    this.$el.children().width(this.item.get('width')).height(this.item.get('height'));
   },
 
   onChange: function(){
@@ -184,6 +183,9 @@ BaloonItem = EntryItem.extend({
     this.target = $(this.el);
     this.effecter = new Effecter(this.target,this.item,'option');
     this.fontSelecter = new FontSelecter(this.target,this.item);
+
+    this.$el.children().width(this.item.get('width')).height(this.item.get('height'));
+
     if(this.isEditable){
 
 		
@@ -200,7 +202,7 @@ BaloonItem = EntryItem.extend({
         autoHide: true
       });
 
-      $(this.el).dblclick(this.editText);
+      $(this.el).click(this.editText);
       $(this.el).click(this.fontSelecter.changeSelecter);
       this.setButton();
     }
@@ -221,11 +223,11 @@ BaloonItem = EntryItem.extend({
 
 
 ImageItem = EntryItem.extend({
-  tmpl: '<img class="item image item-resizable item-draggable"">',
+  tmpl: '<div class="wrapper item item-resizable item-draggable"><img class="itme_image"></div>',
   //pre append method
   initialize: function(){
     _.bindAll(this,"selectImage","setImage","init");
-    $(this.el).attr('src', config.character_idtourl( this.item.get('character_id') ) );
+    $('img',this.el).attr('src', config.character_idtourl( this.item.get('character_id') ) );
   },
   //post append messod
   init: function(){
@@ -238,15 +240,15 @@ ImageItem = EntryItem.extend({
         "handles": "n, e, s, w, ne, se, sw, nw",
       });
 
-      this.target = $(this.el).parent();
+      this.target = $(this.el);
 			this.effecter = new Effecter(this.target,this.item,'option');
 
-      $(this.el).parent().draggable({
+      $(this.el).draggable({
         start: this.onDragStart,
         stop: this.onDragStop
       });
 
-      $(this.el).dblclick(this.selectImage);
+      $(this.el).click(this.selectImage);
       $(this.el).click(function(){
         $('._tool_menu .font_selecter').remove();
       });
@@ -260,15 +262,14 @@ ImageItem = EntryItem.extend({
   },
 
   selectImage: function(ev){
-    console.log('selectimage');console.log(this);
-    console.log(this.setImage);
+    console.log('selectimage');
     var picker = new Picker(this.setImage);
     picker.pickImage(ev);
   },
 
   setImage: function(img){
     this.item.set('character_id' , config.character_urltoid(img.src) );
-    $(this.el).attr('src',img.src);
+    $('img',this.el).attr('src',img.src);
 
     var destHeight = this.content.offset().top + this.content.height() - $(this.el).offset().top;
     if(destHeight < img.height ){
@@ -283,8 +284,6 @@ ImageItem = EntryItem.extend({
       img.height =  img.height * destWidth / img.width;
       img.width = destWidth;
     }
-    // tmp
-    $(this.el).parent().width(img.width).height(img.height);
 
     $(this.el).height(img.height).width(img.width);
 
