@@ -2,16 +2,16 @@
 <script type="text/template" id="form_template">
   <table>
     <tr class="title_input form_item">
-      <td>title:</td>
+      <td>Title:</td>
       <td><textarea /></td>
     </tr>
     <tr class="description_input form_item">
-      <td>description:</td>
+      <td>Description:</td>
       <td><textarea /><td>
     </tr>
     <br>
     <tr class="auther_input form_item">
-      <td>name:</td>
+      <td>Auther:</td>
       <td><textarea /><td>
     </tr>
   </table>
@@ -20,18 +20,75 @@
 
 <script type="text/template" id="bootstrap_form_template">
   <form class="form-horizontal">
+    
     <div class="control-group">
-      <label class="control-label" for="inputTitle">Title</label>
+      <label class="control-label" for="inputTitle">Title:</label>
       <div class="controls">
-        <input type="text" id="inputTitle" placeholder="Title">
+        <input type="text" id="inputTitle" placeholder="title">
       </div>
     </div>
+
     <div class="control-group">
-      <label class="control-label" for="inputPassword">Description</label>
+      <label class="control-label" for="inputDescription">Description:</label>
       <div class="controls">
-        <input type="text" id="inputDescription" placeholder="Description">
+        <input type="text" id="inputDescription" placeholder="description">
       </div>
     </div>
+
+    <div class="control-group">
+      <label class="control-label" for="inputAuther">Auther:</label>
+      <div class="controls">
+        <input type="text" id="inputAuther" placeholder="auther">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="controls">
+        
+        <label class="checkbox">
+          <input type="checkbox"> I'm agree
+        </label>
+        
+        <button type="submit" class="btn btn-primary">ok</button>
+        <button  class="btn ">cancel</button>
+      
+      </div>
+    </div>
+
+  </form>
+</script>
+
+<script type="text/template" id="char_form_template">
+  <form class="form-horizontal">
+    
+    <div class="control-group">
+      <label class="control-label" for="inputName">Character Name:</label>
+      <div class="controls">
+        <input type="text" id="inputName" placeholder="name">
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <label class="control-label" for="inputDescription">Description:</label>
+      <div class="controls">
+        <input type="text" id="inputDescription" placeholder="description">
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <label class="control-label" for="inputFile">file:</label>
+      <div class="controls">
+        <input id="music_upload" type="file" name="image" data-url="/character" multiple>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="inputAuther">Auther:</label>
+      <div class="controls">
+        <input type="text" id="inputAuther" placeholder="auther">
+      </div>
+    </div>
+
     <div class="control-group">
       <div class="controls">
         <label class="checkbox">
@@ -48,11 +105,11 @@
   <br>
 
   <div id="title" class="title">
-    <h2 class="help  editer_item">[[novel title]]</h2>
+    <h2 class="text_help  editer_item">T I T L E</h2>
     <h2 class="text">novel title</h2>
   </div>
   <div id="description" class="description">
-    <p class="help  editer_item">[[novel description]]</p>
+    <p class="text_help  editer_item">D E S C R I P T I O N</p>
     <p class="text">des</p>
   </div>
   
@@ -68,39 +125,23 @@
 </script>
 
 <script type="text/template" id="chapter_template">
-  <br>
+  <hr>
+  <div class="chapter_control top_control">
+    <img class="background_icon icon"src="/assets/novel/background.png"/>
+    <img class="music_icon icon" src="/assets/novel/music.png" />
+    <button class="remove_chapter icon"> <img src="/assets/novel/remove.png" /></button>
+  </div>
 
   <div class="title">
-    <h2 class="help editer_item">[[chapter title]]</h2>
+    <h2 class="text_help editer_item">PAGE  TITLE</h2>
     <h2 class="text">chapter title</h2>
   </div>
   <div class="description">
-    <p class="help editer_item">[[chapter description]]</p>
+    <p class="text_help editer_item">DESCRIPTION</p>
     <p class="text">des</p>
   </div>
-  <div class="selecter_item editer_item">
-    <!-- 
-    <div>
-      Background
-      <select class="background_select"></select>
-    </div>
-    <div>
-      BGM
-      <select class="bgm_select">
-        <option name="bgm" value="">なし</option>
-        {% ['dream', 'flower', 'orange'].forEach(function(name, i) { %}
-        <option name="bgm" value="{{ i + 1 }}">{{ name }}</option>
-        {% }); %}
-      </select>
-    </div>
-    -->
-    <img class="background_icon" src="/assets/novel/background.png">
-    <img class="music_icon" src="/assets/novel/music.png">
-  </div>
 
-  <div class="entryList">
-  </div>
-
+  <div class="entryList"></div>
   <br>
   <div class="buttons chapter_buttons editer_item">
     <button class="btn add_entry add_one_char">
@@ -112,16 +153,15 @@
     <button class="btn add_entry add_description"> 
        <img src="/assets/novel/add_description.png">
     </button>
-    <br>
-    <br>
+  </div>
+
+  <hr>
+  <div class="chapter_control bottom_control">
     <button class="btn add_chapter">
        <img src="/assets/novel/page_add_green.png">
     </button>
-    <button class="btn remove_chapter"> 
-       <img src="/assets/novel/page_remove_red.png">
-    </button>
   </div>
-
+  
 </script>
 
 <script type="text/template" id="entry_template">

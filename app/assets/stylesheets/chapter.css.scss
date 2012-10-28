@@ -3,3 +3,36 @@
   min-width: 128px;
 }
 
+
+
+.background_icon:hover{
+  background: green;
+}
+
+.music_icon:hover{
+  background: blue;
+}
+
+.top_control{
+  position: absolute;
+  right: 2px;
+  z-index: 99;
+}
+
+.top_control .icon{
+  height: 32px;
+  width: 32px;
+  cursor:pointer;
+}
+
+.bottom_control{
+  text-align: right;
+  z-index: 99;
+}
+
+
+hr {
+  height: 2px;
+  margin: 2px;
+  background: gray;
+}

@@ -174,9 +174,11 @@ EntryView = ecomakiView.extend({
   },
 
   onClick: function(ev){
-    console.log("click entry");
+    //console.log("click entry");
     //console.log(ev.target);
-    if( $(ev.target).is('.sticky') == false && $(ev.target).is('textarea') == false){$('textarea').blur();}
+    if( !$(ev.target).is('.sticky') && !$(ev.target).is('textarea') && $(ev.target).is('text')){
+      $('textarea').blur();
+    }
   },
 
   dblclick: function(ev){
@@ -205,7 +207,7 @@ EntryView = ecomakiView.extend({
     this.model.balloons.create(
       {
         left: 0,top: 0, width: 100, height: 50 ,
-        z_index: this.maxIndx+1,
+        z_index: this.maxIndex+1,
         content: str,
         border: ''
       });
@@ -226,7 +228,7 @@ EntryView = ecomakiView.extend({
     this.model.characters.create(
       {
         left: 0,top: 0, width: 100, height: 100,
-        z_index: this.maxIndx+1,
+        z_index: this.maxIndex+1,
         character_id: id,
       });
     this.maxIndex++;

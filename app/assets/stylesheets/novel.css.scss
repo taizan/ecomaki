@@ -72,22 +72,54 @@
     font-size: 24px; 
     line-height: 1.5em;
     position: relative;
+    cursor:pointer;
+}
+
+.title .text_help {
+    font-size: 12px; 
+    line-height: 1.5em;
+    //background: #eee;
+    font-color: #444;
+    margin: 1px;
+    cursor:pointer;
 }
 
 .title textarea {
     font-size: 24px; 
     line-height: 1.5em;
+    text-align:center;
+    z-index: 99;
 }
 
 .description {
     font-size: 12px;
     line-height: 1.5em;
     position: relative;
+    cursor:pointer;
+}
+
+.description .text_help {
+    font-size: 12px; 
+    line-height: 1.5em;
+    //background: #ddd;
+    font-color: #333;
+    margin: 1px;
+    cursor:pointer;
 }
 
 .descriotion textarea {
     font-size: 12px;
     line-height: 1.5em;
+    text-align:center;
+    z-index: 99;
+}
+
+.title:hover {
+  background: #eee;
+}
+
+.description:hover {
+  background: #eee;
 }
 
 
