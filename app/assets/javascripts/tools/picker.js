@@ -1,4 +1,4 @@
-//= require jquery.jStageAligner
+  //= require jquery.jStageAligner
 
 
 function Picker( callbackFunc ){
@@ -60,26 +60,6 @@ Picker.prototype = {
     item.click(function(){
       callback(img);
       finish();
-      /*
-       target.src = img.src;
-       if(content.height() < img.height){
-       img.width = img.width * content.height() / img.height;
-       img.height=content.height(); //this must do after upper line
-       }
-       if(content.width() < img.width){
-       img.height = img.height * content.width() / img.width;
-       img.width=content.width();
-       }
-
-       $(target).width(img.width).height(img.height);
-       //parent access is not beatiful
-       $(target).parent().width(img.width).height(img.height);
-
-       console.log(img.height + "," + img.width );
-       console.log(target.height + "," + target.width );
-       $('#picker').find($('img')).remove();
-       $('#picker').hide('fast')
-       */
     });
   },
 
@@ -107,7 +87,7 @@ $(function () {
       alert('done');
     },
     fail: function(e, data) {
-      alert(data);
+      console.log(data);
     }
   });
 
@@ -118,7 +98,7 @@ $(function () {
       alert('done');
     },
     fail: function(e, data) {
-      alert(data);
+      console.log(data);
     }
   });
 
@@ -129,7 +109,7 @@ $(function () {
       alert('done');
     },
     fail: function(e, data) {
-      alert(data);
+      console.log(data);
     }
   });
 
