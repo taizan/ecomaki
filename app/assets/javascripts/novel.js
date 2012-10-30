@@ -50,7 +50,7 @@ $(function() {
 
   $('#console').hide();  
   
+  Picker.prototype.setUp();
 
-  $("#picker").hide();
   $('#side_menu').hide();
 });

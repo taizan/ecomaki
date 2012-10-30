@@ -55,7 +55,7 @@ FontSelecter.prototype = {
   },
 	
 	applyFont: function(){
-	  console.log('app font');	
+	  //console.log('app font');	
 		var border = '';
 		border += this.item.get('border_width') ? this.item.get('border_width'): 1;
 		border += 'px ';
@@ -70,7 +70,7 @@ FontSelecter.prototype = {
 		else if (size > 80) size = 80;
 		else if (size < 8 ) size = 8;
     size += 'px';
-		console.log(size);
+		//console.log(size);
 
 		var family = this.item.get('font_family');
 		if(!family) {family = "Arial,'ＭＳ Ｐゴシック',sans-serif" ;}
@@ -79,7 +79,7 @@ FontSelecter.prototype = {
 		var borderRadius = this.item.get('border_radius');
 		if(!borderRadius){ boderRadius = 20; }
     borderRadius += 'px';
-    console.log(borderRadius);
+    //console.log(borderRadius);
     
 		var background = this.item.get('background_color');
 		if(!background){ background = 'white'; }
@@ -100,7 +100,7 @@ FontSelecter.prototype = {
 }
 
 function editableTextarea(target,callback){
-  console.log(target);
+  //console.log(target);
   var text = $('.text',target).html();
   if(text == null || text == undefined){
     text = "[        ]";

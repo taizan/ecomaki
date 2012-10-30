@@ -144,7 +144,7 @@ EntryView = ecomakiView.extend({
   },
 
   events: {
-    "click" : "onClick",
+    "click" : "onViewClick" ,
     "dblclick" : "dblclick",
     "click .--btn-baloon": "addDefaultBaloon",
     "click .--btn-picture": "addDefaultPicture",
@@ -176,9 +176,6 @@ EntryView = ecomakiView.extend({
   onClick: function(ev){
     //console.log("click entry");
     //console.log(ev.target);
-    if( !$(ev.target).is('.sticky') && !$(ev.target).is('textarea') && $(ev.target).is('text')){
-      $('textarea').blur();
-    }
   },
 
   dblclick: function(ev){
@@ -256,15 +253,25 @@ EntryView = ecomakiView.extend({
 
   addEntry: function(e){
     console.log("addEntry");
-    console.log(this);
+    //console.log(this);
     //this.model.
-    this.parentView.model.create_entry(
+    var chapter = this.parentView.model;
+    var currentIndex =  chapter.entries.indexOf(this.model);
+    
+    var newEntry = chapter.create_entry(
       {
         height: 200,
         width: 500,
         canvas_index: 0,
+        order_number: currentIndex 
       }
     );
+    console.log( chapter.entries.indexOf(newEntry));
+    
+    //chapter.entries.move_at(newEntry, currentIndex+1);
+    //chapter.entries.save();
+    //chapter.trigger('change');
+    //console.log("-addEntry");
   },
 
   changeLayer: function(e){

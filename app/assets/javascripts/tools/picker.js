@@ -2,14 +2,21 @@
 
 
 function Picker( callbackFunc ){
+
   this.callback = callbackFunc;
   this.initialize.apply(this, arguments);
 }
 
 Picker.prototype = {
+  setUp: function(){
+    
+    $('#picker').blur(Picker.prototype.finish);
+     
+    $("#picker").hide();
+  },
+
   initialize: function(){
     _.bindAll(this, "parseCharacterXml","setItem");
-    console.log(this.target);
   },
 
   loadXml: function(url,func){
@@ -66,13 +73,18 @@ Picker.prototype = {
   pickImage: function(ev){
     //selectedImage = ev.target;
     this.loadXml("/characters.xml" , this.parseCharacterXml );
-    $('#picker').show('fast');
+    $('#picker').show('drop','fast');
     $('#pickerCancelBtn').click(this.finish);
-    $('#picker').blur(this.finish);
+    //
+    //$('html').click(this.finish);
+    //$('#picker').click(function(event){
+    //    event.stopPropagation();
+    //  });
 
   },
 
   finish: function(){
+   console.log('blur'); 
     $('#picker').find($('img')).remove();
     $('#picker').hide();
   }
