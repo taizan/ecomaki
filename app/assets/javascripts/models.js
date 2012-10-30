@@ -57,10 +57,11 @@ var EntryList = Backbone.Collection.extend({
     return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries";
   },
   create: function(model, options) {
-	    if (typeof model.order_number === "undefined") {
-		model.order_number = this.length;
-	    }
-    Backbone.Collection.prototype.create.call(this, model, options);
+	  if (typeof model.order_number === "undefined") {
+		  model.order_number = this.length;
+    }
+    //console.log(options);
+    return Backbone.Collection.prototype.create.call(this, model, options);
 	},
   comparator: function(entry) { return entry.get("order_number"); },
   // Set order_number and save all models in collection.
@@ -103,9 +104,8 @@ var Chapter = Backbone.Model.extend({
     this.entries.chapter_id = this.get('id');
     this.entries.add(arguments[0].entry);
   },
-  create_entry: function(attributes) {
-    this.entries.create(attributes);
-    return true;
+  create_entry: function(attributes,option) {
+    return this.entries.create(attributes,option);
   },
   destroy_entry: function(models) {
     models = _.isArray(models) ? models.slice() : [models];

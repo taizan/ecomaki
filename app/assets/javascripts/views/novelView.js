@@ -19,7 +19,9 @@ NovelView = ecomakiView.extend({
 
   events: {
     "click #add_chapter" : "addChapter",
+    'click': 'onViewClick'    
   },
+
 
   onLoad: function(){
     var _self = this;

@@ -75,8 +75,6 @@ EntryItem.prototype = {
   },
 
   onDragStart: function(){
-    this.hideButton();
-
     var z = this.parentView.maxIndex ;
     //if(this.item.get('z_index') < z) {
       z ++;
@@ -95,7 +93,6 @@ EntryItem.prototype = {
     this.item.save();
     
     console.log(this);
-    this.showButton();
   },
 
   showOutLine: function(){
@@ -119,7 +116,6 @@ EntryItem.prototype = {
     var button = $(body);
     button.appendTo(target);
     button.hide();
-    $(target).find('.ui-resizable-handle').hide();
 
     $(target)
       .mouseover(function(){
@@ -141,18 +137,6 @@ EntryItem.prototype = {
         item.destroy();
       }
     );
-  },
-
-  showButton: function() {
-    var target = this.target;
-    target.find('.item-remove').show();
-    //target.find('.ui-resizable-handle').show();
-  },
-
-  hideButton: function() {
-    var target = this.target;
-    target.find('.item-remove').hide();
-    //target.find('.ui-resizable-handle').hide();
   },
   
   onDisplay: function(){
@@ -223,7 +207,7 @@ BaloonItem = EntryItem.extend({
 
 
 ImageItem = EntryItem.extend({
-  tmpl: '<div class="wrapper item item-resizable item-draggable"><img class="itme_image"></div>',
+  tmpl: '<div class="wrapper item item-resizable item-draggable"><img class="item_image"></div>',
   //pre append method
   initialize: function(){
     _.bindAll(this,"selectImage","setImage","init");
