@@ -66,12 +66,12 @@ var EntryList = Backbone.Collection.extend({
   comparator: function(entry) { return entry.get("order_number"); },
   // Set order_number and save all models in collection.
   save: function() {
-	    this.sort();
-	    for (var i = 0; i < this.models.length; i++) {
-		this.models[i].set("order_number", i);
-		console.log("order_number = " + this.models[i].get("order_number"));
-		this.models[i].save();
-	    }
+	  this.sort();
+	  for (var i = 0; i < this.models.length; i++) {
+		  this.models[i].set("order_number", i);
+		  console.log("order_number = " + this.models[i].get("order_number"));
+		  this.models[i].save();
+	  }
 	},
   move_at: function(model, index) {
 	    // Ensure sorted

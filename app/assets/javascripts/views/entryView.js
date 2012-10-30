@@ -257,6 +257,7 @@ EntryView = ecomakiView.extend({
     //this.model.
     var chapter = this.parentView.model;
     var currentIndex =  chapter.entries.indexOf(this.model);
+    console.log( currentIndex);
     
     var newEntry = chapter.create_entry(
       {
@@ -267,9 +268,9 @@ EntryView = ecomakiView.extend({
       }
     );
     console.log( chapter.entries.indexOf(newEntry));
+    chapter.entries.save();
     
     //chapter.entries.move_at(newEntry, currentIndex+1);
-    //chapter.entries.save();
     //chapter.trigger('change');
     //console.log("-addEntry");
   },
