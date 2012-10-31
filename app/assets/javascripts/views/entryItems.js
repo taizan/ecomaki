@@ -246,9 +246,10 @@ ImageItem = EntryItem.extend({
   },
 
   selectImage: function(ev){
-    console.log('selectimage');
-    var picker = new Picker(this.setImage);
-    picker.pickImage(ev);
+    //console.log('selectimage');
+    Picker.prototype.setCallback(this.setImage);
+    Picker.prototype.show();
+
   },
 
   setImage: function(img){

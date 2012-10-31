@@ -71,9 +71,9 @@ ChapterView = ecomakiView.extend({
     //this.model.
     this.model.create_entry(
       {
-        height: 200,
-        width:  500,
-        canvas_index: 1,
+        height: 320,
+        width:  640,
+        canvas_index: -1,
       }
     );
   },

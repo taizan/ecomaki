@@ -1,22 +1,20 @@
   //= require jquery.jStageAligner
 
 
-function Picker( callbackFunc ){
+function Picker( ){
 
-  this.callback = callbackFunc;
-  this.initialize.apply(this, arguments);
 }
 
 Picker.prototype = {
-  setUp: function(){
-    
-    $('#picker').blur(Picker.prototype.finish);
-     
-    $("#picker").hide();
-  },
+
+  selectedCallback: null,
+
+  visible : false,
 
   initialize: function(){
-    _.bindAll(this, "parseCharacterXml","setItem");
+    $('#picker').blur(Picker.prototype.finish);
+    $("#picker").hide();
+    $("#picker").tabs();
   },
 
   loadXml: function(url,func){
@@ -34,7 +32,6 @@ Picker.prototype = {
   parseCharacterXml: function(xml,status){
     //alert('parse');
     if(status!='success')return;
-    var _self = this;
 
     $(xml).find('character').each(
       function(){
@@ -44,7 +41,7 @@ Picker.prototype = {
         var width = $(this).find('width').text();
         var auther = $(this).find('auther').text();
         var description = $(this).find('description').text();
-        _self.setItem(id);
+        Picker.prototype.setItem(id);
       }
     );
   },
@@ -53,40 +50,46 @@ Picker.prototype = {
   setItem: function(id){
     var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/characters/image/' + id + '"></li>');
     //  add item to pickerList
-    item.appendTo($('#pickerList'));
+    item.appendTo($('#picker_list'));
 
     var img = new Image();
     img.src = '/characters/image/'+id;
 
-    var callback = this.callback;
-    var finish = this.finish;
+    var callback = Picker.prototype.selectedCallback;
+    var finish = Picker.prototype.finish;
 
     console.log(callback);
 
 
     item.click(function(){
-      callback(img);
-      finish();
-    });
+        if(Picker.prototype.selectedCallback){
+          Picker.prototype.selectedCallback(img);
+          Picker.prototype.finish();
+        }
+      });
   },
 
-  pickImage: function(ev){
-    //selectedImage = ev.target;
-    this.loadXml("/characters.xml" , this.parseCharacterXml );
-    $('#picker').show('drop','fast');
-    $('#pickerCancelBtn').click(this.finish);
-    //
-    //$('html').click(this.finish);
-    //$('#picker').click(function(event){
-    //    event.stopPropagation();
-    //  });
-
+  setCallback: function(func) {
+    Picker.prototype.selectedCallback = func;
   },
+
+  show: function(){
+    if(!Picker.prototype.visible){
+      Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
+      $('#picker').show('drop','fast');
+      $('#pickerCancelBtn').click(Picker.prototype.finish);
+      Picker.prototype.visible = true;
+    }
+  },
+
 
   finish: function(){
-   console.log('blur'); 
-    $('#picker').find($('img')).remove();
-    $('#picker').hide();
+    console.log('blur'); 
+    if(Picker.prototype.visible){
+      $('#picker').find($('img')).remove();
+      $('#picker').hide('drop','hide');
+      Picker.prototype.visible = false;
+    }
   }
 
 };
