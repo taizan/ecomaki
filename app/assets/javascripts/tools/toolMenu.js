@@ -26,7 +26,7 @@ ToolMenu.prototype = {
 			$('<div id="text_tab"></div>');
 
 		ToolMenu.prototype.toolbox =
-			$('<div id="toolbox"></dvi>')
+			$('<div id="toolbox" class="editer_item"></dvi>')
 				.css({position: 'fixed' })
 				.append($('<ul></ul>)')
 					.append($('<li><a href="#paint_tab"><span class="ui-icon"></span></a></li>'))
@@ -41,6 +41,9 @@ ToolMenu.prototype = {
 
 		$('body')
 			.append(ToolMenu.prototype.toolbox);
+
+    //default is hide
+    $('#toobox').hide();
   }
 
 }
