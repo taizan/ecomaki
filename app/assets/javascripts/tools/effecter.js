@@ -10,12 +10,15 @@ function Effecter(target,item,key){
         "appendEffectSelecterTo",
         "setEffect"
       );
-  $('#anim_tab .effect_selecter').remove();
-  this.appendEffectSelecterTo($('#anim_tab'));
 };
 
 Effecter.prototype = {
-	
+	changeSelecter: function(){
+      console.log('on item click');
+      $('#anim_tab .effect_selecter').remove();
+      this.appendEffectSelecterTo($('#anim_tab'));
+  },
+
 	runSelectedEffect: function(){
 		var option = this.item.get(this.key);
     if(option != null){

@@ -5,11 +5,17 @@ function FontSelecter(target,item){
 			'appendFontSelecterTo',
 			'setFont',
 			'applyFont');
-  $('#text_tab .font_selecter').remove();
-  this.appendFontSelecterTo($('#text_tab'));
+ // $('#text_tab .font_selecter').remove();
+  //this.appendFontSelecterTo($('#text_tab'));
 };
 
 FontSelecter.prototype = {
+  changeSelecter: function(){
+    console.log('on item click');
+    $('#text_tab .font_selecter').remove();
+    this.appendFontSelecterTo($('#text_tab'));
+  },
+              
   appendFontSelecterTo: function(target){    
     var selecterTemplate =  $("#font_selecter_template").html();
     this.selecter = $(selecterTemplate);
