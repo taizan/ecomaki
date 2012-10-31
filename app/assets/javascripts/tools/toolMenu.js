@@ -27,7 +27,7 @@ ToolMenu.prototype = {
 
 		ToolMenu.prototype.toolbox =
 			$('<div id="toolbox"></dvi>')
-				.css({position: 'fixed', left: 5, top: 100, width: 709, height: 67})
+				.css({position: 'fixed' })
 				.append($('<ul></ul>)')
 					.append($('<li><a href="#paint_tab"><span class="ui-icon"></span></a></li>'))
 					.append($('<li><a href="#anim_tab"><span class="ui-icon"></span></a></li>'))

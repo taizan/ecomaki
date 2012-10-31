@@ -37,7 +37,8 @@ $(function() {
   novelView.appendTo($('#content'));
 
   if(isEditable){
-    $('#preview').show().click(function(){
+    $('#preview').show().width(100).height(60);
+    $('#preview').click(function(){
         isEditable = isEditable ? false : true;
         $('#content').empty();
         novelView = new NovelView({model: novel , isEditable: isEditable});
