@@ -1,6 +1,5 @@
 class Character < ActiveRecord::Base
-  attr_accessible :name, :description, :content_type
-  attr_accessible :author, :width, :height
+  attr_accessible :name, :description, :content_type, :author
 
-  has_one :entry_character
+  has_many :character_image
 end

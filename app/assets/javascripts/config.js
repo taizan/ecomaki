@@ -73,11 +73,11 @@ Config.prototype.inherits = function(parent, protoProps, staticProps) {
   return child;
 };
 
-Config.prototype.character_idtourl = function(id) {
-    return '/characters/image/' + id;
+Config.prototype.character_image_idtourl = function(id) {
+    return '/characters/images/' + id;
 }
 
-Config.prototype.character_urltoid =  function(url) {
+Config.prototype.character_image_urltoid =  function(url) {
     var elements = url.split('/');
     if (elements.length < 1)
   return null;
