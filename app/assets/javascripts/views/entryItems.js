@@ -148,7 +148,7 @@ EntryItem.prototype = {
   },
 
   onClick: function(){
-    //this.effecter.changeSelecter();
+    this.effecter.changeSelecter();
   },
 
 };
