@@ -1,16 +1,15 @@
 function FontSelecter(target,item){
   this.target = target;	
   this.item = item;
-  _.bindAll(this,'changeSelecter','appendFontSelecterTo','setFont','applyFont')
+  _.bindAll(this,
+			'appendFontSelecterTo',
+			'setFont',
+			'applyFont');
+  $('#text_tab .font_selecter').remove();
+  this.appendFontSelecterTo($('#text_tab'));
 };
 
 FontSelecter.prototype = {
-  changeSelecter: function(){
-    console.log('on item click');
-    $('._tool_menu .font_selecter').remove();
-    this.appendFontSelecterTo($('._tool_menu'));
-  },
-	
   appendFontSelecterTo: function(target){    
     var selecterTemplate =  $("#font_selecter_template").html();
     this.selecter = $(selecterTemplate);

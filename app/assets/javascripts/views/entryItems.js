@@ -148,7 +148,7 @@ EntryItem.prototype = {
   },
 
   onClick: function(){
-    this.effecter.changeSelecter();
+    //this.effecter.changeSelecter();
   },
 
 };
@@ -234,7 +234,7 @@ ImageItem = EntryItem.extend({
 
       $(this.el).click(this.selectImage);
       $(this.el).click(function(){
-        $('._tool_menu .font_selecter').remove();
+        $('#toolbox .font_selecter').remove();
       });
       this.setButton();
       this.showOutLine();

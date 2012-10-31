@@ -2,8 +2,7 @@ function Effecter(target,item,key){
 	this.target = target;
 	this.item = item;
 	this.key = key;
-	 _.bindAll(this,
-        "changeSelecter",
+	_.bindAll(this,
         "runSelectedEffect",
         "runEffect",
         "effectCallback",
@@ -11,15 +10,11 @@ function Effecter(target,item,key){
         "appendEffectSelecterTo",
         "setEffect"
       );
+  $('#anim_tab .effect_selecter').remove();
+  this.appendEffectSelecterTo($('#anim_tab'));
 };
 
 Effecter.prototype = {
-	
-  changeSelecter: function(){
-    console.log('on item click');
-    $('._tool_menu .effect_selecter').remove();
-    this.appendEffectSelecterTo($('._tool_menu'));
-  },
 	
 	runSelectedEffect: function(){
 		var option = this.item.get(this.key);
