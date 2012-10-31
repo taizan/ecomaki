@@ -39,15 +39,19 @@ var Entry = Backbone.Model.extend({
     this.balloons.novel_id = this.get('novel_id');
     this.balloons.chapter_id = this.get('chapter_id');
     this.balloons.entry_id = this.id;
-    this.balloons.add(balloons);
+      if (balloons && balloons.length > 0) {
+	  this.balloons.add(balloons);
+      }
 
     // Create characters.
     this.characters = new this.entryCharacterList();
     this.characters.novel_id = this.get('novel_id');
     this.characters.chapter_id = this.get('chapter_id');
     this.characters.entry_id = this.id;
-    this.characters.add(characters);
-  },
+      if (characters && characters.length > 0) {
+	  this.characters.add(characters);
+      }
+  }
 });
 
 
