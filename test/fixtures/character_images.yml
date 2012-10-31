@@ -1,0 +1,83 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one:
+  id: 0
+  character_id: 0
+  content_type: image/png
+
+two:
+  id: 1
+  character_id: 0
+  content_type: image/png
+  width: 100
+  height: 100
+
+three:
+  id: 2
+  content_type: image/png
+  width: 100
+  height: 100
+
+four:
+  id: 3
+  content_type: image/png
+  width: 100
+  height: 100
+
+five:
+  id: 4
+  content_type: image/png
+  width: 100
+  height: 100
+
+six:
+  id: 5
+  content_type: image/png
+  width: 100
+  height: 100
+
+seven:
+  id: 6
+  content_type: image/png
+  width: 100
+  height: 100
+
+eight:
+  id: 7
+  content_type: image/png
+  width: 100
+  height: 100
+
+nine:
+  id: 8
+  content_type: image/png
+  width: 100
+  height: 100
+
+ten:
+  id: 9
+  content_type: image/png
+  width: 100
+  height: 100
+
+eleven:
+  id: 10
+  content_type: image/png
+  width: 100
+  height: 100
+
+twelve:
+  id: 11
+  content_type: image/png
+  width: 100
+  height: 100
+
+therteen:
+  id: 12
+  content_type: image/png
+  width: 100
+  height: 100

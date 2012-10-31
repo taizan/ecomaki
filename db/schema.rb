@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121026120929) do
+ActiveRecord::Schema.define(:version => 20121031123043) do
 
   create_table "authors", :force => true do |t|
     t.string   "name"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20121026120929) do
   end
 
   create_table "background_images", :force => true do |t|
+    t.integer  "character_id"
     t.string   "name"
     t.string   "content_type"
     t.datetime "created_at",   :null => false
@@ -45,13 +46,20 @@ ActiveRecord::Schema.define(:version => 20121026120929) do
     t.datetime "updated_at",          :null => false
   end
 
+  create_table "character_images", :force => true do |t|
+    t.integer  "character_id"
+    t.string   "content_type"
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "characters", :force => true do |t|
     t.string   "name"
     t.string   "description"
     t.string   "content_type"
     t.string   "author"
-    t.integer  "width"
-    t.integer  "height"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
@@ -95,7 +103,7 @@ ActiveRecord::Schema.define(:version => 20121026120929) do
   end
 
   create_table "entry_characters", :force => true do |t|
-    t.integer  "character_id"
+    t.integer  "character_image_id"
     t.integer  "entry_id"
     t.integer  "top"
     t.integer  "left"
@@ -108,8 +116,8 @@ ActiveRecord::Schema.define(:version => 20121026120929) do
     t.integer  "clip_bottom"
     t.integer  "clip_right"
     t.string   "option"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "novel_histories", :force => true do |t|

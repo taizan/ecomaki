@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  character_id: 0
+  character_image_id: 0
   entry_id: 0
   top: 1
   left: 1

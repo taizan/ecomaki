@@ -1,7 +1,7 @@
 class CreateEntryCharacters < ActiveRecord::Migration
   def change
     create_table :entry_characters do |t|
-      t.integer :character_id
+      t.integer :character_image_id
       t.integer :entry_id
 
       # Size, Position
