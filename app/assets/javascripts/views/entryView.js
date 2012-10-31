@@ -185,7 +185,7 @@ EntryView = ecomakiView.extend({
   onCanvasClick: function(){
     $('textarea').blur();
     this.isDrawDown = true;
-    $('._tool_menu .font_selecter').remove();
+    $('#toolbox .font_selecter').remove();
     this.effecter.changeSelecter();
   },
 
