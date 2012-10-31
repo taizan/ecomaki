@@ -262,12 +262,12 @@ EntryView = ecomakiView.extend({
       {
         height: 320,
         width: 640,
-        canvas_index: -1,
-        order_number: currentIndex 
+        canvas_index: -1
       }
     );
+      chapter.entries.create_after(newEntry, currentIndex);
     console.log( chapter.entries.indexOf(newEntry));
-    //chapter.entries.save();
+    chapter.entries.save();
     
     //chapter.entries.move_at(newEntry, currentIndex+1);
     //chapter.trigger('change');

@@ -79,6 +79,19 @@ var EntryList = Backbone.Collection.extend(
 		this.models[i].save();
 	    }
 	},
+	// Create model and insert it right after the index-th model.
+	create_after: function(attributes, index, options) {
+	    // Assume all the order_number is correct.
+	    attributes.order_number = index + 1;
+	    for (var i = index + 1; i < this.models.length; i++) {
+		this.models[i].set('order_number', i + 1);
+		this.models[i].save();
+	    }
+
+	    var model =  Backbone.Collection.prototype.create.call(this, attributes, options);
+
+	    return model;
+	},
 	move_at: function(model, index) {
 	    // Ensure sorted
 	    this.sort();
