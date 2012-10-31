@@ -9,9 +9,6 @@ class CreateCharacters < ActiveRecord::Migration
 
       t.string :author
 
-      t.integer :width
-      t.integer :height
-
       t.timestamps
     end
   end
