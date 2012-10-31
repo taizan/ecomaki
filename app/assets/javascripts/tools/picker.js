@@ -33,7 +33,7 @@ Picker.prototype = {
     //alert('parse');
     if(status!='success')return;
 
-    $(xml).find('character').each(
+    $(xml).find('character-image').each(
       function(){
         var id = $(this).find('id').text();
         var name = $(this).find('name').text();
@@ -48,12 +48,13 @@ Picker.prototype = {
 
 
   setItem: function(id){
-    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/characters/image/' + id + '"></li>');
+    var url =config.character_image_idtourl(id);
+    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="' + url + '"></li>');
     //  add item to pickerList
     item.appendTo($('#picker_list'));
 
     var img = new Image();
-    img.src = '/characters/image/'+id;
+    img.src = url;
 
     var callback = Picker.prototype.selectedCallback;
     var finish = Picker.prototype.finish;
@@ -75,7 +76,7 @@ Picker.prototype = {
 
   show: function(){
     if(!Picker.prototype.visible){
-      Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
+      Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterXml );
       $('#picker').show('drop','fast');
       $('#pickerCancelBtn').click(Picker.prototype.finish);
       Picker.prototype.visible = true;
