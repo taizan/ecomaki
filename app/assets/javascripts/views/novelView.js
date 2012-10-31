@@ -19,7 +19,9 @@ NovelView = ecomakiView.extend({
 
   events: {
     "click #add_chapter" : "addChapter",
+    'click': 'onViewClick'    
   },
+
 
   onLoad: function(){
     var _self = this;
@@ -27,10 +29,10 @@ NovelView = ecomakiView.extend({
     this.addAll();	
 
     if (this.isEditable) {
-		  $('#title').dblclick(function(){
+		  $('#title').click(function(){
 			    editableTextarea(this, _self.saveTitle);
 		    });
-		  $('#description').dblclick(function(){
+		  $('#description').click(function(){
 			    editableTextarea(this, _self.saveDescription);
 		    });
 	  }
@@ -61,7 +63,7 @@ NovelView = ecomakiView.extend({
 
   addChapter: function(e){
     console.log("addChapter");
-    this.model.create_chapter();
+    this.model.create_chapter({at:0});
   },
 
   changeMode: function(mode){

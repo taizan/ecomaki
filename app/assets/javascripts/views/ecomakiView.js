@@ -65,8 +65,16 @@ ecomakiView = Backbone.View.extend({
   onLoad: function(){},
 
 
-  events: {
-    
+  onViewClick: function(ev){
+    //console.log(ev.target);
+    //console.log('click view');
+    if( !$(ev.target).is('.sticky') && !$(ev.target).is('textarea') && !$(ev.target).is('.text')){
+      $('textarea').blur();
+    }
+    if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
+    //console.log(ev.target);
+      $('#picker').blur();
+    }
   },
 
   appendTo: function(target){
@@ -156,18 +164,22 @@ ecomakiView = Backbone.View.extend({
 	
 	
   hideButton: function(){
-    var button = '.hide_buttons';
+    var hide_button = '.hide_buttons';
+    var button = '.buttons';
     var _self = this;
     $(this.el)
       .mouseover(function(){
         if(_self.isEditable){
-          $(this).children(button).show();
+     //     $(this).children(button).show();
+          $(this).children(hide_button).show();
         }
       })
       .mouseout(function(){
-        $(this).children(button).hide();
-      })
-      .find(button).hide();
+      //  $(this).children(button).hide();
+        $(this).children(hide_button).hide();
+      });
+    // $(button,this.el).hide();
+     $(hide_button,this.el).hide();
     return this;
   },
 	

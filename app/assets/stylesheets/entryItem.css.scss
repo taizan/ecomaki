@@ -47,12 +47,10 @@ zoom:1;
 display:inline;
 zoom:1;
 }
-.image{
-	position: absolute;
-	top: 10;
-	left: 10;
-	eight: 100px;
-	width: 100px;
+
+.item_image{
+	height: 100%;
+	width: 100%;
   cursor: pointer;
 }
 

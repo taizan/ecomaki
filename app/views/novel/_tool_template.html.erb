@@ -1,0 +1,177 @@
+
+<script type="text/template" id="chapter_handle_template">
+  <div class="chapter_handle">
+    <div class="chpter_handle_list"></div>
+    <div class="buttons">
+      <button id="preview_btn" class="btn" >Preview</button>>
+    </div>
+  </div>
+</script>
+
+<script type="text/template" id="font_selecter_template">
+  <div class="font_selecter">
+    <div class="floatEnd"></div>
+    <div class="item_name selecter_item">item name</div>
+    <select name="fontSize" class="fontSizes selecter_item">
+      <option value="8">8</option>
+      <option value="10" selected="selected">10</option>
+      <option value="12">12</option>
+      <option value="14">14</option>
+      <option value="16">16</option>
+      <option value="18">18</option>
+      <option value="20">20</option>
+      <option value="24">24</option>
+      <option value="28">28</option>
+      <option value="32">32</option>
+      <option value="36">36</option>
+      <option value="40">40</option>
+      <option value="44">44</option>
+      <option value="48">48</option>
+      <option value="54">54</option>
+      <option value="62">62</option>
+      <option value="72">72</option>
+    </select>
+    <select name="fontStyle" class="fontStyleTypes selecter_item">
+    </select>
+    <select name="fontFamily" class="fontFamilyTypes selecter_item">
+    </select>
+    <select name="fontColor" class="fontColors selecter_item">
+      <option value="black" selected="selected" style="background-color:black" >black</option>
+      <option value="gray" style="background-color:gray" >gray</option>
+      <option value="silver" style="background-color:silver" >silver</option>
+      <option value="white" style="background-color:white" >white</option>
+      <option value="blue" style="background-color:blue" >blue</option>
+      <option value="navy" style="background-color:navy" >navy</option>
+      <option value="teal" style="background-color:teal" >teal</option>
+      <option value="green" style="background-color:green" >green</option>
+      <option value="lime" style="background-color:lime" >lime</option>
+      <option value="aqua" style="background-color:aqua" >aqua</option>
+      <option value="yellow" style="background-color:yellow" >yellow</option>
+      <option value="red" style="background-color:red" >red</option>
+      <option value="fuchia" style="background-color:fuchia" >fuchia</option>
+      <option value="olive" style="background-color:olive" >olive</option>
+      <option value="purple" style="background-color:purple" >purple</option>
+      <option value="maroon" style="background-color:maroon" >maroon</option>
+    </select>
+    <select name="border" class="borderTypes selecter_item">
+      <option value="none">None</option>
+      <option value="solid" selected="selected">Solid</option>
+      <option value="double">Double</option>
+      <option value="groove">Groove</option>
+      <option value="ridge">Ridge</option>
+      <option value="inset">Inset</option>
+      <option value="outset">OutSet</option>
+      <option value="dashed">Dashed</option>
+      <option value="dotted">Dotted</option>
+    </select>
+    <select name="borderWidth" class="borderWidths selecter_item">
+      <option value="0">0</option>
+      <option value="1" selected="selected">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <select name="borderRadius" class="borderRadiuses selecter_item">
+      <option value="0">0</option>
+      <option value="10">10</option>
+      <option value="20" selected="selected">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+      <option value="60">60</option>
+      <option value="80">80</option>
+      <option value="100">100</option>
+    </select>
+    <select name="fontBackgroundColor" class="fontBackgroundColors selecter_item">
+      <option value="Transparent" style="background-color:Transparent" >Transparent</option>
+      <option value="black" style="background-color:black" >black</option>
+      <option value="gray" style="background-color:gray" >gray</option>
+      <option value="silver" style="background-color:silver" >silver</option>
+      <option value="white" selected="selected" style="background-color:white" >white</option>
+      <option value="blue" style="background-color:blue" >blue</option>
+      <option value="navy" style="background-color:navy" >navy</option>
+      <option value="teal" style="background-color:teal" >teal</option>
+      <option value="green" style="background-color:green" >green</option>
+      <option value="lime" style="background-color:lime" >lime</option>
+      <option value="aqua" style="background-color:aqua" >aqua</option>
+      <option value="yellow" style="background-color:yellow" >yellow</option>
+      <option value="red" style="background-color:red" >red</option>
+      <option value="fuchia" style="background-color:fuchia" >fuchia</option>
+      <option value="olive" style="background-color:olive" >olive</option>
+      <option value="purple" style="background-color:purple" >purple</option>
+      <option value="maroon" style="background-color:maroon" >maroon</option>
+    </select>
+    <div class="floatEnd"></div>
+    </div>
+  </div>
+</script>
+
+<script type="text/template" id="effect_selecter_template">
+  <div class="effect_selecter">
+    <div class="floatEnd"></div>
+    <div class="item_name selecter_item">item name</div>
+    <select name="function" class="functionTypes selecter_item">
+      <option value="none" selected="selected">None</option>
+      <option value="effect">Effect</option>
+      <option value="show">Show</option>
+      <option value="hide">Hide</option>
+    </select>
+    <select name="effects" class="effectTypes selecter_item">
+      <option value="none" selected="selected">None</option>
+      <option value="blind">Blind</option>
+      <option value="bounce">Bounce</option>
+      <option value="clip">Clip</option>
+      <option value="drop">Drop</option>
+      <option value="explode">Explode</option>
+      <option value="fade">Fade</option>
+      <option value="fold">Fold</option>
+      <option value="highlight">Highlight</option>
+      <option value="puff">Puff</option>
+      <option value="pulsate">Pulsate</option>
+      <option value="scale">Scale</option>
+      <option value="shake">Shake</option>
+      <option value="size">Size</option>
+      <option value="slide">Slide</option>
+      <option value="transfer">Transfer</option>
+    </select>
+    <!-- 
+    <select name="ease" class="easeTypes selecter_item">
+      <option value="linear" >linear</option>
+      <option value="swing" >swing</option>
+      <option value="jswing" >jswing</option>
+      <option value="easeInQuad" >easeInQuad</option>
+      <option value="easeInCubic" >easeInCubic</option>
+      <option value="easeInQuart" >easeInQuart</option>
+      <option value="easeInQuint" >easeInQuint</option>
+      <option value="easeInSine" >easeInSine</option>
+      <option value="easeInExpo" >easeInExpo</option>
+      <option value="easeInCirc" >easeInCirc</option>
+      <option value="easeInElastic" >easeInElastic</option>
+      <option value="easeInBack" >easeInBack</option>
+      <option value="easeInBounce" >easeInBounce</option>
+      <option value="easeOutQuad" >easeOutQuad</option>
+      <option value="easeOutCubic" >easeOutCubic</option>
+      <option value="easeOutQuart" >easeOutQuart</option>
+      <option value="easeOutQuint" >easeOutQuint</option>
+      <option value="easeOutSine" >easeOutSine</option>
+      <option value="easeOutExpo" >easeOutExpo</option>
+      <option value="easeOutCirc" >easeOutCirc</option>
+      <option value="easeOutElastic" >easeOutElastic</option>
+      <option value="easeOutBack" >easeOutBack</option>
+      <option value="easeOutBounce" >easeOutBounce</option>
+      <option value="easeInOutQuad" >easeInOutQuad</option>
+      <option value="easeInOutCubic" >easeInOutCubic</option>
+      <option value="easeInOutQuart" >easeInOutQuart</option>
+      <option value="easeInOutQuint" >easeInOutQuint</option>
+      <option value="easeInOutSine" >easeInOutSine</option>
+      <option value="easeInOutExpo" >easeInOutExpo</option>
+      <option value="easeInOutCirc" >easeInOutCirc</option>
+      <option value="easeInOutElastic" >easeInOutElastic</option>
+      <option value="easeInOutBack" >easeInOutBack</option>
+      <option value="easeInOutBounce" >easeInOutBounce</option>
+    </select>
+    -->
+    <input name="duration" class="durations selecter_item" value="500" size="4" maxlength="4">
+    <div class="floatEnd"></div>
+  </div>
+</script>

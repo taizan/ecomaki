@@ -1,15 +1,20 @@
-//= require jquery.jStageAligner
+  //= require jquery.jStageAligner
 
 
-function Picker( callbackFunc ){
-  this.callback = callbackFunc;
-  this.initialize.apply(this, arguments);
+function Picker( ){
+
 }
 
 Picker.prototype = {
+
+  selectedCallback: null,
+
+  visible : false,
+
   initialize: function(){
-    _.bindAll(this, "parseCharacterXml","setItem");
-    console.log(this.target);
+    $('#picker').blur(Picker.prototype.finish);
+    $("#picker").hide();
+    $("#picker").tabs();
   },
 
   loadXml: function(url,func){
@@ -27,7 +32,6 @@ Picker.prototype = {
   parseCharacterXml: function(xml,status){
     //alert('parse');
     if(status!='success')return;
-    var _self = this;
 
     $(xml).find('character').each(
       function(){
@@ -37,7 +41,7 @@ Picker.prototype = {
         var width = $(this).find('width').text();
         var auther = $(this).find('auther').text();
         var description = $(this).find('description').text();
-        _self.setItem(id);
+        Picker.prototype.setItem(id);
       }
     );
   },
@@ -46,55 +50,46 @@ Picker.prototype = {
   setItem: function(id){
     var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="/characters/image/' + id + '"></li>');
     //  add item to pickerList
-    item.appendTo($('#pickerList'));
+    item.appendTo($('#picker_list'));
 
     var img = new Image();
     img.src = '/characters/image/'+id;
 
-    var callback = this.callback;
-    var finish = this.finish;
+    var callback = Picker.prototype.selectedCallback;
+    var finish = Picker.prototype.finish;
 
     console.log(callback);
 
 
     item.click(function(){
-      callback(img);
-      finish();
-      /*
-       target.src = img.src;
-       if(content.height() < img.height){
-       img.width = img.width * content.height() / img.height;
-       img.height=content.height(); //this must do after upper line
-       }
-       if(content.width() < img.width){
-       img.height = img.height * content.width() / img.width;
-       img.width=content.width();
-       }
-
-       $(target).width(img.width).height(img.height);
-       //parent access is not beatiful
-       $(target).parent().width(img.width).height(img.height);
-
-       console.log(img.height + "," + img.width );
-       console.log(target.height + "," + target.width );
-       $('#picker').find($('img')).remove();
-       $('#picker').hide('fast')
-       */
-    });
+        if(Picker.prototype.selectedCallback){
+          Picker.prototype.selectedCallback(img);
+          Picker.prototype.finish();
+        }
+      });
   },
 
-  pickImage: function(ev){
-    //selectedImage = ev.target;
-    this.loadXml("/characters.xml" , this.parseCharacterXml );
-    $('#picker').show('fast');
-    $('#pickerCancelBtn').click(this.finish);
-    $('#picker').blur(this.finish);
-
+  setCallback: function(func) {
+    Picker.prototype.selectedCallback = func;
   },
+
+  show: function(){
+    if(!Picker.prototype.visible){
+      Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
+      $('#picker').show('drop','fast');
+      $('#pickerCancelBtn').click(Picker.prototype.finish);
+      Picker.prototype.visible = true;
+    }
+  },
+
 
   finish: function(){
-    $('#picker').find($('img')).remove();
-    $('#picker').hide();
+    console.log('blur'); 
+    if(Picker.prototype.visible){
+      $('#picker').find($('img')).remove();
+      $('#picker').hide('drop','hide');
+      Picker.prototype.visible = false;
+    }
   }
 
 };
@@ -107,7 +102,7 @@ $(function () {
       alert('done');
     },
     fail: function(e, data) {
-      alert(data);
+      console.log(data);
     }
   });
 
@@ -118,7 +113,7 @@ $(function () {
       alert('done');
     },
     fail: function(e, data) {
-      alert(data);
+      console.log(data);
     }
   });
 
@@ -129,7 +124,7 @@ $(function () {
       alert('done');
     },
     fail: function(e, data) {
-      alert(data);
+      console.log(data);
     }
   });
 
