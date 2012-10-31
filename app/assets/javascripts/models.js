@@ -51,20 +51,23 @@ var Entry = Backbone.Model.extend({
 });
 
 
-var EntryList = Backbone.Collection.extend({
-  model: Entry,
-  url: function() {
-    return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries";
-  },
-  create: function(model, options) {
-	    if (typeof model.order_number === "undefined") {
-		model.order_number = this.length;
-	    }
-    Backbone.Collection.prototype.create.call(this, model, options);
+var EntryList = Backbone.Collection.extend(
+    {
+	model: Entry,
+	url: function() {
+	    return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries";
 	},
-  comparator: function(entry) { return entry.get("order_number"); },
-  // Set order_number and save all models in collection.
-  save: function() {
+	create: function(attributes, options) {
+	    if (typeof attributes.order_number === "undefined") {
+		attributes.order_number = this.length;
+	    }
+	    return Backbone.Collection.prototype.create.call(this, attributes, options);
+	},
+	comparator: function(entry) {
+	    return entry.get("order_number");
+	},
+	// Set order_number and save all models in collection.
+	save: function() {
 	    this.sort();
 	    for (var i = 0; i < this.models.length; i++) {
 		this.models[i].set("order_number", i);
@@ -72,10 +75,10 @@ var EntryList = Backbone.Collection.extend({
 		this.models[i].save();
 	    }
 	},
-  move_at: function(model, index) {
+	move_at: function(model, index) {
 	    // Ensure sorted
 	    this.sort();
-
+	    
 	    var cur_index = this.models.indexOf(model);
 	    if (index > cur_index) {
 		this.models.splice(index, 0, model); // Insert
@@ -84,13 +87,13 @@ var EntryList = Backbone.Collection.extend({
 		this.models.splice(cur_index, 1);
 		this.models.splice(index, 0, model);
 	    } // If index == cur_index, do nothing.
-
+	    
 	    // Renumbering order_number.
 	    for (var i=0; i<this.models.length; i++) {
 		this.models[i].set("order_number", i);
 	    }
 	}
-});
+    });
 
 var Chapter = Backbone.Model.extend({
   entrylist: EntryList,
