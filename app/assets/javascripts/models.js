@@ -99,13 +99,11 @@ var EntryList = Backbone.Collection.extend(
 		this.models[i].save();
 	    }
 
-	    var model =  Backbone.Collection.prototype.create.call(this, attributes, options);
-
-	    return model;
+	    return Backbone.Collection.prototype.create.call(this, attributes, options);
 	},
 	move_at: function(model, index) {
 	    // Ensure sorted
-	    this.sort();
+	    //this.sort();
 	    
 	    var cur_index = this.models.indexOf(model);
 	    if (index > cur_index) {
@@ -154,6 +152,38 @@ var ChapterList = Backbone.Collection.extend(
 	model: Chapter,
 	url: function() {
 	    return "/novel/" + this.novel_id + "/chapters";
+	},
+	create: function(attr, options) {
+	    if (typeof attr.order_number == 'undefined') {
+		attr.order_number = this.length;
+	    }
+	    return Backbone.Collection.prototype.create.call(this, attr, options);
+	},
+	comparator: function(chapter) {
+	    return chapter.get('order_number');
+	},
+	create_after: function(attr, index, options) {
+	    attr.order_number = index + 1;
+	    for (var i = index + 1; i < this.models.length; i++) {
+		this.models[i].set('order_number', i + 1);
+		this.models[i].save();
+	    }
+
+	    return Backbone.Collection.prototype.create.call(this, attr, options);
+	},
+	move_at: function(model, index) {
+	    var cur_index = this.models.indexOf(model);
+	    if (index > cur_index) {
+		this.models.splice(index, 0, model);
+		this.models.splice(cur_index, 1);
+	    } else if (index < cur_index) {
+		this.models.splice(cur_index, 1);
+		this.models.splice(index, 0, model);
+	    }
+
+	    for (var i = 0; i < this.models.length; i++) {
+		this.models[i].set('order_number', i);
+	    }
 	}
     });
 
