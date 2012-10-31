@@ -211,7 +211,7 @@ ImageItem = EntryItem.extend({
   //pre append method
   initialize: function(){
     _.bindAll(this,"selectImage","setImage","init");
-    $('img',this.el).attr('src', config.character_idtourl( this.item.get('character_id') ) );
+    $('img',this.el).attr('src', config.character_image_idtourl( this.item.get('character_image_id') ) );
   },
   //post append messod
   init: function(){
@@ -253,7 +253,7 @@ ImageItem = EntryItem.extend({
   },
 
   setImage: function(img){
-    this.item.set('character_id' , config.character_urltoid(img.src) );
+    this.item.set('character_image_id' , config.character_image_urltoid(img.src) );
     $('img',this.el).attr('src',img.src);
 
     var destHeight = this.content.offset().top + this.content.height() - $(this.el).offset().top;
