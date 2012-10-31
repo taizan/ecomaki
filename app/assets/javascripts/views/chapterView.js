@@ -73,7 +73,7 @@ ChapterView = ecomakiView.extend({
       {
         height: 320,
         width:  640,
-        canvas_index: -1,
+        canvas_index: 1,
       }
     );
   },
