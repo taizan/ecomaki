@@ -227,7 +227,7 @@ EntryView = ecomakiView.extend({
       {
         left: 0,top: 0, width: 100, height: 100,
         z_index: this.maxIndex+1,
-        character_id: id,
+        character_image_id: id
       });
     this.maxIndex++;
     this.model.save();
