@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%= stylesheet_link_tag 'layout' %>
+
 <html>
   <script type="text/javascript"> if (!window.console) console = {log: function() {}}; </script>
   <head>
@@ -11,14 +13,15 @@
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
+        <img id="top_icon" src="/assets/novel/top_makimono_black.png" />
+      <div class="-navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">ecoMaki</a>
+          <a class="brand" href="/"> ecoMaki</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <!-- <li style="disPlay: none" id="copy_edit"><a >Copy&Edit</a></li> 

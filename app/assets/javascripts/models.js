@@ -106,9 +106,8 @@ var Chapter = Backbone.Model.extend({
     this.entries.chapter_id = this.get('id');
     this.entries.add(arguments[0].entry);
   },
-  create_entry: function(attributes) {
-    this.entries.create(attributes);
-    return true;
+  create_entry: function(attributes,option) {
+    return this.entries.create(attributes,option);
   },
   destroy_entry: function(models) {
     models = _.isArray(models) ? models.slice() : [models];
@@ -163,8 +162,8 @@ Novel = Backbone.Model.extend({
     }
   },
 
-  create_chapter: function() {
-    this.chapters.create({novel_id: this.id});
+  create_chapter: function(options) {
+    this.chapters.create({novel_id: this.id},options);
     return true;
   }
 });

@@ -112,8 +112,6 @@ EntryView = ecomakiView.extend({
         _self.itemList.push(itemView);
         _self.maxIndex = ( item.get('z_index') > _self.maxIndex ) ?   item.get('z_index') : _self.maxIndex;
 
-        //itemView.appendEffectSelecterTo($('.itemEffectSelecters',_self.el));
-        //console.log(_self.itemNum);
       }
 
       _(this.model.balloons.models).each( function(item){ initItemView(item, BaloonItem); } );
@@ -144,7 +142,7 @@ EntryView = ecomakiView.extend({
   },
 
   events: {
-    "click" : "onClick",
+    "click" : "onViewClick" ,
     "dblclick" : "dblclick",
     "click .--btn-baloon": "addDefaultBaloon",
     "click .--btn-picture": "addDefaultPicture",
@@ -174,9 +172,8 @@ EntryView = ecomakiView.extend({
   },
 
   onClick: function(ev){
-    console.log("click entry");
+    //console.log("click entry");
     //console.log(ev.target);
-    if( $(ev.target).is('.sticky') == false && $(ev.target).is('textarea') == false){$('textarea').blur();}
   },
 
   dblclick: function(ev){
@@ -205,7 +202,7 @@ EntryView = ecomakiView.extend({
     this.model.balloons.create(
       {
         left: 0,top: 0, width: 100, height: 50 ,
-        z_index: this.maxIndx+1,
+        z_index: this.maxIndex+1,
         content: str,
         border: ''
       });
@@ -215,8 +212,7 @@ EntryView = ecomakiView.extend({
     this.model.save();
     this.model.trigger('change');
 
-    //var baloon =  new BaloonItem( this._self , str , { width: 100,height: 50 } );
-    //baloon.appendTo( this.content );
+    $('.--btn-layer',this.el).removeClass('btn-primary');
   },
 
   addPicture: function( id ){
@@ -226,12 +222,14 @@ EntryView = ecomakiView.extend({
     this.model.characters.create(
       {
         left: 0,top: 0, width: 100, height: 100,
-        z_index: this.maxIndx+1,
+        z_index: this.maxIndex+1,
         character_id: id,
       });
     this.maxIndex++;
     this.model.save();
     this.model.trigger('change');
+
+    $('.--btn-layer',this.el).removeClass('btn-primary');
 
   },
 
@@ -241,7 +239,7 @@ EntryView = ecomakiView.extend({
   },
 
   addDefaultPicture: function(e){
-    this.addPicture(0);
+    this.addPicture(1);
   },
 
   remove: function(e){
@@ -254,15 +252,26 @@ EntryView = ecomakiView.extend({
 
   addEntry: function(e){
     console.log("addEntry");
-    console.log(this);
+    //console.log(this);
     //this.model.
-    this.parentView.model.create_entry(
+    var chapter = this.parentView.model;
+    var currentIndex =  chapter.entries.indexOf(this.model);
+    console.log( currentIndex);
+    
+    var newEntry = chapter.create_entry(
       {
-        height: 200,
-        width: 500,
-        canvas_index: 0,
+        height: 320,
+        width: 640,
+        canvas_index: -1,
+        order_number: currentIndex 
       }
     );
+    console.log( chapter.entries.indexOf(newEntry));
+    //chapter.entries.save();
+    
+    //chapter.entries.move_at(newEntry, currentIndex+1);
+    //chapter.trigger('change');
+    //console.log("-addEntry");
   },
 
   changeLayer: function(e){

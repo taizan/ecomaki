@@ -37,8 +37,8 @@ ChapterView = ecomakiView.extend({
     this.addAll();
 
     if(this.isEditable){
-      $('.title',this.el).dblclick( function(){ editableTextarea(this,_self.saveTitle); });
-      $('.description',this.el).dblclick( function(){ editableTextarea(this,_self.saveDescription); });
+      $('.title',this.el).click( function(){ editableTextarea(this,_self.saveTitle); });
+      $('.description',this.el).click( function(){ editableTextarea(this,_self.saveDescription); });
     
       $('.background_select',this.el).change( function(){ _self.backgroundSelect( $(this).val() );} );
       this.initBackgroundList();
@@ -71,9 +71,9 @@ ChapterView = ecomakiView.extend({
     //this.model.
     this.model.create_entry(
       {
-        height: 200,
-        width:  500,
-        canvas_index: 1,
+        height: 320,
+        width:  640,
+        canvas_index: -1,
       }
     );
   },
