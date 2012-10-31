@@ -118,15 +118,10 @@
 #preview {
    position: fixed;
    right: 0px;
-   top: 40px;
-   width:100px;
-   height:50px;
-   background: red;
+   top:40px;
+   z-index: 99999;
 }
 
-#preview:hover {
-  background: blue;
-}
 
 #sideMenu {
     position: fixed;

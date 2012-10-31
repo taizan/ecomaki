@@ -1,8 +1,30 @@
-#toolbox {
-	padding: 0px;
-	border: none;
+
+#toolbox{
+  position: fixed;
+  padding:1px; 
+  height:67px;
+  right:100px;
+  top: 40px;
 	background: url('/assets/paint/toolbox/base/dark_gray.png') no-repeat;
+  z-index:99999;
 }
+
+
+.itemEffectSelecters { position: absolute; }
+
+
+#toolbox .selecter_item{
+  width: 80px;
+  float: left;
+  margin-bottom: 2px;
+  //clear: left;
+}
+
+._tool_menu .floatEnd{
+  clear: left
+}
+
+._tool_options{float:left;padding: 2px;}
 
 #toolbox .ui-widget-header {
 	background: transparent;
