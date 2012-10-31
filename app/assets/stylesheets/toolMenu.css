@@ -1,0 +1,37 @@
+#toolbox {
+	padding: 0px;
+	border: none;
+	background: url('/assets/paint/toolbox/base/dark_gray.png') no-repeat;
+}
+
+#toolbox .ui-widget-header {
+	background: transparent;
+	border: none;
+}
+
+#toolbox .ui-tabs-nav li a{
+	color: #FF0000;
+	border: none;
+}
+
+#toolbox .ui-tabs-nav li.ui-tabs-selected a{
+	background-color: #00FF00;
+	border: none;
+	padding: none;
+}
+
+#toolbox .ui-state-default{
+	border: none;
+}
+
+#toolbox .ui-state-hover{
+	background-color: transparent;
+	/*background: rgba(0,0,0,0);*/
+}
+
+#toolbox .ui-state-active{
+}
+
+#toolbox .ui-tabs-panel {
+	border: none;
+}
