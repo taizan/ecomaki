@@ -7,39 +7,36 @@
 
 <div id="novel_container">
 
+  <div id="preview">PREVIEW</div>
 
   <aside id="side_menu" >
     <ul class = "well sidebar-nav" id = "chapterList">
     </ul>
   </aside>
   <aside class = "well sidebar-nav" id="picker">
-    <div id="tabs">
       <ul>
-        <li><a href="#tabs-1"><i class="icon-user"></i></a></li>
-        <li><a href="#tabs-2"><i class="icon-picture"></i></a></li>
-        <li><a href="#tabs-3"><i class="icon-music"></i></a></li>
+        <li><a href="#list_tab"><i class="icon-user"></i>LIST</a></li>
+        <li><a href="#upload_tab"><i class="icon-upload"></i>UPLOAD</a></li>
       </ul>
-      <div id="tabs-1">
+      <div id="list_tab">
+        <ul id = "picker_list" class = "nav nav-list">
+          <li class="nav-header">Selecct Image from Libraly</li>
+        </ul>
       </div>
-      <div id="tabs-2">
-      </div>
-      <div id="tabs-3">
-      </div>
+      <div id="upload_tab">
+        <ul id = "picker_upload" class = "nav nav-list">
+          <li class="nav-header">character File Upload</li>
+          <input id="character_upload" type="file" name="character_image" data-url="/characters" multiple>
+
+          <li class="nav-header">Music File Upload</li>
+          <input id="music_upload" type="file" name="music" data-url="/background_musics" multiple>
+      
+          <li class="nav-header">Background File Upload</li>
+          <input id="background_upload" type="file" name="image" data-url="/background_images" multiple>
+        </ul>
     </div>
 
-    <ul id = "pickerList" class = "nav nav-list">
     
-    <li class="nav-header">character File Upload</li>
-      <input id="character_upload" type="file" name="character_image" data-url="/characters" multiple>
-
-      <li class="nav-header">Music File Upload</li>
-      <input id="music_upload" type="file" name="music" data-url="/background_musics" multiple>
-      
-      <li class="nav-header">Background File Upload</li>
-      <input id="background_upload" type="file" name="image" data-url="/background_images" multiple>
-     
-     <li class="nav-header">Selecct Image from Libraly</li>
-    </ul>
       <button class="btn" id ="pickerCancelBtn">cancel</button></li>
   </aside>
 

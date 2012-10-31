@@ -74,22 +74,22 @@ var EntryList = Backbone.Collection.extend({
 	  }
 	},
   move_at: function(model, index) {
-	    // Ensure sorted
-	    this.sort();
+	  // Ensure sorted
+    this.sort();
 
-	    var cur_index = this.models.indexOf(model);
-	    if (index > cur_index) {
-		this.models.splice(index, 0, model); // Insert
-		this.models.splice(cur_index, 1); // Remove
-	    } else if (index < cur_index) {
-		this.models.splice(cur_index, 1);
-		this.models.splice(index, 0, model);
-	    } // If index == cur_index, do nothing.
+    var cur_index = this.models.indexOf(model);
+	  if (index > cur_index) {
+		  this.models.splice(index, 0, model); // Insert
+		  this.models.splice(cur_index, 1); // Remove
+	  } else if (index < cur_index) {
+		  this.models.splice(cur_index, 1);
+		  this.models.splice(index, 0, model);
+	  } // If index == cur_index, do nothing.
 
-	    // Renumbering order_number.
-	    for (var i=0; i<this.models.length; i++) {
-		this.models[i].set("order_number", i);
-	    }
+   // Renumbering order_number.
+    for (var i=0; i<this.models.length; i++) {
+	    this.models[i].set("order_number", i);
+    }
 	}
 });
 
@@ -160,8 +160,8 @@ Novel = Backbone.Model.extend({
     }
   },
 
-  create_chapter: function() {
-    this.chapters.create({novel_id: this.id});
+  create_chapter: function(options) {
+    this.chapters.create({novel_id: this.id},options);
     return true;
   }
 });

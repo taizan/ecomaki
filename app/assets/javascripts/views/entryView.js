@@ -112,8 +112,6 @@ EntryView = ecomakiView.extend({
         _self.itemList.push(itemView);
         _self.maxIndex = ( item.get('z_index') > _self.maxIndex ) ?   item.get('z_index') : _self.maxIndex;
 
-        //itemView.appendEffectSelecterTo($('.itemEffectSelecters',_self.el));
-        //console.log(_self.itemNum);
       }
 
       _(this.model.balloons.models).each( function(item){ initItemView(item, BaloonItem); } );
@@ -214,8 +212,7 @@ EntryView = ecomakiView.extend({
     this.model.save();
     this.model.trigger('change');
 
-    //var baloon =  new BaloonItem( this._self , str , { width: 100,height: 50 } );
-    //baloon.appendTo( this.content );
+    $('.--btn-layer',this.el).removeClass('btn-primary');
   },
 
   addPicture: function( id ){
@@ -232,6 +229,8 @@ EntryView = ecomakiView.extend({
     this.model.save();
     this.model.trigger('change');
 
+    $('.--btn-layer',this.el).removeClass('btn-primary');
+
   },
 
 
@@ -240,7 +239,7 @@ EntryView = ecomakiView.extend({
   },
 
   addDefaultPicture: function(e){
-    this.addPicture(0);
+    this.addPicture(1);
   },
 
   remove: function(e){
@@ -261,14 +260,14 @@ EntryView = ecomakiView.extend({
     
     var newEntry = chapter.create_entry(
       {
-        height: 200,
-        width: 500,
-        canvas_index: 0,
+        height: 320,
+        width: 640,
+        canvas_index: -1,
         order_number: currentIndex 
       }
     );
     console.log( chapter.entries.indexOf(newEntry));
-    chapter.entries.save();
+    //chapter.entries.save();
     
     //chapter.entries.move_at(newEntry, currentIndex+1);
     //chapter.trigger('change');
