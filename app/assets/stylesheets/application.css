@@ -15,6 +15,10 @@
  *= require wColorPicker.1.2.min
  *= require wPaint
  *= require tool
+<<<<<<< Updated upstream
  *= require handle 
+=======
+ *= require toolMenu
+>>>>>>> Stashed changes
  */
 
