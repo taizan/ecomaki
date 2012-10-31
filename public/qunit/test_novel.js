@@ -61,6 +61,17 @@ $(function() {
 			      ok(entry.characters.size() == 0, "The character list of new entry should be empty.: " + entry.characters.size());
 			      // false will be returned
 			      ok(!chapter.entries.last().destroy(), "Destroy the new entry.");
+
+			      // make sure there are at least three entries.
+			      chapter.entries.create({});
+			      chapter.entries.create({});
+			      chapter.entries.create({});
+
+			      var model;
+			      ok(model = chapter.entries.create_after({}, 1), "Insert new entry at 3rd.");
+			      ok(model.get('order_number') == 2, "The order_number of the new entry is correct. :" + model.get('order_number'));
+			      ok(chapter.entries.models.indexOf(model) == 2, "The new entry was inserted at the right place. :" + chapter.entries.models.indexOf(model));
+			      
 			  });
 		     
 		     test("Chapter add/remove test", function() {
