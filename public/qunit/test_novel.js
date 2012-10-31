@@ -54,8 +54,13 @@ $(function() {
 		     test("Entry add/remove test", function() {
 			      var chapter = novel.chapters.at(0);
 			      
-			      ok(chapter.entries.create({}));
-			      ok(!chapter.entries.last().destroy());
+			      ok(chapter.entries.create({}), "Create new entry.");
+
+			      var entry = chapter.entries.last();
+			      ok(entry.balloons.size() == 0, "The balloon list of new entry should be empty.: " + entry.balloons.size());
+			      ok(entry.characters.size() == 0, "The character list of new entry should be empty.: " + entry.characters.size());
+			      // false will be returned
+			      ok(!chapter.entries.last().destroy(), "Destroy the new entry.");
 			  });
 		     
 		     test("Chapter add/remove test", function() {
