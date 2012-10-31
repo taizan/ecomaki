@@ -89,6 +89,10 @@ EntryView = ecomakiView.extend({
   },
 
   render: function(){
+    //if(this.isLoaded ==false && this.parentView.isLoaded){
+     // console.log('load entry 2');
+     // this.load(); 
+    //}
     if(this.isLoaded){
       var _self = this;
       var content = this.content;
@@ -262,10 +266,10 @@ EntryView = ecomakiView.extend({
       {
         height: 320,
         width: 640,
-        canvas_index: -1
+        canvas_index: 1
       }
     );
-      chapter.entries.create_after(newEntry, currentIndex);
+    chapter.entries.create_after(newEntry, currentIndex);
     console.log( chapter.entries.indexOf(newEntry));
     chapter.entries.save();
     
