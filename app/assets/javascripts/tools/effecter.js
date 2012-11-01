@@ -3,6 +3,7 @@ function Effecter(target,item,key){
 	this.item = item;
 	this.key = key;
 	_.bindAll(this,
+        "changeSelecter",
         "runSelectedEffect",
         "runEffect",
         "effectCallback",
