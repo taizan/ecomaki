@@ -187,6 +187,7 @@ EntryView = ecomakiView.extend({
   },
 
   onCanvasClick: function(){
+    this.onViewClick({target: 'canvas'});
     this.isDrawDown = true;
     $('#toolbox .font_selecter').remove();
     this.effecter.changeSelecter();
@@ -270,7 +271,7 @@ EntryView = ecomakiView.extend({
     );
     chapter.entries.create_after(newEntry, currentIndex);
     console.log( chapter.entries.indexOf(newEntry));
-    chapter.entries.save();
+    //chapter.entries.save();
     
     //chapter.entries.move_at(newEntry, currentIndex+1);
     //chapter.trigger('change');

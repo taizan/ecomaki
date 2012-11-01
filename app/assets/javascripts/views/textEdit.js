@@ -2,6 +2,7 @@ function FontSelecter(target,item){
   this.target = target;	
   this.item = item;
   _.bindAll(this,
+      'changeSelecter',
 			'appendFontSelecterTo',
 			'setFont',
 			'applyFont');
