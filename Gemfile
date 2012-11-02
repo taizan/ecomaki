@@ -13,4 +13,5 @@ end
 group :development do
   gem 'pry'
   gem 'quiet_assets'
+  gem 'jshint_on_rails'
 end
