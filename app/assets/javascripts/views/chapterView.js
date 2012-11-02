@@ -16,8 +16,9 @@ ChapterView = ecomakiView.extend({
               "addChapter",
               "removeChapter",
               "onBackgroundButton",
+              "onMusicButton",
               "setBackground",
-              "bgmSelect");
+              "setBgm");
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
     this.model.entries.bind('change', this.onChange);
@@ -30,6 +31,7 @@ ChapterView = ecomakiView.extend({
     "click .add_chapter" : "addChapter",
     "click .add_entry" : "addEntry",
     "click .background_icon" : "onBackgroundButton",
+    "click .music_icon" : "onMusicButton",
     "click .remove_chapter" : "removeChapter",
   },
 
@@ -42,9 +44,9 @@ ChapterView = ecomakiView.extend({
       $('.title',this.el).click( function(){ editableTextarea(this,_self.saveTitle); });
       $('.description',this.el).click( function(){ editableTextarea(this,_self.saveDescription); });
     
-      $('.background_select',this.el).change( function(){ _self.setBackground( $(this).val() );} );
-      this.initBackgroundList();
-      $('.bgm_select',this.el).change( function(){ _self.bgmSelect( $(this).val() );} );
+      //$('.background_select',this.el).change( function(){ _self.setBackground( $(this).val() );} );
+      //this.initBackgroundList();
+      //$('.bgm_select',this.el).change( function(){ _self.bgmSelect( $(this).val() );} );
     }else{
       $(".editer_item",this.el).hide();
     }
@@ -98,8 +100,8 @@ ChapterView = ecomakiView.extend({
       $('.title .text',this.el).html(this.model.get('title'));
       $('.description .text',this.el).html(this.model.get('description'));
 
-      if(this.isDisplayed) { 
-        $('#background')[0].src = config.background_idtourl(this.model.get('chapter_background_id'));
+      if(this.isDisplay) { 
+        $('#background')[0].src = config.background_idtourl(this.model.get('background_image_id'));
         //this.playMusicById(this.model.get('chapter_sound_id'));
       }
 
@@ -109,11 +111,11 @@ ChapterView = ecomakiView.extend({
           stop: this.onSortStop
         });
       
-        $('.background_select',this.el)
-            .find('option[value=' + this.model.get('background_image_id') + ']').prop('selected', true);
+        //$('.background_select',this.el)
+        //    .find('option[value=' + this.model.get('background_image_id') + ']').prop('selected', true);
 
-        $('.bgm_select',this.el)
-            .find('option[value=' + this.model.get('background_music_id') + ']').prop('selected', true);
+        //$('.bgm_select',this.el)
+        //    .find('option[value=' + this.model.get('background_music_id') + ']').prop('selected', true);
       }
 
     }
@@ -153,8 +155,7 @@ ChapterView = ecomakiView.extend({
   },
 
   onBackgroundButton: function(ev){
-    Picker.prototype.setCallback(this.setBackground);
-    Picker.prototype.showBackgroundList();
+    Picker.prototype.showBackgroundList(this.setBackground);
     // to stop  blur picker at on ecomakiView Click 
     // TEMP?
     ev.stopPropagation();
@@ -166,7 +167,7 @@ ChapterView = ecomakiView.extend({
     this.model.save();
     $('#background')[0].src = config.background_idtourl(id);
   },
-
+/*
   initBackgroundList: function(){
     //  console.log('init list');
     var x = 3;
@@ -176,8 +177,15 @@ ChapterView = ecomakiView.extend({
       //console.log(i);
     }
   },
+*/
+  onMusicButton: function(ev){
+    Picker.prototype.showMusicList(this.setBgm);
+    // to stop  blur picker at on ecomakiView Click 
+    // TEMP?
+    ev.stopPropagation();
+  },
 
-  bgmSelect: function(bgm_id){
+  setBgm: function(bgm_id){
     this.model.set('background_music_id',bgm_id);
     this.model.save();
     this.playMusicById(bgm_id);
@@ -187,7 +195,7 @@ ChapterView = ecomakiView.extend({
       //console.log(music_id);
       if (music_id != null) {
           //console.log(+music_id);
-          window.musicPlayer.playURL(config.music_id_to_url(music_id));
+          window.musicPlayer.playURL(config.music_idtourl(music_id));
       } else {
           window.musicPlayer.stop();
       }

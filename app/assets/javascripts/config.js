@@ -98,8 +98,10 @@ Config.prototype.background_urltoid =  function(url) {
 
 Config.prototype.musics = [null, 'dream', 'flower', 'orange'];
 
-Config.prototype.music_id_to_url = function(music_id) {
-    return "https://dl.dropbox.com/u/8270034/sketch/bgm/" + Config.prototype.musics[music_id] + ".mp3";
+Config.prototype.music_idtourl = function(id) {
+    //return "https://dl.dropbox.com/u/8270034/sketch/bgm/" + Config.prototype.musics[music_id] + ".mp3";
+    if(id != null){ return '/background_musics/musicss/' + id + '.mp3';}
+    else{return 'null';}
 }
 
 Config.prototype.getScreenSize = function() {
