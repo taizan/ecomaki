@@ -148,7 +148,7 @@ EntryItem.prototype = {
   },
 
   onClick: function(){
-    //this.effecter.changeSelecter();
+    this.effecter.changeSelecter();
   },
 
 };
@@ -248,13 +248,14 @@ ImageItem = EntryItem.extend({
   selectImage: function(ev){
     //console.log('selectimage');
     Picker.prototype.setCallback(this.setImage);
-    Picker.prototype.show();
+    Picker.prototype.showCharacterList();
 
   },
-
-  setImage: function(img){
-    this.item.set('character_image_id' , config.character_image_urltoid(img.src) );
-    $('img',this.el).attr('src',img.src);
+// use img to get size 
+// this not clear bu fast
+  setImage: function(id,img){
+    this.item.set('character_image_id' , id );
+    var targetImage = $('img',this.el).attr('src',config.character_image_idtourl(id));
 
     var destHeight = this.content.offset().top + this.content.height() - $(this.el).offset().top;
     if(destHeight < img.height ){
@@ -269,7 +270,6 @@ ImageItem = EntryItem.extend({
       img.height =  img.height * destWidth / img.width;
       img.width = destWidth;
     }
-
     $(this.el).height(img.height).width(img.width);
 
     this.item.set('width' , img.width);

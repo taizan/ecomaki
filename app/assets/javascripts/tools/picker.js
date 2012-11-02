@@ -15,6 +15,7 @@ Picker.prototype = {
     $('#picker').blur(Picker.prototype.finish);
     $("#picker").hide();
     $("#picker").tabs();
+    $('#pickerCancelBtn').click(Picker.prototype.finish);
   },
 
   loadXml: function(url,func){
@@ -28,6 +29,22 @@ Picker.prototype = {
     });
   },
 
+  parseBackgroundXml: function(xml,status){
+    if(status!='success')return;
+
+    $(xml).find('background-image').each(
+      function(){
+        var id = $(this).find('id').text();
+        //var name = $(this).find('name').text();
+        //var height = $(this).find('height').text();
+        //var width = $(this).find('width').text();
+        var auther = $(this).find('auther').text();
+        var description = $(this).find('description').text();
+        console.log(id);
+        Picker.prototype.setImageItem(id,config.background_idtourl);
+      }
+    );
+  },
 
   parseCharacterXml: function(xml,status){
     //alert('parse');
@@ -36,35 +53,31 @@ Picker.prototype = {
     $(xml).find('character-image').each(
       function(){
         var id = $(this).find('id').text();
-        var name = $(this).find('name').text();
-        var height = $(this).find('height').text();
-        var width = $(this).find('width').text();
+        //var name = $(this).find('name').text();
+        //var height = $(this).find('height').text();
+        //var width = $(this).find('width').text();
         var auther = $(this).find('auther').text();
         var description = $(this).find('description').text();
-        Picker.prototype.setItem(id);
+        Picker.prototype.setImageItem(id,config.character_image_idtourl);
       }
     );
   },
 
 
-  setItem: function(id){
-    var url =config.character_image_idtourl(id);
+  setImageItem: function(id,urlGetter){
+    var url = urlGetter(id);
     var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="' + url + '"></li>');
     //  add item to pickerList
     item.appendTo($('#picker_list'));
 
-    var img = new Image();
-    img.src = url;
 
     var callback = Picker.prototype.selectedCallback;
     var finish = Picker.prototype.finish;
 
-    console.log(callback);
-
-
     item.click(function(){
         if(Picker.prototype.selectedCallback){
-          Picker.prototype.selectedCallback(img);
+        //set img elem for use img tag information.
+          Picker.prototype.selectedCallback(id,$('img',item)[0]);
           Picker.prototype.finish();
         }
       });
@@ -74,11 +87,18 @@ Picker.prototype = {
     Picker.prototype.selectedCallback = func;
   },
 
-  show: function(){
+  showCharacterList: function(type){
     if(!Picker.prototype.visible){
-      Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterXml );
+        Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterXml );
       $('#picker').show('drop','fast');
-      $('#pickerCancelBtn').click(Picker.prototype.finish);
+      Picker.prototype.visible = true;
+    }
+  },
+
+  showBackgroundList: function(type){
+    if(!Picker.prototype.visible){
+        Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
+      $('#picker').show('drop','fast');
       Picker.prototype.visible = true;
     }
   },
