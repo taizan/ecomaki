@@ -29,6 +29,23 @@ Picker.prototype = {
     });
   },
 
+  parseMusicXml: function(xml,status){
+    if(status!='success')return;
+
+    $(xml).find('background-music').each(
+      function(){
+        var id = $(this).find('id').text();
+        var name = $(this).find('name').text();
+        //var height = $(this).find('height').text();
+        //var width = $(this).find('width').text();
+        var auther = $(this).find('auther').text();
+        var description = $(this).find('description').text();
+        console.log(name);
+        Picker.prototype.setTextItem(id,id + ';'+name);
+      }
+    );
+  },
+
   parseBackgroundXml: function(xml,status){
     if(status!='success')return;
 
@@ -47,7 +64,6 @@ Picker.prototype = {
   },
 
   parseCharacterXml: function(xml,status){
-    //alert('parse');
     if(status!='success')return;
 
     $(xml).find('character-image').each(
@@ -63,16 +79,22 @@ Picker.prototype = {
     );
   },
 
+  setTextItem: function(id,text){
+    var item = $('<li id="pickItem'+id+'" class="pickerItem"><p>' + text + '</p></li>');
+    item.appendTo($('#picker_list'));
+
+    item.click(function(){
+        if(Picker.prototype.selectedCallback){
+          Picker.prototype.selectedCallback(id);
+          Picker.prototype.finish();
+        }
+      });
+  },
 
   setImageItem: function(id,urlGetter){
     var url = urlGetter(id);
     var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="' + url + '"></li>');
-    //  add item to pickerList
     item.appendTo($('#picker_list'));
-
-
-    var callback = Picker.prototype.selectedCallback;
-    var finish = Picker.prototype.finish;
 
     item.click(function(){
         if(Picker.prototype.selectedCallback){
@@ -87,27 +109,31 @@ Picker.prototype = {
     Picker.prototype.selectedCallback = func;
   },
 
-  showCharacterList: function(type){
+  showCharacterList: function(func){
+    Picker.prototype.setList("/characters/images.xml" , Picker.prototype.parseCharacterXml,func );
+  },
+
+  showBackgroundList: function(func){
+    Picker.prototype.setList("/background_images.xml" , Picker.prototype.parseBackgroundXml ,func);
+  },
+
+  showMusicList: function(func){
+    Picker.prototype.setList("/background_musics.xml" , Picker.prototype.parseMusicXml,func );
+  },
+
+  setList:function(xml,parser,callback){
+    Picker.prototype.selectedCallback = callback;
     if(!Picker.prototype.visible){
-        Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterXml );
+        Picker.prototype.loadXml(xml , parser );
       $('#picker').show('drop','fast');
       Picker.prototype.visible = true;
     }
   },
-
-  showBackgroundList: function(type){
-    if(!Picker.prototype.visible){
-        Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
-      $('#picker').show('drop','fast');
-      Picker.prototype.visible = true;
-    }
-  },
-
 
   finish: function(){
     console.log('blur'); 
     if(Picker.prototype.visible){
-      $('#picker').find($('img')).remove();
+      $('#picker').find($('.pickerItem')).remove();
       $('#picker').hide('drop','hide');
       Picker.prototype.visible = false;
     }

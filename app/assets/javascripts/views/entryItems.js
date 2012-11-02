@@ -247,9 +247,7 @@ ImageItem = EntryItem.extend({
 
   selectImage: function(ev){
     //console.log('selectimage');
-    Picker.prototype.setCallback(this.setImage);
-    Picker.prototype.showCharacterList();
-
+    Picker.prototype.showCharacterList(this.setImage);
   },
 // use img to get size 
 // this not clear bu fast
