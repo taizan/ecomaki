@@ -11,73 +11,75 @@ one:
 
 two:
   id: 1
-  character_id: 0
+  character_id: 1
   content_type: image/png
-  width: 100
-  height: 100
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
 
 three:
   id: 2
+  character_id: 2
   content_type: image/png
-  width: 100
-  height: 100
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
 
-four:
-  id: 3
-  content_type: image/png
-  width: 100
-  height: 100
+
+
 
 five:
   id: 4
+  character_id: 3
   content_type: image/png
-  width: 100
-  height: 100
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
 
 six:
   id: 5
+  character_id: 3
   content_type: image/png
-  width: 100
-  height: 100
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
 
 seven:
   id: 6
+  character_id: 3
   content_type: image/png
-  width: 100
-  height: 100
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
 
 eight:
   id: 7
+  character_id: 4
   content_type: image/png
-  width: 100
-  height: 100
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
 
 nine:
   id: 8
+  character_id: 4
   content_type: image/png
-  width: 100
-  height: 100
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
 
 ten:
   id: 9
+  character_id: 4
   content_type: image/png
-  width: 100
-  height: 100
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
 
-eleven:
-  id: 10
-  content_type: image/png
-  width: 100
-  height: 100
+
 
 twelve:
   id: 11
+  character_id: 4
   content_type: image/png
-  width: 100
-  height: 100
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
 
 therteen:
   id: 12
+  character_id: 5
   content_type: image/png
-  width: 100
-  height: 100
+  description: とりかえばや絵小巻
+  author: ネコノミミコ

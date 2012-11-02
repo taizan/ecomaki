@@ -1,8 +1,38 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
+zero:
   id: 0
-  name: Miku1
-  description: Hatsune
-  author: Me
+  name: no name
+  description: anonimous
+  auther: none
+  
+one:
+  id: 1
+  name: とら若
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
+  
+two:
+  id: 2
+  name しづ姫
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
+
+three:
+  id: 3
+  name: 春の宮
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
+
+four:
+  id: 4
+  name: シノ宮
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
+
+five:
+  id: 5
+  name: 中将
+  description: とりかえばや絵小巻
+  author: ネコノミミコ
 
