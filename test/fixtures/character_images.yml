@@ -27,42 +27,42 @@ three:
 
 
 five:
-  id: 4
+  id: 3
   character_id: 3
   content_type: image/png
   description: とりかえばや絵小巻
   author: ネコノミミコ
 
 six:
-  id: 5
+  id: 4
   character_id: 3
   content_type: image/png
   description: とりかえばや絵小巻
   author: ネコノミミコ
 
 seven:
-  id: 6
+  id: 5
   character_id: 3
   content_type: image/png
   description: とりかえばや絵小巻
   author: ネコノミミコ
 
 eight:
-  id: 7
+  id: 6
   character_id: 4
   content_type: image/png
   description: とりかえばや絵小巻
   author: ネコノミミコ
 
 nine:
-  id: 8
+  id: 7
   character_id: 4
   content_type: image/png
   description: とりかえばや絵小巻
   author: ネコノミミコ
 
 ten:
-  id: 9
+  id: 8
   character_id: 4
   content_type: image/png
   description: とりかえばや絵小巻
@@ -71,14 +71,14 @@ ten:
 
 
 twelve:
-  id: 11
+  id: 9
   character_id: 4
   content_type: image/png
   description: とりかえばや絵小巻
   author: ネコノミミコ
 
 therteen:
-  id: 12
+  id: 10
   character_id: 5
   content_type: image/png
   description: とりかえばや絵小巻
