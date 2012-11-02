@@ -85,8 +85,8 @@ Config.prototype.character_image_urltoid =  function(url) {
 }
 
 Config.prototype.background_idtourl = function(id) {
-    if(id != null){ return '/assets/' + id + '.png';}
-    else{return '/assets/0.png';}
+    if(id != null){ return '/background_images/images/' + id + '.png';}
+    else{return '/background_images/images/0.png';}
 }
 
 Config.prototype.background_urltoid =  function(url) {
