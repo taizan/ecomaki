@@ -1,0 +1,44 @@
+#chapter_handle {
+  position: fixed;
+  width: 200;
+}
+
+.chapter_handle_item {
+  border: 1px gray solid;
+  margin: 2px;
+}
+
+#picker {
+    position: fixed;
+    top:0px;
+    width: 300px;
+    height: 100%;
+    overflow: scroll;
+    z-index: 999999;
+}
+
+
+.picker_item:hover {
+  background: silver;
+  //margin: 10px;
+  border: 3px green solid; 
+  cursor:pointer;
+}
+
+.upload_form {
+  position: fixed;
+  background: white;
+  top: 60px;
+  left: 30%;
+  z-index: 999999;
+  border: 2px solid gray;
+}
+
+
+.upload_form .control-group{
+  margin: 30px;
+}
+
+.upload_form .control-group div{
+  margin-bottom: 20px;
+}

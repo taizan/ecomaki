@@ -35,7 +35,7 @@ FontSelecter.prototype = {
 		if(this.item.get('border_radius')) 
       $('.borderRadiuses option[value="'+this.item.get('border_radius')+'"]',this.selecter).prop('selected',true);
 
-		_self = this;
+		var _self = this;
     $('.fontSizes',this.selecter).change( _self.setFont );
     $('.fontStyleTypes',this.selecter).change( _self.setFont );
 		$('.fontFamilyTypes',this.selecter).change( _self.setFont );

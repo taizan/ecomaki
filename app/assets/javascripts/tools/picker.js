@@ -15,8 +15,16 @@ Picker.prototype = {
     $('#picker').blur(Picker.prototype.finish);
     $("#picker").hide();
     $("#picker").tabs();
-    $('#pickerCancelBtn').click(Picker.prototype.finish);
+    $('#picker_cancel_button').click(Picker.prototype.finish);
+    $('#picker_upload_button').click(Picker.prototype.appendForm)
   },
+
+  appendForm: function(){
+		var template = _.template( $("#bootstrap_form_template").html(),{});
+    $(template).appendTo('body');
+    //alert();
+  },
+
 
   loadXml: function(url,func){
     //alert("load");
@@ -80,7 +88,7 @@ Picker.prototype = {
   },
 
   setTextItem: function(id,text){
-    var item = $('<li id="pickItem'+id+'" class="pickerItem"><p>' + text + '</p></li>');
+    var item = $('<li id="pick_item'+id+'" class="picker_item"><p>' + text + '</p></li>');
     item.appendTo($('#picker_list'));
 
     item.click(function(){
@@ -93,7 +101,7 @@ Picker.prototype = {
 
   setImageItem: function(id,urlGetter){
     var url = urlGetter(id);
-    var item = $('<li id="pickItem'+id+'" class="pickerItem"><img src="' + url + '"></li>');
+    var item = $('<li id="pick_item'+id+'" class="picker_item"><img src="' + url + '"></li>');
     item.appendTo($('#picker_list'));
 
     item.click(function(){
@@ -133,7 +141,7 @@ Picker.prototype = {
   finish: function(){
     console.log('blur'); 
     if(Picker.prototype.visible){
-      $('#picker').find($('.pickerItem')).remove();
+      $('#picker').find($('.picker_item')).remove();
       $('#picker').hide('drop','hide');
       Picker.prototype.visible = false;
     }

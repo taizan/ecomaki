@@ -89,7 +89,7 @@ ecomakiView = Backbone.View.extend({
 
   addOne: function (item,t,options) {
     //console.log(item);
-    view = new (this.childViewType)({model: item , parentView: this ,isEditable: this.isEditable});
+    var view = new (this.childViewType)({model: item , parentView: this ,isEditable: this.isEditable});
     //console.log(view);
     this.childViews.push(view);
     $(this.elementList,this.el).insertAt(options.index,view.render().el);
@@ -132,18 +132,18 @@ ecomakiView = Backbone.View.extend({
 
     if( scroll < $(this.el).offset().top - window_center_height )
     {
-      if(this.isDisplayed == true || this.isDisplay == true){ this.onPreDisplay();}
+      if(this.isDisplayed === true || this.isDisplay === true){ this.onPreDisplay();}
       this.isDisplayed = false;
       this.isDisplay = false;
     }else if( $(this.el).offset().top - window_center_height < scroll
         && scroll < $(this.el).offset().top - window_center_height + $(this.el).height() )
     {
-      if(this.isDisplay == false){
+      if(this.isDisplay === false){
         this.isDisplay = true;
         this.onDisplay();
       }
     } else if( $(this.el).offset().top - window_center_height + $(this.el).height() < scroll) {
-      if(this.isDisplayed == false){ this.onPostDisplay();}
+      if(this.isDisplayed === false){ this.onPostDisplay();}
       this.isDisplayed = true;
       this.isDisplay = false;
     }
