@@ -1,0 +1,153 @@
+
+#title textarea {
+    font-size: 24px; 
+    line-height: 1.5em;
+}
+
+}
+
+#descriotion textarea {
+    font-size: 12px;
+    line-height: 1.5em;
+}
+
+
+.title .text_help {
+    font-size: 12px; 
+    line-height: 1.5em;
+    //background: #eee;
+    font-color: #444;
+    margin: 1px;
+    cursor:pointer;
+}
+
+.title textarea {
+    font-size: 24px; 
+    line-height: 1.5em;
+    text-align:center;
+    z-index: 99;
+}
+
+.description .text_help {
+    font-size: 12px; 
+    line-height: 1.5em;
+    //background: #ddd;
+    font-color: #333;
+    margin: 1px;
+    cursor:pointer;
+}
+
+.descriotion textarea {
+    font-size: 12px;
+    line-height: 1.5em;
+    text-align:center;
+    z-index: 99;
+}
+
+.title:hover {
+  background: #eee;
+}
+
+.description:hover {
+  background: #eee;
+}
+
+
+#preview {
+  font-size: 20;
+   position: fixed;
+   right: 0px;
+   top:40px;
+   z-index: 99999;
+}
+
+
+
+// chapter
+
+
+.chapter_buttons button{
+  height: 64px;
+  min-width: 128px;
+}
+
+
+
+.background_icon:hover{
+  background: green;
+}
+
+.music_icon:hover{
+  background: blue;
+}
+
+.top_control{
+  position: absolute;
+  right: 2px;
+  z-index: 99;
+}
+
+.top_control .icon{
+  height: 32px;
+  width: 32px;
+  cursor:pointer;
+}
+
+.bottom_control{
+  text-align: right;
+  z-index: 99;
+}
+
+.bottom_control .icon{
+  //height: 48px;
+  //width: 48px;
+  cursor:pointer;
+}
+
+hr {
+  height: 2px;
+  margin: 2px;
+  background: gray;
+}
+
+// entnryItem
+
+.item-button {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+.sticky textarea{
+text-align: center;
+vertical-align: middle;
+}
+
+
+canvas {
+    z-index: 0;
+}
+
+.paint{
+  cursor: crosshair;
+}
+
+.entry .hide_buttons {
+  background-color: #eef;
+  position: absolute;
+  //float: right;
+  list-style:none;
+  //  left: 800px;
+  top: 0px;
+}
+
+
+.entry .hide_buttons button{
+  height: 40px;
+  width: 40px
+}
+
+.entry .hide_buttons button img{
+  height: 100%;
+  width: 100%;
+}

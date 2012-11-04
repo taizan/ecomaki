@@ -56,6 +56,7 @@ $(function() {
   }
 
 
+  $(document).tooltip();
   $('#console').hide();  
   
   Picker.prototype.initialize();
