@@ -2,10 +2,10 @@
 #toolbox{
   position: fixed;
   padding:1px; 
-  height:67px;
+//  height:67px;
   right:100px;
   top: 40px;
-	background: url('/assets/paint/toolbox/base/dark_gray.png') no-repeat;
+	//background: url('/assets/paint/toolbox/base/dark_gray.png')  ;
   z-index:99999;
 }
 
@@ -27,8 +27,8 @@
 ._tool_options{float:left;padding: 2px;}
 
 #toolbox .ui-widget-header {
-	background: transparent;
-	border: none;
+	//background: transparent;
+	//border: none;
 }
 
 #toolbox .ui-tabs-nav li a{
@@ -43,7 +43,7 @@
 }
 
 #toolbox .ui-state-default{
-	border: none;
+	//border: none;
 }
 
 #toolbox .ui-state-hover{
@@ -55,5 +55,5 @@
 }
 
 #toolbox .ui-tabs-panel {
-	border: none;
+	//border: none;
 }

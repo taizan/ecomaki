@@ -11,14 +11,11 @@
  *= require_self
  *= require bootstrap.css 
  *= require bootstrap.min
- *= require jquery-ui-1.8.16.custom
+ *= require jquery-ui-1.9.1.custom.min
  *= require wColorPicker.1.2.min
  *= require wPaint
  *= require tool
-<<<<<<< Updated upstream
  *= require handle 
-=======
  *= require toolMenu
->>>>>>> Stashed changes
  */
 
