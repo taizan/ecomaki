@@ -1,12 +1,25 @@
 class CharacterImage < ActiveRecord::Base
   attr_accessor :image
-  attr_accessible :content_type, :character_id
+  attr_accessible :content_type, :character_id, :author, :description, :image
   attr_accessible :width, :height
 
   belongs_to :character
   has_many :entry_character
 
+  before_save :read_image
   after_save :save_image
+
+  def read_image
+    # Read content_type
+    self.content_type = @image.content_type.chomp
+
+    # Read image size by RMagick
+    require 'rubygems'
+    require 'RMagick'
+    img = Magick::Image::read(@image.path).first
+    self.width = img.columns
+    self.height = img.rows
+  end
 
   def save_image
     File.open(image_path, 'wb') do |file|

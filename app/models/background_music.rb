@@ -1,6 +1,6 @@
 class BackgroundMusic < ActiveRecord::Base
   attr_accessor :music
-  attr_accessible :name, :content_type, :music
+  attr_accessible :name, :content_type, :music, :author, :description
 
   belongs_to :chapter
 
