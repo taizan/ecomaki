@@ -89,7 +89,7 @@
 </script>
 
 <script type="text/template" id="upload_form_template">
-  <form class="upload_form form-horizontal">
+  <form class="upload_form form-horizontal"  method="post" enctype="multipart/form-data">
     
     <div class="control-group">
       <label class="control-label" for="inputName"> Name:</label>
@@ -104,23 +104,23 @@
     
       <label class="control-label" for="inputFile">file:</label>
       <div class="controls">
-        <input id="char_upload" type={{upload_type}} name= data-url={{upoad_url}} multiple>
+        <input id="char_upload" type="file" name="image" >
       </div>
 
       <label class="control-label" for="inputAuther">Auther:</label>
       <div class="controls">
-        <input type="text" id="inputAuthor" placeholder="author" name="author">
+        <input type="text" id="inputAuthor" placeholder="author" name="author" multipart>
       </div>
 
       <div class="controls">
         <label class="checkbox">
-          <input type="checkbox"> I'm agree
+        <input type="checkbox"> I'm agree 
         </label>
+        <input type="submit">
         <button type="submit" class="btn btn-primary">ok</button>
         <button  class="btn ">cancel</button>
       </div>
     </div>
-
   </form>
 </script>
 
