@@ -22,7 +22,7 @@ class CharacterImage < ActiveRecord::Base
 
   def save_image
     File.open(image_path, 'wb') do |file|
-      file.write(@image)
+      file.write(@image.read)
     end
   end
 
