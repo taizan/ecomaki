@@ -7,46 +7,9 @@
 
 <div id="novel_container">
 
-  <button id="preview">PREVIEW</button>
-
-  <aside id="side_menu" >
-    <ul class = "well sidebar-nav" id = "chapterList">
-    </ul>
-  </aside>
-  <aside class = "well sidebar-nav" id="picker">
-      <ul>
-        <li><a href="#list_tab"><i class="icon-user"></i>LIST</a></li>
-        <li><a href="#upload_tab"><i class="icon-upload"></i>UPLOAD</a></li>
-      </ul>
-      <div id="list_tab">
-        <ul id = "picker_list" class = "nav nav-list">
-          <li class="nav-header">Selecct Image from Libraly</li>
-        </ul>
-      </div>
-      <div id="upload_tab">
-        <ul id = "picker_upload" class = "nav nav-list">
-          <li class="nav-header">character File Upload</li>
-          <input id="character_upload" type="file" name="character_image" data-url="/characters" multiple>
-
-          <li class="nav-header">Music File Upload</li>
-          <input id="music_upload" type="file" name="music" data-url="/background_musics" multiple>
-      
-          <li class="nav-header">Background File Upload</li>
-          <input id="background_upload" type="file" name="image" data-url="/background_images" multiple>
-        </ul>
-        <button class="btn" id ="picker_upload_button">UPLOAD</button></li>
-    </div>
-
-    
-      <button class="btn" id ="picker_cancel_button">cancel</button></li>
-  </aside>
-
   <div id="content" >
   </div>
   
-  <div id="console">
-    <h3>console:<textarea id="command_line" class="span12" rows="1" ></textarea></h3>
-  </div>
 </div>
 
 <%= render :partial => "novel/template" %> 

@@ -100,7 +100,7 @@ Config.prototype.musics = [null, 'dream', 'flower', 'orange'];
 
 Config.prototype.music_idtourl = function(id) {
     //return "https://dl.dropbox.com/u/8270034/sketch/bgm/" + Config.prototype.musics[music_id] + ".mp3";
-    if(id != null){ return '/background_musics/musicss/' + id + '.mp3';}
+    if(id != null){ return '/background_musics/musics/' + id + '.mp3';}
     else{return 'null';}
 }
 
