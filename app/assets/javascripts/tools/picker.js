@@ -21,7 +21,7 @@ Picker.prototype = {
   },
 
   onBlur: function(ev){
-    console.log(ev);
+    //console.log(ev);
     if (Picker.prototype.isBlurable) {
       console.log(Picker.prototype.isBlurable);
       if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
