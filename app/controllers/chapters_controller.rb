@@ -21,30 +21,51 @@ class ChaptersController < ApplicationController
   end
 
   def update
-    chapter_id = params[:id]
-    chapter = Chapter.find(chapter_id)
-    chapter.update_attributes!(params[:chapter])
-
-    respond_to do |format|
-      format.json { render :json => chapter }
+    if has_valid_password?
+      chapter_id = params[:id]
+      chapter = Chapter.find(chapter_id)
+      chapter.update_attributes!(params[:chapter])
+      
+      respond_to do |format|
+        format.json { render :json => chapter }
+      end
+    else
+      render :status => 401
     end
   end
 
   def create
-    chapter = Chapter.new(params[:chapter])
-    chapter.save
-
-    respond_to do |format|
-      format.json { render :json => chapter }
+    if has_valid_password?
+      chapter = Chapter.new(params[:chapter])
+      chapter.save
+      
+      respond_to do |format|
+        format.json { render :json => chapter }
+        format.xml { render :xml => chapter }
+      end
+    else
+      render :status => 401
     end
   end
 
   def destroy
-    chapter = Chapter.find(params[:id])
-    chapter.destroy
-
-    respond_to do |format|
-      format.json { head :no_content }
+    if has_valid_password?
+      chapter = Chapter.find(params[:id])
+      chapter.destroy
+      
+      respond_to do |format|
+        format.json { head :no_content }
+      end
+    else
+      render :status => 401
     end
   end
+
+  def has_valid_password?
+    password = params[:password]
+    novel_id = params[:novel_id]
+    novel = Novel.find(novel_id) or return false
+    return novel.password == password
+  end
+
 end

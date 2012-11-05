@@ -1,7 +1,9 @@
 $(function() {
       var novel_id = 1;
+      var password = 'B4HCpeaT3DqyJNRV';
       novel = new Novel({
-			    id: novel_id
+			    id: novel_id,
+			    password: password
 			});
 
       setTimeout(function() {

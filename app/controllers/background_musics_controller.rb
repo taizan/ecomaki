@@ -19,7 +19,7 @@ class BackgroundMusicsController < ApplicationController
         :name => params[:name],
         :description => params[:description],
         :author => params[:author],
-        :music => music.read)
+        :music => music)
 
       background_music.save
       
