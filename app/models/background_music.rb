@@ -13,7 +13,7 @@ class BackgroundMusic < ActiveRecord::Base
 
   def save_music
     File.open(music_path, 'wb') do |file|
-      file.write(@music)
+      file.write(@music.read)
     end
   end
 
