@@ -271,26 +271,18 @@ EntryView = ecomakiView.extend({
 
   addEntry: function(e){
     console.log("addEntry");
-    //console.log(this);
-    //this.model.
     var chapter = this.parentView.model;
     var currentIndex =  chapter.entries.indexOf(this.model);
     console.log( currentIndex);
     
-    var newEntry = chapter.create_entry(
+      var attributes = 
       {
         height: 320,
         width: 640,
         canvas_index: 1
-      }
-    );
-    chapter.entries.create_after(newEntry, currentIndex);
-    console.log( chapter.entries.indexOf(newEntry));
-    //chapter.entries.save();
-    
-    //chapter.entries.move_at(newEntry, currentIndex+1);
-    //chapter.trigger('change');
-    //console.log("-addEntry");
+      };
+
+    chapter.entries.create_after(attributes, currentIndex);
   },
 
   changeLayer: function(e){
