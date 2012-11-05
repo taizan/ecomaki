@@ -80,8 +80,14 @@ EntryView = ecomakiView.extend({
     }else{
       this.canvasImage = new Image();
       $(this.canvasImage).addClass('paint');
-      this.canvasImage.src = this.model.get('canvas');
-      $(this.canvasImage).appendTo(this.content).width( this.model_width ).height( this.model_height );
+      var canvacUrl = this.model.get('canvas');
+      //handle no data exception
+      if(canvasUrl === null || canvasUrl === undefined || canvasUrl === null){
+      
+      }else{
+        this.canvasImage.src = this.model.get('canvas');
+        $(this.canvasImage).appendTo(this.content).width( this.model_width ).height( this.model_height );
+      }
     }
     this.effecter = new Effecter($('.paint',this.el),this.model,'option');
     
@@ -126,13 +132,18 @@ EntryView = ecomakiView.extend({
       if(this.isEditable){
         if(this.canvasFlag){
           this.canvasFlag = false;
+          var canvasUrl = this.model.get('canvas');
+          //handle no data exception
+          if(canvasUrl === null || canvasUrl === undefined || canvasUrl === null){
+            
+          }else{
+            this.content.data('_wPaint_canvas').setImage( canvasUrl );
+            $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
 
-          this.content.data('_wPaint_canvas').setImage( this.model.get('canvas') );
-          $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
-
-          if( this.model.get('canvas_index') == this.maxIndex ) {
-            $('.--btn-layer',this.el).addClass('btn-primary');
+            if( this.model.get('canvas_index') == this.maxIndex ) {
+              $('.--btn-layer',this.el).addClass('btn-primary');
             //console.log('add btnprimary');
+            }
           }
         }
       }else{
