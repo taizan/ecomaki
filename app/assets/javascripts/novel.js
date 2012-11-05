@@ -78,6 +78,7 @@ function onDocumentClick(ev){
   // this kind of selection is should be in blur itself not here
   //if( !$(ev.target).is('.sticky') && !$(ev.target).is('textarea') && !$(ev.target).is('.text')){
   $('textarea').blur();
+  //Picker.prototype.onBlur(ev);
   //if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
-  $('#picker').blur();
+  Picker.prototype.onBlur(ev);
 }
