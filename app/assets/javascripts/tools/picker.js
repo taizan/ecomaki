@@ -33,8 +33,16 @@ Picker.prototype = {
   },
 
   appendForm: function(){
-		var template = _.template( $("#bootstrap_form_template").html(),{});
-    $(template).appendTo('body');
+		//var template = _.template( $("#bootstrap_form_template").html(),{});
+    
+		var template = _.template( $("char_form_template").html(),{});
+
+    $(template)
+      .appendTo('body')
+      .attr({'action': '/characters' })
+      .ajaxForm(function() { 
+          alert("Thank you"); 
+        }); ;
     //alert();
   },
 

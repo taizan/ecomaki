@@ -82,7 +82,7 @@ EntryView = ecomakiView.extend({
       $(this.canvasImage).addClass('paint');
       var canvacUrl = this.model.get('canvas');
       //handle no data exception
-      if(canvasUrl === null || canvasUrl === undefined || canvasUrl === null){
+      if(canvasUrl === null || canvasUrl === undefined || canvasUrl == ""){
       
       }else{
         this.canvasImage.src = this.model.get('canvas');
@@ -134,7 +134,7 @@ EntryView = ecomakiView.extend({
           this.canvasFlag = false;
           var canvasUrl = this.model.get('canvas');
           //handle no data exception
-          if(canvasUrl === null || canvasUrl === undefined || canvasUrl === null){
+          if(canvasUrl === null || canvasUrl === undefined || canvasUrl == ""){
             
           }else{
             this.content.data('_wPaint_canvas').setImage( canvasUrl );
