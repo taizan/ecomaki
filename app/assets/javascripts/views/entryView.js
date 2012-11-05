@@ -80,7 +80,7 @@ EntryView = ecomakiView.extend({
     }else{
       this.canvasImage = new Image();
       $(this.canvasImage).addClass('paint');
-      var canvacUrl = this.model.get('canvas');
+      var canvasUrl = this.model.get('canvas');
       //handle no data exception
       if(canvasUrl === null || canvasUrl === undefined || canvasUrl == ""){
       
