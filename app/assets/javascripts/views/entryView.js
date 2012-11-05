@@ -194,6 +194,7 @@ EntryView = ecomakiView.extend({
     this.effecter.changeSelecter();
     
     $('textarea').blur();
+    Picker.prototype.onBlur({target: 'canvas'});
   },
 
 
