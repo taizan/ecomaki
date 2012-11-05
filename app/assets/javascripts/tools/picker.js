@@ -40,10 +40,11 @@ Picker.prototype = {
 
     $(template)
       .appendTo('body')
-      .attr({'action': '/characters' })
-      .ajaxForm(function() { 
-          alert("Thank you"); 
-        }); ;
+      .attr({"action": "/characters/images", "method":"post","enctype":"multipart/form-data"  })
+      //.ajaxForm(function() { 
+      //    alert("Thank you"); 
+     //  })
+      ; 
     //alert();
   },
 
