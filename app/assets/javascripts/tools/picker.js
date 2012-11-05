@@ -1,5 +1,3 @@
-  //= require jquery.jStageAligner
-
 
 function Picker( ){
 
@@ -36,16 +34,18 @@ Picker.prototype = {
 		//var template = _.template( $("#bootstrap_form_template").html(),{});
     
     //<input id="char_upload" type="file" name="image" data-url="/characters/images" multiple>
-		var template = _.template( $("#char_form_template").html(),{'upload_type':"image","upload_url":"/characters/images" });
+		var template = _.template( $("#upload_form_template").html(),{'upload_type':"image" });
+    
 
-    $(template)
+    var form = $(template)
       .appendTo('body')
       .attr({"action": "/characters/images", "method":"post","enctype":"multipart/form-data"  })
       //.ajaxForm(function() { 
       //    alert("Thank you"); 
-     //  })
-      ; 
-    //alert();
+      //    $(form).remove();
+      // })
+       ;
+    $('.cancel_button',form).click(function(){ $(form).remove()});
   },
 
 
