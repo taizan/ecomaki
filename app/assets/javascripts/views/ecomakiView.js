@@ -68,13 +68,13 @@ ecomakiView = Backbone.View.extend({
   onViewClick: function(ev){
     //console.log(ev.target);
     //console.log('click view');
-    if( !$(ev.target).is('.sticky') && !$(ev.target).is('textarea') && !$(ev.target).is('.text')){
-      $('textarea').blur();
-    }
-    if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
+    //if( !$(ev.target).is('.sticky') && !$(ev.target).is('textarea') && !$(ev.target).is('.text')){
+    //  $('textarea').blur();
+    //}
+    //if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
     //console.log(ev.target);
-      $('#picker').blur();
-    }
+    //  $('#picker').blur();
+    // }
   },
 
   appendTo: function(target){
