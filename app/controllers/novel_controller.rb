@@ -2,45 +2,68 @@ class NovelController < ApplicationController
   before_filter :require_novel, :only => [:show, :update, :edit]
 
   def show
-    hash = {
+    options = {
+      :except => [:password],
       :include => [
         :author,
         :chapter => {
-          :include => [
-            :entry => {
-              :include => [
-                :entry_balloon,
-                :entry_character,
-              ],
-              :methods => :canvas,
-            },
-          ],
+          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
         },
-      ],
+      ]
     }
     respond_to do |format|
       format.html { }
-      format.json { render :json => @novel.to_json(hash) }
-      format.xml { render :xml => @novel.to_xml(hash) }
+      format.json { render :json => @novel.to_json(options) }
+      format.xml { render :xml => @novel.to_xml(options) }
     end
   end
 
   def update
-    @novel.update_attributes!(params[:novel])
-    respond_to do |format|
-      format.json { render :json => @novel }
+    has_valid_password = (@novel.password == params[:password])
+
+    if has_valid_password
+      @novel.update_attributes!(params[:novel])
+      respond_to do |format|
+        format.json { render :json => @novel }
+      end
+    else
+      respond_to do |format|
+        format.json { render :status => 401 }
+      end
     end
   end
 
   def edit
-    # Check the given password.
-    if (@novel.password != params[:password])
-      flash[:error] = "The required URL is invalid."
-      redirect_to :action => "show", :id => params[:id]
-    else
-      respond_to do |format|
-        format.html
-      end
+    has_valid_password = (@novel.password == params[:password])
+
+    options = {:include => [:author, :chapter => {
+          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
+        }
+      ]
+    }
+
+    options_without_password = {:except => :password,
+      :include => [:author, :chapter => {
+          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
+        }
+      ]
+    }
+
+    respond_to do |format|
+      format.html { 
+        if has_valid_password
+          render
+        else
+          flash[:error] = "The required URL is invalid."
+          redirect_to :action => "show", :id => params[:id]
+        end
+      }
+      format.xml {
+        render :xml => @novel.to_xml(has_valid_password ? options : options_without_password)
+      }
+      format.json {
+        render :json => @novel.to_json(has_valid_password ? options : options_without_password)
+      }
     end
   end
 

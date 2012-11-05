@@ -28,18 +28,21 @@ $(function() {
 
 });
 
+// Parse the URL and set Novel model.
 function setMode(){
-  //http://ecomaki.com/novel/1
-  //http://ecomaki.com/edit/1/[hash]
-  var urls = location.href.split('/');
-  console.log(urls);
-  var mode = urls[3]
-  var id = urls[4];
-  console.log(mode);
-  novel = new Novel({ id: id});
-  var isEditable = false;
-  if(mode == 'edit') isEditable = true;
-  return isEditable;
+    //http://ecomaki.com/novel/1
+    //http://ecomaki.com/edit/1/[hash]
+    var urls = location.href.split('/');
+console.log(urls);    
+    var mode = urls[3];
+    var id = urls[4];
+    var password = urls.length > 5 ? urls[5] : null;
+
+    // Global novel model.
+    novel = new Novel({id: id, password: password});
+
+    var isEditable = (mode == 'edit');
+    return isEditable;
 }
 
 function initializeView(isEditable){
