@@ -12,12 +12,17 @@ Picker.prototype = {
   visible : false,
 
   initialize: function(){
-    $('#picker').blur(Picker.prototype.finish);
+    $('#picker').blur(Picker.prototype.onBlur);
+    
     $("#picker").hide();
     $("#picker").tabs();
     $('#picker_cancel_button').click(Picker.prototype.finish);
     $('#picker_upload_button').click(Picker.prototype.appendForm)
   },
+
+  onBlur: function(ev){
+   cosole.log(ev) 
+  }
 
   appendForm: function(){
 		var template = _.template( $("#bootstrap_form_template").html(),{});
@@ -139,7 +144,6 @@ Picker.prototype = {
   },
 
   finish: function(){
-    console.log('blur'); 
     if(Picker.prototype.visible){
       $('#picker').find($('.picker_item')).remove();
       $('#picker').hide('drop','hide');
