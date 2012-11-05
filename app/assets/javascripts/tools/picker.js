@@ -35,7 +35,7 @@ Picker.prototype = {
   appendForm: function(){
 		//var template = _.template( $("#bootstrap_form_template").html(),{});
     
-		var template = _.template( $("char_form_template").html(),{});
+		var template = _.template( $("#char_form_template").html(),{});
 
     $(template)
       .appendTo('body')
