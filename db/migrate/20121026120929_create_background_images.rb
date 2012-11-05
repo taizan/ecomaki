@@ -1,8 +1,10 @@
 class CreateBackgroundImages < ActiveRecord::Migration
   def change
     create_table :background_images do |t|
-      t.integer :character_id
       t.string :name
+      t.string :description
+      t.string :author
+
       t.string :content_type
 
       t.timestamps
