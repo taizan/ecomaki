@@ -35,7 +35,8 @@ Picker.prototype = {
   appendForm: function(){
 		//var template = _.template( $("#bootstrap_form_template").html(),{});
     
-		var template = _.template( $("#char_form_template").html(),{});
+    //<input id="char_upload" type="file" name="image" data-url="/characters/images" multiple>
+		var template = _.template( $("#char_form_template").html(),{'upload_type':"image","upload_url":"/characters/images" });
 
     $(template)
       .appendTo('body')

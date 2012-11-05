@@ -52,7 +52,8 @@ ecomakiView = Backbone.View.extend({
 
   load: function(){
 		this.isLoaded = true;
-		var template = _.template( $(this.tmplId).html(),this.model.attributes);
+		var template = _.template( $(this.tmplId).html() , this.model.attributes);
+    console.log($(this.tmplId).html());
     $(template).appendTo(this.el);
     console.log(this.el);
     $(window).scroll(this.onScroll);

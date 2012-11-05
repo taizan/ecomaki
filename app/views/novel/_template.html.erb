@@ -53,12 +53,12 @@
 </script>
 
 <script type="text/template" id="char_form_template">
-  <form class="form-horizontal">
+  <form class="char_form upload_form form-horizontal">
     
     <div class="control-group">
       <label class="control-label" for="inputName">Character Name:</label>
       <div class="controls">
-        <input type="text" id="inputName" placeholder="name" name="character">
+        <input type="text" id="inputName" placeholder="name" name="name">
       </div>
     
       <label class="control-label" for="inputDescription">Description:</label>
@@ -68,12 +68,12 @@
     
       <label class="control-label" for="inputFile">file:</label>
       <div class="controls">
-        <input id="char_upload" type="file" name="image" data-url="/character" multiple>
+        <input id="char_upload" type="file" name="image" data-url="/characters/images" multiple>
       </div>
 
       <label class="control-label" for="inputAuther">Auther:</label>
       <div class="controls">
-        <input type="text" id="inputAuther" placeholder="auther" name="auther">
+        <input type="text" id="inputAuthor" placeholder="author" name="author">
       </div>
 
       <div class="controls">
@@ -87,6 +87,43 @@
 
   </form>
 </script>
+
+<script type="text/template" id="upload_form_template">
+  <form class="upload_form form-horizontal">
+    
+    <div class="control-group">
+      <label class="control-label" for="inputName"> Name:</label>
+      <div class="controls">
+        <input type="text" id="inputName" placeholder="name" name="name">
+      </div>
+    
+      <label class="control-label" for="inputDescription">Description:</label>
+      <div class="controls">
+        <input type="text" id="inputDescription" placeholder="description" name="description">
+      </div>
+    
+      <label class="control-label" for="inputFile">file:</label>
+      <div class="controls">
+        <input id="char_upload" type={{upload_type}} name= data-url={{upoad_url}} multiple>
+      </div>
+
+      <label class="control-label" for="inputAuther">Auther:</label>
+      <div class="controls">
+        <input type="text" id="inputAuthor" placeholder="author" name="author">
+      </div>
+
+      <div class="controls">
+        <label class="checkbox">
+          <input type="checkbox"> I'm agree
+        </label>
+        <button type="submit" class="btn btn-primary">ok</button>
+        <button  class="btn ">cancel</button>
+      </div>
+    </div>
+
+  </form>
+</script>
+
 
 <script type="text/template" id="novel_template">
   <br>
