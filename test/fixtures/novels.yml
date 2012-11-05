@@ -6,6 +6,7 @@ one:
   title: Anonymouse Coward
   description: This is description
   status: publish
+  password: p064fhpPZKom82Vq
 
 two:
   id: 1
@@ -15,6 +16,7 @@ two:
   description: Next Story's description
   author: You!
   status: publish
+  password: B4HCpeaT3DqyJNRV
 
 three:
   id: 2
@@ -22,3 +24,4 @@ three:
   title: Miku Story
   description: MikuMiku
   status: publish
+  password: FDocPBsQ6QTuoZ6o
