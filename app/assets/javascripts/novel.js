@@ -23,7 +23,7 @@ $(function() {
 
   initializeView(isEditable);
 
-  if(isEditable) initializeTool();
+  if(isEditable) initializeTool(isEditable);
 
 });
 
@@ -53,7 +53,7 @@ function initializeView(isEditable){
   $(document).click(onDocumentClick);
 }
 
-function initializeTool(){
+function initializeTool(isEditable){
   $('#toobox').show();
 
   Picker.prototype.initialize();
@@ -77,7 +77,8 @@ function initializeTool(){
 function onDocumentClick(ev){
   // this kind of selection is should be in blur itself not here
   //if( !$(ev.target).is('.sticky') && !$(ev.target).is('textarea') && !$(ev.target).is('.text')){
-  $('textarea').blur();
+  //$('textarea').blur();
+  TextEdit.prototype.onBlur(ev);
   //Picker.prototype.onBlur(ev);
   //if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
   Picker.prototype.onBlur(ev);
