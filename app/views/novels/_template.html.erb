@@ -52,41 +52,6 @@
   </form>
 </script>
 
-<script type="text/template" id="char_form_template">
-  <form class="char_form upload_form form-horizontal">
-    
-    <div class="control-group">
-      <label class="control-label" for="inputName">Character Name:</label>
-      <div class="controls">
-        <input type="text" id="inputName" placeholder="name" name="name">
-      </div>
-    
-      <label class="control-label" for="inputDescription">Description:</label>
-      <div class="controls">
-        <input type="text" id="inputDescription" placeholder="description" name="description">
-      </div>
-    
-      <label class="control-label" for="inputFile">file:</label>
-      <div class="controls">
-        <input id="char_upload" type="file" name="image" data-url="/characters/images" multiple>
-      </div>
-
-      <label class="control-label" for="inputAuther">Auther:</label>
-      <div class="controls">
-        <input type="text" id="inputAuthor" placeholder="author" name="author">
-      </div>
-
-      <div class="controls">
-        <label class="checkbox">
-          <input type="checkbox"> I'm agree
-        </label>
-        <button type="submit" class="btn btn-primary">ok</button>
-        <button  class="btn ">cancel</button>
-      </div>
-    </div>
-
-  </form>
-</script>
 
 <script type="text/template" id="upload_form_template">
   <form class="upload_form form-horizontal"  method="post" enctype="multipart/form-data">
@@ -112,9 +77,11 @@
         <input type="text" id="inputAuthor" placeholder="author" name="author" multipart>
       </div>
 
-      <input type="checkbox"> I'm agree 
-      <button type="submit" class="btn btn-primary">ok</button>
-      <button type="button"  class="cancel_button btn ">cancel</button>
+      <div class="controls">
+        <input type="checkbox"> I'm agree 
+        <button type="submit" class="btn btn-primary">ok</button>
+        <button type="button"  class="cancel_button btn ">cancel</button>
+      </div>
     
   </form>
 </script>
