@@ -58,32 +58,24 @@
     <div class="control-group">
       <label class="control-label" for="inputName">Character Name:</label>
       <div class="controls">
-        <input type="text" id="inputName" placeholder="name">
+        <input type="text" id="inputName" placeholder="name" name="character">
       </div>
-    </div>
     
-    <div class="control-group">
       <label class="control-label" for="inputDescription">Description:</label>
       <div class="controls">
-        <input type="text" id="inputDescription" placeholder="description">
+        <input type="text" id="inputDescription" placeholder="description" name="description">
       </div>
-    </div>
     
-    <div class="control-group">
       <label class="control-label" for="inputFile">file:</label>
       <div class="controls">
-        <input id="music_upload" type="file" name="image" data-url="/character" multiple>
+        <input id="char_upload" type="file" name="image" data-url="/character" multiple>
       </div>
-    </div>
 
-    <div class="control-group">
       <label class="control-label" for="inputAuther">Auther:</label>
       <div class="controls">
-        <input type="text" id="inputAuther" placeholder="auther">
+        <input type="text" id="inputAuther" placeholder="auther" name="auther">
       </div>
-    </div>
 
-    <div class="control-group">
       <div class="controls">
         <label class="checkbox">
           <input type="checkbox"> I'm agree
@@ -92,6 +84,7 @@
         <button  class="btn ">cancel</button>
       </div>
     </div>
+
   </form>
 </script>
 
