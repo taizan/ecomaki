@@ -1,7 +1,6 @@
 class CharacterImage < ActiveRecord::Base
   attr_accessor :image
-  attr_accessible :content_type, :character_id, :author, :description, :image
-  attr_accessible :width, :height
+  attr_accessible :character_id, :author, :description, :image
 
   belongs_to :character
   has_many :entry_character

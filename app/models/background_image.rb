@@ -1,10 +1,23 @@
 class BackgroundImage < ActiveRecord::Base
   attr_accessor :image
-  attr_accessible :name, :content_type, :image, :description, :author
+  attr_accessible :name, :image, :description, :author
 
   belongs_to :chapter
 
+  before_save :read_image
   after_save :save_image
+
+  def read_image
+    # Read content_type
+    self.content_type = @image.content_type.chomp
+
+    # Read image size by RMagick
+    require 'rubygems'
+    require 'RMagick'
+    img = Magick::Image::read(@image.path).first
+    self.width = img.columns
+    self.height = img.rows
+  end
 
   def save_image
     File.open(image_path, 'wb') do |file|
