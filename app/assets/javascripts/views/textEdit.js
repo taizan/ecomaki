@@ -108,60 +108,58 @@ FontSelecter.prototype = {
 TextEdit = function(){ }
 
 TextEdit.prototype = {
+  
+  isAppended: false,
+
   onBlur: function(ev){
     //console.log(ev);
-    if (TextEdit.prototype.isBlurable) {
-      console.log(TextEdit.prototype.isBlurable);
-      if( !$(ev.target).is('.sticky') && !$(ev.target).is('textarea') && !$(ev.target).is('.text')){
-        TextEdit.prototype.finish();
-      }
-    }else {
-      TextEdit.prototype.isBlurable = true;
-    }
   },
 
   editableTextarea: function(target,callback){
     //console.log(target);
-    var text = $('.text',target).html();
-    if(text === null || text === undefined){
-      text = "[        ]";
-    }else{
-      console.log(text);
-      text = text.split("<br>").join('\n');
-      text = text
-        .replace(/&amp;/g,"&")
-        .replace(/&quot;/g,"/")
-        .replace(/&#039;/g,"'")
-        .replace(/&lt;/g,"<")
-        .replace(/&gt;/g,">");
+
+    if (TextEdit.prototype.isAppended === false){
+
+      TextEdit.prototype.isAppended = true;
+
+      var text = $('.text',target).html();
+      if(text === null || text === undefined){
+        text = "[        ]";
+      }else{
+        console.log(text);
+        text = text.split("<br>").join('\n');
+        text = text
+          .replace(/&amp;/g,"&")
+          .replace(/&quot;/g,"/")
+          .replace(/&#039;/g,"'")
+          .replace(/&lt;/g,"<")
+          .replace(/&gt;/g,">");
+      }
+
+      var focusedText = $( '<textarea class="editable_text" style="vertical-align: middle; text-align:center;" ></textarea>' )
+          .height( $(target).height() ).width ( $(target).width() )
+          .css({position: 'absolute', left:-5 ,top: -5})
+          .appendTo(target)
+          .focus().select()
+          .autosize()
+          .val(text);
+
+      focusedText.blur(
+        function() {
+         var txt = $(this).val();
+         $('.text',target).text(txt);
+         txt = $('.text',target).html().split('\n').join('<br>') ;
+         console.log(txt);
+          $('.text',target).html(txt);
+
+          callback( txt);
+
+          $(this).remove();
+          TextEdit.prototype.isAppended = false;
+      });
     }
-
-    var focusedText = $( '<textarea class="editable_text" style="vertical-align: middle; text-align:center;" ></textarea>' )
-        .height( $(target).height() ).width ( $(target).width() )
-        .css({position: 'absolute', left:-5 ,top: -5})
-        .appendTo(target)
-        .focus().select()
-        .autosize()
-        .val(text);
-
-    focusedText.blur(
-      function() {
-        var txt = $(this).val();
-        $('.text',target).text(txt);
-        txt = $('.text',target).html().split('\n').join('<br>') ;
-        console.log(txt);
-        $('.text',target).html(txt);
-
-        callback( txt);
-
-        TextEdit.prototype.isBlurable = false;
-        $(this).remove();
-    });
   }, 
   
-  finish: function(){
-      $('.editable_text').blur(); 
-  }
 
 }
 
