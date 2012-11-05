@@ -21,8 +21,9 @@ ActiveRecord::Schema.define(:version => 20121031123043) do
   end
 
   create_table "background_images", :force => true do |t|
-    t.integer  "character_id"
     t.string   "name"
+    t.string   "description"
+    t.string   "author"
     t.string   "content_type"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
@@ -30,6 +31,8 @@ ActiveRecord::Schema.define(:version => 20121031123043) do
 
   create_table "background_musics", :force => true do |t|
     t.string   "name"
+    t.string   "author"
+    t.string   "description"
     t.string   "content_type"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
@@ -48,6 +51,8 @@ ActiveRecord::Schema.define(:version => 20121031123043) do
 
   create_table "character_images", :force => true do |t|
     t.integer  "character_id"
+    t.string   "author"
+    t.string   "description"
     t.string   "content_type"
     t.integer  "width"
     t.integer  "height"

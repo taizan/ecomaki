@@ -19,10 +19,14 @@ class CharacterImagesController < ApplicationController
     content_type = image.content_type.chomp
 
     if ['image/jpeg', 'image/png'].include?(content_type)
-      character_image = CharacterImage.new(:content_type => content_type, :image => image, :character_id => character_id)
+      character_image = CharacterImage.new(
+        :image => image,
+        :character_id => character_id,
+        :author => params[:author],
+        :description => params[:description])
       character_image.save
 
-      render :json => []
+      render :json => character_image
     else
       render :text => "The uploaded type has unallowed content type", :status => 500
     end
