@@ -30,14 +30,14 @@ Ecomaki::Application.routes.draw do
   match 'edit/:novel_id/:password/chapters/:id' => 'chapters#destroy', :via => :delete
 
   # Novels
-  match 'novels' => 'novel#index', :via => :get
-  match 'novel/:id' => 'novel#show', :via => :get # Old
-  match 'novels/:id' => 'novel#show', :via => :get
-  match 'novel' => 'novel#create', :via => :post # Old
-  match 'novels' => 'novel#create', :via => :post 
-  match 'edit/:id/:password' => 'novel#edit', :via => :get
-  match 'edit/:id/:password' => 'novel#update', :via => :put
-  match 'edit/:id/:password' => 'novel#destroy', :via => :delete
+  match 'novels' => 'novels#index', :via => :get
+  match 'novel/:id' => 'novels#show', :via => :get # Old
+  match 'novels/:id' => 'novels#show', :via => :get
+  match 'novel' => 'novels#create', :via => :post # Old
+  match 'novels' => 'novels#create', :via => :post 
+  match 'edit/:id/:password' => 'novels#edit', :via => :get
+  match 'edit/:id/:password' => 'novels#update', :via => :put
+  match 'edit/:id/:password' => 'novels#destroy', :via => :delete
 
   # Characters
   match 'characters' => 'characters#index', :via => :get
@@ -61,5 +61,5 @@ Ecomaki::Application.routes.draw do
   match 'background_images/images/:id' => 'background_images#show_image'
 
   # Edit mode
-  match 'edit/:id/:password' => 'novel#edit', :via => :get
+  match 'edit/:id/:password' => 'novels#edit', :via => :get
 end

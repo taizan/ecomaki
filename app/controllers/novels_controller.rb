@@ -1,4 +1,4 @@
-class NovelController < ApplicationController
+class NovelsController < ApplicationController
   before_filter :require_novel, :only => [:show, :update, :edit]
 
   def show
