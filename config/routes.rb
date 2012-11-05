@@ -38,6 +38,7 @@ Ecomaki::Application.routes.draw do
   # Characters
   match 'characters' => 'characters#index', :via => :get
   match 'characters/images' => 'character_images#index', :via => :get
+  match 'characters/images' => 'character_images#create', :via => :post
   match 'characters/:id' => 'characters#show', :via => :get
   match 'characters' => 'characters#create', :via => :post
   match 'characters/:character_id/images' => 'character_images#index', :via => :get
