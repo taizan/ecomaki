@@ -18,48 +18,66 @@
 
 
 $(function() {
+  
+  var isEditable = setMode();
+
+  initializeView(isEditable);
+
+  if(isEditable) initializeTool();
+
+});
+
+function setMode(){
   //http://ecomaki.com/novel/1
   //http://ecomaki.com/edit/1/[hash]
   var urls = location.href.split('/');
   console.log(urls);
   var mode = urls[3]
   var id = urls[4];
-  //console.log(id);
   console.log(mode);
   novel = new Novel({ id: id});
-  //var isEditable = false;
-  var isEditable = true;
+  var isEditable = false;
   if(mode == 'edit') isEditable = true;
-  //for debug only
-  //if(urls.length > 5) isEditable = true;
+  return isEditable;
+}
 
+function initializeView(isEditable){
   novelView = new NovelView({model: novel , isEditable: isEditable});
   novelView.appendTo($('#content'));
 
-  if(isEditable){
-    $('#toobox').show();
-    $('#preview').show().width(100).height(60);
-    $('#preview').click(function(){
-        isEditable = isEditable ? false : true;
-        $('#content').empty();
-        novelView = new NovelView({model: novel , isEditable: isEditable});
-        novelView.appendTo($('#content'));
-        if(isEditable) {
-          $('#preview').html('Preview');
-          $('#toolbox').show();
-        }else{
-          $('#preview').html('Edit');
-          $('#toolbox').hide();
-        }
-      });
-  
-  }
-
+  $('#toobox').hide();
+  $('#console').hide();  
+  $('#side_menu').hide();
 
   $(document).tooltip();
-  $('#console').hide();  
-  
+  $(document).click(onDocumentClick);
+}
+
+function initializeTool(){
+  $('#toobox').show();
+
   Picker.prototype.initialize();
 
-  $('#side_menu').hide();
-});
+  $('#preview').show().width(100).height(60);
+  $('#preview').click(function(){
+      isEditable = isEditable ? false : true;
+      $('#content').empty();
+      novelView = new NovelView({model: novel , isEditable: isEditable});
+      novelView.appendTo($('#content'));
+      if(isEditable) {
+        $('#preview').html('Preview');
+        $('#toolbox').show();
+      }else{
+        $('#preview').html('Edit');
+        $('#toolbox').hide();
+      }
+    });
+}
+
+function onDocumentClick(ev){
+  // this kind of selection is should be in blur itself not here
+  //if( !$(ev.target).is('.sticky') && !$(ev.target).is('textarea') && !$(ev.target).is('.text')){
+  $('textarea').blur();
+  //if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
+  $('#picker').blur();
+}

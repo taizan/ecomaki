@@ -29,10 +29,11 @@ NovelView = ecomakiView.extend({
     this.addAll();	
 
     if (this.isEditable) {
-		  $('#title').click(function(){
+		  $('#title').click(function(ev){
 			    editableTextarea(this, _self.saveTitle);
+
 		    });
-		  $('#description').click(function(){
+		  $('#description').click(function(ev){
 			    editableTextarea(this, _self.saveDescription);
 		    });
 	  }
