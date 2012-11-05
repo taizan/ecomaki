@@ -42,7 +42,7 @@ var Entry = Backbone.Model.extend(
 	    var balloons = arguments[0].entry_balloon;
 	    var characters = arguments[0].entry_character;
 	    
-	    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id});
+	    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id()});
 	    this.id = arguments[0].id;
 	    
 	    // Create balloons.
@@ -70,7 +70,10 @@ var EntryList = Backbone.Collection.extend(
     {
 	model: Entry,
 	url: function() {
-	    return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries";
+	    return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id() + "/entries";
+	},
+	chapter_id: function() {
+	    return this.chapter.id;
 	},
 	create: function(attributes, options) {
 	    if (typeof attributes.order_number === "undefined") {
@@ -130,7 +133,7 @@ var Chapter = Backbone.Model.extend(
 	    // entries
 	    this.entries = new this.entrylist();
 	    this.entries.novel_id = this.get('novel_id');
-	    this.entries.chapter_id = this.get('id');
+	    this.entries.chapter = this;
 	    this.entries.add(arguments[0].entry);
 	},
 	create_entry: function(attributes,option) {
