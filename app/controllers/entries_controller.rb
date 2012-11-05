@@ -8,12 +8,16 @@ class EntriesController < ApplicationController
   end
 
   def update
-    entry = Entry.find(params[:id])
-    entry.update_attributes!(params[:entry])
-
-    respond_to {|format|
-      format.json { render :json => entry }
-    }
+    if has_valid_password?
+      entry = Entry.find(params[:id])
+      entry.update_attributes!(params[:entry])
+      
+      respond_to {|format|
+        format.json { render :json => entry }
+      }
+    else
+      render :status => 401
+    end
   end
 
   def show
@@ -26,20 +30,36 @@ class EntriesController < ApplicationController
   end
 
   def create
-    entry = Entry.new(params[:entry])
-    entry.save
-
-    respond_to do |format|
-      format.json { render :json => entry }
+    if has_valid_password?
+      entry = Entry.new(params[:entry])
+      entry.save
+      
+      respond_to do |format|
+        format.json { render :json => entry }
+      end
+    else
+      render :status => 401
     end
   end
 
   def destroy
-    entry = Entry.find(params[:id])
-    entry.destroy
-
-    respond_to do |format|
-      format.json { head :no_content }
+    if has_valid_password?
+      entry = Entry.find(params[:id])
+      entry.destroy
+      
+      respond_to do |format|
+        format.json { head :no_content }
+      end
+    else
+      render :status => 401
     end
+  end
+
+private
+  def has_valid_password?
+    password = params[:password]
+    novel_id = params[:novel_id]
+    novel = Novel.find(novel_id) or return false
+    return novel.password == password
   end
 end
