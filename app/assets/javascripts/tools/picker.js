@@ -13,7 +13,7 @@ Picker.prototype = {
 
   initialize: function(){
     $('#picker').blur(Picker.prototype.onBlur);
-    
+    $('#picker').click(function(ev){ev.stopPropagation(); });
     $("#picker").hide();
     $("#picker").tabs();
     $('#picker_cancel_button').click(Picker.prototype.finish);
@@ -21,8 +21,16 @@ Picker.prototype = {
   },
 
   onBlur: function(ev){
-   cosole.log(ev) 
-  }
+    console.log(ev);
+    if (Picker.prototype.isBlurable) {
+      console.log(Picker.prototype.isBlurable);
+      if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
+        Picker.prototype.finish();
+      }
+    }else {
+      Picker.prototype.isBlurable = true;
+    }
+  },
 
   appendForm: function(){
 		var template = _.template( $("#bootstrap_form_template").html(),{});
@@ -149,6 +157,7 @@ Picker.prototype = {
       $('#picker').hide('drop','hide');
       Picker.prototype.visible = false;
     }
+    Picker.prototype.isBlurable = false;
   }
 
 };
