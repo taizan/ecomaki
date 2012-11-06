@@ -116,11 +116,10 @@ TextEdit.prototype = {
   },
 
   editableTextarea: function(target,callback){
-    //console.log(target);
+    console.log(target);
 
-    if (TextEdit.prototype.isAppended === false){
-
-      TextEdit.prototype.isAppended = true;
+    if ($('.editable_text') != []){
+    //  TextEdit.prototype.isAppended = true;
 
       var text = $('.text',target).html();
       if(text === null || text === undefined){
@@ -155,7 +154,7 @@ TextEdit.prototype = {
           callback( txt);
 
           $(this).remove();
-          TextEdit.prototype.isAppended = false;
+    //      TextEdit.prototype.isAppended = false;
       });
     }
   }, 

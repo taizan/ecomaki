@@ -15,7 +15,10 @@ Picker.prototype = {
     $("#picker").hide();
     $("#picker").tabs();
     $('#picker_cancel_button').click(Picker.prototype.finish);
-    $('#picker_upload_button').click(Picker.prototype.appendForm)
+    //$('#picker_upload_button').click(Picker.prototype.appendForm)
+    $('#character_upload_button')  .click(function(){ Picker.prototype.appendForm("/characters/images");} );
+    $('#background_upload_button') .click(function(){ Picker.prototype.appendForm("/background_images");} );
+    $('#music_upload_button')      .click(function(){ Picker.prototype.appendForm("/background_musics"); } );
   },
 
   onBlur: function(ev){
@@ -30,21 +33,21 @@ Picker.prototype = {
     }
   },
 
-  appendForm: function(){
-		//var template = _.template( $("#bootstrap_form_template").html(),{});
+  appendForm: function(action){
     
-    //<input id="char_upload" type="file" name="image" data-url="/characters/images" multiple>
+    ///<input id="char_upload" type="file" name="image" data-url="/characters/images" multiple>
 		var template = _.template( $("#upload_form_template").html(),{'upload_type':"image" });
     
 
     var form = $(template)
       .appendTo('body')
-      .attr({"action": "/characters/images", "method":"post","enctype":"multipart/form-data"  })
-      //.ajaxForm(function() { 
-      //    alert("Thank you"); 
-      //    $(form).remove();
-      // })
-       ;
+      //.attr({"action": "/characters/images", "method":"post","enctype":"multipart/form-data"  })
+      .attr({"action": action , "method":"post","enctype":"multipart/form-data"  })
+      .ajaxForm(function() { 
+          alert("Thank you"); 
+          $(form).remove();
+        });
+
     $('.cancel_button',form).click(function(){ $(form).remove()});
   },
 
@@ -72,7 +75,7 @@ Picker.prototype = {
         var auther = $(this).find('auther').text();
         var description = $(this).find('description').text();
         console.log(name);
-        Picker.prototype.setTextItem(id,id + ';'+name);
+        Picker.prototype.setTextItem(id,id + ': '+name);
       }
     );
   },
@@ -100,10 +103,10 @@ Picker.prototype = {
     $(xml).find('character-image').each(
       function(){
         var id = $(this).find('id').text();
-        //var name = $(this).find('name').text();
+        var name = $(this).find('name').text();
         //var height = $(this).find('height').text();
         //var width = $(this).find('width').text();
-        var auther = $(this).find('auther').text();
+        var author = $(this).find('author').text();
         var description = $(this).find('description').text();
         Picker.prototype.setImageItem(id,config.character_image_idtourl);
       }
@@ -142,14 +145,20 @@ Picker.prototype = {
 
   showCharacterList: function(func){
     Picker.prototype.setList("/characters/images.xml" , Picker.prototype.parseCharacterXml,func );
+    $('.upload_button').hide();
+    $('#character_upload_button').show();
   },
 
   showBackgroundList: function(func){
     Picker.prototype.setList("/background_images.xml" , Picker.prototype.parseBackgroundXml ,func);
+    $('.upload_button').hide();
+    $('#background_upload_button').show();
   },
 
   showMusicList: function(func){
     Picker.prototype.setList("/background_musics.xml" , Picker.prototype.parseMusicXml,func );
+    $('.upload_button').hide();
+    $('#music_upload_button').show();
   },
 
   setList:function(xml,parser,callback){
