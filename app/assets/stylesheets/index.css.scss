@@ -1,0 +1,17 @@
+form {
+  position: fixed;
+  background: white;
+  top: 60px;
+  left: 30%;
+  z-index: 999999;
+  border: 2px solid gray;
+}
+
+
+form .control-group{
+  margin: 30px;
+}
+
+form .control-group div{
+  margin-bottom: 20px;
+}
