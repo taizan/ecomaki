@@ -69,10 +69,10 @@ function initializeTool(isEditable){
       novelView = new NovelView({model: novel , isEditable: isEditable});
       novelView.appendTo($('#content'));
       if(isEditable) {
-        $('#preview').html('Preview');
+        //$('#preview').html('Preview');
         $('#toolbox').show();
       }else{
-        $('#preview').html('Edit');
+        //$('#preview').html('Edit');
         $('#toolbox').hide();
       }
     });
