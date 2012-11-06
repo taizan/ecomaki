@@ -115,15 +115,6 @@
 }
 
 
-#preview {
-   width: 88;
-   height:64;
-  font-size: 20;
-   position: fixed;
-   right: 0px;
-   top:40px;
-   z-index: 99999;
-}
 
 
 #sideMenu {
@@ -142,5 +133,27 @@
 
 
 
+// for side button
 
+#preview {
+  width: 100px;
+  height:100px;
+  font-size: 20;
+  position: fixed;
+  right: 0px;
+  top:40px;
+  z-index: 999;
+}
 
+.side_buttons {
+  list-style:none;
+  position: fixed;
+  right: 0px;
+  top:40px;
+  z-index: 999;
+}
+
+.side_buttons button {
+  width: 100px;
+  height:100px;
+}

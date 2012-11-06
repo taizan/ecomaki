@@ -43,7 +43,7 @@ ToolMenu.prototype = {
 			.append(ToolMenu.prototype.toolbox);
 
     //default is hide
-    $('#toobox').hide();
+    $('#toolbox').hide();
   }
 
 }
