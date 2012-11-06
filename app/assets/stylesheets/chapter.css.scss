@@ -6,22 +6,23 @@
 
 
 .background_icon:hover{
-  background: green;
+//  background: green;
 }
 
 .music_icon:hover{
-  background: blue;
+//  background: blue;
 }
 
 .top_control{
   position: absolute;
+  //top: 0px;
   right: 2px;
   z-index: 99;
 }
 
 .top_control .icon{
-  height: 32px;
-  width: 32px;
+  height: 64px;
+  width: 64px;
   cursor:pointer;
 }
 

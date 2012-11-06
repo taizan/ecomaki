@@ -62,7 +62,7 @@ function initializeTool(isEditable){
 
   Picker.prototype.initialize();
 
-  $('#preview').show().width(100).height(60);
+  $('#preview').show();
   $('#preview').click(function(){
       isEditable = isEditable ? false : true;
       $('#content').empty();
