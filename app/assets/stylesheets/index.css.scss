@@ -1,4 +1,4 @@
-form {
+.init_form {
   position: fixed;
   background: white;
   top: 60px;
@@ -8,10 +8,10 @@ form {
 }
 
 
-form .control-group{
+.init_form .control-group{
   margin: 30px;
 }
 
-form .control-group div{
+.init_form .control-group div{
   margin-bottom: 20px;
 }

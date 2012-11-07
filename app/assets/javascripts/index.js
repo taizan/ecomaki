@@ -4,19 +4,21 @@
 
 
 $(function() {
-	
-	var appendForm = function(){
-		//generate string from template
-    var template = _.template( $("#novel_form_template").html(),{});
-    
-    var form = $(template)
-      .appendTo('body')
-      .attr({"action": "/novel" , "method":"post" });
-
-    $('.cancel_button',form).click(function(){ $(form).remove()});
-	};
+  // load template	
+  var template = _.template( $("#novel_form_template").html(),{});
   
-  $('#create_button').click(appendForm);
+  //append and setting
+  var form = $(template)
+    .appendTo('body')
+    .attr({"action": "/novel" , "method":"post" });
+  
+  $('.cancel_button',form).click( function(){ $(form).hide('drop','fast'); } );
+  // default hided
+  $(form).hide();
+  
+  $('#create_button').click( function(){ $(form).show('drop','fast'); } );
+
+  $(document).tooltip();
 
 });
 

@@ -3,7 +3,7 @@
 
 <div class="top_menu">
 
-  <button id="create_button"><img src="/assets/novel/brush.png"></button>
+  <button id="create_button" title="新規作成！！"><img src="/assets/novel/brush.png"></button>
 
   <div class="well">
     <%= form_tag :controller => :novels, :action => :create do %>
@@ -28,17 +28,17 @@
     <div class="control-group">
       <label class="control-label" for="inputTitle">Title:</label>
       <div class="controls">
-        <input type="text" id="inputTitle" placeholder="title" name="title">
+        <input type="text" id="inputTitle" placeholder="title" name="title" >
       </div>
 
       <label class="control-label" for="inputDescription">Description:</label>
       <div class="controls">
-        <input type="text" id="inputDescription" placeholder="description" name="description">
+        <input type="text" id="inputDescription" placeholder="description" name="description" >
       </div>
 
       <label class="control-label" for="inputAuther">Auther:</label>
       <div class="controls">
-        <input type="text" id="inputAuther" placeholder="auther" name="author">
+        <input type="text" id="inputAuther" placeholder="auther" name="author" >
       </div>
 
       <div class="controls">
@@ -48,7 +48,7 @@
         </label>
         
         <button  type="submit" class="btn btn-primary">ok</button>
-        <button  class="btn ">cancel</button>
+        <button  type="button" class="btn cancel_button">cancel</button>
       
       </div>
     </div>
