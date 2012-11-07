@@ -15,7 +15,7 @@
     <ul>
       <% @novels.each do |novel| %>
         <li>
-          <%= link_to "##{novel.id}", :controller => :novels, :action => :show, :id => novel.id %>
+          <%= link_to "#{novel.id}, #{novel.title}", :controller => :novels, :action => :show, :id => novel.id %>
         </li>
       <% end %>
     </ul>
