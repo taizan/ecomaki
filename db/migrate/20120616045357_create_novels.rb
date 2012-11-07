@@ -9,7 +9,7 @@ class CreateNovels < ActiveRecord::Migration
 
       t.string :title
       t.string :description
-      t.string :author
+      t.string :author_name
       t.string :status # private, publish
       t.string :password
 

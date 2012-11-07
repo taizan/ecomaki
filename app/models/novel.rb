@@ -1,5 +1,5 @@
 class Novel < ActiveRecord::Base
-  attr_accessible :author_id, :description, :title, :status, :author, :parent_novel_id, :password
+  attr_accessible :author_id, :description, :title, :status, :author_name, :parent_novel_id, :password
 
   belongs_to :author
 
