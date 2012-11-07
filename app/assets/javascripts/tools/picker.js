@@ -74,8 +74,11 @@ Picker.prototype = {
         //var width = $(this).find('width').text();
         var auther = $(this).find('auther').text();
         var description = $(this).find('description').text();
+
+        var text = name +', '+ description +', by '+ author;
+
         console.log(name);
-        Picker.prototype.setTextItem(id,id + ': '+name);
+        Picker.prototype.setTextItem(id,text,id + ': '+name);
       }
     );
   },
@@ -86,13 +89,16 @@ Picker.prototype = {
     $(xml).find('background-image').each(
       function(){
         var id = $(this).find('id').text();
-        //var name = $(this).find('name').text();
+        var name = $(this).find('name').text();
         //var height = $(this).find('height').text();
         //var width = $(this).find('width').text();
         var auther = $(this).find('auther').text();
         var description = $(this).find('description').text();
+
+        var text = name +', '+ description +', by '+ author;
+
         console.log(id);
-        Picker.prototype.setImageItem(id,config.background_idtourl);
+        Picker.prototype.setImageItem(id,text,config.background_idtourl);
       }
     );
   },
@@ -108,13 +114,15 @@ Picker.prototype = {
         //var width = $(this).find('width').text();
         var author = $(this).find('author').text();
         var description = $(this).find('description').text();
-        Picker.prototype.setImageItem(id,config.character_image_idtourl);
+        var text = name +', '+ description +', by '+ author;
+
+        Picker.prototype.setImageItem(id,text,config.character_image_idtourl);
       }
     );
   },
 
-  setTextItem: function(id,text){
-    var item = $('<li id="pick_item'+id+'" class="picker_item"><p>' + text + '</p></li>');
+  setTextItem: function(id,text,name){
+    var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><p>' + name + '</p></li>');
     item.appendTo($('#picker_list'));
 
     item.click(function(){
@@ -125,9 +133,9 @@ Picker.prototype = {
       });
   },
 
-  setImageItem: function(id,urlGetter){
+  setImageItem: function(id,text,urlGetter){
     var url = urlGetter(id);
-    var item = $('<li id="pick_item'+id+'" class="picker_item"><img src="' + url + '"></li>');
+    var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><img src="' + url + '"></li>');
     item.appendTo($('#picker_list'));
 
     item.click(function(){
