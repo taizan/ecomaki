@@ -22,7 +22,7 @@ Picker.prototype = {
   },
 
   onBlur: function(ev){
-    //console.log(ev);
+    console.log(ev);
     if (Picker.prototype.isBlurable) {
       console.log(Picker.prototype.isBlurable);
       if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
@@ -72,7 +72,7 @@ Picker.prototype = {
         var name = $(this).find('name').text();
         //var height = $(this).find('height').text();
         //var width = $(this).find('width').text();
-        var auther = $(this).find('auther').text();
+        var author = $(this).find('author').text();
         var description = $(this).find('description').text();
 
         var text = name +', '+ description +', by '+ author;
@@ -92,7 +92,7 @@ Picker.prototype = {
         var name = $(this).find('name').text();
         //var height = $(this).find('height').text();
         //var width = $(this).find('width').text();
-        var author = $(this).find('auther').text();
+        var author = $(this).find('author').text();
         var description = $(this).find('description').text();
 
         var text = name +', '+ description +', by '+ author;
@@ -172,9 +172,11 @@ Picker.prototype = {
   setList:function(xml,parser,callback){
     Picker.prototype.selectedCallback = callback;
     if(!Picker.prototype.visible){
-        Picker.prototype.loadXml(xml , parser );
+      Picker.prototype.loadXml(xml , parser );
+      $('#picker').tooltip();
       $('#picker').show('drop','fast');
       Picker.prototype.visible = true;
+    Picker.prototype.isBlurable = true;
     }
   },
 
