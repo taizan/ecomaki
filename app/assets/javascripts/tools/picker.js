@@ -123,7 +123,7 @@ Picker.prototype = {
 
   setTextItem: function(id,text,name){
     var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><p>' + name + '</p></li>');
-    item.appendTo($('#picker_list'));
+    item.appendTo($('#picker_list')).tooltip();
 
     item.click(function(){
         if(Picker.prototype.selectedCallback){
@@ -136,7 +136,7 @@ Picker.prototype = {
   setImageItem: function(id,text,urlGetter){
     var url = urlGetter(id);
     var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><img src="' + url + '"></li>');
-    item.appendTo($('#picker_list'));
+    item.appendTo($('#picker_list')).tooltip();
 
     item.click(function(){
         if(Picker.prototype.selectedCallback){
@@ -173,7 +173,7 @@ Picker.prototype = {
     Picker.prototype.selectedCallback = callback;
     if(!Picker.prototype.visible){
       Picker.prototype.loadXml(xml , parser );
-      $('#picker').tooltip();
+      //$(document).tooltip();
       $('#picker').show('drop','fast');
       Picker.prototype.visible = true;
     Picker.prototype.isBlurable = true;

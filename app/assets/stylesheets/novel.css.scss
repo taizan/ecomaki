@@ -157,3 +157,8 @@
   width: 100px;
   height:100px;
 }
+
+.ui-tooltip {
+  z-index: 999999;
+  // box-shadow: 0 0 7px black;
+}
