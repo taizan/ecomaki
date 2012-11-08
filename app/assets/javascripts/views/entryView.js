@@ -210,10 +210,22 @@ EntryView = ecomakiView.extend({
 
 
   onResize: function(){
+    console.log(this.content.height());
+    console.log(this.content.width());
     this.model.set('height',this.content.height());
     this.model.set('width',this.content.width());
-    this.model.save();
+    
+    //re render view
+    //for reflush canvas size
+    $('canvas',this.content).remove();
+    var _self = this;
+    this.content.wPaint({
+        drawDown:  _self.onCanvasClick
+      });
+    this.canvasFlag = true;
     this.parentView.render();
+
+    this.model.save();
   },
 
   addBaloon: function( str ){
