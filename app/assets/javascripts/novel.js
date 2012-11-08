@@ -49,7 +49,7 @@ function initializeView(isEditable){
   novelView = new NovelView({model: novel , isEditable: isEditable});
   novelView.appendTo($('#content'));
 
-  $('#toobox').hide();
+  $('#toolbox').hide();
   $('#console').hide();  
   $('#side_menu').hide();
 
@@ -58,7 +58,7 @@ function initializeView(isEditable){
 }
 
 function initializeTool(isEditable){
-  $('#toobox').show();
+  $('#toolbox').show();
 
   Picker.prototype.initialize();
 
