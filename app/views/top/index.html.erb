@@ -3,19 +3,19 @@
 
 <div class="top_menu">
 
-  <button id="create_button" title="新規作成！！"><img src="/assets/novel/brush.png"></button>
-
   <div class="well">
-    <%= form_tag :controller => :novels, :action => :create do %>
-      <%= submit_tag "create a new novel", :class => "btn" %>
-    <% end %>
+    Create New ecoMaki !!
+    <button id="create_button" title="新規作成！！"><img src="/assets/novel/brush.png"></button>
+
   </div>
+
+  <h1>List</h1>
 
   <div class="well">
     <ul>
       <% @novels.each do |novel| %>
         <li>
-          <%= link_to "#{novel.id}, #{novel.title}", :controller => :novels, :action => :show, :id => novel.id %>
+          <%= link_to "#{novel.id},#{novel.created_at} , #{novel.title}", {:controller => :novels, :action => :show, :id => novel.id },{:title => "#{novel.description}"} %>
         </li>
       <% end %>
     </ul>
