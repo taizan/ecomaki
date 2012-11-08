@@ -59,10 +59,30 @@ ChapterView = ecomakiView.extend({
     view.load();
   },
 
+  setBackground: function(){
+    if( (this.model.get('order_number') % 2) == 1 ){
+      $('#background_odd')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+    }else{
+      $('#background_even')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+    }
+  },
+
   onDisplay: function(){
     //console.log('isDisplayed');
-    //console.log(this);
-    $('#background')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+    console.log(this.model.get('order_number') % 2);
+
+    //$('#background')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+    
+    if( (this.model.get('order_number') % 2) == 1) {
+      $('#background_odd')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+      $('#background_odd').show('fade','slow');
+      $('#background_even').hide('fade','slow');
+    }else{
+      $('#background_even')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+      $('#background_even').show('fade','slow');
+      $('#background_odd').hide('fade','slow');
+    }
+
     this.playMusicById(this.model.get('background_music_id')); 
     return this;
   },
