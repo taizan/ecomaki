@@ -5,6 +5,8 @@
 
 <%= javascript_include_tag 'novel' %>
 
+<img id="background" class="background" src="/assets/0.png" />
+
 <div id="novel_container">
 
   <button id="preview" title="Preview"><img src="/assets/novel/preview.png"></button>
@@ -13,6 +15,8 @@
     <ul class = "well sidebar-nav" id = "chapterList">
     </ul>
   </aside>
+  
+  <!-- picker menu  -->
   <aside class = "well sidebar-nav" id="picker">
       <ul>
         <li><a href="#list_tab"><i class="icon-user"></i>LIST</a></li>
@@ -43,6 +47,7 @@
       <button class="btn" id ="picker_cancel_button">cancel</button></li>
   </aside>
 
+  <!-- Main content container  -->
   <div id="content" >
   </div>
   

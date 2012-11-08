@@ -92,7 +92,7 @@ Picker.prototype = {
         var name = $(this).find('name').text();
         //var height = $(this).find('height').text();
         //var width = $(this).find('width').text();
-        var auther = $(this).find('auther').text();
+        var author = $(this).find('auther').text();
         var description = $(this).find('description').text();
 
         var text = name +', '+ description +', by '+ author;

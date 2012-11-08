@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(:version => 20121031123043) do
     t.integer  "parent_novel_id"
     t.string   "title"
     t.string   "description"
-    t.string   "author"
+    t.string   "author_name"
     t.string   "status"
     t.string   "password"
     t.datetime "created_at",      :null => false
