@@ -5,8 +5,10 @@ window.musicPlayer = {
     playURL: function(url) {
         console.log("music: " + url);
         var self = this;
+        console.log(this);
 
-        if (self.$audio) self.stop();
+        //$('audio').remove();
+        if(self.$audio) self.stop();
 
         self.$audio = $('<audio>');
         self.$audio.prop('autoplay', true);

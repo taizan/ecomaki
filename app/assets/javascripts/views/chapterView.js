@@ -17,6 +17,7 @@ ChapterView = ecomakiView.extend({
               "removeChapter",
               "onBackgroundButton",
               "onMusicButton",
+              "showBackground",
               "setBackground",
               "setBgm");
     this.model.entries.bind('add', this.addOne);
@@ -59,20 +60,7 @@ ChapterView = ecomakiView.extend({
     view.load();
   },
 
-  setBackground: function(){
-    if( (this.model.get('order_number') % 2) == 1 ){
-      $('#background_odd')[0].src = config.background_idtourl(this.model.get('background_image_id'));
-    }else{
-      $('#background_even')[0].src = config.background_idtourl(this.model.get('background_image_id'));
-    }
-  },
-
-  onDisplay: function(){
-    //console.log('isDisplayed');
-    console.log(this.model.get('order_number') % 2);
-
-    //$('#background')[0].src = config.background_idtourl(this.model.get('background_image_id'));
-    
+  showBackground: function(){
     if( (this.model.get('order_number') % 2) == 1) {
       $('#background_odd')[0].src = config.background_idtourl(this.model.get('background_image_id'));
       $('#background_odd').show('fade','slow');
@@ -82,6 +70,13 @@ ChapterView = ecomakiView.extend({
       $('#background_even').show('fade','slow');
       $('#background_odd').hide('fade','slow');
     }
+  },
+
+  onDisplay: function(){
+    //console.log('isDisplayed');
+    console.log(this.model.get('order_number') % 2);
+
+    this.showBackground();
 
     this.playMusicById(this.model.get('background_music_id')); 
     return this;
@@ -121,7 +116,7 @@ ChapterView = ecomakiView.extend({
       $('.description .text',this.el).html(this.model.get('description'));
 
       if(this.isDisplay) { 
-        $('#background')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+        this.showBackground();
         //this.playMusicById(this.model.get('chapter_sound_id'));
       }
 
@@ -185,7 +180,12 @@ ChapterView = ecomakiView.extend({
     console.log('change bg');
     this.model.set('background_image_id',id);
     this.model.save();
-    $('#background')[0].src = config.background_idtourl(id);
+    //$('#background')[0].src = config.background_idtourl(id);
+    if( (this.model.get('order_number') % 2) == 1 ){
+      $('#background_odd')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+    }else{
+      $('#background_even')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+    }
   },
 /*
   initBackgroundList: function(){
@@ -213,7 +213,7 @@ ChapterView = ecomakiView.extend({
 
   playMusicById: function(music_id) {
       //console.log(music_id);
-      if (music_id != null) {
+      if (music_id !== null) {
           //console.log(+music_id);
           window.musicPlayer.playURL(config.music_idtourl(music_id));
       } else {
