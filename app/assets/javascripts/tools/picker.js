@@ -196,7 +196,7 @@ $(function () {
   $('#character_upload').fileupload({
     dataType: 'json',
     done: function(e, data) {
-      alert('done');
+      alert('done char');
     },
     fail: function(e, data) {
       console.log(data);

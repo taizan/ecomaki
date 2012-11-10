@@ -15,3 +15,56 @@
 .init_form .control-group div{
   margin-bottom: 20px;
 }
+
+#top_menu{
+  padding-top: 20px;
+  position:relative;
+  margin-right:auto;
+  margin-left:auto;
+  width:1024px;
+}
+
+//Logo
+
+#top_pane{
+  padding-top: 20px;
+  position:relative;
+  margin-right:auto;
+  margin-left:auto;
+  width:1024px;
+  height:300px;
+}
+
+#logo{
+  width: 512px;
+  top:40px;
+  left: 10px;
+  position:absolute;
+}
+
+#side_logo{
+  margin-top:auto;
+  margin-bottom:auto;
+  height: 256px;
+  right: 16px;
+  position:absolute;
+  visibility:hidden;
+}
+
+#create_button{
+  cursor:pointer;
+  height: 256px;
+  width:256px;
+  display:block;
+  background-image: url(/assets/top/edit_button_joined.png);
+  
+  //bottom:0px;
+  margin-top:auto;
+  margin-bottom:auto;
+  right: 200px;
+  position:absolute;
+}
+
+#create_button:hover{
+  background-position: 0 256px;
+}

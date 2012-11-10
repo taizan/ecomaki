@@ -1,13 +1,22 @@
 <%= stylesheet_link_tag 'index' %>
 <%= javascript_include_tag 'index' %>
 
-<div class="top_menu">
+<div id="top_menu">
 
-  <div class="well">
-    Create New ecoMaki !!
-    <button id="create_button" title="新規作成！！"><img src="/assets/novel/brush.png"></button>
+  <h1>　web+マンガ＋アニメーション = 新しい創作のカタチ</h1>
 
+  <h2>　  キャラクター,背景,BGMなどの要素をwebで共有。作品作りを手軽に</h2>
+  <h2>　  コマの中でキャラクターを簡単にアニメーションさせる事が可能</h2>
+  <h2>　  公開された作品を改変してスピンオフを製作可能</h2>
+
+  <div id="top_pane" >
+    <img id="side_logo" src="/assets/top/top_hanko_catch.png"> 
+    <img id="logo" src="/assets/top/top_makimono_with_text.png"> 
+    <div id="create_button" title="新規作成！！"></div>
+     
   </div>
+
+
 
   <h1>List</h1>
 
@@ -20,23 +29,24 @@
       <% end %>
     </ul>
   </div>
+  
 </div>
 
 <script type="text/template" id="novel_form_template">
   <form class="init_form form-horizontal">
     
     <div class="control-group">
-      <label class="control-label" for="inputTitle">Title:</label>
+      <label class="control-label" for="inputTitle">タイトル:</label>
       <div class="controls">
         <input type="text" id="inputTitle" placeholder="title" name="novel[title]" >
       </div>
 
-      <label class="control-label" for="inputDescription">Description:</label>
+      <label class="control-label" for="inputDescription">説明:</label>
       <div class="controls">
         <input type="text" id="inputDescription" placeholder="description" name="novel[description]" >
       </div>
 
-      <label class="control-label" for="inputAuther">Auther:</label>
+      <label class="control-label" for="inputAuther">作者名:</label>
       <div class="controls">
         <input type="text" id="inputAuther" placeholder="auther" name="novel[author_name]" >
       </div>
