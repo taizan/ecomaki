@@ -286,12 +286,7 @@ EntryView = ecomakiView.extend({
     var currentIndex =  chapter.entries.indexOf(this.model);
     console.log( currentIndex);
     
-      var attributes = 
-      {
-        height: 320,
-        width: 640,
-        canvas_index: 1
-      };
+    var attributes = { height: 320, width: 640, canvas_index: 1 };
 
     chapter.entries.create_after(attributes, currentIndex);
   },

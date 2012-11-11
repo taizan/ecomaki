@@ -1,8 +1,10 @@
 var EntryBalloon = Backbone.Model.extend(
     {
 	initialize: function() {
-	    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id, entry_id: this.collection.entry_id()});
-	},
+      if(this.collection){
+	      this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id, entry_id: this.collection.entry_id()});
+	    }
+  },
 	url: function() {
 	    var novel = this.collection.entry.collection.chapter.collection.novel;
 	    var base;
@@ -23,8 +25,10 @@ var EntryBalloon = Backbone.Model.extend(
 var EntryCharacter = Backbone.Model.extend(
     {
 	initialize: function() {
-	    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id, entry_id: this.collection.entry_id()});
-	},
+      if(this.collection){
+	      this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id, entry_id: this.collection.entry_id()});
+	    }
+  },
 	url: function() {
 	    var novel = this.collection.entry.collection.chapter.collection.novel;
 	    var base;
