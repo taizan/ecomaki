@@ -4,7 +4,6 @@ zero:
   id: 0
   name: no name
   description: anonimous
-  auther: none
   
 one:
   id: 1
@@ -14,25 +13,21 @@ one:
   
 two:
   id: 2
-  name しづ姫
+  name: しづ姫
   description: とりかえばや絵小巻
-  author: ネコノミミコ
 
 three:
   id: 3
   name: 春の宮
   description: とりかえばや絵小巻
-  author: ネコノミミコ
 
 four:
   id: 4
   name: シノ宮
   description: とりかえばや絵小巻
-  author: ネコノミミコ
 
 five:
   id: 5
   name: 中将
   description: とりかえばや絵小巻
-  author: ネコノミミコ
 
