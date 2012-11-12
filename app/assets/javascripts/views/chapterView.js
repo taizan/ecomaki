@@ -90,67 +90,55 @@ ChapterView = ecomakiView.extend({
 
 
 
-  addEntry: function(e){
-    console.log("addEntry");
-    console.log(this);
+  addEntry: function(balloonParams,characterParams){
 
-    //this.addEntry1Character();
+    var entry = this.model.entries.create({ height: 320 , width:  640 , canvas_index: 1 },
+        { wait:true,
+          success: function(){
+              console.log("addEntry Success");
+              for(i = 0; i < balloonParams.length; i++ ) entry.balloons.create(balloonParams[i]);
 
-    this.model.create_entry({ height: 320 , width:  640 , canvas_index: 1 });
+              for(i = 0; i < characterParams.length; i++)  entry.characters.create(characterParams[i]);
+              entry.save();
+              entry.trigger('change');
+            }
+        });
+
   },
 
 
   addEntryWith1Character: function(){
-    console.log("addEntry");
-    var balloon = new EntryBalloon({
-            left: 0,top: 0, width: 100, height: 50 , z_index: 1 , content: 'やっほー' , border: ''
-    });
 
-    var character = new EntryCharacter({
-        left: 100,top: 10, width: 100, height: 200 , z_index: 1 , character_image_id: 2
-    });
+    this.addEntry( 
+        [
+          { left: 0,top: 0, width: 100, height: 50 , z_index: 1 , content: 'やっほー' },
+        ],
+        [
+          { left: 100,top: 10, width: 100, height: 200 , z_index: 1 , character_image_id: 2 },
+        ]
+    );
 
-    this.model.create_entry({
-        height: 320 , width:  640, canvas_index: 1,
-        entry_character: [character],
-        entry_balloon: [balloon],
-    });
   },
 
+
   addEntryWith2Character: function(){
-    console.log("addEntry");
-    var balloon1 = new EntryBalloon({
-            left: 0,top: 0, width: 100, height: 50 , z_index: 1 , content: 'やっほー' , border: ''
-    });
-    var balloon2 = new EntryBalloon({
-            left: 500,top: 50, width: 100, height: 50 , z_index: 1 , content: 'やっほー' , border: ''
-    });
-
-    var character1 = new EntryCharacter({
-        left: 100,top: 10, width: 100, height: 200 , z_index: 1 , character_image_id: 2
-    });
-    var character2 = new EntryCharacter({
-        left: 400,top: 10, width: 100, height: 200 , z_index: 1 , character_image_id: 3
-    });
-
-    this.model.create_entry({
-        height: 320 , width:  640, canvas_index: 1,
-        entry_character: [character1,character2],
-        entry_balloon: [balloon1,balloon2],
-    });
+    this.addEntry( 
+        [
+          { left: 0,top: 0, width: 100, height: 50 , z_index: 1 , content: 'やっほー' },
+          { left: 500,top: 50, width: 100, height: 50 , z_index: 1 , content: 'やっほー' } 
+        ],
+        [
+          { left: 100,top: 10, width: 100, height: 200 , z_index: 1 , character_image_id: 2 },
+          { left: 400,top: 10, width: 100, height: 200 , z_index: 1 , character_image_id: 3 }
+        ]
+    );
   },
 
   // add entry with no boder balloon
   addEntryWithBalloon: function(){
-    console.log("addEntry");
-    var balloon = new EntryBalloon({
-            left: 300,top: 100, width: 80, height: 50 , z_index: 1 , content: 'こんにちわ世界' , border: 'none'
-    });
-
-    this.model.create_entry({
-        height: 320 , width:  640, canvas_index: 1,
-        entry_balloon: [balloon],
-    });
+     this.addEntry(
+        [ {left: 300,top: 100, width: 80, height: 50 , z_index: 1 , content: 'こんにちわ世界' , border_style: 'none'} ],
+        []);
   },
 
   addChapter: function(e){
