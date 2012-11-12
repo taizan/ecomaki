@@ -85,7 +85,7 @@ class NovelsController < ApplicationController
     new_novel.password = generate_password
     new_novel.save
 
-    redirect_to :action => :edit, :id => novel.id, :password => novel.password
+    redirect_to :action => :edit, :id => new_novel.id, :password => new_novel.password
   end
 
   private
