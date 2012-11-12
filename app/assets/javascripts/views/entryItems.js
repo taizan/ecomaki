@@ -167,6 +167,7 @@ BaloonItem = EntryItem.extend({
     this.target = $(this.el);
     this.effecter = new Effecter(this.target,this.item,'option');
     this.fontSelecter = new FontSelecter(this.target,this.item);
+		this.textMenu = new TextEditMenu(this.target, this.item);
 
     this.$el.children().width(this.item.get('width')).height(this.item.get('height'));
 
@@ -188,10 +189,13 @@ BaloonItem = EntryItem.extend({
 
       $(this.el).click(this.editText);
       $(this.el).click(this.fontSelecter.changeSelecter);
+			var self = this;
+      $(this.el).click((function(){self.textMenu.changeSelecter(self.target)}));
       this.setButton();
     }
     this.effecter.resetEffect(); 
-    this.fontSelecter.applyFont();
+    //this.fontSelecter.applyFont();
+    this.textMenu.applyFont();
   },
 
   editText: function(){
