@@ -5,4 +5,8 @@ class Chapter < ActiveRecord::Base
   has_many :entry
   has_one :background_music
   has_one :background_image
+
+  amoeba do
+    include_field [:entry]
+  end
 end
