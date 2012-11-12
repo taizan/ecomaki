@@ -4,6 +4,7 @@ gem 'rails', '3.2.5'
 gem 'sqlite3'
 gem 'jquery-rails'
 gem 'rmagick'
+gem 'amoeba', "~> 1.2.1"
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
