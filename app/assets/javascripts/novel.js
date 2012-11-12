@@ -11,6 +11,7 @@
 //= require ./views/musicPlayer
 //= require ./views/textEdit
 //= require ./tools/toolMenu
+//= require ./views/textEditTool
 //= require ./tools/picker
 //= require ./tools/effecter
 //= require ./tools/console
