@@ -7,4 +7,8 @@ class Novel < ActiveRecord::Base
   has_many :novel_tag
   has_many :tag, :through => :novel_tag
   has_many :novel_history
+
+  amoeba do
+    include_field [:chapter]
+  end
 end
