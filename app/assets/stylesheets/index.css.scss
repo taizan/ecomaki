@@ -68,3 +68,20 @@
 #create_button:hover{
   background-position: 0 256px;
 }
+
+
+// Novel List
+
+.novel_list_item{
+  border: 1px solid gray;
+  margin: 2px;
+  max-height: 100px; 
+}
+
+.novel_list_item:hover{
+  background: gray;
+}
+
+.novel_list_item h2 , .novel_list_item p{
+  margin: 10px;
+}
