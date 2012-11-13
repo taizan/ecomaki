@@ -20,14 +20,20 @@
 
   <h1>List</h1>
 
-  <div class="well">
-    <ul>
+  <div class=" novel_list">
       <% @novels.each do |novel| %>
-        <li>
-          <%= link_to "#{novel.id},#{novel.created_at} , #{novel.title}", {:controller => :novels, :action => :show, :id => novel.id },{:title => "#{novel.description}"} %>
-        </li>
+         <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
+        <div class='span4 novel_list_item'>
+          <h2>
+            <%= "#{novel.title}" %>
+          </h2>
+          <p>
+            <%= "#{novel.description}" %>
+          </p>
+
+        </div >
+        <% end %>
       <% end %>
-    </ul>
   </div>
   
 </div>
