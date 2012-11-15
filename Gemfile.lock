@@ -28,6 +28,8 @@ GEM
     activesupport (3.2.5)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    amoeba (1.2.1)
+      activerecord (>= 3.0)
     arel (3.0.2)
     builder (3.0.4)
     coderay (1.0.8)
@@ -89,7 +91,7 @@ GEM
     rdoc (3.12)
       json (~> 1.4)
     rmagick (2.13.1)
-    sass (3.2.2)
+    sass (3.2.3)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -114,6 +116,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  amoeba (~> 1.2.1)
   coffee-rails (~> 3.2.1)
   jquery-rails
   jshint_on_rails

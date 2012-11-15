@@ -27,31 +27,3 @@
   border: 1px gray ridge;
   overflow: hidden;
 }
-
-canvas {
-    z-index: 0;
-}
-
-.paint{
-  cursor: crosshair;
-}
-
-.entry .hide_buttons {
-  background-color: #eef;
-  position: absolute;
-  //float: right;
-  list-style:none;
-  //  left: 800px;
-  top: 0px;
-}
-
-
-.entry .hide_buttons button{
-  height: 40px;
-  width: 40px
-}
-
-.entry .hide_buttons button img{
-  height: 100%;
-  width: 100%;
-}

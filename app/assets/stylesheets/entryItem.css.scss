@@ -6,10 +6,9 @@
   top: 0px;
 }
 
-.baloon {
+.balloon {
   position: absolute;
   background-color: #fff;
-  cursor: pointer;
   border-radius: 20px;         /* CSS3 */
    -moz-border-radius: 20px;    /* Firefox */
    -webkit-border-radius: 20px; /* Safari,Chrome */
@@ -18,45 +17,21 @@
    //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
 }
 
-.sticky{
-  position: absolute;
 
-  background-color: #fff;
-  cursor: pointer;
-  border-radius: 20px;         /* CSS3 */
-   -moz-border-radius: 20px;    /* Firefox */
-   -webkit-border-radius: 20px; /* Safari,Chrome */
-
-
-   border: 1px black solid;
-   //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
-}
-
-.sticky .text{
+.balloon .text{
   display: table-cell;
   vertical-align: middle;
 
 }
 
-* html .sticky .text {/* IE 6 */
-display:inline;
-zoom:1;
-}
-
-*:first-child+html .sticky .text{/* IE 7 */
-display:inline;
-zoom:1;
-}
-
 .item_image{
 	height: 100%;
 	width: 100%;
-  cursor: pointer;
 }
 
-.sticky textarea{
-text-align: center;
-vertical-align: middle;
+.balloon textarea{
+  text-align: center;
+  vertical-align: middle;
 }
 
 

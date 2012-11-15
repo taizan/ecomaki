@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <%= stylesheet_link_tag 'layout' %>
 
+
+
 <html>
   <script type="text/javascript"> if (!window.console) console = {log: function() {}}; </script>
   <head>
     <meta charset="UTF-8">
-    <title>Ecomaki</title>
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
 
+  <title><%= (html_title = yield :html_title) ? html_title : '' %> # ecomaki.com</title>
+
+  <meta name="description" content="<%= (html_description = yield :html_description) ? html_description : 'online web comic tool.' %>">
+  
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -22,19 +27,62 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="/"> ecoMaki</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <!-- <li style="disPlay: none" id="copy_edit"><a >Copy&Edit</a></li> 
-              <li style="display: none" id="preview_nav" ><a >Preview</a></li> -->
-              <li><a href="#contact">Help</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+
+            <div class="ninja_onebutton">
+              <script type="text/javascript">
+                //<![CDATA[
+                (function(d){
+                  if(typeof(window.NINJA_CO_JP_ONETAG_BUTTON_0c9bdfb50d798ac42a984ea8d7efd557)=='undefined'){
+                    document.write("<sc"+"ript type='text\/javascript' src='http:\/\/omt.shinobi.jp\/b\/0c9bdfb50d798ac42a984ea8d7efd557'><\/sc"+"ript>");
+                  }else{
+                    window.NINJA_CO_JP_ONETAG_BUTTON_0c9bdfb50d798ac42a984ea8d7efd557.ONETAGButton_Load();}
+                  })(document);
+                //]]>
+              </script><span class="ninja_onebutton_hidden" style="display:none;"></span><span style="display:none;" class="ninja_onebutton_hidden"></span>
+            </div>
         </div>
       </div>
     </div>
-
-
+        <!--
+            <ul class="nav">
+              <li><a href="#contact">Help</a></li>
+              <li><div id="bookmarks"></div></li>   
+              <li><a href="https://twitter.com/share" class="twitter-share-button"  data-lang="ja">tweet</a>
+              <li><div class="fb-like" data-send="true" data-layout="button_count" data-width="200" data-show-faces="true"></div></li>
+              <li><div class="g-plusone" data-size="tall" data-annotation="none"></div></li>
+              <li><a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a></li>
+            </ul>
+         -->
     <%= yield %>
 
   </body>
+
+<!-- twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<!-- facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+<script type="text/javascript">
+  window.___gcfg = {lang: 'ja'};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+
 </html>
+
+
+

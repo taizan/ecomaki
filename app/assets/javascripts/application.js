@@ -21,3 +21,4 @@
 //= require jquery.autosize
 //= require jquery.autosize-min
 //= require imageselect
+//= require layout 

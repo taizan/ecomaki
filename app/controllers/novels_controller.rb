@@ -68,17 +68,24 @@ class NovelsController < ApplicationController
   end
 
   def create
-    # Generate random string
-    charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    password = Array.new(16) { charset[rand(charset.size)] }.join
 
     # Set as an initial password.
     params[:novel] ||= {}
-    params[:novel][:password] = password
+    params[:novel][:password] = generate_password
 
     # Create on DB.
     @novel = Novel.create(params[:novel])
     redirect_to :action => :edit, :id => @novel.id, :password => @novel.password
+  end
+
+  def novel_dup
+    novel = Novel.find(params[:id]) or redirect_to root_path
+    new_novel = novel.dup
+
+    new_novel.password = generate_password
+    new_novel.save
+
+    redirect_to :action => :edit, :id => new_novel.id, :password => new_novel.password
   end
 
   private
@@ -86,4 +93,11 @@ class NovelsController < ApplicationController
   def require_novel
     @novel = Novel.find(params[:id]) or redirect_to root_path
   end
+
+  def generate_password
+    # Generate random string
+    charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    password = Array.new(16) { charset[rand(charset.size)] }.join
+  end
+
 end
