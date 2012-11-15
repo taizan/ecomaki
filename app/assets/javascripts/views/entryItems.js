@@ -112,8 +112,7 @@ EntryItem.prototype = {
   setButton: function(){
     var target = this.target;
     var _self = this;
-    var body = '<i class="icon-remove-sign item-button item-remove" />';
-    var button = $(body);
+    var button = $('<i class="icon-remove-sign item-button item-remove" title="削除; remove" />');
     button.appendTo(target);
     button.hide();
 
@@ -154,8 +153,8 @@ EntryItem.prototype = {
 };
 
 
-BaloonItem = EntryItem.extend({
-  tmpl : '<div class="item baloon item-resizable item-draggable sticky"><div class="text"></div></div>',
+BalloonItem = EntryItem.extend({
+  tmpl : '<div class="item balloon item-resizable item-draggable sticky" ><div class="text"></div></div>',
 
   initialize: function(){
     _.bindAll(this,"editText","saveText");
@@ -191,7 +190,10 @@ BaloonItem = EntryItem.extend({
       $(this.el).click(this.fontSelecter.changeSelecter);
 			var self = this;
       $(this.el).click((function(){self.textMenu.changeSelecter(self.target)}));
+      
       this.setButton();
+      $(this.el).attr({title:"クリックで編集; click to edit"});
+      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
     }
     this.effecter.resetEffect(); 
     //this.fontSelecter.applyFont();
@@ -242,6 +244,8 @@ ImageItem = EntryItem.extend({
       });
       this.setButton();
       this.showOutLine();
+      $(this.el).attr({title:"クリックで画像選択; click to select image"});
+      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
     }else{
       this.target = $(this.el);
       this.effecter = new Effecter(this.target,this.item,'option');

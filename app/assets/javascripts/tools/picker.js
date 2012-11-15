@@ -123,7 +123,7 @@ Picker.prototype = {
 
   setTextItem: function(id,text,name){
     var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><p>' + name + '</p></li>');
-    item.appendTo($('#picker_list')).tooltip();
+    item.appendTo($('#picker_list'));
 
     item.click(function(){
         if(Picker.prototype.selectedCallback){
@@ -164,6 +164,7 @@ Picker.prototype = {
   },
 
   showMusicList: function(func){
+    Picker.prototype.setTextItem('null','音楽なし','No BGM');
     Picker.prototype.setList("/background_musics.xml" , Picker.prototype.parseMusicXml,func );
     $('.upload_button').hide();
     $('#music_upload_button').show();

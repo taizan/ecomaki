@@ -27,9 +27,13 @@ Ecomaki::Application.routes.draw do
   match 'novels/:novel_id/chapters/:id' => 'chapters#show', :via => :get
   match 'edit/:novel_id/:password/chapters' => 'chapters#create', :via => :post
   match 'edit/:novel_id/:password/chapters/:id' => 'chapters#update', :via => :put
+  match 'edit/:novel_id/:password/chapters/:id' => 'chapters#show', :via => :get
   match 'edit/:novel_id/:password/chapters/:id' => 'chapters#destroy', :via => :delete
 
   # Novels
+  # Clone mode
+  match 'novels/:id/dup' => 'novels#novel_dup', :via => :post
+
   match 'novels' => 'novels#index', :via => :get
   match 'novel/:id' => 'novels#show', :via => :get # Old
   match 'novels/:id' => 'novels#show', :via => :get
@@ -62,4 +66,5 @@ Ecomaki::Application.routes.draw do
 
   # Edit mode
   match 'edit/:id/:password' => 'novels#edit', :via => :get
+
 end

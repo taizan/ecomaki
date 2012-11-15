@@ -8,6 +8,10 @@ class Entry < ActiveRecord::Base
   has_many :entry_balloon
   after_save :save_canvas
 
+  amoeba do
+    include_field [:entry_character, :entry_balloon]
+  end
+
   def save_canvas
     File.open(canvas_path, 'wb') do |file|
       file.write(@canvas)

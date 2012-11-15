@@ -21,7 +21,7 @@
   position:relative;
   margin-right:auto;
   margin-left:auto;
-  width:1024px;
+  width:980px;
 }
 
 //Logo
@@ -36,10 +36,11 @@
 }
 
 #logo{
-  width: 512px;
-  top:40px;
+  width: 380px;
+  top:0px;
   left: 10px;
-  position:absolute;
+  //position:absolute;
+  position: relative;
 }
 
 #side_logo{
@@ -59,12 +60,38 @@
   background-image: url(/assets/top/edit_button_joined.png);
   
   //bottom:0px;
-  margin-top:auto;
-  margin-bottom:auto;
-  right: 200px;
-  position:absolute;
+  //margin-top:auto;
+  //margin-bottom:auto;
+  //right: 200px;
+  //position:absolute;
+  position: relative;
+  margin-left: 80px;
 }
 
 #create_button:hover{
   background-position: 0 256px;
+}
+
+#top_hedder{
+  position: absolute;
+  left: 400px;
+  top: 50px;
+}
+
+
+// Novel List
+
+.novel_list_item{
+  border: 1px solid gray;
+  margin: 2px;
+  max-height: 100px; 
+  overflow: hidden;
+}
+
+.novel_list_item:hover{
+  background: gray;
+}
+
+.novel_list_item h2 , .novel_list_item p{
+  margin: 10px;
 }

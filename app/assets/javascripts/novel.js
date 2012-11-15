@@ -21,9 +21,13 @@
 
 $(function() {
   
-  var isEditable = setMode();
+  var params = $('.novel_container').attr('id').split('/');
+  var id = params[1];
+  var mode = params[0];
 
-  initializeView(isEditable);
+  var isEditable = (mode == 'edit');
+
+  initializeView(id,isEditable);
 
   if(isEditable) initializeTool(isEditable);
 
@@ -33,20 +37,13 @@ $(function() {
 function setMode(){
     //http://ecomaki.com/novel/1
     //http://ecomaki.com/edit/1/[hash]
-    var urls = location.href.split('/');
-console.log(urls);    
-    var mode = urls[3];
-    var id = urls[4];
-    var password = urls.length > 5 ? urls[5] : null;
-
-    // Global novel model.
-    novel = new Novel({id: id, password: password});
-
-    var isEditable = (mode == 'edit');
-    return isEditable;
+    //var urls = location.href.split('/');
+    //var mode = urls[3];
+    //var id = urls[4];
 }
 
-function initializeView(isEditable){
+function initializeView(id,isEditable){
+  novel = new Novel({id: id});
   novelView = new NovelView({model: novel , isEditable: isEditable});
   novelView.appendTo($('#content'));
 

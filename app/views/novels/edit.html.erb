@@ -2,13 +2,17 @@
 <%= stylesheet_link_tag 'chapter' %>
 <%= stylesheet_link_tag 'entry' %>
 <%= stylesheet_link_tag 'entryItem' %>
+<%= stylesheet_link_tag 'editerItem' %>
 
 <%= javascript_include_tag 'novel' %>
+
+<% content_for :html_title, @novel.title %>
+<% content_for :html_description, @novel.description %>
 
 <img id="background_odd" class="background" src="/assets/0.png" />
 <img id="background_even" class="background" src="/assets/0.png" />
 
-<div id="novel_container">
+<div class="novel_container" id="edit/<%= @novel.id%>">
 
   <button id="preview" title="Preview"><img src="/assets/novel/preview.png"></button>
 
@@ -29,7 +33,7 @@
         </ul>
       </div>
       <div id="upload_tab">
-        <ul id = "picker_upload" class = "nav nav-list">
+        <ul id = "picker_upload" class = "nav nav-list" style="display:none" >
           <li class="nav-header">character File Upload</li>
           <input id="character_upload" type="file" name="image" data-url="/characters/0/images" multiple>
 
@@ -39,13 +43,13 @@
           <li class="nav-header">Background File Upload</li>
           <input id="background_upload" type="file" name="image" data-url="/background_images" multiple>
         </ul>
-        <button class="btn upload_button" id ="character_upload_button">UPLOAD</button>
-        <button class="btn upload_button" id ="background_upload_button">UPLOAD</button>
-        <button class="btn upload_button" id ="music_upload_button">UPLOAD</button>
+        <button class="btn upload_button" id ="character_upload_button"><img src="/assets/novel/upload.png" ></button>
+        <button class="btn upload_button" id ="background_upload_button"><img src="/assets/novel/upload.png" ></button>
+        <button class="btn upload_button" id ="music_upload_button"><img src="/assets/novel/upload.png" ></button>
     </div>
 
     
-      <button class="btn" id ="picker_cancel_button">cancel</button></li>
+      <button class="btn" id ="picker_cancel_button"><img src="/assets/novel/remove.png" ></button></li>
   </aside>
 
   <!-- Main content container  -->
