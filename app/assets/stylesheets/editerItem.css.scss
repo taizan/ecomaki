@@ -12,11 +12,6 @@
 
 
 .title .text_help {
-    font-size: 12px; 
-    line-height: 1.5em;
-    //background: #eee;
-    font-color: #444;
-    margin: 1px;
     cursor:pointer;
 }
 
@@ -28,11 +23,6 @@
 }
 
 .description .text_help {
-    font-size: 12px; 
-    line-height: 1.5em;
-    //background: #ddd;
-    font-color: #333;
-    margin: 1px;
     cursor:pointer;
 }
 
@@ -51,6 +41,7 @@
   background: #eee;
 }
 
+// for side button
 
 #preview {
   font-size: 20;
@@ -110,6 +101,10 @@ hr {
 }
 
 // entnryItem
+
+.item {
+  cursor:pointer;
+}
 
 .item-button {
   position: absolute;
