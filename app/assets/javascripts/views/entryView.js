@@ -13,9 +13,9 @@ EntryView = ecomakiView.extend({
         "onCanvasClick",
         "applySize",
         "onResize",
-        "addBaloon",
+        "addBalloon",
         "addPicture",
-        "addDefaultBaloon",
+        "addDefaultBalloon",
         "addDefaultPicture",
         "remove",
         "addEntry",
@@ -124,7 +124,7 @@ EntryView = ecomakiView.extend({
 
       }
 
-      _(this.model.balloons.models).each( function(item){ initItemView(item, BaloonItem); } );
+      _(this.model.balloons.models).each( function(item){ initItemView(item, BalloonItem); } );
 
       _(this.model.characters.models).each( function(item){ initItemView(item ,ImageItem ); } );
 
@@ -159,7 +159,7 @@ EntryView = ecomakiView.extend({
   events: {
     "click" : "onViewClick" ,
     "dblclick" : "dblclick",
-    "click .--btn-baloon": "addDefaultBaloon",
+    "click .--btn-balloon": "addDefaultBalloon",
     "click .--btn-picture": "addDefaultPicture",
     "click .--btn-remove": "remove",
     "click .--btn-entry": "addEntry",
@@ -227,8 +227,8 @@ EntryView = ecomakiView.extend({
     ///this.model.save();
   },
 
-  addBaloon: function( str ){
-    console.log("addBaloon");
+  addBalloon: function( str ){
+    console.log("addBalloon");
     this.model.balloons.create(
       {
         left: 0,top: 0, width: 100, height: 50 ,
@@ -264,8 +264,8 @@ EntryView = ecomakiView.extend({
   },
 
 
-  addDefaultBaloon: function(e){
-    this.addBaloon('dbl click here');
+  addDefaultBalloon: function(e){
+    this.addBalloon('dbl click here');
   },
 
   addDefaultPicture: function(e){
