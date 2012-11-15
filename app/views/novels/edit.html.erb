@@ -2,13 +2,17 @@
 <%= stylesheet_link_tag 'chapter' %>
 <%= stylesheet_link_tag 'entry' %>
 <%= stylesheet_link_tag 'entryItem' %>
+<%= stylesheet_link_tag 'editerItem' %>
 
 <%= javascript_include_tag 'novel' %>
+
+<% content_for :html_title, @novel.title %>
+<% content_for :html_description, @novel.description %>
 
 <img id="background_odd" class="background" src="/assets/0.png" />
 <img id="background_even" class="background" src="/assets/0.png" />
 
-<div id="novel_container">
+<div class="novel_container" id="edit/<%= @novel.id%>">
 
   <button id="preview" title="Preview"><img src="/assets/novel/preview.png"></button>
 

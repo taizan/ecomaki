@@ -6,7 +6,7 @@ body{
   padding-top: 120px;
 }
 
-#novel_container {
+.novel_container {
     margin-left: auto;
     margin-right: auto;
     
@@ -149,6 +149,8 @@ body{
   z-index: 999;
 }
 
+//Side Button
+
 .side_buttons {
   list-style:none;
   position: fixed;
@@ -157,10 +159,26 @@ body{
   z-index: 999;
 }
 
-.side_buttons button {
+.side_buttons input {
   width: 100px;
   height:100px;
 }
+
+
+.clone_button{
+  cursor:pointer;
+  height: 256px;
+  width:256px;
+  display:block;
+  background-image: url(/assets/top/edit_button_joined.png);
+}
+
+.clone_button:hover{
+  background-position: 0 256px;
+}
+
+
+// tool tip
 
 .ui-tooltip {
   z-index: 999999;
