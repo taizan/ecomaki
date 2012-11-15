@@ -1,3 +1,4 @@
+<head>
 <%= stylesheet_link_tag 'novel' %>
 <%= stylesheet_link_tag 'chapter' %>
 <%= stylesheet_link_tag 'entry' %>
@@ -5,31 +6,27 @@
 
 <%= javascript_include_tag 'novel' %>
 
+<% content_for :html_title, @novel.title %>
+<% content_for :html_description, @novel.description %>
+</head>
+
 <img id="background_odd" class="background" src="/assets/0.png" />
 <img id="background_even" class="background" src="/assets/0.png" />
 
-<div id="novel_container">
 
-  <div id="content" >
-  </div>
+<div class="novel_container" id="novel/<%= @novel.id%>">
+
+  <div id="content"> </div>
+
+
   <ul class="side_buttons">
     <li>
-      <button calss="side_button" id="twitter" title="Tweet">
-        <img src="/assets/novel/twitter.png">
-      </button>
-    </li>
-    <li>
-      <button calss="side_button" id="facebook" title="comment on Facebook">
-        <img src="/assets/novel/facebook.png">
-      </button>
-    </li>
-    <li>
       <form action="/novels/<%= @novel.id%>/dup" method="post">
-      <button type="submit"  calss="side_button" id="spine_off" title="コピーしてスピンオフを作る。; Make Spin off">
-        <img src="/assets/novel/brush.png">
-      </button>
+      <input type="image" src="/assets/top/edit_button.png" value='submit' id="spine_off"  title="コピーしてスピンオフを作る。; Make Spin off">
+      </input>
       </form>
     </li>
+  </ul>
 </div>
 
 <%= render :partial => "novels/template" %> 

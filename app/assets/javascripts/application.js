@@ -20,3 +20,4 @@
 //= require jquery.fileupload
 //= require jquery.autosize
 //= require jquery.autosize-min
+//= require layout 
