@@ -280,6 +280,8 @@ ImageItem = EntryItem.extend({
 
     this.item.set('width' , img.width);
     this.item.set('height' , img.height);
+
+    this.item.save();
   }
 
 });

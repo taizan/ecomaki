@@ -1,4 +1,38 @@
 
+<script type="text/template" id="picker_template">
+  <!-- picker menu  -->
+  <aside class = "well sidebar-nav" id="picker">
+      <ul>
+        <li><a href="#list_tab"><i class="icon-user"></i>LIST</a></li>
+        <li><a href="#upload_tab"><i class="icon-upload"></i>UPLOAD</a></li>
+      </ul>
+      <div id="list_tab">
+        <ul id = "picker_list" class = "nav nav-list">
+          <li class="nav-header">Selecct Image from Libraly</li>
+        </ul>
+      </div>
+      <div id="upload_tab">
+        <ul id = "picker_upload" class = "nav nav-list" style="display:none" >
+          <li class="nav-header">character File Upload</li>
+          <input id="character_upload" type="file" name="image" data-url="/characters/0/images" multiple>
+
+          <li class="nav-header">Music File Upload</li>
+          <input id="music_upload" type="file" name="music" data-url="/background_musics" multiple>
+      
+          <li class="nav-header">Background File Upload</li>
+          <input id="background_upload" type="file" name="image" data-url="/background_images" multiple>
+        </ul>
+        <button class="btn upload_button" id ="character_upload_button"><img src="/assets/novel/upload.png" ></button>
+        <button class="btn upload_button" id ="background_upload_button"><img src="/assets/novel/upload.png" ></button>
+        <button class="btn upload_button" id ="music_upload_button"><img src="/assets/novel/upload.png" ></button>
+    </div>
+
+    
+      <button class="btn" id ="picker_cancel_button"><img src="/assets/novel/remove.png" ></button></li>
+  </aside>
+</script>
+
+
 <script type="text/template" id="chapter_handle_template">
   <div class="chapter_handle">
     <div class="chpter_handle_list"></div>
