@@ -146,7 +146,7 @@ TextEdit.prototype = {
 
       focusedText.blur(
         function(ev) {
-          if($(ev.target).hasClass('text_menu') !== false ){
+          if($(ev.target).hasClass('text_menu') === false ){
             var txt = $(this).val();
             $('.text',target).text(txt);
             txt = $('.text',target).html().split('\n').join('<br>') ;
