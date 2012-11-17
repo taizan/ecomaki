@@ -57,7 +57,7 @@ TextEditMenu.prototype = {
     var selecterTemplate =  $("#text_menu_template").html();
     this.selecter = $(selecterTemplate);
     $(this.selecter).appendTo(target);
-    $('#font_size_radio').buttonset();
+    $('.font_size_radio').buttonset();
      
     if(this.item.get('font_size')) 
 		  $('.fontSizes option[value="'+this.item.get('font_size')+'"]',this.selecter).prop('selected',true);
@@ -89,6 +89,10 @@ TextEditMenu.prototype = {
       $('.borderRadiuses option[value="'+this.item.get('border_radius')+'"]',this.selecter).prop('selected',true);
 
 		$('.borderRadiuses', this.selecter).ImageSelect({width:'20px', backgroundColor:'transparent'});
+   
+		$('.borderTypes', this.selecter).ImageSelect({height:'20px', width:'50px'});
+
+		$('.fontBackgroundColors', this.selecter).ImageSelect({width:'16px',height:'16px'});
 
 		var _self = this;
     $('.fontSizes',this.selecter).change( _self.setFont );
