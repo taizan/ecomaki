@@ -9,9 +9,9 @@
 //= require ./views/chapterView
 //= require ./views/novelView
 //= require ./views/musicPlayer
-//= require ./views/textEdit
+//= require ./tools/textEdit
 //= require ./tools/toolMenu
-//= require ./views/textEditTool
+//= require ./tools/textEditTool
 //= require ./tools/picker
 //= require ./tools/effecter
 //= require ./tools/console
@@ -58,7 +58,7 @@ function initializeView(id,pass,isEditable){
   $('#side_menu').hide();
 
   $(document).tooltip();
-  $(document).click(onDocumentClick);
+  $('#static_body').bind('mousedown',onStaticBodyClick);
 }
 
 function initializeTool(isEditable){
@@ -82,12 +82,9 @@ function initializeTool(isEditable){
     });
 }
 
-function onDocumentClick(ev){
-  // this kind of selection is should be in blur itself not here
-  //if( !$(ev.target).is('.sticky') && !$(ev.target).is('textarea') && !$(ev.target).is('.text')){
-  //$('textarea').blur();
+function onStaticBodyClick(ev){
+  //console.log(ev);
+  TextEditMenu.prototype.onBlur(ev);
   TextEdit.prototype.onBlur(ev);
-  //Picker.prototype.onBlur(ev);
-  //if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
   Picker.prototype.onBlur(ev);
 }

@@ -157,7 +157,7 @@ BalloonItem = EntryItem.extend({
   tmpl : '<div class="item balloon item-resizable item-draggable sticky" ><div class="text"></div></div>',
 
   initialize: function(){
-    _.bindAll(this,"editText","saveText");
+    _.bindAll(this,"saveText");
     $('.text',this.el).html(this.item.get('content'));
   },
 
@@ -165,7 +165,7 @@ BalloonItem = EntryItem.extend({
     //console.log(this.el);
     this.target = $(this.el);
     this.effecter = new Effecter(this.target,this.item,'option');
-    this.fontSelecter = new FontSelecter(this.target,this.item);
+    //this.fontSelecter = new FontSelecter(this.target,this.item);
 		this.textMenu = new TextEditMenu(this.target, this.item);
 
     this.$el.children().width(this.item.get('width')).height(this.item.get('height'));
@@ -186,10 +186,13 @@ BalloonItem = EntryItem.extend({
         autoHide: true
       });
 
-      $(this.el).click(this.editText);
-      $(this.el).click(this.fontSelecter.changeSelecter);
+      //$(this.el).click(this.editText);
+      //$(this.el).click(this.fontSelecter.changeSelecter);
 			var self = this;
-      $(this.el).click((function(){self.textMenu.changeSelecter(self.target)}));
+      $(this.el).click((function(){
+        editableTextarea(self.el,self.saveText);
+        self.textMenu.changeSelecter(self.target)
+        }));
       
       this.setButton();
       $(this.el).attr({title:"クリックで編集; click to edit"});
@@ -200,9 +203,6 @@ BalloonItem = EntryItem.extend({
     this.textMenu.applyFont();
   },
 
-  editText: function(){
-    editableTextarea(this.el,this.saveText);
-  },
 
   saveText: function(txt){
     this.item.set('content',txt);

@@ -157,7 +157,7 @@ EntryView = ecomakiView.extend({
   },
 
   events: {
-    "click" : "onViewClick" ,
+    //"click" : "onViewClick" ,
     "dblclick" : "dblclick",
     "click .--btn-balloon": "addDefaultBalloon",
     "click .--btn-picture": "addDefaultPicture",
@@ -201,12 +201,10 @@ EntryView = ecomakiView.extend({
     //this.onViewClick({target: 'canvas'});
     this.isDrawDown = true;
 
-    $('#toolbox .font_selecter').remove();
-    $('#textMenu .text_menu').remove();
     this.effecter.changeSelecter();
     
-    $('textarea').blur();
-    Picker.prototype.onBlur({target: 'canvas'});
+    //this.onViewClick({target: 'canvas'})
+    $('#static_body').mousedown();
   },
 
 
