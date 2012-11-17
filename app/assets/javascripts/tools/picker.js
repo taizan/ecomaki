@@ -7,11 +7,15 @@ Picker.prototype = {
 
   selectedCallback: null,
 
-  visible : false,
+  visible: false,
+  isApeended: false,
 
   initialize: function(){
+    var pickerTemplate = $('#picker_template').html();
+    $(pickerTemplate).appendTo('body');
+
     $('#picker').blur(Picker.prototype.onBlur);
-    $('#picker').click(function(ev){ alert();ev.stopPropagation(); });
+    //$('#picker').click(function(ev){ ev.stopPropagation(); });
     $("#picker").hide();
     $("#picker").tabs();
     $('#picker_cancel_button').click(Picker.prototype.finish);
@@ -28,8 +32,6 @@ Picker.prototype = {
       if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
         Picker.prototype.finish();
       }
-    }else {
-      Picker.prototype.isBlurable = true;
     }
   },
 
@@ -177,7 +179,7 @@ Picker.prototype = {
       //$(document).tooltip();
       $('#picker').show('drop','fast');
       Picker.prototype.visible = true;
-    Picker.prototype.isBlurable = true;
+      Picker.prototype.isBlurable = true;
     }
   },
 
