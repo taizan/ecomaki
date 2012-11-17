@@ -45,10 +45,17 @@
 
 #preview {
   font-size: 20;
-   position: fixed;
-   right: 0px;
-   top:40px;
-   z-index: 99999;
+  position: fixed;
+  right: 0px;
+  top:40px;
+  width: 80px;
+  height: 80px;
+  z-index: 99999;
+}
+
+#preview img{
+  height: 60px;
+  width: 60px;
 }
 
 
@@ -61,16 +68,6 @@
   min-width: 128px;
 }
 
-
-
-.background_icon:hover{
-  background: green;
-}
-
-.music_icon:hover{
-  background: blue;
-}
-
 .top_control{
   position: absolute;
   right: 2px;
@@ -78,8 +75,8 @@
 }
 
 .top_control .icon{
-  height: 32px;
-  width: 32px;
+  height: 60px;
+  width: 64px;
   cursor:pointer;
 }
 
