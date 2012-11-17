@@ -155,6 +155,7 @@ TextEdit.prototype = {
           callback( txt);
 
           $(this).remove();
+          $('.text_menu').remove();
           TextEdit.prototype.isAppended = false;
       });
     }
