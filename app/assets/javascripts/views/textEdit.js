@@ -145,19 +145,21 @@ TextEdit.prototype = {
           .val(text);
 
       focusedText.blur(
-        function() {
-         var txt = $(this).val();
-         $('.text',target).text(txt);
-         txt = $('.text',target).html().split('\n').join('<br>') ;
-         console.log(txt);
-          $('.text',target).html(txt);
+        function(ev) {
+          if($(ev.target).hasClass('text_menu') !== false ){
+            var txt = $(this).val();
+            $('.text',target).text(txt);
+            txt = $('.text',target).html().split('\n').join('<br>') ;
+            console.log(txt);
+            $('.text',target).html(txt);
 
-          callback( txt);
+            callback( txt);
 
-          $(this).remove();
-          $('.text_menu').remove();
-          TextEdit.prototype.isAppended = false;
-      });
+            $(this).remove();
+            $('.text_menu').remove();
+            TextEdit.prototype.isAppended = false;
+          }
+        });
     }
   }, 
   
