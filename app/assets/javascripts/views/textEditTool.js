@@ -1,3 +1,5 @@
+//=require imageselect
+
 function TextEditMenu(target,item){
   this.target = target;	
   this.item = item;
@@ -51,32 +53,38 @@ TextEditMenu.prototype = {
   },
               
   appendTextEditMenuTo: function(target){    
+		var self = this;
     var selecterTemplate =  $("#text_menu_template").html();
     this.selecter = $(selecterTemplate);
     $(this.selecter).appendTo(target);
-
+    $('#font_size_radio').buttonset();
+     
     if(this.item.get('font_size')) 
 		  $('.fontSizes option[value="'+this.item.get('font_size')+'"]',this.selecter).prop('selected',true);
 		//if(this.item.get('font_color'))
       //$('.fontColors option[value="'+this.item.get('font_color')+'"]',this.selecter).prop('selected',true);
 			//console.warn(this.item.get('font_color'));
-			var self = this;
-			$('.fontColors', this.selecter).wColorPicker({
-				mode:'click',
-				initColor: this.item.get('font_color') || '#000000',
-				buttonSize: '10px',
-				onSelect: function(color){
-					self.item.set('font_color', color);
-    			self.item.save();
-					self.applyFont();
-				}
-			});
+
+		$('.fontColors', this.selecter).wColorPicker({
+			mode:'click',
+			initColor: this.item.get('font_color') || '#000000',
+			buttonSize: '10px',
+			onSelect: function(color){
+				self.item.set('font_color', color);
+    		self.item.save();
+				self.applyFont();
+			}
+		});
+
 		if(this.item.get('background_color')) 
       $('.fontBackgroundColors option[value="'+this.item.get('background_color')+'"]',this.selecter).prop('selected',true);
+
 		if(this.item.get('border_style')) 
       $('.borderTypes option[value="'+this.item.get('border_style')+'"]',this.selecter).prop('selected',true);
+
 		if(this.item.get('border_width')) 
       $('.borderWidths option[value="'+this.item.get('border_width')+'"]',this.selecter).prop('selected',true);
+
 		if(this.item.get('border_radius')) 
       $('.borderRadiuses option[value="'+this.item.get('border_radius')+'"]',this.selecter).prop('selected',true);
 
