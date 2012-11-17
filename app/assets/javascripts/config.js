@@ -23,9 +23,10 @@ $(function(){
       interpolate : /\{\{(.+?)\}\}/g,
       evaluate : /\{%(.+?)%\}/g,
   };
- 
 
-  // for easy call of config function
+//  Config.prototype.swapImage();
+//  Config.prototype.overImage();
+
 });
 
 
@@ -39,8 +40,9 @@ jQuery.fn.insertAt = function(index, element) {
     this.children().eq(index).before(this.children().last());
   }
   return this;
-};
+}
 
+// for easy call of config function
 config = new Config();
 
 function Config()
@@ -48,8 +50,30 @@ function Config()
 
 }
 
-
 var ctor = function(){};
+
+Config.prototype.swapImage = function(){
+  $(".img_swap").live('click', function() {
+    if ( !$(this).hasClass("on") ) {
+      this.src = this.src.replace("_off","_on");
+    } else {
+      this.src = this.src.replace("_on","_off");
+    }
+      $(this).toggleClass("on");
+    });
+}
+
+Config.prototype.overImage = function(){
+  $('.img_over').live("mouseover",function(){
+    if ( !$(this).hasClass("on") ) {
+      this.src = this.src.replace("_off","_on");
+    } else {
+      this.src = this.src.replace("_on","_off");
+    }
+      $(this).toggleClass("on");
+    });
+}
+
 
 Config.prototype.inherits = function(parent, protoProps, staticProps) {
   var child;
