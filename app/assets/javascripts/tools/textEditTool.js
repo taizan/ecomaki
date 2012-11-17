@@ -96,7 +96,6 @@ TextEditMenu.prototype = {
 		$('.fontColors', selecter).empty().wColorPicker({
 			mode:'click',
 			initColor: item.get('font_color') || '#000000',
-			buttonSize: '15px',
 			onSelect: function(color){
         if(isColorPickerInitialized){
 				  item.set('font_color', color);

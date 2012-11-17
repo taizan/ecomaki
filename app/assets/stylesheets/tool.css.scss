@@ -1,3 +1,19 @@
+// Text tool style
+
+.text_menu{
+  width: 240px;
+  background: gray;
+  margin : 10px;
+  font-size: 10px;
+}
+
+.text_menu fontColor{
+  width: 20px;
+  height: 20px;
+}
+
+// Paint tool style
+
 ._tool_menu{
   position: fixed;
   padding:1px; 
