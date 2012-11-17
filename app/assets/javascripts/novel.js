@@ -24,10 +24,16 @@ $(function() {
   var params = $('.novel_container').attr('id').split('/');
   var id = params[1];
   var mode = params[0];
-
+  
   var isEditable = (mode == 'edit');
+    
+  var urls = location.href.split('/');
 
-  initializeView(id,isEditable);
+  
+  var pass = urls.length > 5 ? urls[5] : null;  
+  console.log(pass);
+
+  initializeView(id,pass,isEditable);
 
   if(isEditable) initializeTool(isEditable);
 
@@ -42,8 +48,8 @@ function setMode(){
     //var id = urls[4];
 }
 
-function initializeView(id,isEditable){
-  novel = new Novel({id: id});
+function initializeView(id,pass,isEditable){
+  novel = new Novel({id: id,password: pass});
   novelView = new NovelView({model: novel , isEditable: isEditable});
   novelView.appendTo($('#content'));
 
