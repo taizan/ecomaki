@@ -11,7 +11,7 @@ Picker.prototype = {
 
   initialize: function(){
     $('#picker').blur(Picker.prototype.onBlur);
-    $('#picker').click(function(ev){ev.stopPropagation(); });
+    $('#picker').click(function(ev){ alert();ev.stopPropagation(); });
     $("#picker").hide();
     $("#picker").tabs();
     $('#picker_cancel_button').click(Picker.prototype.finish);

@@ -32,6 +32,7 @@ ChapterView = ecomakiView.extend({
 
   events: {
     "keypress #inputform" : "onKeyPress",
+    //'click': 'onViewClick',
     "click .add_chapter" : "addChapter",
     //"click .add_entry" : "addEntry",
     "click .add_one_char" : "addEntryWith1Character", 
