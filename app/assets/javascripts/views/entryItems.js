@@ -190,12 +190,13 @@ BalloonItem = EntryItem.extend({
       //$(this.el).click(this.fontSelecter.changeSelecter);
 			var self = this;
       $(this.el).click((function(){
-        editableTextarea(self.el,self.saveText);
-        self.textMenu.changeSelecter(self.target)
+          editableTextarea(self.el,self.saveText);
+          self.textMenu.changeSelecter(self.target)
+          $('.ui-tooltip').hide();
         }));
       
       this.setButton();
-      $(this.el).attr({title:"クリックで編集; click to edit"});
+      $(this.el).attr({title:"クリックで編集、ドラッグで移動; Click to edit. Dragg to move."});
       $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
     }
     this.effecter.resetEffect(); 
@@ -244,8 +245,9 @@ ImageItem = EntryItem.extend({
       });
       this.setButton();
       this.showOutLine();
-      $(this.el).attr({title:"クリックで画像選択; click to select image"});
+      $(this.el).attr({title:"クリックで画像選択、ドラッグして移動; Click to select image.Dragg to move"});
       $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
+
     }else{
       this.target = $(this.el);
       this.effecter = new Effecter(this.target,this.item,'option');
