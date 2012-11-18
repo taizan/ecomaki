@@ -18,9 +18,7 @@ TextEditMenu.prototype = {
   item: {},
 
 	bar: $('<div id="textMenu"></div>')
-		.appendTo($('body'))
-		.width(100)
-		.height(14),
+		.appendTo($('body')),
 
   changeSelecter: function(target){
     //console.log('on item click');
@@ -59,12 +57,17 @@ TextEditMenu.prototype = {
 
     $('.font_size_radio').buttonset();
 
-		$('.borderRadiuses', selecter).ImageSelect({width:'20px', backgroundColor:'transparent'});
+		$('.borderRadiuses', selecter).ImageSelect({width:'60px',backgroundColor:'transparent'});
    
-		$('.borderTypes', selecter).ImageSelect({height:'20px', width:'50px'});
+		$('.borderTypes', selecter).ImageSelect({height:'20px'});
 
-		$('.fontBackgroundColors', selecter).ImageSelect({width:'16px',height:'16px'});
+		$('.fontBackgroundColors', selecter).ImageSelect({height:'16px'});
 
+    // onSelect function is called on initializing of colorpicker 2 times 
+    // to prevent put in vain , do not call call save on initilizing picker
+    TextEditMenu.prototype.isColorPickerInitialized = false;
+    
+    TextEditMenu.prototype.isColorPickerInitialized = true;
   },
 
   applyTarget: function(){ 
@@ -89,15 +92,17 @@ TextEditMenu.prototype = {
 		if(item.get('border_radius')) 
       $('.borderRadiuses option[value="'+item.get('border_radius')+'"]',selecter).prop('selected',true);
 
-    // onSelect function is called on initializing of colorpicker 2 times 
-    // to prevent put in vain , do not call call save on initilizing picker
-    var isColorPickerInitialized = false;
+    TextEditMenu.prototype.isColorPickerInitialized = false;
     
-		$('.fontColors', selecter).empty().wColorPicker({
+    $('.fontColors').empty();
+
+		$('.fontColors').wColorPicker({
 			mode:'click',
-			initColor: item.get('font_color') || '#000000',
+      initColor: item.get('font_color') || '#000000',
+      buttonSize    : 20,  
+      effect: 'none',
 			onSelect: function(color){
-        if(isColorPickerInitialized){
+        if(TextEditMenu.prototype.isColorPickerInitialized){
 				  item.set('font_color', color);
     		  item.save();
 				  TextEditMenu.prototype.applyFont();
@@ -105,8 +110,13 @@ TextEditMenu.prototype = {
 			  }
       }
 		});
+    
+    $('._wColorPicker_paletteHolder').width(237).height(197);
 
-    isColorPickerInitialized = true;
+		//var cp = $('.fontColors', selecter).data('_wColorPicker');
+    //cp.colorSelect(cp, item.get('font_color') || '#000000' );
+    TextEditMenu.prototype.isColorPickerInitialized = true;
+
 
     //$('.fontSizes',selecter).change( setFont );
     $('.fontStyleTypes',selecter).change( setFont );
@@ -182,6 +192,7 @@ TextEditMenu.prototype = {
 	},
 
   finish: function(){
+
     
     $('#textMenu .text_menu').hide();
   },

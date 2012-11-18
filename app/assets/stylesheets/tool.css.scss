@@ -1,16 +1,30 @@
 // Text tool style
 
 .text_menu{
-  width: 240px;
+  position: absolute;
+  box-shadow:3px 3px 5px #555555; 
+  //width: 400px;
+ // height: 100px;
   background: gray;
-  margin : 10px;
+  //margin : 10px;
   font-size: 10px;
+  //min-height: 24px;
 }
 
 .text_menu fontColor{
-  width: 20px;
-  height: 20px;
+  //width: 400px;
+  //height: 100px;
 }
+
+.text_menu .selecter_item{
+  //position: relative;
+  //float:left;
+}
+
+.text_menu #font_family{
+  
+}
+
 
 // Paint tool style
 

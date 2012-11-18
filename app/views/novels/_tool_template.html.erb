@@ -218,32 +218,45 @@
 <script type="text/template" id="text_menu_template">
   <div class="text_menu">
     <select name="fontFamily" class="fontFamilyTypes selecter_item"></select>
-		<div name="fontColor" class="fontColors _wPaint_colorPicker selecter_ite" title="text color"></div>
-    <div class="font_size_radio selecter_ite">
-      <input type="radio" id="font_size_s" name="radio" /><label for="font_size_s">S</label>
-      <input type="radio" id="font_size_m" name="radio" checked="checked" /><label for="font_size_m">M</label>
-      <input type="radio" id="font_size_L" name="radio" /><label for="font_size_L">L</label>
-      <input type="radio" id="font_size_XL" name="radio" /><label for="font_size_XL">XL</label>
+		<div name="fontColor" class="fontColors _wPaint_colorPicker selecter_item" title="Text Color"></div>
+
+    <div  class="selecter_item" title="Text Size">
+      <div class="font_size_radio" title="Text Size">
+        <input type="radio" id="font_size_s" name="radio" /><label for="font_size_s">S</label>
+        <input type="radio" id="font_size_m" name="radio" checked="checked" /><label for="font_size_m">M</label>
+        <input type="radio" id="font_size_L" name="radio" /><label for="font_size_L">L</label>
+        <input type="radio" id="font_size_XL" name="radio" /><label for="font_size_XL">XL</label>
+      </div>
     </div>
-    <select name="border" class="borderTypes selecter_item">
-      <option value="none">/assets/text/border_none.png</option>
-      <option value="solid" selected="selected">/assets/text/border_solid.png</option>
-      <option value="double">/assets/text/border_double.png</option>
-      <option value="dashed">/assets/text/border_dashed.png</option>
-      <option value="dotted">/assets/text/border_dotted.png</option>
-    </select>
-    <select name="borderRadius" class="borderRadiuses selecter_item" id="borderRadius">
-			<option value="0"> /assets/rect2985.png </option>
-			<option value="30"> /assets/rect2986.png </option>
-    </select>
-    <select name="fontBackgroundColor" class="fontBackgroundColors selecter_item">
-      <option value="Transparent" style="background-color:Transparent" >/assets/text/color_none.png</option>
-      <option value="black" style="background-color:black" >/assets/text/color_black.png</option>
-      <option value="silver" style="background-color:silver" >/assets/text/color_silver.png</option>
-      <option value="white" selected="selected" style="background-color:white" >/assets/text/color_white.png</option>
-      <option value="navy" style="background-color:navy" >/assets/text/color_navy.png</option>
-      <option value="red" style="background-color:red" >/assets/text/color_red.png</option>
-    </select>
+
+    <div  class="selecter_item" title="Line Style">
+      <select name="border" class="borderTypes" >
+        <option value="none">/assets/text/border_none.png</option>
+        <option value="solid" selected="selected">/assets/text/border_solid.png</option>
+        <option value="double">/assets/text/border_double.png</option>
+        <option value="dashed">/assets/text/border_dashed.png</option>
+        <option value="dotted">/assets/text/border_dotted.png</option>
+      </select>
+    </div>
+
+    <div  class="selecter_item" title="Line Radius">
+      <select name="borderRadius" class="borderRadiuses" id="borderRadius">
+			  <option value="0"> /assets/rect2985.png </option>
+			  <option value="30"> /assets/rect2986.png </option>
+      </select>
+    </div>
+    
+    <div  class="selecter_item" title="Text Background">
+      <select name="fontBackgroundColor" class="fontBackgroundColors">
+        <option value="white" selected="selected" style="background-color:white" >/assets/text/color_white.png</option>
+        <option value="silver" style="background-color:silver" >/assets/text/color_silver.png</option>
+        <option value="black" style="background-color:black" >/assets/text/color_black.png</option>
+        <option value="Transparent" style="background-color:Transparent" >/assets/text/color_none.png</option>
+        <option value="navy" style="background-color:navy" >/assets/text/color_navy.png</option>
+        <option value="red" style="background-color:red" >/assets/text/color_red.png</option>
+      </select>
+    </div>
+    
     <div class="floatEnd"></div>
   </div>
 </script>
