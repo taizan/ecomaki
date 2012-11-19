@@ -258,7 +258,7 @@ ChapterView = ecomakiView.extend({
 
   playMusicById: function(music_id) {
       //console.log(music_id);
-      if (music_id !== null) {
+      if (music_id !== null && music_id != 'null' && music_id) {
           //console.log(+music_id);
           window.musicPlayer.playURL(config.music_idtourl(music_id));
       } else {

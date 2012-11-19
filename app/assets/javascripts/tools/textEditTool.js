@@ -14,6 +14,8 @@ TextEditMenu.prototype = {
   
   isAppended: false,
   
+  isInitialized: false,
+  
   target: {},
   item: {},
 
@@ -63,17 +65,22 @@ TextEditMenu.prototype = {
 
 		$('.fontBackgroundColors', selecter).ImageSelect({height:'16px'});
 
-    // onSelect function is called on initializing of colorpicker 2 times 
-    // to prevent put in vain , do not call call save on initilizing picker
-    TextEditMenu.prototype.isColorPickerInitialized = false;
-    
-    TextEditMenu.prototype.isColorPickerInitialized = true;
+    var setFont = TextEditMenu.prototype.setFont;
+
+    $('.font_size_radio',selecter).change( setFont );
+    $('.fontStyleTypes',selecter).change( setFont );
+		$('.fontFamilyTypes',selecter).change( setFont );
+		$('.fontBackgroundColors',selecter).change( setFont );
+    $('.borderTypes',selecter).change( setFont );
+    $('.borderWidths',selecter).change( setFont );
+    $('.borderRadiuses',selecter).change( setFont );
   },
 
   applyTarget: function(){ 
     var item = TextEditMenu.prototype.item;
-    var setFont = TextEditMenu.prototype.setFont;
     var selecter = TextEditMenu.prototype.selecter;
+
+    TextEditMenu.prototype.isInitialized = false;
 
 		//if(this.item.get('font_color'))
       //$('.fontColors option[value="'+this.item.get('font_color')+'"]',this.selecter).prop('selected',true);
@@ -92,7 +99,6 @@ TextEditMenu.prototype = {
 		if(item.get('border_radius')) 
       $('.borderRadiuses option[value="'+item.get('border_radius')+'"]',selecter).prop('selected',true);
 
-    TextEditMenu.prototype.isColorPickerInitialized = false;
     
     $('.fontColors').empty();
 
@@ -102,7 +108,7 @@ TextEditMenu.prototype = {
       buttonSize    : 20,  
       effect: 'none',
 			onSelect: function(color){
-        if(TextEditMenu.prototype.isColorPickerInitialized){
+        if(TextEditMenu.prototype.isInitialized){
 				  item.set('font_color', color);
     		  item.save();
 				  TextEditMenu.prototype.applyFont();
@@ -115,17 +121,9 @@ TextEditMenu.prototype = {
 
 		//var cp = $('.fontColors', selecter).data('_wColorPicker');
     //cp.colorSelect(cp, item.get('font_color') || '#000000' );
-    TextEditMenu.prototype.isColorPickerInitialized = true;
+    TextEditMenu.prototype.isInitialized = true;
 
 
-    //$('.fontSizes',selecter).change( setFont );
-    $('.fontStyleTypes',selecter).change( setFont );
-		$('.fontFamilyTypes',selecter).change( setFont );
-		//$('.fontColors',this.selecter).change( _self.setFont );
-		$('.fontBackgroundColors',selecter).change( setFont );
-    $('.borderTypes',selecter).change( setFont );
-    $('.borderWidths',selecter).change( setFont );
-    $('.borderRadiuses',selecter).change( setFont );
   },
 
   setFont: function(){
@@ -133,17 +131,21 @@ TextEditMenu.prototype = {
     var selecter = TextEditMenu.prototype.selecter;
     
     console.log('set font');
-    item.set('font_size', $('.fontSizes',selecter).val());
-		item.set('font_style', $('.fontStyleTypes',selecter).val());
-		item.set('font_family', $('.fontFamilyTypes',selecter).val());
-		//item.set('font_color', $('.fontColors',selecter).val());
-		item.set('background_color', $('.fontBackgroundColors',selecter).val());
-    item.set('border_style', $('.borderTypes',selecter).val());
-    item.set('border_width', $('.borderWidths',selecter).val());
-    item.set('border_radius', $('.borderRadiuses',selecter).val());
-    item.save();
-		TextEditMenu.prototype.applyFont();
-    console.log('set');
+
+    if(TextEditMenu.prototype.isInitialized){
+      item.save({
+          'font_size': $('.font_size_radio',selecter).find('label[aria-pressed=true]').attr('value'),
+  	  	  'font_style': $('.fontStyleTypes',selecter).val(),
+	      	'font_family': $('.fontFamilyTypes',selecter).val(),
+		      'font_color': $('.fontColors',selecter).val(),
+		      'background_color': $('.fontBackgroundColors',selecter).val(),
+          'border_style': $('.borderTypes',selecter).val(),
+          'border_width': $('.borderWidths',selecter).val(),
+          'border_radius': $('.borderRadiuses',selecter).val()
+        });
+		  TextEditMenu.prototype.applyFont();
+      console.log('set');
+    }
   },
 	
 	applyFont: function(){
