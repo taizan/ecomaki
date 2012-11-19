@@ -1,15 +1,3 @@
-function FontSelecter(target,item){
-  this.target = target;	
-  this.item = item;
-  _.bindAll(this,
-      'changeSelecter',
-			'appendFontSelecterTo',
-			'setFont',
-			'applyFont');
- // $('#text_tab .font_selecter').remove();
-  //this.appendFontSelecterTo($('#text_tab'));
-};
-
 
 TextEdit = function(){ }
 
@@ -18,14 +6,14 @@ TextEdit.prototype = {
   isAppended: false,
 
   onBlur: function(ev){
-    //console.log(ev);
-    if(ev.target != TextEdit.prototype.focusedText  ){
+    console.log(ev);
+    if( !$(ev.target).is('textarea') ){
         $('textarea').blur();
     }
   },
 
   editableTextarea: function(target,callback){
-    console.log(target);
+    //console.log(target);
 
     if ($('.editable_text').length == 0 ){
       
