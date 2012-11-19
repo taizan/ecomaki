@@ -29,7 +29,7 @@ TextEditMenu.prototype = {
       
     TextEditMenu.prototype.target = this.target;
     TextEditMenu.prototype.item = this.item;
-    console.log( TextEditMenu.prototype.item);
+    //console.log( TextEditMenu.prototype.item);
 
     if(!TextEditMenu.prototype.isAppended){
       TextEditMenu.prototype.appendTextEditMenuTo();
@@ -130,8 +130,6 @@ TextEditMenu.prototype = {
     var item = TextEditMenu.prototype.item;
     var selecter = TextEditMenu.prototype.selecter;
     
-    console.log('set font');
-
     if(TextEditMenu.prototype.isInitialized){
       item.save({
           'font_size': $('.font_size_radio',selecter).find('label[aria-pressed=true]').attr('value'),
@@ -183,6 +181,7 @@ TextEditMenu.prototype = {
 		$(target).css({
 			'color': color,
 			'font-size': size,
+      'line-height': size,
 			'font-family': family,
 			'border': border,
 		  'border-radius': borderRadius,         /* CSS3 */
