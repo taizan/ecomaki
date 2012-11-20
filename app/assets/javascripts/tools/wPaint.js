@@ -1,10 +1,10 @@
-//=require ./Shapes/Chrome
-//=require ./Shapes/Line
-//=require ./Shapes/Shape
-//=require ./Shapes/Ellipse
 //=require ./Shapes/Pencil
+//=require ./Shapes/Line
 //=require ./Shapes/Eraser
+//=require ./Shapes/Ellipse
 //=require ./Shapes/Rectangle
+//=require ./Shapes/Chrome
+//=require ./Shapes/Shape
 
 /******************************************
  *
