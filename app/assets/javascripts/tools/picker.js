@@ -154,38 +154,55 @@ Picker.prototype = {
   },
 
   showCharacterList: function(func){
-    Picker.prototype.setList("/characters/images.xml" , Picker.prototype.parseCharacterXml,func );
+    if( !Picker.prototype.isCharacterListAppended){
+      Picker.prototype.resetList("/characters/images.xml" , Picker.prototype.parseCharacterXml,func );
+      Picker.prototype.isCharacterListAppended = true;
+    }
+    Picker.prototype.showPicker();
+    //hide all button and show one
     $('.upload_button').hide();
     $('#character_upload_button').show();
   },
 
   showBackgroundList: function(func){
-    Picker.prototype.setList("/background_images.xml" , Picker.prototype.parseBackgroundXml ,func);
+    if( !Picker.prototype.isBackgroundListAppended){
+      Picker.prototype.resetList("/background_images.xml" , Picker.prototype.parseBackgroundXml ,func);
+      Picker.prototype.isBackgroundListAppended = true;
+    }
+    Picker.prototype.showPicker();
     $('.upload_button').hide();
     $('#background_upload_button').show();
   },
 
   showMusicList: function(func){
-    Picker.prototype.setTextItem('null','音楽なし','No BGM');
-    Picker.prototype.setList("/background_musics.xml" , Picker.prototype.parseMusicXml,func );
+   if( !Picker.prototype.isMusicListAppended){ 
+      Picker.prototype.setTextItem('null','音楽なし','No BGM');
+      Picker.prototype.resetList("/background_musics.xml" , Picker.prototype.parseMusicXml,func );
+      Picker.prototype.isMusicListAppended = true;
+    }
+    Picker.prototype.showPicker();
     $('.upload_button').hide();
     $('#music_upload_button').show();
   },
 
-  setList:function(xml,parser,callback){
-    Picker.prototype.selectedCallback = callback;
-    if(!Picker.prototype.visible){
-      Picker.prototype.loadXml(xml , parser );
+  resetList:function(xml,parser,callback){
+    var picker =  Picker.prototype;
+    $('#picker').find($('.picker_item')).remove();
+    picker.selectedCallback = callback;
+    if(!picker.visible){
+      picker.loadXml(xml , parser );
       //$(document).tooltip();
+    }
+  },
+  
+  showPicker: function() {
       $('#picker').show('drop','fast');
       Picker.prototype.visible = true;
       Picker.prototype.isBlurable = true;
-    }
   },
 
   finish: function(){
     if(Picker.prototype.visible){
-      $('#picker').find($('.picker_item')).remove();
       $('#picker').hide('drop','hide');
       Picker.prototype.visible = false;
     }
