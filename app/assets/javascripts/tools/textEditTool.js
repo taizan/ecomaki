@@ -86,7 +86,18 @@ TextEditMenu.prototype = {
       //$('.fontColors option[value="'+this.item.get('font_color')+'"]',this.selecter).prop('selected',true);
 			//console.warn(this.item.get('font_color'));
 
+		if(item.get('font_family')) 
+      $('.fontFamilyTypes option[value="'+item.get('font_family')+'"]',selecter).prop('selected',true);
+  
+    console.log( item.get('font_size'));
+    $('.font_size_radio label',selecter).removeClass('ui-state-active');
+    if(item.get('font_size') <= 8 )       $('.font_size_radio label[value="8"]',selecter).addClass('ui-state-active');
+    else if(item.get('font_size') <= 12 ) $('.font_size_radio label[value="12"]',selecter).addClass('ui-state-active');
+    else if(item.get('font_size') <= 24 ) $('.font_size_radio label[value="24"]',selecter).addClass('ui-state-active')
+    else                                  $('.font_size_radio label[value="48"]',selecter).addClass('ui-state-active');
+       
 
+    /*
 		if(item.get('background_color')) 
       $('.fontBackgroundColors option[value="'+item.get('background_color')+'"]',selecter).prop('selected',true);
 
@@ -98,7 +109,7 @@ TextEditMenu.prototype = {
 
 		if(item.get('border_radius')) 
       $('.borderRadiuses option[value="'+item.get('border_radius')+'"]',selecter).prop('selected',true);
-
+    */
     
     $('.fontColors').empty();
 
@@ -130,15 +141,18 @@ TextEditMenu.prototype = {
     var item = TextEditMenu.prototype.item;
     var selecter = TextEditMenu.prototype.selecter;
     
+    var borderWidth = 1;
+    if( $('.borderTypes',selecter).val() == "double") borderWidth = 3;
+    if( $('.borderTypes',selecter).val() == "dotted") borderWidth = 2;
+
     if(TextEditMenu.prototype.isInitialized){
       item.save({
           'font_size': $('.font_size_radio',selecter).find('label[aria-pressed=true]').attr('value'),
   	  	  'font_style': $('.fontStyleTypes',selecter).val(),
 	      	'font_family': $('.fontFamilyTypes',selecter).val(),
-		      'font_color': $('.fontColors',selecter).val(),
 		      'background_color': $('.fontBackgroundColors',selecter).val(),
           'border_style': $('.borderTypes',selecter).val(),
-          'border_width': $('.borderWidths',selecter).val(),
+          'border_width': borderWidth,
           'border_radius': $('.borderRadiuses',selecter).val()
         });
 		  TextEditMenu.prototype.applyFont();
