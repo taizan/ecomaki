@@ -52,12 +52,6 @@ function Config()
 
 var ctor = function(){};
 
-Config.prototype.swap = function(){
-  alert();
-};
-
-Config.prototype.inherit = function() {
-}
 
 Config.prototype.swapImage = function(){
   $(".img_swap").live('click', function() {
