@@ -114,7 +114,7 @@
 		lineWidthMax		: '10',				// line widh max for select drop down
 		lineWidth			: '2', 				// starting line width
 		fillStyle			: {r:255, g:255, b:255, a:1.0},		// starting fill style
-		strokeStyle			: {r:255, g:255, b:0, a:1.0},		// start stroke style
+		strokeStyle			: {r:5, g:5, b:5, a:1.0},		// start stroke style
 		fontSizeMin			: '8',				// min font size in px
 		fontSizeMax			: '20',				// max font size in px
 		fontSize			: '12',				// current font size for text input
@@ -315,26 +315,27 @@
     //canvases: [],
     init: function(){
 			var fillStyle		= {r:255, g:255, b:255, a:1};		// starting fill style
-			var strokeStyle	= {r:255, g:255, b:0, a:1};		// start stroke style
-			var buttonSize  = 15;
+			var strokeStyle	= {r:5, g:5, b:5, a:1};		// start stroke style
+			var fillButtonSize  = 15;
+			var strokeButtonSize  = 24;
 
       var menuContent = $('<div id="paint_options" class="_wPaint_options"></div>')
            //.append($('<div class="_wPaint_icon _wPaint_text" title="text"></div>'))
+           .append($('<div class="_wPaint_strokeColorPicker _wPaint_colorPicker" title="stroke color"></div>'))
            .append($('<div class="_wPaint_fillColorPicker _wPaint_colorPicker" title="fill color"></div>'))
-           .append($('<div class="_wPaint_slider"></div>'))
-           .append($('<div class="_wPaint_slider"></div>'))
-           .append($('<div class="_wPaint_strokeColorPicker _wPaint_colorPicker" title="stroke color"></div>'));
+           .append($('<label class="_wPaint_size_label _wPaint_label" >1px</label><div class="_wPaint_size_slider" title="ブラシサイズ Brush Size"></div>'))
+           .append($('<label class="_wPaint_transparency_label _wPaint_label">100%</label><div class="_wPaint_transparency_slider" title="透明度　transparency"></div>'));
 			$.each(Config.Shapes, function(name, shape){
 					if( name.length > 0 && name != "Shape") menuContent.append($('<div class="_wPaint_icon' + ' _wPaint_' + name + ($.fn.wPaint.defaultSettings.mode == name ? ' active' : '') + '" title="'+ name + '"></div>'));
 			});
 
-     MainMenu.prototype.menu = $('#paint_tab').append(menuContent);
+     MainMenu.prototype.menu = $('#toolbox').append(menuContent);
 
 			//@@@stroke|fill collor
 			$("._wPaint_fillColorPicker").wColorPicker({
 				mode: "click",
 				initColor: config.rgb2hex(fillStyle),
-				buttonSize: buttonSize,
+				buttonSize: fillButtonSize,
 				onSelect: function(color){
 //          var canvases = MainMenu.prototype.canvases;
 //          for( var i = 0 ; i < canvases.length ; i++){
@@ -353,7 +354,7 @@
 			$("._wPaint_strokeColorPicker").wColorPicker({
 				mode: "click",
 				initColor: config.rgb2hex(strokeStyle),
-				buttonSize: buttonSize,
+				buttonSize: strokeButtonSize,
 				onSelect: function(color){
 //          var canvases = MainMenu.prototype.canvases;
 //          for( var i = 0 ; i < canvases.length ; i++){
@@ -381,7 +382,7 @@
 					if( name.length > 0 && name != "Shape") $("#paint_options ._wPaint_" + name).click(function(){ $this.set_mode($this, $canvas, name);})
 			});
 			//.find("._wPaint_text" ).click(function(){ $this.set_mode($this, $canvas, 'Text'); })
-			$($("#paint_options ._wPaint_slider")[0]).slider({
+			$("#paint_options ._wPaint_size_slider").slider({
           min: 0,
           max: 100,
           value : 1,
@@ -391,9 +392,10 @@
 //					    canvases[i].settings.lineWidth = ui.value;
 //            }
 						Canvas.prototype.settings.lineWidth = ui.value;
+            $("#paint_options ._wPaint_size_label").text(ui.value + "px");
           }
         })
-			$($("#paint_options ._wPaint_slider")[1]).slider({
+			$("#paint_options ._wPaint_transparency_slider").slider({
           min: 0,
           max: 100,
           value : 100,
@@ -402,8 +404,9 @@
 //            for( var i = 0 ; i < canvases.length ; i++){
 //					    canvases[i].settings.alpha = ui.value/100;
 //            }
-					Canvas.prototype.settings.strokeStyle.a = ui.value/100;
-					Canvas.prototype.settings.fillStyle.a = ui.value/100;
+					  Canvas.prototype.settings.strokeStyle.a = ui.value/100;
+					  Canvas.prototype.settings.fillStyle.a = ui.value/100;
+            $("#paint_options ._wPaint_transparency_label").text(ui.value + "%");
           }
         });
 			

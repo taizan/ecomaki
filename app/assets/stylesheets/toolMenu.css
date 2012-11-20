@@ -6,6 +6,7 @@
   right:100px;
   top: 40px;
 	//background: url('/assets/paint/toolbox/base/dark_gray.png')  ;
+	background: gray ;
   z-index:99999;
 }
 
