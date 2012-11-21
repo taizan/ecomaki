@@ -73,12 +73,17 @@ function initializeTool(isEditable){
       novelView = new NovelView({model: novel , isEditable: isEditable});
       novelView.appendTo($('#content'));
       if(isEditable) {
-        //$('#preview').html('Preview');
+        $('#preview p').html('Preview');
         $('#toolbox').show();
       }else{
-        //$('#preview').html('Edit');
+        $('#preview p').html('Edit');
         $('#toolbox').hide();
       }
+    });
+  
+  $('#publish').click(function(){ 
+      novel.save({'status': 'publish'}); 
+      alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
     });
 }
 

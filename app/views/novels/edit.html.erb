@@ -14,8 +14,9 @@
 
 <div class="novel_container" id="edit/<%= @novel.id%>">
 
-  <button id="preview" title="Preview"><img src="/assets/novel/preview.png"><p>PREVIEW</p></button>
-  <button id="publish" class="btn btn-primary" title="公開 publish"><p>PUBLISH</p></button>
+  <button id="preview" class="btn" title="Preview"><img src="/assets/novel/preview.png"><p>Preview</p></button>
+  <a id="publish" class="btn btn-info" width="80px" href="/novel/<%= @novel.id %>" title="公開 publish"><img src="/assets/novel/publish.png"><p>PUBLISH</p></a>
+
 
   <aside id="side_menu" >
     <ul class = "well sidebar-nav" id = "chapterList">

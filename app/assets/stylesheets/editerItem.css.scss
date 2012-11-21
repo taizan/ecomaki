@@ -46,28 +46,24 @@
 #preview {
   font-size: 20;
   position: fixed;
-  right: 0px;
+  right: 80px;
   top:40px;
-  width: 80px;
-  height: 80px;
+  height: 60px;
   z-index: 99999;
+}
+#preview img {
+  width: 30px;
+  height: 30px;
 }
 
 #publish {
   font-size: 20;
   position: fixed;
   right: 0px;
-  top:120px;
-  width: 80px;
-  height: 30px;
+  height:50px;
+  top:40px;
   z-index: 99999;
 }
-
-#preview img{
-  height: 60px;
-  width: 60px;
-}
-
 
 
 // chapter
