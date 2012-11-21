@@ -1,5 +1,6 @@
 class Entry < ActiveRecord::Base
   attr_accessor :canvas
+  attr_accessor :original_id
   attr_accessible :chapter_id, :width, :height,:margin_top,:margin_left,:margin_bottom, :margin_right,:order_number, :canvas, :canvas_index, :option
 
   belongs_to :chapter
@@ -10,11 +11,20 @@ class Entry < ActiveRecord::Base
 
   amoeba do
     include_field [:entry_character, :entry_balloon]
+    customize(lambda {|original_post, new_post|
+        new_post.original_id = original_post.id
+      })
   end
 
   def save_canvas
-    File.open(canvas_path, 'wb') do |file|
-      file.write(@canvas)
+    if @original_id
+      src = Rails.root.join("data/images/entry_canvas/#{@original_id}")
+      dest = Rails.root.join("data/images/entry_canvas/#{id}")
+      FileUtils.cp(src, dest)
+    else
+      File.open(canvas_path, 'wb') do |file|
+        file.write(@canvas)
+      end
     end
   end
 
