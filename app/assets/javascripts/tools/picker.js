@@ -1,4 +1,5 @@
-
+//= require jquery.fileupload
+//
 function Picker( ){
 
 }

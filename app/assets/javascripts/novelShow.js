@@ -1,7 +1,6 @@
 //= require underscore
 //= require backbone
 //= require jquery.form
-//= require wColorPicker.1.2.min
 //= require ./models
 //= require ./views/ecomakiView
 //= require ./views/entryItems
