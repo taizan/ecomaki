@@ -1,4 +1,5 @@
-
+//= require jquery.fileupload
+//
 function Picker( ){
 
 }
@@ -153,39 +154,58 @@ Picker.prototype = {
     Picker.prototype.selectedCallback = func;
   },
 
-  showCharacterList: function(func){
-    Picker.prototype.setList("/characters/images.xml" , Picker.prototype.parseCharacterXml,func );
+  showCharacterList: function(callback){
+    if( !Picker.prototype.isCharacterListAppended){
+      Picker.prototype.resetList("/characters/images.xml" , Picker.prototype.parseCharacterXml );
+      Picker.prototype.isCharacterListAppended = true;
+    }
+    Picker.prototype.selectedCallback = callback;
+    Picker.prototype.showPicker();
+    //hide all button and show one
     $('.upload_button').hide();
     $('#character_upload_button').show();
   },
 
-  showBackgroundList: function(func){
-    Picker.prototype.setList("/background_images.xml" , Picker.prototype.parseBackgroundXml ,func);
+  showBackgroundList: function(callback){
+    if( !Picker.prototype.isBackgroundListAppended){
+      Picker.prototype.resetList("/background_images.xml" , Picker.prototype.parseBackgroundXml );
+      Picker.prototype.isBackgroundListAppended = true;
+    }
+    Picker.prototype.selectedCallback = callback;
+    Picker.prototype.showPicker();
     $('.upload_button').hide();
     $('#background_upload_button').show();
   },
 
-  showMusicList: function(func){
-    Picker.prototype.setTextItem('null','音楽なし','No BGM');
-    Picker.prototype.setList("/background_musics.xml" , Picker.prototype.parseMusicXml,func );
+  showMusicList: function(callback){
+   if( !Picker.prototype.isMusicListAppended){ 
+      Picker.prototype.setTextItem('null','音楽なし','No BGM');
+      Picker.prototype.resetList("/background_musics.xml" , Picker.prototype.parseMusicXml );
+      Picker.prototype.isMusicListAppended = true;
+    }
+    Picker.prototype.selectedCallback = callback;
+    Picker.prototype.showPicker();
     $('.upload_button').hide();
     $('#music_upload_button').show();
   },
 
-  setList:function(xml,parser,callback){
-    Picker.prototype.selectedCallback = callback;
-    if(!Picker.prototype.visible){
-      Picker.prototype.loadXml(xml , parser );
+  resetList:function(xml,parser){
+    var picker =  Picker.prototype;
+    $('#picker').find($('.picker_item')).remove();
+    if(!picker.visible){
+      picker.loadXml(xml , parser );
       //$(document).tooltip();
+    }
+  },
+  
+  showPicker: function() {
       $('#picker').show('drop','fast');
       Picker.prototype.visible = true;
       Picker.prototype.isBlurable = true;
-    }
   },
 
   finish: function(){
     if(Picker.prototype.visible){
-      $('#picker').find($('.picker_item')).remove();
       $('#picker').hide('drop','hide');
       Picker.prototype.visible = false;
     }

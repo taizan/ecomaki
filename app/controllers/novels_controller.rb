@@ -71,6 +71,7 @@ class NovelsController < ApplicationController
 
     # Set as an initial password.
     params[:novel] ||= {}
+    params[:novel][:status] = 'draft'
     params[:novel][:password] = generate_password
 
     # Create on DB.

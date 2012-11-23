@@ -1,5 +1,6 @@
 Ecomaki::Application.routes.draw do
   root :to => 'top#index'
+  match 'about' => 'top#about'
 
   # Balloons
   match 'novels/:novel_id/chapters/:chapter_id/entries/:entry_id/balloons' => 'entry_balloons#index', :via => :get
