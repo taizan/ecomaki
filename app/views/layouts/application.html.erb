@@ -18,32 +18,38 @@
   </head>
   <body>
     <div id='static_body' >
-    <div class="navbar navbar-inverse navbar-fixed-top">
-       <!-- <img id="top_icon" src="/assets/novel/top_makimono_black.png" />-->
-      <div class="navbar-inner">
-        <div class="container top_container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/"> ecoMaki</a>
-
-            <div class="ninja_onebutton">
-              <script type="text/javascript">
-                //<![CDATA[
-                (function(d){
-                  if(typeof(window.NINJA_CO_JP_ONETAG_BUTTON_0c9bdfb50d798ac42a984ea8d7efd557)=='undefined'){
-                    document.write("<sc"+"ript type='text\/javascript' src='http:\/\/omt.shinobi.jp\/b\/0c9bdfb50d798ac42a984ea8d7efd557'><\/sc"+"ript>");
-                  }else{
-                    window.NINJA_CO_JP_ONETAG_BUTTON_0c9bdfb50d798ac42a984ea8d7efd557.ONETAGButton_Load();}
-                  })(document);
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <!-- <img id="top_icon" src="/assets/novel/top_makimono_black.png" />-->
+        <div class="navbar-inner">
+          <div class="container top_container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/"> ecoMaki</a>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <li id="home_link"><a href="/">Home</a></li>
+                <li id="about_link"><a href="/about">About</a></li>
+              </ul>
+              <div class="ninja_onebutton">
+                <script type="text/javascript">
+                  //<![CDATA[
+                  (function(d){
+                    if(typeof(window.NINJA_CO_JP_ONETAG_BUTTON_0c9bdfb50d798ac42a984ea8d7efd557)=='undefined'){
+                      document.write("<sc"+"ript type='text\/javascript' src='http:\/\/omt.shinobi.jp\/b\/0c9bdfb50d798ac42a984ea8d7efd557'><\/sc"+"ript>");
+                    }else{
+                      window.NINJA_CO_JP_ONETAG_BUTTON_0c9bdfb50d798ac42a984ea8d7efd557.ONETAGButton_Load();}
+                    })(document);
                 //]]>
-              </script><span class="ninja_onebutton_hidden" style="display:none;"></span><span style="display:none;" class="ninja_onebutton_hidden"></span>
+                </script>
+                <span class="ninja_onebutton_hidden" style="display:none;"></span><span style="display:none;" class="ninja_onebutton_hidden"></span>
+              </div>
             </div>
+          </div>
         </div>
       </div>
-    </div>
 
     <%= yield %>
     </div>
