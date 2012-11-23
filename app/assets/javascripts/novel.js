@@ -85,6 +85,45 @@ function initializeTool(isEditable){
       novel.save({'status': 'publish'}); 
       alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
     });
+  
+  //チュートリアルセットアップ
+  var tutorial = $($('#tutorial_template').html())
+    .appendTo('body')
+    .dialog()
+    .parent().css({ 'top': 40, 'left': 0 , 'position': 'fixed'});
+
+
+  var tutorial_progless = 0;
+
+  $('#tutorial_next_button').click( function() {
+    tutorial_progless++;
+    var next = $('#tutorial_template_' + tutorial_progless ).html();
+    if( next) {
+      $('#tutorial_content').html( next )
+      console.log($('#tutorial_template_' + tutorial_progless ).html());
+      $('#tutorial_back_button').show();
+    }
+    else{
+      $('#tutorial_content').html( 'End' );
+      $('#tutorial_next_button').hide();
+    }
+  });
+
+  $('#tutorial_back_button').click( function() {
+    tutorial_progless--;
+    var next = $('#tutorial_template_' + tutorial_progless ).html();
+    if( next) {
+      $('#tutorial_content').html( next )
+      console.log($('#tutorial_template_' + tutorial_progless ).html());
+      $('#tutorial_next_button').show();
+    }
+    else{
+      $('#tutorial_content').html( 'Start it' );
+      $('#tutorial_back_button').hide(); 
+    }
+  });
+
+  //console.log($('#tutorial_template').html());
 }
 
 function onStaticBodyClick(ev){
