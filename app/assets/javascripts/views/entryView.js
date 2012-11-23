@@ -91,6 +91,7 @@ EntryView = ecomakiView.extend({
     }
     this.effecter = new Effecter($('.paint',this.el),this.model,'option');
     
+    this.hideButton();
     return this.render();
   },
 
