@@ -21,15 +21,11 @@
 
 $(function() {
   
-  var params = $('.novel_container').attr('id').split('/');
-  var id = params[1];
-  var mode = params[0];
+  var id = $('.novel_container').attr('id');
   
-  var isEditable = (mode == 'edit');
+  var isEditable = true;
     
   var urls = location.href.split('/');
-
-  
   var pass = urls.length > 5 ? urls[5] : null;  
   console.log(pass);
 
@@ -39,14 +35,6 @@ $(function() {
 
 });
 
-// Parse the URL and set Novel model.
-function setMode(){
-    //http://ecomaki.com/novel/1
-    //http://ecomaki.com/edit/1/[hash]
-    //var urls = location.href.split('/');
-    //var mode = urls[3];
-    //var id = urls[4];
-}
 
 function initializeView(id,pass,isEditable){
   novel = new Novel({id: id,password: pass});

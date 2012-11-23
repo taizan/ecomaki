@@ -4,7 +4,7 @@
 <%= stylesheet_link_tag 'entryItem' %>
 <%= stylesheet_link_tag 'editerItem' %>
 
-<%= javascript_include_tag 'novel' %>
+<%= javascript_include_tag 'novelEdit' %>
 
 <% content_for :html_title, @novel.title %>
 <% content_for :html_description, @novel.description %>
@@ -12,7 +12,7 @@
 <img id="background_odd" class="background" src="/assets/0.png" />
 <img id="background_even" class="background" src="/assets/0.png" />
 
-<div class="novel_container" id="edit/<%= @novel.id%>">
+<div class="novel_container" id="<%= @novel.id%>">
 
   <button id="preview" class="btn" title="Preview"><img src="/assets/novel/preview.png"><p>Preview</p></button>
   <a id="publish" class="btn btn-info" width="80px" href="/novel/<%= @novel.id %>" title="公開 publish"><img src="/assets/novel/publish.png"><p>PUBLISH</p></a>
