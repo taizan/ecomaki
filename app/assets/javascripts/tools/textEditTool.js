@@ -23,7 +23,7 @@ TextEditMenu.prototype = {
 		.appendTo($('body')),
 
   changeSelecter: function(target){
-    //console.log('on item click');
+    console.log('on text click');
 		//console.log($('#textMenu .text_menu'));
     //$('#textMenu .text_menu').remove();
       
@@ -99,20 +99,6 @@ TextEditMenu.prototype = {
     else                                  $('.font_size_radio label[value="48"]',selecter).addClass('ui-state-active');
        
 
-    /*
-		if(item.get('background_color')) 
-      $('.fontBackgroundColors option[value="'+item.get('background_color')+'"]',selecter).prop('selected',true);
-
-		if(item.get('border_style')) 
-      $('.borderTypes option[value="'+item.get('border_style')+'"]',selecter).prop('selected',true);
-
-		if(item.get('border_width')) 
-      $('.borderWidths option[value="'+item.get('border_width')+'"]',selecter).prop('selected',true);
-
-		if(item.get('border_radius')) 
-      $('.borderRadiuses option[value="'+item.get('border_radius')+'"]',selecter).prop('selected',true);
-    */
-    
     $('.fontColors').empty();
 
 		$('.fontColors').wColorPicker({
@@ -134,6 +120,16 @@ TextEditMenu.prototype = {
 
 		//var cp = $('.fontColors', selecter).data('_wColorPicker');
     //cp.colorSelect(cp, item.get('font_color') || '#000000' );
+
+		console.log(item.get('border_radius'));
+		if( item.get('border_radius') > 0 ){
+			$('.borderRadiuses input').attr("checked", true);
+			$('.borderRadiuses label').addClass("ui-state-active");
+		}else{
+			$('.borderRadiuses input').attr("checked", false);
+			$('.borderRadiuses label').removeClass("ui-state-active");
+		}
+		
     TextEditMenu.prototype.isInitialized = true;
 
 
@@ -148,7 +144,7 @@ TextEditMenu.prototype = {
     if( $('.borderTypes',selecter).val() == "dotted") borderWidth = 2;
 
     if(TextEditMenu.prototype.isInitialized){
-	var setting = {
+			var setting = {
           'font_size': $('.font_size_radio',selecter).find('label[aria-pressed=true]').attr('value'),
   	  	  'font_style': $('.fontStyleTypes',selecter).val(),
 	      	'font_family': $('.fontFamilyTypes',selecter).val(),
@@ -156,10 +152,10 @@ TextEditMenu.prototype = {
           'border_style': $('.borderTypes',selecter).val(),
           'border_width': borderWidth,
           'border_radius': $('.borderRadiuses input')[0].checked ? 30 : 0
-        };
-      	item.save(setting);
-	TextEditMenu.prototype.applyFont();
-      	console.log('set');
+    	};
+   		item.save(setting);
+			TextEditMenu.prototype.applyFont();
+   		console.log('set');
     }
   },
 	
@@ -206,7 +202,6 @@ TextEditMenu.prototype = {
       '-webkit-border-radius': borderRadius, /* Safari,Chrome */
 			'background': background
 		});
-		
 	},
 
   finish: function(){
