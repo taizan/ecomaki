@@ -1,0 +1,9 @@
+#textMenu .text_menu #borderRadius label.ui-state-default{
+	width:24px;
+	height:24px;
+	background:url(/assets/text/rect_off.png) center no-repeat;
+}
+
+#textMenu .text_menu #borderRadius label.ui-state-active{
+	background:url(/assets/text/rect_on.png) center no-repeat;
+}

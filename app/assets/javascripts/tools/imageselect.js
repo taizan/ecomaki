@@ -147,9 +147,12 @@
                     $(this).parent().stop();
                     //$('.jqis_dropdown',$(this).parent().parent()).stop();
                     $(this).parent().parent().stop();
-                    $(this).parent().animate({width:$(this).width() + 60});
-                    $(this).parent().parent().animate({width:$(this).width() + 60});
-                    $('.jqis_dropdown',$(this).parent().parent()).animate({width:$(this).width() + 50});
+                    //$(this).parent().animate({width:$(this).width() + 60});
+                    $(this).parent().animate({width:$(this).width()});
+                    //$(this).parent().parent().animate({width:$(this).width() + 60});
+                    $(this).parent().parent().animate({width:$(this).width()});
+                    //$('.jqis_dropdown',$(this).parent().parent()).animate({width:$(this).width() + 50});
+                    $('.jqis_dropdown',$(this).parent().parent()).animate({width:$(this).width()});
 
                 }).each(function() {
                   if(this.complete) $(this).load();
