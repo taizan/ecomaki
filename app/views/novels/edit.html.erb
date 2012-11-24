@@ -17,8 +17,16 @@
 
 <div class="novel_container" id="<%= @novel.id%>">
 
-  <button id="preview" class="btn" title="Preview"><img src="/assets/novel/preview.png"><p>Preview</p></button>
-  <a id="publish" class="btn btn-info" width="80px" href="/novel/<%= @novel.id %>" title="公開 publish"><img src="/assets/novel/publish.png"><p>PUBLISH</p></a>
+  <!-- プレビューボタン -->
+  <button id="preview" class="btn" title="Preview"><img src="/assets/novel/preview.png">
+    <p>Preview</p>
+  </button>
+
+  <!-- 公開ボタン -->
+  <a id="publish" class="btn btn-info" width="80px" href="/novel/<%= @novel.id %>" title="公開 publish">
+    <img src="/assets/novel/publish.png">
+    <p>PUBLISH</p>
+  </a>
 
 
   <aside id="side_menu" >
@@ -36,7 +44,7 @@
   </div>
 </div>
 
-<%= render :partial => "novels/template" %> 
+<%= render :partial => "novels/edit_template" %> 
 <%= render :partial => "novels/tool_template" %> 
 <%= render :partial => "novels/tutorial" %> 
 
