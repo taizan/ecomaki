@@ -59,7 +59,9 @@ TextEditMenu.prototype = {
 
     $('.font_size_radio').buttonset();
 
-		$('.borderRadiuses', selecter).ImageSelect({width:'60px',backgroundColor:'transparent'});
+    $('.borderRadiuses', selecter).buttonset();
+
+		//$('.borderRadiuses', selecter).ImageSelect({width:20, height:20, dropdwonWidth:20, backgroundColor:'transparent'});
    
 		$('.borderTypes', selecter).ImageSelect({height:'20px'});
 
@@ -146,17 +148,18 @@ TextEditMenu.prototype = {
     if( $('.borderTypes',selecter).val() == "dotted") borderWidth = 2;
 
     if(TextEditMenu.prototype.isInitialized){
-      item.save({
+	var setting = {
           'font_size': $('.font_size_radio',selecter).find('label[aria-pressed=true]').attr('value'),
   	  	  'font_style': $('.fontStyleTypes',selecter).val(),
 	      	'font_family': $('.fontFamilyTypes',selecter).val(),
 		      'background_color': $('.fontBackgroundColors',selecter).val(),
           'border_style': $('.borderTypes',selecter).val(),
           'border_width': borderWidth,
-          'border_radius': $('.borderRadiuses',selecter).val()
-        });
-		  TextEditMenu.prototype.applyFont();
-      console.log('set');
+          'border_radius': $('.borderRadiuses input')[0].checked ? 30 : 0
+        };
+      	item.save(setting);
+	TextEditMenu.prototype.applyFont();
+      	console.log('set');
     }
   },
 	
