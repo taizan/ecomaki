@@ -83,6 +83,7 @@ class NovelsController < ApplicationController
     novel = Novel.find(params[:id]) or redirect_to root_path
     new_novel = novel.dup
 
+    new_novel.status = 'draft'
     new_novel.password = generate_password
     new_novel.save
 
