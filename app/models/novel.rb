@@ -1,6 +1,8 @@
 class Novel < ActiveRecord::Base
   attr_accessible :author_id, :description, :title, :status, :author_name, :parent_novel_id, :password
 
+  validates :title, :presence => true
+
   belongs_to :author
 
   has_many :chapter

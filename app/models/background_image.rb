@@ -2,6 +2,8 @@ class BackgroundImage < ActiveRecord::Base
   attr_accessor :image
   attr_accessible :name, :image, :description, :author
 
+  validates :validate_image_file
+
   belongs_to :chapter
 
   before_save :read_image
@@ -33,5 +35,14 @@ class BackgroundImage < ActiveRecord::Base
 
   def image_path
     return Rails.root.join('data', 'images', 'background', self.id.to_s)
+  end
+
+  def validate_image_file
+    max_file_size = 1000000
+    allowed_file_types = ['image/jpeg', 'image/png']
+
+    errors.add(:image, "Uploaded file size is #{@image.size}. (max: #{max_file_Size})") if @image.size > max_file_size
+
+    errors.add(:image, "Unsupported file type.") unless allowed_file_types.include?(@image.content_type.chomp)
   end
 end
