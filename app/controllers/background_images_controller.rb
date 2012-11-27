@@ -11,17 +11,17 @@ class BackgroundImagesController < ApplicationController
     image = params[:image]
     content_type = image.content_type.chomp
 
-    unless ['image/jpeg', 'image/png'].include?(content_type)
-      render :text => "The uploaded type is not allowed", :status => 500
-    else
       background_image = BackgroundImage.new(
         :name => params[:name],
         :description => params[:description],
         :author => params[:author],
         :image => image)
+
+    if background_image.valid?
       background_image.save
-      
       render :json => background_image
+    else
+      render :text => background_image.errors, :status => 500
     end
   end
 
