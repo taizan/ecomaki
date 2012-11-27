@@ -22,19 +22,20 @@
   <h1>List</h1>
 
   <div class=" novel_list">
-      <% @novels.each do |novel| %>
-         <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
-        <div class='span4 novel_list_item'>
-          <h2>
-            <%= "#{novel.title}" %>
-          </h2>
-          <p>
-            <%= "#{novel.description}" %>
-          </p>
-
-        </div >
+    <% @novels.each do |novel| %>
+      <% if novel.status == 'publish' then %> 
+        <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
+          <div class='span4 novel_list_item'>
+            <h2>
+              <%= "#{novel.title}" %>
+            </h2>
+            <p>
+              <%= "#{novel.description}" %>
+            </p>
+          </div >
         <% end %>
       <% end %>
+    <% end %>
   </div>
   
 </div>

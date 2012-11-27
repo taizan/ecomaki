@@ -24,11 +24,13 @@ $(function(){
       evaluate : /\{%(.+?)%\}/g,
   };
 
-  //Config.prototype.swapImage();
-  //Config.prototype.overImage();
+  Config.prototype.swapImage();
+  Config.prototype.overImage();
+  // for easy call of config function
 
 });
 
+ config = new Config();
 
 jQuery.fn.insertAt = function(index, element) {
   var lastIndex = this.children().size();
@@ -42,13 +44,11 @@ jQuery.fn.insertAt = function(index, element) {
   return this;
 };
 
-// for easy call of config function
-config = new Config();
 
 function Config()
 {
 
-}
+};
 
 var ctor = function(){};
 
@@ -62,6 +62,7 @@ Config.prototype.swapImage = function(){
     }
       $(this).toggleClass("on");
     });
+    return null;
 };
 
 Config.prototype.overImage = function(){
@@ -99,26 +100,26 @@ Config.prototype.inherits = function(parent, protoProps, staticProps) {
 
 Config.prototype.character_image_idtourl = function(id) {
     return '/characters/images/' + id;
-}
+};
 
 Config.prototype.character_image_urltoid =  function(url) {
     var elements = url.split('/');
     if (elements.length < 1)
   return null;
     return elements[elements.length-1];
-}
+};
 
 Config.prototype.background_idtourl = function(id) {
     if(id != null){ return '/background_images/images/' + id ;}
     else{return '/background_images/images/0';}
-}
+};
 
 Config.prototype.background_urltoid =  function(url) {
     var elements = url.split('/');
     if (elements.length < 1)
         return null;
     return elements[elements.length-1];
-}
+};
 
 Config.prototype.musics = [null, 'dream', 'flower', 'orange'];
 
@@ -126,7 +127,7 @@ Config.prototype.music_idtourl = function(id) {
     //return "https://dl.dropbox.com/u/8270034/sketch/bgm/" + Config.prototype.musics[music_id] + ".mp3";
     if(id != null){ return '/background_musics/musics/' + id + '.mp3';}
     else{return 'null';}
-}
+};
 
 Config.prototype.getScreenSize = function() {
   var obj = new Object();
@@ -140,7 +141,7 @@ Config.prototype.getScreenSize = function() {
   obj.mx = parseInt((obj.x)/2);
   obj.my = parseInt((obj.y)/2);
   return obj;
-}
+};
 
 Config.prototype.hex2rgb = function(hexColorString){
 	// Argument's value is expected String value formed such as "#FFFFFF"
@@ -149,7 +150,7 @@ Config.prototype.hex2rgb = function(hexColorString){
 		r: parseInt( hexColorString.slice(1,1+2), 16 ),
     g: parseInt( hexColorString.slice(3,3+2), 16 ),
     b: parseInt( hexColorString.slice(5,5+2), 16 ) };
-}
+};
 
 Config.prototype.rgb2hex = function(rgbObject){
   var xx = function(num){
@@ -161,10 +162,11 @@ Config.prototype.rgb2hex = function(rgbObject){
     }
   }
   return "#" + xx(rgbObject.r) + xx(rgbObject.g) + xx(rgbObject.b);
-}
+};
 
 Config.prototype.rgba2string = function(rgba){
 	return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
-}
+};
+
 
 Config.Shapes = {};

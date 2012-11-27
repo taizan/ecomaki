@@ -2,6 +2,7 @@
 //= require backbone
 //= require jquery.form
 //= require wColorPicker.1.2.min
+//
 //= require ./models
 //= require ./views/ecomakiView
 //= require ./views/entryItems
@@ -21,15 +22,11 @@
 
 $(function() {
   
-  var params = $('.novel_container').attr('id').split('/');
-  var id = params[1];
-  var mode = params[0];
+  var id = $('.novel_container').attr('id');
   
-  var isEditable = (mode == 'edit');
+  var isEditable = true;
     
   var urls = location.href.split('/');
-
-  
   var pass = urls.length > 5 ? urls[5] : null;  
   console.log(pass);
 
@@ -39,14 +36,6 @@ $(function() {
 
 });
 
-// Parse the URL and set Novel model.
-function setMode(){
-    //http://ecomaki.com/novel/1
-    //http://ecomaki.com/edit/1/[hash]
-    //var urls = location.href.split('/');
-    //var mode = urls[3];
-    //var id = urls[4];
-}
 
 function initializeView(id,pass,isEditable){
   novel = new Novel({id: id,password: pass});
@@ -73,13 +62,57 @@ function initializeTool(isEditable){
       novelView = new NovelView({model: novel , isEditable: isEditable});
       novelView.appendTo($('#content'));
       if(isEditable) {
-        //$('#preview').html('Preview');
+        $('#preview p').html('Preview');
         $('#toolbox').show();
       }else{
-        //$('#preview').html('Edit');
+        $('#preview p').html('Edit');
         $('#toolbox').hide();
       }
     });
+  
+  $('#publish').click(function(){ 
+      novel.save({'status': 'publish'}); 
+      alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
+    });
+  
+  //チュートリアルセットアップ
+  var tutorial = $($('#tutorial_template').html())
+    .appendTo('body')
+    .dialog()
+    .parent().css({ 'top': 40, 'left': 0 , 'position': 'fixed'});
+
+
+  var tutorial_progless = 0;
+
+  $('#tutorial_next_button').click( function() {
+    tutorial_progless++;
+    var next = $('#tutorial_template_' + tutorial_progless ).html();
+    if( next) {
+      $('#tutorial_content').html( next )
+      console.log($('#tutorial_template_' + tutorial_progless ).html());
+      $('#tutorial_back_button').show();
+    }
+    else{
+      $('#tutorial_content').html( 'End' );
+      $('#tutorial_next_button').hide();
+    }
+  });
+
+  $('#tutorial_back_button').click( function() {
+    tutorial_progless--;
+    var next = $('#tutorial_template_' + tutorial_progless ).html();
+    if( next) {
+      $('#tutorial_content').html( next )
+      console.log($('#tutorial_template_' + tutorial_progless ).html());
+      $('#tutorial_next_button').show();
+    }
+    else{
+      $('#tutorial_content').html( 'Start it' );
+      $('#tutorial_back_button').hide(); 
+    }
+  });
+
+  //console.log($('#tutorial_template').html());
 }
 
 function onStaticBodyClick(ev){

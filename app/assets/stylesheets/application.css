@@ -12,12 +12,8 @@
  *= require bootstrap.css 
  *= require bootstrap.min
  *= require jquery-ui-1.9.1.custom.min
- *= require wColorPicker.1.2.min
- *= require wPaint
- *= require tool
  *= require handle 
- *= require toolMenu
- *= require imageselect
  *= require layout 
+ *= require textEditTool
  */
 

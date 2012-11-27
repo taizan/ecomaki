@@ -1,4 +1,5 @@
-
+//= require jquery.fileupload
+//
 function Picker( ){
 
 }
@@ -23,6 +24,8 @@ Picker.prototype = {
     $('#character_upload_button')  .click(function(){ Picker.prototype.appendForm("/characters/images");} );
     $('#background_upload_button') .click(function(){ Picker.prototype.appendForm("/background_images");} );
     $('#music_upload_button')      .click(function(){ Picker.prototype.appendForm("/background_musics"); } );
+
+    $('#add_character_button')  .click(function(){ Picker.prototype.appendForm("/characters/");} );
   },
 
   onBlur: function(ev){
@@ -98,9 +101,30 @@ Picker.prototype = {
         var description = $(this).find('description').text();
 
         var text = name +', '+ description +', by '+ author;
+        var list_id = '#picker_list';
 
         console.log(id);
-        Picker.prototype.setImageItem(id,text,config.background_idtourl);
+        Picker.prototype.setImageItem(list_id,id,text,config.background_idtourl(id));
+      }
+    );
+  },
+
+  parseCharacterImageXml: function(xml,status){
+    if(status!='success')return;
+
+    $(xml).find('character-image').each(
+      function(){
+        var id = $(this).find('id').text();
+        var name = $(this).find('name').text();
+        var character_id = $(this).find('character-id').text();
+        //var height = $(this).find('height').text();
+        //var width = $(this).find('width').text();
+        var author = $(this).find('author').text();
+        var description = $(this).find('description').text();
+        var text = name +', '+ description +', by '+ author;
+        var list_id = '#character_item_'+character_id;
+
+        Picker.prototype.setImageItem(list_id,id,text,config.character_image_idtourl(id));
       }
     );
   },
@@ -108,20 +132,31 @@ Picker.prototype = {
   parseCharacterXml: function(xml,status){
     if(status!='success')return;
 
-    $(xml).find('character-image').each(
+    $(xml).find('character').each(
       function(){
         var id = $(this).find('id').text();
         var name = $(this).find('name').text();
-        //var height = $(this).find('height').text();
-        //var width = $(this).find('width').text();
         var author = $(this).find('author').text();
         var description = $(this).find('description').text();
         var text = name +', '+ description +', by '+ author;
 
-        Picker.prototype.setImageItem(id,text,config.character_image_idtourl);
+        if( $('#character_item_'+id).length == 0 ){
+          $($('#picker_item_template').html())
+            .attr({
+              'id':'character_item_'+id ,
+              'title': text
+              })
+            .appendTo('#picker_list')
+            .click(function(){ $('.add_character_image_button','#character_item_'+id).toggle() });
+          $('.add_character_image_button','#character_item_'+id).click(function(){
+            Picker.prototype.appendForm("/characters/images"); 
+          });
+        }
+        console.log($('#character_item_'+id ));
       }
     );
   },
+
 
   setTextItem: function(id,text,name){
     var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><p>' + name + '</p></li>');
@@ -135,18 +170,30 @@ Picker.prototype = {
       });
   },
 
-  setImageItem: function(id,text,urlGetter){
-    var url = urlGetter(id);
+  setImageItem: function(list_id,id,text,url){
     var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><img src="' + url + '"></li>');
-    item.appendTo($('#picker_list')).tooltip();
+    //item.appendTo($(list_id)).tooltip();
+    if(! $('.list_header',list_id).attr('src') ){
+      console.log($(list_id));
+      $('.list_header',list_id).attr('src',url);
+    }
 
-    item.click(function(){
-        if(Picker.prototype.selectedCallback){
-        //set img elem for use img tag information.
-          Picker.prototype.selectedCallback(id,$('img',item)[0]);
-          Picker.prototype.finish();
-        }
-      });
+
+    $(list_id).click(function(){
+      //click hide and show
+      if($("#pick_item"+id ).length > 0 ){
+        $("#pick_item"+id ).toggle();
+      }else{
+        item.appendTo($('.image_list',list_id));
+        item.click(function(){
+          if(Picker.prototype.selectedCallback){
+            //set img elem for use img tag information.
+            Picker.prototype.selectedCallback(id,$('img',item)[0]);
+            Picker.prototype.finish();
+          }
+        });
+      }
+    });
   },
 
   setCallback: function(func) {
@@ -155,7 +202,8 @@ Picker.prototype = {
 
   showCharacterList: function(callback){
     if( !Picker.prototype.isCharacterListAppended){
-      Picker.prototype.resetList("/characters/images.xml" , Picker.prototype.parseCharacterXml );
+      Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
+      Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
       Picker.prototype.isCharacterListAppended = true;
     }
     Picker.prototype.selectedCallback = callback;
@@ -167,7 +215,8 @@ Picker.prototype = {
 
   showBackgroundList: function(callback){
     if( !Picker.prototype.isBackgroundListAppended){
-      Picker.prototype.resetList("/background_images.xml" , Picker.prototype.parseBackgroundXml );
+      $('#picker').find($('.picker_item')).remove();
+      Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
       Picker.prototype.isBackgroundListAppended = true;
     }
     Picker.prototype.selectedCallback = callback;
@@ -178,8 +227,9 @@ Picker.prototype = {
 
   showMusicList: function(callback){
    if( !Picker.prototype.isMusicListAppended){ 
+      $('#picker').find($('.picker_item')).remove();
       Picker.prototype.setTextItem('null','音楽なし','No BGM');
-      Picker.prototype.resetList("/background_musics.xml" , Picker.prototype.parseMusicXml );
+      Picker.prototype.loadXml("/background_musics.xml" , Picker.prototype.parseMusicXml );
       Picker.prototype.isMusicListAppended = true;
     }
     Picker.prototype.selectedCallback = callback;
@@ -188,17 +238,8 @@ Picker.prototype = {
     $('#music_upload_button').show();
   },
 
-  resetList:function(xml,parser){
-    var picker =  Picker.prototype;
-    $('#picker').find($('.picker_item')).remove();
-    if(!picker.visible){
-      picker.loadXml(xml , parser );
-      //$(document).tooltip();
-    }
-  },
-  
   showPicker: function() {
-      $('#picker').show('drop','fast');
+      if(! Picker.prototype.visible)$('#picker').show('drop','fast');
       Picker.prototype.visible = true;
       Picker.prototype.isBlurable = true;
   },
