@@ -61,10 +61,13 @@ Ecomaki::Application.routes.draw do
   match 'background_musics/musics/:id' => 'background_musics#show_music'
   match 'background_musics/tags' => 'background_music_tags#index', :via => :get
   match 'background_musics/tags' => 'background_music_tags#create', :via => :post
+
   # Background images
   match 'background_images' => 'background_images#index', :via => :get
   match 'background_images' => 'background_images#create', :via => :post
   match 'background_images/images/:id' => 'background_images#show_image'
+  match 'background_images/tags' => 'background_image_tag#index', :via => :get
+  match 'background_images/tags' => 'background_image_tag#create', :via => :post
 
   # Edit mode
   match 'edit/:id/:password' => 'novels#edit', :via => :get
