@@ -59,7 +59,8 @@ Ecomaki::Application.routes.draw do
   match 'background_musics' => 'background_musics#index', :via => :get
   match 'background_musics' => 'background_musics#create', :via => :post
   match 'background_musics/musics/:id' => 'background_musics#show_music'
-
+  match 'background_musics/tags' => 'background_music_tags#index', :via => :get
+  match 'background_musics/tags' => 'background_music_tags#create', :via => :post
   # Background images
   match 'background_images' => 'background_images#index', :via => :get
   match 'background_images' => 'background_images#create', :via => :post
