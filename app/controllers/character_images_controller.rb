@@ -15,6 +15,20 @@ class CharacterImagesController < ApplicationController
 
   def create
     character_id = params[:character_id]
+
+    # Find by name
+    character_id = Character.where("name = ?", params[:character_name]).id if character_id.nil?
+
+    # Create new character.
+    if character_id.nil?
+      character = Character.new(
+        :name => params[:character_name],
+        :description => params[:description],
+        :author => params[:author])
+      character.save
+      character_id = character.id
+    end
+
     image = params[:image]
     content_type = image.content_type.chomp
 
