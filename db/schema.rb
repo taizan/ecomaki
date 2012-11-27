@@ -11,13 +11,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121121130859) do
+ActiveRecord::Schema.define(:version => 20121127121311) do
 
   create_table "authors", :force => true do |t|
     t.string   "name"
     t.string   "password"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "background_image_tag_names", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "background_image_tags", :force => true do |t|
+    t.integer  "background_image_id"
+    t.integer  "background_image_tag_name_id"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "background_images", :force => true do |t|
@@ -78,10 +91,9 @@ ActiveRecord::Schema.define(:version => 20121121130859) do
   create_table "characters", :force => true do |t|
     t.string   "name"
     t.string   "description"
-    t.string   "content_type"
     t.string   "author"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "entries", :force => true do |t|
