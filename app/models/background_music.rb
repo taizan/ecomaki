@@ -2,6 +2,9 @@ class BackgroundMusic < ActiveRecord::Base
   attr_accessor :music
   attr_accessible :name, :music, :author, :description
 
+  validates :music, :name, :presence => true
+  validates :validate_music_file
+  
   belongs_to :chapter
 
   has_many :background_music_tag
@@ -28,5 +31,11 @@ class BackgroundMusic < ActiveRecord::Base
 
   def music_path
     return Rails.root.join('data', 'musics', 'background', self.id.to_s)
+  end
+
+  def validate_music_file
+    max_file_size = 4000000
+    errors.add(:music, "Your file size is #{@music.size}. (max: #{max_file_size})") if @music.size > max_file_size
+    errors.add(:music, "Unsupported file type.") unless ["audio/mp3"].include?(@music.content_type.chomp)
   end
 end
