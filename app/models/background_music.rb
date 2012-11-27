@@ -4,6 +4,9 @@ class BackgroundMusic < ActiveRecord::Base
 
   belongs_to :chapter
 
+  has_many :background_music_tag
+  has_many :background_music_tag_name, through => :background_music_tag
+
   before_save :read_music
   after_save :save_music
   
