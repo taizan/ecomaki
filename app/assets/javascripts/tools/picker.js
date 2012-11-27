@@ -56,7 +56,6 @@ Picker.prototype = {
     
     ///<input id="char_upload" type="file" name="image" data-url="/characters/images" multiple>
 		var template = _.template( $("#upload_form_template").html(),{'upload_type':"image" });
-    
 
     var form = $(template)
       .appendTo('body')
@@ -95,9 +94,11 @@ Picker.prototype = {
         var description = $(this).find('description').text();
 
         var text = name +', '+ description +', by '+ author;
+        
+				var list_id = "#music_picker .picker_list"
 
         console.log(name);
-        Picker.prototype.setTextItem(id,text,id + ': '+name);
+        Picker.prototype.setTextItem(list_id,id,text,id + ': '+name);
       }
     );
   },
@@ -115,7 +116,7 @@ Picker.prototype = {
         var description = $(this).find('description').text();
 
         var text = name +', '+ description +', by '+ author;
-        var list_id = '#picker_list';
+        var list_id = '#background_picker .picker_list';
 
         console.log(id);
         Picker.prototype.setImageItem(list_id,id,text,config.background_idtourl(id));
@@ -156,13 +157,11 @@ Picker.prototype = {
 
         if( $('#character_item_'+id).length == 0 ){
           $($('#picker_item_template').html())
-            .attr({
-              'id':'character_item_'+id ,
-              'title': text
-              })
+            .attr({ 'id':'character_item_'+id ,'title': text })
             .appendTo('#character_picker .picker_list')
             .click(function(){ $('.add_character_image_button','#character_item_'+id).toggle() });
-          $('.add_character_image_button','#character_item_'+id).click(function(){
+          
+					$('.add_character_image_button','#character_item_'+id).click(function(){
             Picker.prototype.appendForm("/characters/images"); 
           });
         }
@@ -172,9 +171,9 @@ Picker.prototype = {
   },
 
 
-  setTextItem: function(id,text,name){
-    var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><p>' + name + '</p></li>');
-    item.appendTo($('#picker_list'));
+  setTextItem: function(list_id,id,text,name){
+    var item = $('<li id="pick_item'+id+'" class="picker_item picker_elem" title="'+ text+'"><p>' + name + '</p></li>');
+    item.appendTo($(list_id));
 
     item.click(function(){
         if(Picker.prototype.selectedCallback){
@@ -207,7 +206,6 @@ Picker.prototype = {
       $('.list_header',list_id).attr('src',url);
     }
 
-
     $(list_id).click(function(){
       //click hide and show
       if($("#pick_item"+id ).length > 0 ){
@@ -236,10 +234,10 @@ Picker.prototype = {
       Picker.prototype.isCharacterListAppended = true;
     }
     Picker.prototype.selectedCallback = callback;
-    Picker.prototype.showPicker();
-    //hide all button and show one
-    $('.upload_button').hide();
-    $('#character_upload_button').show();
+    
+    if(! Picker.prototype.visible)$('#character_picker').show('drop','fast');
+    Picker.prototype.visible = true;
+    Picker.prototype.isBlurable = true;
   },
 
   showBackgroundList: function(callback){
@@ -249,9 +247,10 @@ Picker.prototype = {
       Picker.prototype.isBackgroundListAppended = true;
     }
     Picker.prototype.selectedCallback = callback;
-    Picker.prototype.showPicker();
-    $('.upload_button').hide();
-    $('#background_upload_button').show();
+		
+    if(! Picker.prototype.visible)$('#background_picker').show('drop','fast');
+    Picker.prototype.visible = true;
+    Picker.prototype.isBlurable = true;
   },
 
   showMusicList: function(callback){
@@ -262,9 +261,10 @@ Picker.prototype = {
       Picker.prototype.isMusicListAppended = true;
     }
     Picker.prototype.selectedCallback = callback;
-    Picker.prototype.showPicker();
-    $('.upload_button').hide();
-    $('#music_upload_button').show();
+    
+    if(! Picker.prototype.visible)$('#music_picker').show('drop','fast');
+    Picker.prototype.visible = true;
+    Picker.prototype.isBlurable = true;
   },
 
   showPicker: function() {
@@ -275,7 +275,7 @@ Picker.prototype = {
 
   finish: function(){
     if(Picker.prototype.visible){
-      $('#picker').hide('drop','hide');
+      $('.picker').hide('drop','hide');
       Picker.prototype.visible = false;
     }
     Picker.prototype.isBlurable = false;
