@@ -12,10 +12,23 @@ Picker.prototype = {
   isApeended: false,
 
   initialize: function(){
-    var pickerTemplate = $('#picker_template').html();
-    $(pickerTemplate).appendTo('body');
+    
 
+    $($('#character_picker_template').html())
+		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
+    $($('#background_picker_template').html())
+		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
+	  $($('#music_picker_template').html())
+		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
+			
+    $('.picker_cancel_button').click(Picker.prototype.finish);
+
+ /*   
+		var pickerTemplate = $('#picker_template').html();
+    $(pickerTemplate).appendTo('body');
+		
     $('#picker').blur(Picker.prototype.onBlur);
+		
     //$('#picker').click(function(ev){ ev.stopPropagation(); });
     $("#picker").hide();
     $("#picker").tabs();
@@ -24,7 +37,7 @@ Picker.prototype = {
     $('#character_upload_button')  .click(function(){ Picker.prototype.appendForm("/characters/images");} );
     $('#background_upload_button') .click(function(){ Picker.prototype.appendForm("/background_images");} );
     $('#music_upload_button')      .click(function(){ Picker.prototype.appendForm("/background_musics"); } );
-
+*/
     $('#add_character_button')  .click(function(){ Picker.prototype.appendForm("/characters");} );
     $('#add_background_button')  .click(function(){ Picker.prototype.appendForm("/background_images");} );
     $('#add_music_button')  .click(function(){ Picker.prototype.appendForm("/background_musics");} );
@@ -33,8 +46,7 @@ Picker.prototype = {
   onBlur: function(ev){
     console.log(ev);
     if (Picker.prototype.isBlurable) {
-      console.log(Picker.prototype.isBlurable);
-      if( !$(ev.target).is('#picker') && !$(ev.target).is('.picker_item') && !$(ev.target).is('.item_image')){
+      if( !$(ev.target).is('.picker_elem') ){
         Picker.prototype.finish();
       }
     }
@@ -148,13 +160,13 @@ Picker.prototype = {
               'id':'character_item_'+id ,
               'title': text
               })
-            .appendTo('#picker_list')
+            .appendTo('#character_picker .picker_list')
             .click(function(){ $('.add_character_image_button','#character_item_'+id).toggle() });
           $('.add_character_image_button','#character_item_'+id).click(function(){
             Picker.prototype.appendForm("/characters/images"); 
           });
         }
-        console.log($('#character_item_'+id ));
+        //console.log($('#character_item_'+id ));
       }
     );
   },
