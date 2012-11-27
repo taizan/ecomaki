@@ -12,8 +12,12 @@ class BackgroundMusicTagsController < ApplicationController
 
     tag = BackgroundMusicTag.new(
       :background_music_tag_name_id => tag_name.id,
-      :background_music_id => music_id)
+      :background_music_id => params[:music_id])
     tag.save
 
+    respond_to do |format|
+      format.xml { rendr :xml => tag }
+      format.json { rendr :json => tag }
+    end
   end
 end
