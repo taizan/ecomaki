@@ -84,6 +84,8 @@ function initializeTool(isEditable){
 
   var tutorial_progless = 0;
 
+  // チュートリアルの進む
+  //
   $('#tutorial_next_button').click( function() {
     tutorial_progless++;
     var next = $('#tutorial_template_' + tutorial_progless ).html();
@@ -98,16 +100,17 @@ function initializeTool(isEditable){
     }
   });
 
+  // チュートリアルの戻る
   $('#tutorial_back_button').click( function() {
     tutorial_progless--;
-    var next = $('#tutorial_template_' + tutorial_progless ).html();
-    if( next) {
+    var prev = $('#tutorial_template_' + tutorial_progless ).html();
+    if( prev) {
       $('#tutorial_content').html( next )
       console.log($('#tutorial_template_' + tutorial_progless ).html());
       $('#tutorial_next_button').show();
     }
     else{
-      $('#tutorial_content').html( 'Start it' );
+      $('#tutorial_content').html( $('#tutorial_template_0' ).html() );
       $('#tutorial_back_button').hide(); 
     }
   });

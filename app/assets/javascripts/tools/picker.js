@@ -25,7 +25,9 @@ Picker.prototype = {
     $('#background_upload_button') .click(function(){ Picker.prototype.appendForm("/background_images");} );
     $('#music_upload_button')      .click(function(){ Picker.prototype.appendForm("/background_musics"); } );
 
-    $('#add_character_button')  .click(function(){ Picker.prototype.appendForm("/characters/");} );
+    $('#add_character_button')  .click(function(){ Picker.prototype.appendForm("/characters");} );
+    $('#add_background_button')  .click(function(){ Picker.prototype.appendForm("/background_images");} );
+    $('#add_music_button')  .click(function(){ Picker.prototype.appendForm("/background_musics");} );
   },
 
   onBlur: function(ev){
@@ -124,7 +126,7 @@ Picker.prototype = {
         var text = name +', '+ description +', by '+ author;
         var list_id = '#character_item_'+character_id;
 
-        Picker.prototype.setImageItem(list_id,id,text,config.character_image_idtourl(id));
+        Picker.prototype.setImageListItem(list_id,id,text,config.character_image_idtourl(id));
       }
     );
   },
@@ -171,6 +173,21 @@ Picker.prototype = {
   },
 
   setImageItem: function(list_id,id,text,url){
+    var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><img src="' + url + '"></li>');
+    //item.appendTo($(list_id)).tooltip();
+    
+    item.appendTo($(list_id));
+    item.click(function(){
+      if(Picker.prototype.selectedCallback){
+      //set img elem for use img tag information.
+        Picker.prototype.selectedCallback(id,$('img',item)[0]);
+        Picker.prototype.finish();
+      }
+      });
+  },
+
+
+  setImageListItem: function(list_id,id,text,url){
     var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><img src="' + url + '"></li>');
     //item.appendTo($(list_id)).tooltip();
     if(! $('.list_header',list_id).attr('src') ){
@@ -256,6 +273,7 @@ Picker.prototype = {
 
 // character upload
 $(function () {
+/*
   $('#character_upload').fileupload({
     dataType: 'json',
     done: function(e, data) {
@@ -287,6 +305,6 @@ $(function () {
       console.log(data);
     }
   });
-
+*/
 
 });
