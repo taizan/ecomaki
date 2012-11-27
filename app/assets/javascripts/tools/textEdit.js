@@ -1,5 +1,7 @@
-
+//= require jquery.autosize-min
+//
 TextEdit = function(){ }
+
 
 TextEdit.prototype = {
   

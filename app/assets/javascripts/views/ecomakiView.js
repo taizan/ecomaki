@@ -58,7 +58,7 @@ ecomakiView = Backbone.View.extend({
     //console.log(this.el);
     $(window).scroll(this.onScroll);
 
-    this.hideButton();
+    //this.hideButton();
     this.onLoad();
 
 	},
@@ -162,22 +162,29 @@ ecomakiView = Backbone.View.extend({
 	
 	
   hideButton: function(){
-    var hide_button = '.hide_buttons';
-    var button = '.buttons';
-    var _self = this;
-    $(this.el)
-      .mouseover(function(){
-        if(_self.isEditable){
-     //     $(this).children(button).show();
-          $(this).children(hide_button).show();
-        }
-      })
-      .mouseout(function(){
-      //  $(this).children(button).hide();
-        $(this).children(hide_button).hide();
-      });
-    // $(button,this.el).hide();
-     $(hide_button,this.el).hide();
+    if(!this.isHideButton){
+      this.isHideButton = true;
+      var hide_button = '.hide_buttons';
+      var button = '.buttons';
+      var _self = this;
+      $(this.el)
+        .mouseover(function(){
+          if(_self.isEditable){
+     //       $(this).children(button).show();
+            $(hide_button,_self.el).show();
+          }
+        })
+        .mouseleave(function(ev){
+        //  $(this).children(button).hide();
+            //console.log($(ev.toElement).hasClass('ui-tooltip-content'));
+            //console.log($(ev.toElement));
+            if( !$(ev.toElement).hasClass('ui-tooltip-content')
+                 && !$(ev.toElement).hasClass('ui-tooltip') ) {
+              $(hide_button,_self.el).hide();
+            }
+        });
+      $(hide_button,this.el).hide();
+    }
     return this;
   },
 	

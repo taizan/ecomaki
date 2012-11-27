@@ -17,7 +17,4 @@
 //= require bootstrap.min
 //= require jquery-ui-1.9.1.custom.min
 //= require jquery.iframe-transport
-//= require jquery.fileupload
-//= require jquery.autosize
-//= require jquery.autosize-min
 //= require layout 

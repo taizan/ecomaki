@@ -8,7 +8,10 @@
       </ul>
       <div id="list_tab">
         <ul id = "picker_list" class = "nav nav-list">
-          <li class="nav-header">Selecct Image from Libraly</li>
+          <li class="nav-header">
+            <button id="add_character_button" title="キャラクターの追加; New Character"><img src='/assets/novel/add_character.png'></buttton>
+          </li>
+          
         </ul>
       </div>
       <div id="upload_tab">
@@ -27,11 +30,18 @@
         <button class="btn upload_button" id ="music_upload_button"><img src="/assets/novel/upload.png" ></button>
     </div>
 
-    
       <button class="btn" id ="picker_cancel_button"><img src="/assets/novel/remove.png" ></button></li>
   </aside>
 </script>
 
+<script type="text/template" id="picker_item_template">
+  <li>
+    <ul class="image_list">
+      <img class="picker_item list_header" >
+      <button class="add_character_image_button" title="新規画像の追加; Upload New Image" style="display:none"><img  src="/assets/novel/add.png">
+    </ul>
+  </li>
+</script>
 
 <script type="text/template" id="chapter_handle_template">
   <div class="chapter_handle">
@@ -242,11 +252,8 @@
       </select>
     </div>
 
-    <div  class="selecter_item" title="Line Radius">
-      <select name="borderRadius" class="borderRadiuses" id="borderRadius">
-			  <option value="0"> /assets/rect2985.png </option>
-			  <option value="30"> /assets/rect2986.png </option>
-      </select>
+    <div name="borderRadius" class="borderRadiuses" id="borderRadius" title="Line Radius">
+	<input type='checkbox' id='rect_on'/><label for='rect_on'>  </label>
     </div>
     
     <div  class="selecter_item" title="Text Background">

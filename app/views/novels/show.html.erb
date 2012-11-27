@@ -4,7 +4,7 @@
 <%= stylesheet_link_tag 'entry' %>
 <%= stylesheet_link_tag 'entryItem' %>
 
-<%= javascript_include_tag 'novel' %>
+<%= javascript_include_tag 'novelShow' %>
 
 <% content_for :html_title, @novel.title %>
 <% content_for :html_description, @novel.description %>
@@ -14,7 +14,7 @@
 <img id="background_even" class="background" src="/assets/0.png" />
 
 
-<div class="novel_container" id="novel/<%= @novel.id%>">
+<div class="novel_container" id="<%= @novel.id%>">
 
   <div id="content"> </div>
 
@@ -29,6 +29,5 @@
   </ul>
 </div>
 
-<%= render :partial => "novels/template" %> 
-<%= render :partial => "novels/tool_template" %> 
+<%= render :partial => "novels/show_template" %> 
 
