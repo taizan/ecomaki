@@ -69,12 +69,16 @@ EntryItem.prototype = {
   init: function(){},
 
   onResize: function(){
+    this.effecter.changeSelecter();
+
     this.item.set('width',$(this.el).width());
     this.item.set('height' , $(this.el).height());
     this.item.save();
   },
 
   onDragStart: function(){
+    this.effecter.changeSelecter();
+
     var z = this.parentView.maxIndex ;
     //if(this.item.get('z_index') < z) {
       z ++;
@@ -164,7 +168,7 @@ BalloonItem = EntryItem.extend({
   init: function(){
     //console.log(this.el);
     this.target = $(this.el);
-    this.effecter = new Effecter(this.target,this.item,'option');
+    this.effecter = new Effecter(this.target,this.item,'option','balloon'+this.item.get('id') );
     //this.fontSelecter = new FontSelecter(this.target,this.item);
 		this.textMenu = new TextEditMenu(this.target, this.item);
 
@@ -232,7 +236,7 @@ ImageItem = EntryItem.extend({
       });
 
       this.target = $(this.el);
-			this.effecter = new Effecter(this.target,this.item,'option');
+			this.effecter = new Effecter(this.target,this.item,'option' , 'image'+this.item.get('id'));
 
       $(this.el).draggable({
         start: this.onDragStart,

@@ -4,3 +4,4 @@ zero:
   id: 0
   name: lion
   content_type: audio/mpeg
+  description: "lion"

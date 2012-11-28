@@ -1,7 +1,8 @@
-function Effecter(target,item,key){
+function Effecter(target,item,key,name){
 	this.target = target;
 	this.item = item;
 	this.key = key;
+  this.name = name;
 	_.bindAll(this,
         "changeSelecter",
         "runSelectedEffect",
@@ -15,9 +16,9 @@ function Effecter(target,item,key){
 
 Effecter.prototype = {
 	changeSelecter: function(){
-      console.log('on item click');
-      $('#anim_tab .effect_selecter').remove();
-      this.appendEffectSelecterTo($('#anim_tab'));
+      //console.log('on item click');
+      $('#toolbox .effect_selecter').remove();
+      this.appendEffectSelecterTo($('#toolbox')).effect('highlight','slow');
   },
 
 	runSelectedEffect: function(){
@@ -99,7 +100,8 @@ Effecter.prototype = {
     var selecterTemplate =  $("#effect_selecter_template").html();
     this.selecter = $(selecterTemplate);
     $(this.selecter).appendTo(target);
-    
+   
+    $('.item_name',this.selecter).html(this.name);  
     var option = this.item.get(this.key);
     if(option != null){
       var options = option.split(',');
@@ -112,6 +114,8 @@ Effecter.prototype = {
     $('.effectTypes',this.selecter).change( _self.setEffect );
     //$(this.selecter).find('.easeTypes').change( _self.setEffect );
     $('.durations',this.selecter).change( _self.setEffect );  
+
+    return this.selecter;
   },
 
   setEffect: function(){

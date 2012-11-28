@@ -89,7 +89,7 @@ EntryView = ecomakiView.extend({
         $(this.canvasImage).appendTo(this.content).width( this.model_width ).height( this.model_height );
       }
     }
-    this.effecter = new Effecter($('.paint',this.el),this.model,'option');
+    this.effecter = new Effecter($('.paint',this.el),this.model,'option','canvas_'+this.model.get('id'));
     
     this.hideButton();
     return this.render();
