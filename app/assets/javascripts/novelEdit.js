@@ -79,8 +79,13 @@ function initializeTool(isEditable){
   var tutorial = $($('#tutorial_template').html())
     .appendTo('body')
     .dialog()
-    .parent().css({ 'top': 40, 'left': 0 , 'position': 'fixed'});
+    .parent().css({ 'top': 40, 'left': 0 , 'position': 'fixed' , 'z-index': 99999}).addClass('tutorial_dialog') ;
 
+  $('#tutorial_button').click(function(){ 
+      tutorial.dialog('enable');
+      $('.tutorial_dialog')
+        .css({ 'top': 40, 'left': 0 , 'position': 'fixed' , 'z-index': 99999});
+    });
 
   var tutorial_progless = 0;
 
@@ -105,7 +110,7 @@ function initializeTool(isEditable){
     tutorial_progless--;
     var prev = $('#tutorial_template_' + tutorial_progless ).html();
     if( prev) {
-      $('#tutorial_content').html( next )
+      $('#tutorial_content').html( prev )
       console.log($('#tutorial_template_' + tutorial_progless ).html());
       $('#tutorial_next_button').show();
     }

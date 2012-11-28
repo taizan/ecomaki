@@ -1,0 +1,44 @@
+// Text tool style
+
+.text_menu{
+  position: absolute;
+  box-shadow:3px 3px 5px #555555; 
+  //width: 250px;
+  // height: 100px;
+  background: gray;
+  //margin : 10px;
+  font-size: 10px;
+  //min-height: 24px;
+}
+
+.text_menu fontColor{
+  //width: 400px;
+  //height: 100px;
+}
+
+.text_menu .selecter_item{
+  //position: relative;
+  //float:left;
+}
+
+.text_menu .fontFamilyTypes {
+  width: 150px;
+} 
+
+.text_menu #font_family{
+  width: 100px;
+}
+
+.text_menu #borderRadius{
+  //float:left;
+}
+
+#textMenu .text_menu #borderRadius label.ui-state-default{
+	width:24px;
+	height:24px;
+	background:url(/assets/text/rect_off.png) center no-repeat;
+}
+
+#textMenu .text_menu #borderRadius label.ui-state-active{
+	background:url(/assets/text/rect_on.png) center no-repeat;
+}
