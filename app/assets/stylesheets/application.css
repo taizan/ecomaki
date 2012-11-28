@@ -12,7 +12,6 @@
  *= require bootstrap.css 
  *= require bootstrap.min
  *= require jquery-ui-1.9.1.custom.min
- *= require handle 
  *= require layout 
  *= require balloonShape
  */

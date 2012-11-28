@@ -201,9 +201,9 @@ Picker.prototype = {
   setImageListItem: function(list_id,id,text,url){
     var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><img src="' + url + '"></li>');
     //item.appendTo($(list_id)).tooltip();
-    if(! $('.list_header',list_id).attr('src') ){
+    if(! $('.list_header img',list_id).attr('src') ){
       console.log($(list_id));
-      $('.list_header',list_id).attr('src',url);
+      $('.list_header img',list_id).attr('src',url);
     }
 
     $(list_id).click(function(){

@@ -11,7 +11,7 @@
 }
 
 
-.title .text_help {
+.title {
     cursor:pointer;
 }
 
@@ -22,7 +22,7 @@
     z-index: 99;
 }
 
-.description .text_help {
+.description {
     cursor:pointer;
 }
 
@@ -43,7 +43,19 @@
 
 // for side button
 
-#preview {
+
+#tutorial_button {
+  font-size: 20;
+  position: fixed;
+  left: 0px;
+  top:40px;
+  height: 60px;
+  z-index: 9999;
+}
+.tutorial_dialog {
+  z-index: 99999;
+}
+#preview_button {
   font-size: 20;
   position: fixed;
   right: 80px;
@@ -51,12 +63,12 @@
   height: 60px;
   z-index: 99999;
 }
-#preview img {
+#preview_button img {
   width: 30px;
   height: 30px;
 }
 
-#publish {
+#publish_button {
   font-size: 20;
   position: fixed;
   right: 0px;
