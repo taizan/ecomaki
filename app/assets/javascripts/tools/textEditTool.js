@@ -43,12 +43,18 @@ TextEditMenu.prototype = {
 			top: (offset.top + target.height()) + "px",
 			'z-index': 9999,
 		});
+
+		//this.initMenu();
+		//console.log(this.item);
     $('#textMenu .text_menu').show();
 
+		//TextEditMenu.prototype.applyTarget();
+		//TextEditMenu.prototype.applyFont();
 		//$('textMenu').show();
   },
               
   appendTextEditMenuTo: function(){    
+		console.warn("appending");
     TextEditMenu.prototype.isAppended = true;
 
     var selecterTemplate =  $("#text_menu_template").html();
@@ -63,9 +69,11 @@ TextEditMenu.prototype = {
 
 		//$('.borderRadiuses', selecter).ImageSelect({width:20, height:20, dropdwonWidth:20, backgroundColor:'transparent'});
    
-		$('.borderTypes', selecter).ImageSelect({height:'20px'});
+		//$('.borderTypes', selecter).ImageSelect({height:'20px'});
+		$('.borderTypes', selecter).ImageSelect({height:20});
 
-		$('.fontBackgroundColors', selecter).ImageSelect({height:'16px'});
+		//$('.fontBackgroundColors', selecter).ImageSelect({height:'16px'});
+		$('.fontBackgroundColors', selecter).ImageSelect({height:16});
 
     var setFont = TextEditMenu.prototype.setFont;
 
@@ -77,8 +85,9 @@ TextEditMenu.prototype = {
     $('.borderWidths',selecter).change( setFont );
     $('.borderRadiuses',selecter).change( setFont );
   },
-
+	
   applyTarget: function(){ 
+		console.log("=======applyTarget=======================================");
     var item = TextEditMenu.prototype.item;
     var selecter = TextEditMenu.prototype.selecter;
 
@@ -91,7 +100,7 @@ TextEditMenu.prototype = {
 		if(item.get('font_family')) 
       $('.fontFamilyTypes option[value="'+item.get('font_family')+'"]',selecter).prop('selected',true);
   
-    console.log( item.get('font_size'));
+    //console.log( item.get('font_size'));
     $('.font_size_radio label',selecter).removeClass('ui-state-active');
     if(item.get('font_size') <= 8 )       $('.font_size_radio label[value="8"]',selecter).addClass('ui-state-active');
     else if(item.get('font_size') <= 12 ) $('.font_size_radio label[value="12"]',selecter).addClass('ui-state-active');
@@ -121,6 +130,19 @@ TextEditMenu.prototype = {
 		//var cp = $('.fontColors', selecter).data('_wColorPicker');
     //cp.colorSelect(cp, item.get('font_color') || '#000000' );
 
+		var value = item.get('border_style');
+		//console.log( value );
+		var btype = $('.borderTypes', selecter);
+		var $el = $('option[value="' + value + '"]', btype);
+		$('select[name="border"]').val( value )
+		$('#jq_imageselect_border .jqis_header img').attr('src', $el.text());
+
+		value = item.get('background_color');
+		var bg = $('.fontBackgroundColors', selecter);
+		$el = $('option[value="' + value + '"]', bg);
+		$('select[name="fontBackgroundColor"]').val( value )
+		$('#jq_imageselect_fontBackgroundColor .jqis_header img').attr('src', $el.text());
+
 		console.log(item.get('border_radius'));
 		if( item.get('border_radius') > 0 ){
 			$('.borderRadiuses input').attr("checked", true);
@@ -132,7 +154,7 @@ TextEditMenu.prototype = {
 		
     TextEditMenu.prototype.isInitialized = true;
 
-
+		console.log("===============================================");
   },
 
   setFont: function(){
@@ -215,66 +237,3 @@ TextEditMenu.prototype = {
   }
 
 }
-
-/*
-TextEdit = function(){ }
-
-TextEdit.prototype = {
-  
-  isAppended: false,
-
-  onBlur: function(ev){
-    //console.log(ev);
-  },
-  editableTextarea: function(target,callback){
-    console.log(target);
-
-    if ($('.editable_text') != []){
-    //  TextEdit.prototype.isAppended = true;
-
-      var text = $('.text',target).html();
-      if(text === null || text === undefined){
-        text = "[        ]";
-      }else{
-        console.log(text);
-        text = text.split("<br>").join('\n');
-        text = text
-          .replace(/&amp;/g,"&")
-          .replace(/&quot;/g,"/")
-          .replace(/&#039;/g,"'")
-          .replace(/&lt;/g,"<")
-          .replace(/&gt;/g,">");
-      }
-
-      var focusedText = $( '<textarea class="editable_text" style="vertical-align: middle; text-align:center;" ></textarea>' )
-          .height( $(target).height() ).width ( $(target).width() )
-          .css({position: 'absolute', left:-5 ,top: -5})
-          .appendTo(target)
-          .focus().select()
-          .autosize()
-          .val(text);
-
-      focusedText.blur(
-        function() {
-         var txt = $(this).val();
-         $('.text',target).text(txt);
-         txt = $('.text',target).html().split('\n').join('<br>') ;
-         console.log(txt);
-          $('.text',target).html(txt);
-
-          callback( txt);
-
-          $(this).remove();
-    //      TextEdit.prototype.isAppended = false;
-      });
-    }
-  }, 
-  
-
-}
-
-//temp code
-function editableTextarea(target,callback){
-  TextEdit.prototype.editableTextarea(target,callback);
-}
-*/
