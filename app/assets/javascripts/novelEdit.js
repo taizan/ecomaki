@@ -66,6 +66,7 @@ function initializeTool(isEditable){
       }else{
         $('#preview p').html('Edit');
         $('#toolbox').hide();
+        $('.tutorial_dialog').hide();
       }
     });
   
