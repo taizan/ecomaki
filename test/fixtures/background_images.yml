@@ -4,53 +4,75 @@ white:
   id: 0
   name: white
   content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
   
 white2:
   id: 1
   name: white2
   content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
 
 gray:
   id: 2
   name: gray
   content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
 
 black:
   id: 3
   name: black
   content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
 
 orange:
   id: 4
   name: orange
   content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
 
 deep_sea:
- id: 5
- name: deepsea
- content_type: image/png
+  id: 5
+  name: deepsea
+  content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
  
 sunset:
   id: 6
   name: sunset
   content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
  
 ice:
   id: 7
   name: ice
   content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
 
 blue:
   id: 8
   name: blue
   content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
   
 grass:
   id: 9
   name: grass
   content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
  
 metal:
   id: 10
   name: metal
   content_type: image/png
+  updated_at: <%= Time.now %>
+  created_at: <%= Time.now %>
