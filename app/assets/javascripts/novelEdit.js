@@ -56,7 +56,6 @@ function initializeTool(isEditable){
   Picker.prototype.initialize();
 
   $('#preview_button').click(function(){
-      alert();
       isEditable = isEditable ? false : true;
       $('#content').empty();
       novelView = new NovelView({model: novel , isEditable: isEditable});
