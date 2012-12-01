@@ -80,10 +80,13 @@ function initializeTool(isEditable){
     .appendTo('body')
     .dialog()
     .parent().css({ 'top': 40, 'left': 0 , 'position': 'fixed' , 'z-index': 99999}).addClass('tutorial_dialog') ;
+  
+  $('.ui-dialog-titlebar-close',tutorial).click(function(){ $('.tutorial_dialog').hide(); });
 
   $('#tutorial_button').click(function(){ 
-      tutorial.dialog('enable');
+      //tutorial.dialog('enable');
       $('.tutorial_dialog')
+        .show()
         .css({ 'top': 40, 'left': 0 , 'position': 'fixed' , 'z-index': 99999});
     });
 

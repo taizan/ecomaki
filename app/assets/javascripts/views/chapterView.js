@@ -143,9 +143,15 @@ ChapterView = ecomakiView.extend({
   },
 
   addChapter: function(e){
+    //var chapter = this.parentView.model;
+    //var currentIndex =  chapter.entries.indexOf(this.model);
+    //var attributes = { height: 320, width: 640, canvas_index: 1 };
+    //chapter.entries.create_after(attributes, currentIndex);
+    
     console.log("addChapter");
-    console.log(this.parentView);
-    this.parentView.model.create_chapter();
+    var novel = this.parentView.model;
+    var currentIndex = novel.chapters.indexOf(this.model);
+    novel.chapters.create_after({},currentIndex);
   },
 
   removeChapter: function(e){
