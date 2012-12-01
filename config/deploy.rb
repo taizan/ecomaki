@@ -39,3 +39,11 @@ namespace :deploy do
     run "ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
   end
 end
+
+# db:fixtures:load
+namespace :deploy do
+  desc "Load fixtures"
+  task :load_fixtures, :roles => :app do
+    run "cd #{current_path}; rake db:fixtures:load RAILS_ENV=#{rails_env}"
+  end
+end
