@@ -6,6 +6,7 @@ gem 'jquery-rails'
 gem 'rmagick'
 gem 'amoeba', "~> 1.2.1"
 
+
 gem 'capistrano'
 
 group :assets do
@@ -18,4 +19,8 @@ group :development do
   gem 'pry'
   gem 'quiet_assets'
   gem 'jshint_on_rails'
+end
+
+group :production do
+  gem 'mysql2'
 end
