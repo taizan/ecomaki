@@ -20,7 +20,11 @@ class Entry < ActiveRecord::Base
     if @original_id
       src = Rails.root.join("data/images/entry_canvas/#{@original_id}")
       dest = Rails.root.join("data/images/entry_canvas/#{id}")
-      FileUtils.cp(src, dest)
+      if File.exist?(src)
+        FileUtils.cp(src, dest)
+      else
+        FileUtils.touch(dest)
+      end
     else
       File.open(canvas_path, 'wb') do |file|
         file.write(@canvas)

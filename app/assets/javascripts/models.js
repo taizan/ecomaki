@@ -158,6 +158,7 @@ var EntryList = Backbone.Collection.extend(
 	    }
 	},
 	// Create model and insert it right after the index-th model.
+	// To insert to the top, set index to -1.
 	create_after: function(attributes, index, options) {
 	    // Assume all the order_number is correct.
 	    attributes.order_number = index + 1;
