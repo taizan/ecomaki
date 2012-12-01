@@ -57,6 +57,8 @@ function initializeTool(isEditable){
 
   $('#preview_button').click(function(){
       isEditable = isEditable ? false : true;
+			$('#preview_button img').attr('src', '/assets/novel/' + (isEditable ? 'preview.png' : 'edit.png'));
+			$('#preview_button p').text(isEditable ? 'preview' : 'edit');
       $('#content').empty();
       novelView = new NovelView({model: novel , isEditable: isEditable});
       novelView.appendTo($('#content'));
