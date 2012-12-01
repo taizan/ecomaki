@@ -1,4 +1,5 @@
 //= require ./imageselect
+debug = {};
 
 function TextEditMenu(target,item){
   this.target = target;	
@@ -34,6 +35,7 @@ TextEditMenu.prototype = {
     if(!TextEditMenu.prototype.isAppended){
       TextEditMenu.prototype.appendTextEditMenuTo();
     }
+		console.log(this.isInitialized);
     TextEditMenu.prototype.applyTarget();
 
 		var offset = target.offset();
@@ -46,7 +48,9 @@ TextEditMenu.prototype = {
 
 		//this.initMenu();
 		//console.log(this.item);
+		console.log(debug.border.attr('src'));
     $('#textMenu .text_menu').show();
+		console.log(debug.border.attr('src'));
 
 		//TextEditMenu.prototype.applyTarget();
 		//TextEditMenu.prototype.applyFont();
@@ -91,6 +95,8 @@ TextEditMenu.prototype = {
     var item = TextEditMenu.prototype.item;
     var selecter = TextEditMenu.prototype.selecter;
 
+		debug.item = item;
+		console.log(item.get('border_style'));
     TextEditMenu.prototype.isInitialized = false;
 
 		//if(this.item.get('font_color'))
@@ -130,21 +136,25 @@ TextEditMenu.prototype = {
 		//var cp = $('.fontColors', selecter).data('_wColorPicker');
     //cp.colorSelect(cp, item.get('font_color') || '#000000' );
 
-		var value = item.get('border_style');
+		var value = item.get('border_style') || "solid";
 		//console.log( value );
 		var btype = $('.borderTypes', selecter);
 		var $el = $('option[value="' + value + '"]', btype);
 		$('select[name="border"]').val( value )
 		$('#jq_imageselect_border .jqis_header img').attr('src', $el.text());
 
-		value = item.get('background_color');
+		value = item.get('background_color') || "white";
 		var bg = $('.fontBackgroundColors', selecter);
 		$el = $('option[value="' + value + '"]', bg);
 		$('select[name="fontBackgroundColor"]').val( value )
 		$('#jq_imageselect_fontBackgroundColor .jqis_header img').attr('src', $el.text());
 
 		console.log(item.get('border_radius'));
-		if( item.get('border_radius') > 0 ){
+		value = item.get('border_radius');
+		if(value == null){
+			value = 30;
+		}
+		if( value > 0 ){
 			$('.borderRadiuses input').attr("checked", true);
 			$('.borderRadiuses label').addClass("ui-state-active");
 		}else{
@@ -153,6 +163,9 @@ TextEditMenu.prototype = {
 		}
 		
     TextEditMenu.prototype.isInitialized = true;
+
+		debug.border = $('#jq_imageselect_border .jqis_header img');
+		console.log( $('#jq_imageselect_border .jqis_header img').attr('src') );
 
 		console.log("===============================================");
   },
@@ -227,8 +240,6 @@ TextEditMenu.prototype = {
 	},
 
   finish: function(){
-
-    
     $('#textMenu .text_menu').hide();
   },
 
@@ -237,3 +248,7 @@ TextEditMenu.prototype = {
   }
 
 }
+
+$(function(){
+  TextEditMenu.prototype.appendTextEditMenuTo();
+});
