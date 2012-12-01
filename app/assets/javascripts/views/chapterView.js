@@ -160,7 +160,8 @@ ChapterView = ecomakiView.extend({
   },
 
   render: function(){
-    if(this.isLoaded){
+    // render all chapter if iseditable
+    if(this.isLoaded || this.isEditable){
       console.log("chapter render");
 
       $('.title .text',this.el).html(this.model.get('title'));
