@@ -55,8 +55,8 @@ function initializeTool(isEditable){
 
   Picker.prototype.initialize();
 
-  $('#preview').show();
-  $('#preview').click(function(){
+  $('#preview_button').click(function(){
+      alert();
       isEditable = isEditable ? false : true;
       $('#content').empty();
       novelView = new NovelView({model: novel , isEditable: isEditable});
@@ -70,7 +70,7 @@ function initializeTool(isEditable){
       }
     });
   
-  $('#publish').click(function(){ 
+  $('#publish_button').click(function(){ 
       novel.save({'status': 'publish'}); 
       alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
     });
