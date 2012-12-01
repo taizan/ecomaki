@@ -1,0 +1,9 @@
+data1:
+  id: 1
+  background_music_id: 1
+  background_music_tag_name_id: 1
+
+data2:
+  id: 2
+  background_music_id: 2
+  background_music_tag_name_id: 2
