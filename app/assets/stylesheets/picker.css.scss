@@ -25,9 +25,19 @@
   cursor:pointer;
 }
 
-.list_header{
+.list_header_button {
   width: 128px;
   height: 128px;
+  float: left;
+}
+
+.list_header_text{
+  float: left;
+  margin-left: 10px;
+}
+
+.floatEnd{
+  clear: left
 }
 
 .upload_form {
