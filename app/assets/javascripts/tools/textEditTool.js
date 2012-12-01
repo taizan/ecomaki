@@ -1,5 +1,4 @@
 //= require ./imageselect
-debug = {};
 
 function TextEditMenu(target,item){
   this.target = target;	
@@ -24,7 +23,7 @@ TextEditMenu.prototype = {
 		.appendTo($('body')),
 
   changeSelecter: function(target){
-    console.log('on text click');
+    //console.log('on text click');
 		//console.log($('#textMenu .text_menu'));
     //$('#textMenu .text_menu').remove();
       
@@ -34,9 +33,10 @@ TextEditMenu.prototype = {
 
     if(!TextEditMenu.prototype.isAppended){
       TextEditMenu.prototype.appendTextEditMenuTo();
-    }
-		console.log(this.isInitialized);
-    TextEditMenu.prototype.applyTarget();
+			setTimeout(TextEditMenu.prototype.applyTarget, 1);
+    }else{
+    	TextEditMenu.prototype.applyTarget();
+		}
 
 		var offset = target.offset();
 		TextEditMenu.prototype.bar.css({
@@ -48,9 +48,7 @@ TextEditMenu.prototype = {
 
 		//this.initMenu();
 		//console.log(this.item);
-		console.log(debug.border.attr('src'));
     $('#textMenu .text_menu').show();
-		console.log(debug.border.attr('src'));
 
 		//TextEditMenu.prototype.applyTarget();
 		//TextEditMenu.prototype.applyFont();
@@ -58,7 +56,7 @@ TextEditMenu.prototype = {
   },
               
   appendTextEditMenuTo: function(){    
-		console.warn("appending");
+		//console.warn("appending");
     TextEditMenu.prototype.isAppended = true;
 
     var selecterTemplate =  $("#text_menu_template").html();
@@ -91,12 +89,11 @@ TextEditMenu.prototype = {
   },
 	
   applyTarget: function(){ 
-		console.log("=======applyTarget=======================================");
+		//console.log("=======applyTarget=======================================");
     var item = TextEditMenu.prototype.item;
     var selecter = TextEditMenu.prototype.selecter;
 
-		debug.item = item;
-		console.log(item.get('border_style'));
+		//console.log(item.get('border_style'));
     TextEditMenu.prototype.isInitialized = false;
 
 		//if(this.item.get('font_color'))
@@ -149,7 +146,7 @@ TextEditMenu.prototype = {
 		$('select[name="fontBackgroundColor"]').val( value )
 		$('#jq_imageselect_fontBackgroundColor .jqis_header img').attr('src', $el.text());
 
-		console.log(item.get('border_radius'));
+		//console.log(item.get('border_radius'));
 		value = item.get('border_radius');
 		if(value == null){
 			value = 30;
@@ -164,10 +161,8 @@ TextEditMenu.prototype = {
 		
     TextEditMenu.prototype.isInitialized = true;
 
-		debug.border = $('#jq_imageselect_border .jqis_header img');
-		console.log( $('#jq_imageselect_border .jqis_header img').attr('src') );
-
-		console.log("===============================================");
+		//console.log( $('#jq_imageselect_border .jqis_header img').attr('src') );
+		//console.log("===============================================");
   },
 
   setFont: function(){
@@ -248,7 +243,3 @@ TextEditMenu.prototype = {
   }
 
 }
-
-$(function(){
-  TextEditMenu.prototype.appendTextEditMenuTo();
-});

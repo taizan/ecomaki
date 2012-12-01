@@ -57,7 +57,7 @@
                 //dropdown.append('<img style="width:' + options.dropdownWidth + 'px" onclick="jQuery(\'select[name=' + selectName + ']\').val(\''+ $(el).val() + '\').ImageSelect(\'close\').ImageSelect(\'update\',{src:\''+ $(el).text() + '\'});" src="' + $(el).text() + '"/>');
                 //dropdown.append('<img style="width:100%" onclick="jQuery(\'select[name=' + selectName + ']\').val(\''+ $(el).val() + '\').ImageSelect(\'close\').ImageSelect(\'update\',{src:\''+ $(el).text() + '\'});" src="' + $(el).text() + '"/>');
 								var $el =  $(el);
-								console.log($el.val());
+								//console.log($el.val());
                 dropdown.append($('<img style="width:100%" src="' + $el.text() + '">')
 									.click(function(){
 										$('select[name=' + selectName + ']')
