@@ -39,7 +39,7 @@ class BackgroundImage < ActiveRecord::Base
 
   def validate_image_file
     max_file_size = 1000000
-    allowed_file_types = ['image/jpeg', 'image/png']
+    allowed_file_types = ['image/jpeg', 'image/png', 'image/gif']
 
     errors.add(:image, "Uploaded file size is #{@image.size}. (max: #{max_file_Size})") if @image.size > max_file_size
 
