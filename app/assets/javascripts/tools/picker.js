@@ -144,6 +144,7 @@ Picker.prototype = {
         Picker.prototype.setImageListItem(list_id,id,text,config.character_image_idtourl(id));
       }
     );
+
   },
 
   parseCharacterXml: function(xml,status){
@@ -178,10 +179,14 @@ Picker.prototype = {
           
         }
         //console.log($('#character_item_'+id ));
-      }
-    );
+      });
+    Picker.prototype.onCharacterXmlParseEnded();
   },
 
+  onCharacterXmlParseEnded: function(){
+    // call next function 
+    Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
+  },
 
   setTextItem: function(list_id,id,text,name){
     var item = $('<li id="pick_item'+id+'" class="picker_text_item picker_elem" title="'+ text+'"><p>' + name + '</p></li>');
@@ -243,7 +248,7 @@ Picker.prototype = {
   showCharacterList: function(callback){
     if( !Picker.prototype.isCharacterListAppended){
       Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
-      Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
+    //  Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
       Picker.prototype.isCharacterListAppended = true;
     }
     Picker.prototype.selectedCallback = callback;
