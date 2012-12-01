@@ -66,14 +66,13 @@ Config.prototype.swapImage = function(){
 };
 
 Config.prototype.overImage = function(){
-  $('.img_over').live("mouseover",function(){
-    if ( !$(this).hasClass("on") ) {
-      this.src = this.src.replace("_off","_on");
-    } else {
-      this.src = this.src.replace("_on","_off");
-    }
-      $(this).toggleClass("on");
-    });
+  $('.img_over')
+    .live("mouseover",function(){
+        this.src = this.src.replace("_off","_on");
+      })
+    .live("mouseleave",function(){
+        this.src = this.src.replace("_on","_off");
+      });
 };
 
 Config.prototype.inherits = function(parent, protoProps, staticProps) {

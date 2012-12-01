@@ -143,6 +143,7 @@ EntryItem.prototype = {
   },
   
   onDisplay: function(){
+    console.log('ondisp')
     this.effecter.runSelectedEffect();
   },
 
