@@ -4,11 +4,11 @@
 
     <ul class = "picker_list nav nav-list picker_elem">
       <li class="nav-header picker_elem">
-        <button id="add_character_button" title="キャラクターの追加; New Character"><img src='/assets/novel/add_character.png'></buttton>
+        <button id="add_character_button" class="btn picker_elem" title="キャラクターの追加; New Character"><img src='/assets/novel/add_character.png'></buttton>
+        <button class="btn picker_cancel_button" title="閉じる; close picker"><img src="/assets/novel/remove.png" ></button>
       </li>
     </ul>
 
-    <button class="btn picker_cancel_button"><img src="/assets/novel/remove.png" ></button></li>
   </aside>
 </script>
 
@@ -17,11 +17,11 @@
 
     <ul class = "picker_list picker_elem nav nav-list">
       <li class="nav-header picker_elem">
-        <button id="add_background_button" class="picker_elem" title="`背景の追加; New Background"><img src='/assets/novel/add.png'></buttton>
+        <button id="add_background_button" class="btn picker_elem" title="`背景の追加; New Background"><img src='/assets/novel/add.png'></buttton>
+        <button class="btn picker_cancel_button" title="閉じる; close picker"><img src="/assets/novel/remove.png" ></button>
       </li>
     </ul>
 
-    <button class="btn picker_cancel_button"><img src="/assets/novel/remove.png" ></button></li>
   </aside>
 </script>
 
@@ -30,11 +30,10 @@
 
     <ul class = "picker_list  picker_elem nav nav-list">
       <li class="nav-header picker_elem">
-        <button id="add_music_button" class="picker_elem" title="音楽の追加; New BGM"><img src='/assets/novel/add.png'></buttton>
+        <button id="add_music_button" class="btn picker_elem" title="音楽の追加; New BGM"><img src='/assets/novel/add.png'></buttton>
+        <button class="btn picker_cancel_button" title="閉じる; close picker"><img src="/assets/novel/remove.png" ></button>
       </li>
     </ul>
-
-    <button class="btn picker_cancel_button"><img src="/assets/novel/remove.png" ></button></li>
   </aside>
 </script>
 
@@ -76,11 +75,18 @@
 </script>
 
 <script type="text/template" id="picker_item_template">
-  <li>
-    <ul class="image_list">
-      <img class="picker_item list_header" >
-      <button class="add_character_image_button" title="新規画像の追加; Upload New Image" style="display:none"><img  src="/assets/novel/add.png">
-    </ul>
+  <li class='picker_item'>
+    <hr>
+    <button class="btn list_header_button"><img ></button>
+    <div class="list_header_text" >
+      <p class="list_header_name">name </p>
+      <p class="list_header_description">description </p>
+    </div>
+    <div class='floatEnd'></div>
+    <div class="image_list" style="display:none">
+      <button class="btn add_character_image_button picker_image_item" title="新規画像の追加; Upload New Image" ><img  src="/assets/novel/add.png"></button>
+    </div>
+    <hr>
   </li>
 </script>
 

@@ -1,4 +1,6 @@
 //= require jquery.fileupload
+//= require jquery.masonry.min 
+//= require jquery.imagesLoaded 
 //
 function Picker( ){
 
@@ -156,14 +158,21 @@ Picker.prototype = {
         var text = name +', '+ description +', by '+ author;
 
         if( $('#character_item_'+id).length == 0 ){
-          $($('#picker_item_template').html())
+          //init header 
+          var header =  $($('#picker_item_template').html())
             .attr({ 'id':'character_item_'+id ,'title': text })
             .appendTo('#character_picker .picker_list')
-            .click(function(){ $('.add_character_image_button','#character_item_'+id).toggle() });
+            .click(function(){ $('.image_list','#character_item_'+id).toggle() })
+            .imagesLoaded( function(){  $('.image_list',header).masonry({ itemSelecter: '.picker_image_item'}); });
           
-					$('.add_character_image_button','#character_item_'+id).click(function(){
-            Picker.prototype.appendForm("/characters/images"); 
-          });
+					$('.list_header_name',header).html( name );
+					$('.list_header_description',header).html( description );
+
+          // init form add button
+          $('.add_character_image_button','#character_item_'+id).click(function(){
+              Picker.prototype.appendForm("/characters/images"); 
+            });
+          
         }
         //console.log($('#character_item_'+id ));
       }
@@ -199,18 +208,16 @@ Picker.prototype = {
 
 
   setImageListItem: function(list_id,id,text,url){
-    var item = $('<li id="pick_item'+id+'" class="picker_item" title="'+ text+'"><img src="' + url + '"></li>');
+    var item = $('<div id="pick_item'+id+'" class="picker_image_item" title="'+ text+'"><img src="' + url + '"></div>');
     //item.appendTo($(list_id)).tooltip();
-    if(! $('.list_header img',list_id).attr('src') ){
+    if(! $('.list_header_button img',list_id).attr('src') ){
       console.log($(list_id));
-      $('.list_header img',list_id).attr('src',url);
+      $('.list_header_button img',list_id).attr('src',url);
     }
 
     $(list_id).click(function(){
       //click hide and show
-      if($("#pick_item"+id ).length > 0 ){
-        $("#pick_item"+id ).toggle();
-      }else{
+      if($("#pick_item"+id ).length == 0 ){
         item.appendTo($('.image_list',list_id));
         item.click(function(){
           if(Picker.prototype.selectedCallback){
