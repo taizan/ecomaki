@@ -32,7 +32,7 @@ class CharacterImagesController < ApplicationController
     image = params[:image]
     content_type = image.content_type.chomp
 
-    if ['image/jpeg', 'image/png'].include?(content_type)
+    if ['image/jpeg', 'image/png', 'image/gif'].include?(content_type)
       character_image = CharacterImage.new(
         :image => image,
         :character_id => character_id,
