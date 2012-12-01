@@ -19,7 +19,7 @@ class BackgroundMusicsController < ApplicationController
       background_music.save
       render :json => background_music
     else
-      render :text background_music.errors, :status => 500
+      render :text => background_music.errors, :status => 500
     end
   end
 
