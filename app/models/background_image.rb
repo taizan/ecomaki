@@ -2,7 +2,7 @@ class BackgroundImage < ActiveRecord::Base
   attr_accessor :image
   attr_accessible :name, :image, :description, :author
 
-  validates :validate_image_file
+  validate :validate_image_file
 
   belongs_to :chapter
 
