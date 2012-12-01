@@ -280,7 +280,7 @@
     </select>
 		<div name="fontColor" class="fontColors _wPaint_colorPicker selecter_item" title="Text Color"></div>
 
-    <div  class="selecter_item" title="Text Size">
+    <div  class="selecter_item TSize" title="Text Size">
       <div class="font_size_radio" title="Text Size">
         <input type="radio" id="font_size_s" name="radio"  /><label value="8" for="font_size_s">S</label>
         <input type="radio" id="font_size_m" name="radio"  checked="checked" /><label value="12" for="font_size_m">M</label>
@@ -289,7 +289,11 @@
       </div>
     </div>
 
-    <div  class="selecter_item" title="Line Style">
+    <div name="borderRadius" class="borderRadiuses" id="borderRadius" title="Line Radius">
+			<input type='checkbox' id='rect_on'/><label for='rect_on'>  </label>
+    </div>
+
+    <div  class="selecter_item LStyle" title="Line Style">
       <select name="border" class="borderTypes" >
         <option value="none">/assets/text/border_none.png</option>
         <option value="solid" selected="selected">/assets/text/border_solid.png</option>
@@ -298,12 +302,8 @@
         <option value="dotted">/assets/text/border_dotted.png</option>
       </select>
     </div>
-
-    <div name="borderRadius" class="borderRadiuses" id="borderRadius" title="Line Radius">
-	<input type='checkbox' id='rect_on'/><label for='rect_on'>  </label>
-    </div>
     
-    <div  class="selecter_item" title="Text Background">
+    <div  class="selecter_item TBackground" title="Text Background">
       <select name="fontBackgroundColor" class="fontBackgroundColors">
         <option value="white" selected="selected" style="background-color:white" >/assets/text/color_white.png</option>
         <option value="silver" style="background-color:silver" >/assets/text/color_silver.png</option>

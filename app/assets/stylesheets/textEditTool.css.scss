@@ -9,6 +9,8 @@
   //margin : 10px;
   font-size: 10px;
   //min-height: 24px;
+	width: 350px;
+	height: 70px;
 }
 
 .text_menu fontColor{
@@ -23,14 +25,31 @@
 
 .text_menu .fontFamilyTypes {
   width: 150px;
+	position: absolute;
+	left: 43px;
+	top: 5px;
 } 
 
 .text_menu #font_family{
   width: 100px;
 }
 
-.text_menu #borderRadius{
-  //float:left;
+.text_menu .fontColors{
+	position: absolute;
+	left: 5px;
+	top: 6px;
+}
+
+.text_menu .selecter_item.TSize{
+	position: absolute;
+	left: 205px;
+	top: 5px;
+}
+
+.text_menu .borderRadiuses{
+	position: absolute;
+	left: 38.5px;
+	top: 40px;
 }
 
 #textMenu .text_menu #borderRadius label.ui-state-default{
@@ -41,4 +60,16 @@
 
 #textMenu .text_menu #borderRadius label.ui-state-active{
 	background:url(/assets/text/rect_on.png) center no-repeat;
+}
+
+.text_menu .selecter_item.LStyle{
+	position: absolute;
+	left: 78.5px;
+	top: 40px;
+}
+
+.text_menu .selecter_item.TBackground{
+	position: absolute;
+	left: 8.5px;
+	top: 43px;
 }
