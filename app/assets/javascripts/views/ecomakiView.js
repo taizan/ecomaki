@@ -52,6 +52,7 @@ ecomakiView = Backbone.View.extend({
 
   load: function(){
 		this.isLoaded = true;
+    $(this.el).empty();
 		var template = _.template( $(this.tmplId).html() , this.model.attributes);
     //console.log($(this.tmplId).html());
     $(template).appendTo(this.el);
@@ -81,7 +82,7 @@ ecomakiView = Backbone.View.extend({
   },
 	
   onAppend: function(){
-    if(this.isLoaded)this.load();
+    if(this.isLoaded )this.load();
   },
 
 
