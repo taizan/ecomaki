@@ -128,7 +128,7 @@ TextEditMenu.prototype = {
       }
 		});
     
-    $('._wColorPicker_paletteHolder').width(237).height(197);
+    $('._wColorPicker_paletteHolder').width(240).height(197);
 
 		//var cp = $('.fontColors', selecter).data('_wColorPicker');
     //cp.colorSelect(cp, item.get('font_color') || '#000000' );
@@ -181,7 +181,7 @@ TextEditMenu.prototype = {
 		      'background_color': $('.fontBackgroundColors',selecter).val(),
           'border_style': $('.borderTypes',selecter).val(),
           'border_width': borderWidth,
-          'border_radius': $('.borderRadiuses input')[0].checked ? 30 : 0
+          'border_radius': $('.borderRadiuses input')[0].checked ? 20 : 0
     	};
    		item.save(setting);
 			TextEditMenu.prototype.applyFont();
