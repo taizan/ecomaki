@@ -181,7 +181,7 @@ TextEditMenu.prototype = {
 		      'background_color': $('.fontBackgroundColors',selecter).val(),
           'border_style': $('.borderTypes',selecter).val(),
           'border_width': borderWidth,
-          'border_radius': $('.borderRadiuses input')[0].checked ? 30 : 0
+          'border_radius': $('.borderRadiuses input')[0].checked ? 20 : 0
     	};
    		item.save(setting);
 			TextEditMenu.prototype.applyFont();
