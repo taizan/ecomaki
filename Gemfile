@@ -6,6 +6,8 @@ gem 'jquery-rails'
 gem 'rmagick'
 gem 'amoeba', "~> 1.2.1"
 
+gem 'capistrano'
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
