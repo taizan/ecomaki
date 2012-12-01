@@ -66,6 +66,14 @@ Picker.prototype = {
       .ajaxForm(function() { 
           alert("Thank you"); 
           $(form).remove();
+          if(action == "/characters" )  
+            Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
+          if(action == "/characters/images" )  
+            Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
+          if(action == "/background_images" )
+            Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
+          if(action == "/background_musics" )
+            Picker.prototype.loadXml("/background_musics.xml" , Picker.prototype.parseMusicXml );
         });
 
     $('.cancel_button',form).click(function(){ $(form).remove()});
@@ -100,7 +108,7 @@ Picker.prototype = {
 				var list_id = "#music_picker .picker_list"
 
         console.log(name);
-        Picker.prototype.setTextItem(list_id,id,text,id + ': '+name);
+        Picker.prototype.setMusicItem(list_id,id,text,id + ': '+name);
       }
     );
   },
@@ -121,7 +129,7 @@ Picker.prototype = {
         var list_id = '#background_picker .picker_list';
 
         console.log(id);
-        Picker.prototype.setImageItem(list_id,id,text,config.background_idtourl(id));
+        Picker.prototype.setBackgroundItem(list_id,id,text,config.background_idtourl(id));
       }
     );
   },
@@ -141,7 +149,7 @@ Picker.prototype = {
         var text = name +', '+ description +', by '+ author;
         var list_id = '#character_item_'+character_id;
 
-        Picker.prototype.setImageListItem(list_id,id,text,config.character_image_idtourl(id));
+        Picker.prototype.setCharacterImageItem(list_id,id,text,config.character_image_idtourl(id));
       }
     );
 
@@ -188,35 +196,40 @@ Picker.prototype = {
     Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
   },
 
-  setTextItem: function(list_id,id,text,name){
-    var item = $('<li id="pick_item'+id+'" class="picker_text_item picker_elem" title="'+ text+'"><p>' + name + '</p></li>');
-    item.appendTo($(list_id));
+  setMusicItem: function(list_id,id,text,name){
+    var item = $('<li id="pick_music_item'+id+'" class="picker_text_item picker_elem" title="'+ text+'"><p>' + name + '</p></li>');
 
-    item.click(function(){
+    if( $('#pick_music_item' + id).length == 0 ){
+      item.appendTo($(list_id));
+      item.click(function(){
+          if(Picker.prototype.selectedCallback){
+            Picker.prototype.selectedCallback(id);
+            Picker.prototype.finish();
+          }
+        });
+    }
+  },
+
+  setBackgroundItem: function(list_id,id,text,url){
+    var item = $('<li id="pick_background_item'+id+'" class="picker_image_item" title="'+ text+'"><img src="' + url + '"></li>');
+    //item.appendTo($(list_id)).tooltip();
+   
+    if( $('#pick_background_item' + id).length == 0 ){
+      item.appendTo($(list_id));
+      item.click(function(){
         if(Picker.prototype.selectedCallback){
-          Picker.prototype.selectedCallback(id);
+        //set img elem for use img tag information.
+          Picker.prototype.selectedCallback(id,$('img',item)[0]);
           Picker.prototype.finish();
         }
-      });
-  },
+        });
+    }
 
-  setImageItem: function(list_id,id,text,url){
-    var item = $('<li id="pick_item'+id+'" class="picker_image_item" title="'+ text+'"><img src="' + url + '"></li>');
-    //item.appendTo($(list_id)).tooltip();
-    
-    item.appendTo($(list_id));
-    item.click(function(){
-      if(Picker.prototype.selectedCallback){
-      //set img elem for use img tag information.
-        Picker.prototype.selectedCallback(id,$('img',item)[0]);
-        Picker.prototype.finish();
-      }
-      });
   },
 
 
-  setImageListItem: function(list_id,id,text,url){
-    var item = $('<div id="pick_item'+id+'" class="picker_image_item" title="'+ text+'"><img src="' + url + '"></div>');
+  setCharacterImageItem: function(list_id,id,text,url){
+    var item = $('<div id="pick_character_image_item'+id+'" class="picker_image_item" title="'+ text+'"><img src="' + url + '"></div>');
     //item.appendTo($(list_id)).tooltip();
     if(! $('.list_header_button img',list_id).attr('src') ){
       console.log($(list_id));
@@ -275,7 +288,7 @@ Picker.prototype = {
   showMusicList: function(callback){
    if( !Picker.prototype.isMusicListAppended){ 
       $('#picker').find($('.picker_item')).remove();
-      Picker.prototype.setTextItem('null','音楽なし','No BGM');
+      Picker.prototype.setMusicItem('null','音楽なし','No BGM');
       Picker.prototype.loadXml("/background_musics.xml" , Picker.prototype.parseMusicXml );
       Picker.prototype.isMusicListAppended = true;
     }
