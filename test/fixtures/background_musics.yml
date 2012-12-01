@@ -5,3 +5,5 @@ zero:
   name: lion
   content_type: audio/mpeg
   description: "lion"
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
