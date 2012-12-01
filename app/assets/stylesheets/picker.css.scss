@@ -17,17 +17,43 @@
     z-index: 999999;
 }
 
+hr {
+  clear: left
+}
+
+.picker_item {
+  clear: left
+}
 
 .picker_item:hover {
+  background: white;
+  //margin: 10px;
+  border: 1px gray solid; 
+  cursor:pointer;
+}
+
+.picker_text_item:hover {
   background: silver;
   //margin: 10px;
-  border: 3px green solid; 
+  border: 2px white solid; 
+  cursor:pointer;
+}
+
+.picker_image_item {
+  width: 31%;
+  float:left;
+  margin: 3px;
+}
+
+.picker_image_item:hover {
+  background: silver;
+  border: 1px white solid; 
   cursor:pointer;
 }
 
 .list_header_button {
-  width: 128px;
-  height: 128px;
+  width: 64px;
+  height: 64px;
   float: left;
 }
 
