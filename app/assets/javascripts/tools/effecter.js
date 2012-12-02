@@ -18,7 +18,8 @@ Effecter.prototype = {
 	changeSelecter: function(){
       //console.log('on item click');
       $('#toolbox .effect_selecter').remove();
-      this.appendEffectSelecterTo($('#toolbox')).effect('highlight','slow');
+      this.appendEffectSelecterTo($('#toolbox'));
+      $('#toolbox .selecter_item').effect('highlight','slow');
   },
 
 	runSelectedEffect: function(){
