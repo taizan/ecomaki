@@ -206,14 +206,14 @@
 <script type="text/template" id="effect_selecter_template">
   <div class="effect_selecter">
     <div class="floatEnd"></div>
-    <div class="item_name selecter_item">item name</div>
-    <select name="function" class="functionTypes selecter_item">
+    <div class="item_name selecter_item" title="選択された要素、アニメーション設定用; selected item ID for setting animation">item name</div>
+    <select name="function" class="functionTypes selecter_item" title="アニメーションタイプ">
       <option value="none" selected="selected">None</option>
       <option value="effect">Effect</option>
       <option value="show">Show</option>
       <option value="hide">Hide</option>
     </select>
-    <select name="effects" class="effectTypes selecter_item">
+    <select name="effects" class="effectTypes selecter_item" title="アニメーション効果"> 
       <option value="none" selected="selected">None</option>
       <option value="blind">Blind</option>
       <option value="bounce">Bounce</option>
@@ -232,7 +232,7 @@
       <option value="transfer">Transfer</option>
     </select>
     <!-- 
-    <select name="ease" class="easeTypes selecter_item">
+    <select name="ease" class="easeTypes selecter_item" title="アニメーション時間">
       <option value="linear" >linear</option>
       <option value="swing" >swing</option>
       <option value="jswing" >jswing</option>
