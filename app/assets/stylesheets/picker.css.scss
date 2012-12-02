@@ -9,26 +9,33 @@
 }
 
 .picker {
-    position: fixed;
-    top:0px;
-    width: 300px;
-    height: 101%;
-    overflow: scroll;
-    z-index: 999999;
+  position: fixed;
+  top:0px;
+  width: 300px;
+  height: 101%;
+  overflow: scroll;
+  z-index: 999999;
+  padding: 10px;
+}
+
+.picker_list {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 hr {
-  clear: left
+  clear: left;
 }
 
 .picker_item {
-  clear: left
+  clear: left;
+  position: relative;
 }
 
 .picker_item:hover {
   background: white;
   //margin: 10px;
-  border: 1px gray solid; 
+  border: 2px gray solid; 
   cursor:pointer;
 }
 
@@ -39,16 +46,26 @@ hr {
   cursor:pointer;
 }
 
+.add_character_image_button {
+  position: absolute;
+  right : 0px;
+  top: 6px;
+}
+
 .picker_image_item {
-  width: 31%;
+  width: 30%;
   float:left;
   margin: 3px;
 }
 
+.picker_image_item img{
+  width: 100%;
+}
 .picker_image_item:hover {
   background: silver;
-  border: 1px white solid; 
+  border: 3px gray solid; 
   cursor:pointer;
+  margin: 0px;
 }
 
 .list_header_button {
