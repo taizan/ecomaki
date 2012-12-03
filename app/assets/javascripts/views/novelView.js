@@ -36,6 +36,9 @@ NovelView = ecomakiView.extend({
 		  $('#description').click(function(ev){
 			    editableTextarea(this, _self.saveDescription);
 		    });
+      $('#author').click( function(ev){ 
+           editableTextarea(this, function(str){ _self.model.save('author_name',str); });
+        });
 	  }
 	  else {
 		  $(".editer_item", this.el).hide();
@@ -46,6 +49,7 @@ NovelView = ecomakiView.extend({
   render: function() {
     $('#title .text').html(this.model.get('title'));
     $('#description .text').html(this.model.get('description'));
+    $('#author .text').html(this.model.get('author_name'));
     //this.addAll();
   },
 
