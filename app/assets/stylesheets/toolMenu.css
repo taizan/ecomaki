@@ -15,9 +15,9 @@
 
 
 #toolbox .selecter_item{
-  width: 80px;
+  width: 110px;
   float: left;
-  margin-bottom: 2px;
+  margin: 2px;
   //clear: left;
 }
 

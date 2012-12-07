@@ -4,7 +4,7 @@
 
     <ul class = "picker_list nav nav-list picker_elem">
       <li class="nav-header picker_elem">
-        <button id="add_character_button" class="btn picker_elem" title="キャラクターの追加; New Character"><img src='/assets/novel/add_character.png'></buttton>
+        <button id="add_character_button" class="btn picker_elem" title="キャラクターの追加; New Character"><img src='/assets/novel/add_character_big.png'></buttton>
         <button class="btn picker_cancel_button" title="閉じる; close picker"><img src="/assets/novel/arrow_left.png" ></button>
       </li>
     </ul>
@@ -83,8 +83,9 @@
       <p class="list_header_description">description </p>
     </div>
     <div class='floatEnd'></div>
+    <button class="btn add_character_image_button" title="新規画像の追加; Upload New Image" ><img  src="/assets/novel/add.png"></button>
+    <div class='floatEnd'></div>
     <div class="image_list" style="display:none">
-      <button class="btn add_character_image_button picker_image_item" title="新規画像の追加; Upload New Image" ><img  src="/assets/novel/add.png"></button>
     </div>
     <hr>
   </li>
@@ -205,14 +206,14 @@
 <script type="text/template" id="effect_selecter_template">
   <div class="effect_selecter">
     <div class="floatEnd"></div>
-    <div class="item_name selecter_item">item name</div>
-    <select name="function" class="functionTypes selecter_item">
+    <div class="item_name selecter_item" title="選択された要素、アニメーション設定用; selected item ID for setting animation">item name</div>
+    <select name="function" class="functionTypes selecter_item" title="アニメーションタイプ">
       <option value="none" selected="selected">None</option>
       <option value="effect">Effect</option>
       <option value="show">Show</option>
       <option value="hide">Hide</option>
     </select>
-    <select name="effects" class="effectTypes selecter_item">
+    <select name="effects" class="effectTypes selecter_item" title="アニメーション効果"> 
       <option value="none" selected="selected">None</option>
       <option value="blind">Blind</option>
       <option value="bounce">Bounce</option>
@@ -232,6 +233,7 @@
     </select>
     <!-- 
     <select name="ease" class="easeTypes selecter_item">
+    
       <option value="linear" >linear</option>
       <option value="swing" >swing</option>
       <option value="jswing" >jswing</option>
@@ -267,7 +269,7 @@
       <option value="easeInOutBounce" >easeInOutBounce</option>
     </select>
     -->
-    <input name="duration" class="durations selecter_item" value="500" size="4" maxlength="4">
+    <input name="duration" class="durations selecter_item" value="500" size="4" maxlength="4" title="アニメーション時間">
     <div class="floatEnd"></div>
   </div>
 </script>
@@ -303,7 +305,8 @@
       </select>
     </div>
     
-    <div  class="selecter_item TBackground" title="Text Background">
+		<!-- <div  class="selecter_item TBackground" title="Text Background"> -->
+    <div  class="selecter_item TBackground">
       <select name="fontBackgroundColor" class="fontBackgroundColors">
         <option value="white" selected="selected" style="background-color:white" >/assets/text/color_white.png</option>
         <option value="silver" style="background-color:silver" >/assets/text/color_silver.png</option>

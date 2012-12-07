@@ -111,13 +111,11 @@ ecomakiView = Backbone.View.extend({
 
 
   saveTitle: function(txt){
-    this.model.set('title',txt);
-    this.model.save();
+    this.model.save('title',txt);
   },
 
   saveDescription: function(txt){
-    this.model.set('description',txt);
-    this.model.save();
+    this.model.save('description',txt);
   },
 
 
