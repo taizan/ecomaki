@@ -269,7 +269,7 @@ ImageItem = EntryItem.extend({
   setImage: function(id,img){
     this.item.set('character_image_id' , id );
     var targetImage = $('img',this.el).attr('src',config.character_image_idtourl(id));
-
+/*
     var destHeight = this.content.offset().top + this.content.height() - $(this.el).offset().top;
     if(destHeight < img.height ){
       console.log('modefy height');
@@ -283,11 +283,11 @@ ImageItem = EntryItem.extend({
       img.height =  img.height * destWidth / img.width;
       img.width = destWidth;
     }
-    $(this.el).height(img.height).width(img.width);
 
+*/
+    $(this.el).height(img.height).width(img.width);
     this.item.set('width' , img.width);
     this.item.set('height' , img.height);
-
     this.item.save();
   }
 

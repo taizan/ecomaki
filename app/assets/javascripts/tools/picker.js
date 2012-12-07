@@ -253,7 +253,7 @@ Picker.prototype = {
         item.click(function(){
           if(Picker.prototype.selectedCallback){
             //set img elem for use img tag information.
-            Picker.prototype.selectedCallback(id,$('img',item)[0]);
+            Picker.prototype.selectedCallback( id , $('img',item)[0] );
             Picker.prototype.finish();
           }
         });
