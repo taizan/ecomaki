@@ -48,6 +48,18 @@ body{
     position: relative;
 }
 
+#author {
+    font-size: 24px; 
+    line-height: 1.5em;
+    position: relative;
+}
+
+#author .text_help {
+    font-size: 16px; 
+    line-height: 1.5em;
+    font-color: #444;
+    margin: 1px;
+}
 
 .title {
     font-size: 24px; 
@@ -56,19 +68,13 @@ body{
 }
 
 .title .text_help {
-    font-size: 12px; 
+    font-size: 16px; 
     line-height: 1.5em;
     //background: #eee;
     font-color: #444;
     margin: 1px;
 }
 
-.title textarea {
-    font-size: 24px; 
-    line-height: 1.5em;
-    text-align:center;
-    z-index: 99;
-}
 
 .description {
     font-size: 12px;

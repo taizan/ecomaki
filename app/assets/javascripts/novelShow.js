@@ -34,18 +34,7 @@ function initializeView(id,pass,isEditable){
   novelView = new NovelView({model: novel , isEditable: isEditable});
   novelView.appendTo($('#content'));
 
-  $('#toolbox').hide();
-  $('#console').hide();  
-  $('#side_menu').hide();
-
   $(document).tooltip();
-  $('#static_body').bind('mousedown',onStaticBodyClick);
 }
 
 
-function onStaticBodyClick(ev){
-  //console.log(ev);
-  TextEditMenu.prototype.onBlur(ev);
-  TextEdit.prototype.onBlur(ev);
-  Picker.prototype.onBlur(ev);
-}
