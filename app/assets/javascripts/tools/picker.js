@@ -54,10 +54,11 @@ Picker.prototype = {
     }
   },
 
-  appendForm: function(action,type){
+  appendForm: function(action,type,id){
     
     ///<input id="char_upload" type="file" name="image" data-url="/characters/images" multiple>
-		var template = _.template( $("#upload_form_template").html(),{'upload_type':type });
+    var template;
+		var template = $("#upload_form_template").html();
 
     var form = $(template)
       .appendTo('body')
@@ -70,11 +71,13 @@ Picker.prototype = {
             Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
           if(action == "/characters/images" )  
             Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
-          if(action == "/background_images" )
+        if(action == "/background_images" )
             Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
           if(action == "/background_musics" )
             Picker.prototype.loadXml("/background_musics.xml" , Picker.prototype.parseMusicXml );
         });
+    //for character image upload
+    $('#input_character_id',form).val(id);
 
     $('.cancel_button',form).click(function(){ $(form).remove()});
   },
@@ -182,7 +185,7 @@ Picker.prototype = {
 
           // init form add button
           $('.add_character_image_button','#character_item_'+id).click(function(){
-              Picker.prototype.appendForm("/characters/images"); 
+              Picker.prototype.appendForm("/characters/images","image",id); 
             });
           
         }
@@ -235,7 +238,7 @@ Picker.prototype = {
 
 
   setCharacterImageItem: function(list_id,id,text,url){
-    var item = $('<div id="pick_character_image_item'+id+'" class="picker_image_item" ><img src="' + url + '"></div>').attr('title',text);
+    var item = $('<div id="pick_character_image_item_'+id+'" class="picker_image_item" ><img src="' + url + '"></div>').attr('title',text);
     //item.appendTo($(list_id)).tooltip();
     if(! $('.list_header_button img',list_id).attr('src') ){
       console.log($(list_id));
@@ -245,8 +248,7 @@ Picker.prototype = {
     $(list_id).click(function(){
       //click hide and show
       //alert();
-      console.log($('pick_item'+id));
-      if($("#pick_item"+id ).length == 0 ){
+      if($("#pick_character_image_item_"+id ).length == 0 ){
         item.appendTo($('.image_list',list_id));
         item.click(function(){
           if(Picker.prototype.selectedCallback){
