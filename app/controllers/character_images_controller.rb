@@ -17,7 +17,7 @@ class CharacterImagesController < ApplicationController
     character_id = params[:character_id]
 
     # Find by name
-    character_id = Character.where("name = ?", params[:character_name]).id if character_id.nil?
+    character_id = Character.where("name = ?", params[:character_name]).first.id if character_id.nil?
 
     # Create new character.
     if character_id.nil?
