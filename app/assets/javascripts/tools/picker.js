@@ -77,7 +77,10 @@ Picker.prototype = {
             Picker.prototype.loadXml("/background_musics.xml" , Picker.prototype.parseMusicXml );
         });
     //for character image upload
-    $('#input_character_id',form).val(id);
+    if(action =="/characters/images" ) $('<input type="text" id="input_character_id" name="character_id" style="display : none">').appendTo(form).val(id);
+
+    //for send type of file default image
+    $('#input_file',form).attr('name',type);
 
     $('.cancel_button',form).click(function(){ $(form).remove()});
   },
