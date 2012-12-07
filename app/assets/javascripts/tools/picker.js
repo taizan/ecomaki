@@ -40,9 +40,9 @@ Picker.prototype = {
     $('#background_upload_button') .click(function(){ Picker.prototype.appendForm("/background_images");} );
     $('#music_upload_button')      .click(function(){ Picker.prototype.appendForm("/background_musics"); } );
 */
-    $('#add_character_button')  .click(function(){ Picker.prototype.appendForm("/characters");} );
-    $('#add_background_button')  .click(function(){ Picker.prototype.appendForm("/background_images");} );
-    $('#add_music_button')  .click(function(){ Picker.prototype.appendForm("/background_musics");} );
+    $('#add_character_button')  .click(function(){ Picker.prototype.appendForm("/characters", "image");} );
+    $('#add_background_button')  .click(function(){ Picker.prototype.appendForm("/background_images","image");} );
+    $('#add_music_button')  .click(function(){ Picker.prototype.appendForm("/background_musics","music");} );
   },
 
   onBlur: function(ev){
@@ -54,10 +54,10 @@ Picker.prototype = {
     }
   },
 
-  appendForm: function(action){
+  appendForm: function(action,type){
     
     ///<input id="char_upload" type="file" name="image" data-url="/characters/images" multiple>
-		var template = _.template( $("#upload_form_template").html(),{'upload_type':"image" });
+		var template = _.template( $("#upload_form_template").html(),{'upload_type':type });
 
     var form = $(template)
       .appendTo('body')
