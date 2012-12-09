@@ -1,3 +1,5 @@
+//= require ./entryTemplate
+
 ChapterView = ecomakiView.extend({
   //el : '#content',
   className : 'chapter' ,
@@ -132,24 +134,17 @@ ChapterView = ecomakiView.extend({
     return entry;
   },
 
-
-  addEntryWith1Character: function(){
-
-    this.addEntry( 
-    );
-
-  },
-
-
-  addEntryWith2Character: function(){
-    var json = {"canvas_index":1,"height":320,"margin_bottom":null,"margin_left":null,"margin_right":null,"margin_top":null,"option":null,"width":640,"canvas":"","entry_balloon":[{"background_color":null,"border_color":null,"border_radius":null,"border_style":null,"border_width":null,"content":"やっほー","entry_balloon_background_id":null,"font_color":null,"font_family":null,"font_size":null,"font_style":null,"height":50,"left":0,"option":null,"top":0,"width":100,"z_index":1},{"background_color":null,"border_color":null,"border_radius":null,"border_style":null,"border_width":null,"content":"やっほー","entry_balloon_background_id":null,"font_color":null,"font_family":null,"font_size":null,"font_style":null,"height":50,"left":500,"option":null,"top":50,"width":100,"z_index":1}],"entry_character":[{"angle":null,"character_image_id":4,"clip_bottom":null,"clip_left":null,"clip_right":null,"clip_top":null,"height":259,"left":333,"option":null,"top":43,"width":171,"z_index":4},{"angle":null,"character_image_id":2,"clip_bottom":null,"clip_left":null,"clip_right":null,"clip_top":null,"height":237,"option":null,"top":42,"width":171,"z_index":3}]} ;
-    this.addEntry(json); 
-  },
-
   // add entry with no boder balloon
   addEntryWithBalloon: function(){
-     this.addEntry(
-        );
+    this.addEntry( EntryTemplate.prototype.getTemplate(0) );
+  },
+
+  addEntryWith1Character: function(){
+    this.addEntry( EntryTemplate.prototype.getTemplate(1) );
+  },
+
+  addEntryWith2Character: function(){
+    this.addEntry( EntryTemplate.prototype.getTemplate(2) );
   },
 
   addChapter: function(e){

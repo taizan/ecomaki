@@ -306,6 +306,7 @@ EntryView = ecomakiView.extend({
     delete attr.novel_id;
     delete attr.created_at;
     delete attr.order_number;
+    delete attr.updated_at;
 
     var i;
     for(i = 0; i < attr.entry_balloon.length; i++ ){
