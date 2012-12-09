@@ -284,11 +284,48 @@ EntryView = ecomakiView.extend({
     console.log("addEntry");
     var chapter = this.parentView.model;
     var currentIndex =  chapter.entries.indexOf(this.model);
-    console.log( currentIndex);
+    //console.log( currentIndex);
     
-    var attributes = { height: 320, width: 640, canvas_index: 1 };
+    //for debug and get entry data
+    var copy = this.model.clone();
 
-    chapter.entries.create_after(attributes, currentIndex);
+    var attributes = this.deleteAttr(copy.attributes);
+    //console.log( window.JSON.stringify(this.model.attributes));
+    console.log( window.JSON.stringify(attributes) );
+
+    this.parentView.addEntryWithOrder(copy.attributes , currentIndex);
+    //chapter.entries.create_after(attributes, currentIndex);
+    //chapter.entries.save();
+  },
+  
+  deleteAttr: function(attr){
+    
+    delete attr.id;
+    delete attr.entry_id;
+    delete attr.chapter_id;
+    delete attr.novel_id;
+    delete attr.created_at;
+    delete attr.order_number;
+
+    var i;
+    for(i = 0; i < attr.entry_balloon.length; i++ ){
+      delete attr.entry_balloon[i].id;
+      delete attr.entry_balloon[i].entry_id;
+      delete attr.entry_balloon[i].created_at;
+      delete attr.entry_balloon[i].updated_at;
+    }
+    for(i = 0; i < attr.entry_character.length; i++){
+      delete attr.entry_character[i].id;
+      delete attr.entry_character[i].entry_id;
+      delete attr.entry_character[i].created_at;
+      delete attr.entry_character[i].updated_at;
+    }
+
+    return attr;
+  },
+
+  addEntryWith1Character: function(){
+    this.addEntry(); 
   },
 
   changeLayer: function(e){

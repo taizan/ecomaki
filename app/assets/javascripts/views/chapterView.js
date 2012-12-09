@@ -10,6 +10,7 @@ ChapterView = ecomakiView.extend({
 
   _.bindAll(this,
               "addEntry",
+              "addEntryWithOrder",
               "addEntryWith1Character",
               "addEntryWith2Character",
               "addEntryWithBalloon",
@@ -91,55 +92,64 @@ ChapterView = ecomakiView.extend({
 
 
 
-  addEntry: function(balloonParams,characterParams){
-
-    var entry = this.model.entries.create({ height: 320 , width:  640 , canvas_index: 1 },
+  addEntryWithOrder: function(json, i){
+    var attr = EntryView.prototype.deleteAttr(json); 
+    var entry = this.model.entries.create_after(attr,i,
         { wait:true,
           success: function(){
+              var j = 0;
               console.log("addEntry Success");
-              for(i = 0; i < balloonParams.length; i++ ) entry.balloons.create(balloonParams[i]);
-
-              for(i = 0; i < characterParams.length; i++)  entry.characters.create(characterParams[i]);
+              for(j = 0; j < attr.entry_balloon.length; j++ ){
+                entry.balloons.create(attr.entry_balloon[j]);
+              }
+              for(j = 0; j < attr.entry_character.length; j++){
+                entry.characters.create( attr.entry_character[j]);
+              }
               entry.save();
               entry.trigger('change');
             }
         });
+    return entry;
+  },
 
+  addEntry: function(json){
+    var attr = EntryView.prototype.deleteAttr(json); 
+    var entry = this.model.entries.create(attr,
+        { wait:true,
+          success: function(){
+              var j = 0;
+              console.log("addEntry Success");
+              for(j = 0; j < attr.entry_balloon.length; j++ ){
+                entry.balloons.create(attr.entry_balloon[j]);
+              }
+              for(j = 0; j < attr.entry_character.length; j++){
+                entry.characters.create( attr.entry_character[j]);
+              }
+              entry.save();
+              entry.trigger('change');
+            }
+        });
+    return entry;
   },
 
 
   addEntryWith1Character: function(){
 
     this.addEntry( 
-        [
-          { left: 0,top: 0, width: 100, height: 50 , z_index: 1 , content: 'やっほー' },
-        ],
-        [
-          { left: 100,top: 10, width: 100, height: 200 , z_index: 1 , character_image_id: 2 },
-        ]
     );
 
   },
 
 
   addEntryWith2Character: function(){
-    this.addEntry( 
-        [
-          { left: 0,top: 0, width: 100, height: 50 , z_index: 1 , content: 'やっほー' },
-          { left: 500,top: 50, width: 100, height: 50 , z_index: 1 , content: 'やっほー' } 
-        ],
-        [
-          { left: 100,top: 10, width: 100, height: 200 , z_index: 1 , character_image_id: 2 },
-          { left: 400,top: 10, width: 100, height: 200 , z_index: 1 , character_image_id: 3 }
-        ]
-    );
+    var json = {"canvas_index":1,"height":320,"margin_bottom":null,"margin_left":null,"margin_right":null,"margin_top":null,"option":null,"width":640,"canvas":"","entry_balloon":[{"background_color":null,"border_color":null,"border_radius":null,"border_style":null,"border_width":null,"content":"やっほー","entry_balloon_background_id":null,"font_color":null,"font_family":null,"font_size":null,"font_style":null,"height":50,"left":0,"option":null,"top":0,"width":100,"z_index":1},{"background_color":null,"border_color":null,"border_radius":null,"border_style":null,"border_width":null,"content":"やっほー","entry_balloon_background_id":null,"font_color":null,"font_family":null,"font_size":null,"font_style":null,"height":50,"left":500,"option":null,"top":50,"width":100,"z_index":1}],"entry_character":[{"angle":null,"character_image_id":4,"clip_bottom":null,"clip_left":null,"clip_right":null,"clip_top":null,"height":259,"left":333,"option":null,"top":43,"width":171,"z_index":4},{"angle":null,"character_image_id":2,"clip_bottom":null,"clip_left":null,"clip_right":null,"clip_top":null,"height":237,"option":null,"top":42,"width":171,"z_index":3}]} ;
+    this.addEntry(json); 
   },
 
   // add entry with no boder balloon
   addEntryWithBalloon: function(){
      this.addEntry(
-        [ {left: 300,top: 100, width: 80, height: 50 , z_index: 1 , content: 'こんにちわ世界' , border_style: 'none'} ],
-        []);
+        );
   },
 
   addChapter: function(e){
