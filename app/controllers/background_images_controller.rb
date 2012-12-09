@@ -9,19 +9,18 @@ class BackgroundImagesController < ApplicationController
 
   def create
     image = params[:image]
-    content_type = image.content_type.chomp
-
-      background_image = BackgroundImage.new(
-        :name => params[:name],
-        :description => params[:description],
-        :author => params[:author],
-        :image => image)
-
+    
+    background_image = BackgroundImage.new(
+      :name => params[:name],
+      :description => params[:description],
+      :author => params[:author],
+      :image => image)
+    
     if background_image.valid?
       background_image.save
       render :json => background_image
     else
-      render :text => background_image.errors, :status => 500
+      render :json => background_image.errors, :status => 500
     end
   end
 
