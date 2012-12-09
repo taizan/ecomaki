@@ -2,7 +2,7 @@ class BackgroundMusic < ActiveRecord::Base
   attr_accessor :music
   attr_accessible :name, :music, :author, :description
 
-  validates :music, :name, :presence => true
+  validates :name, :presence => true
   validate :validate_music_file
   
   belongs_to :chapter
