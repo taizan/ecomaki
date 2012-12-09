@@ -64,17 +64,24 @@ Picker.prototype = {
       .appendTo('body')
       //.attr({"action": "/characters/images", "method":"post","enctype":"multipart/form-data"  })
       .attr({"action": action , "method":"post","enctype":"multipart/form-data"  })
-      .ajaxForm(function() { 
+      .ajaxForm({
+        success: function() { 
           alert("Thank you"); 
           $(form).remove();
           if(action == "/characters" )  
             Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
           if(action == "/characters/images" )  
             Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
-        if(action == "/background_images" )
+          if(action == "/background_images" )
             Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
           if(action == "/background_musics" )
             Picker.prototype.loadXml("/background_musics.xml" , Picker.prototype.parseMusicXml );
+        },
+        error: function(response) {
+          //res= response;
+          alert(response.responseText);
+
+        }
         });
     //for character image upload
     if(action =="/characters/images" ) $('<input type="text" id="input_character_id" name="character_id" style="display : none">').appendTo(form).val(id);

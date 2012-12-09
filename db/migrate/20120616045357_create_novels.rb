@@ -13,6 +13,10 @@ class CreateNovels < ActiveRecord::Migration
       t.string :status # private, publish
       t.string :password
 
+      #for future work
+      t.string :background_music
+      t.string :option
+
       t.timestamps
     end
   end
