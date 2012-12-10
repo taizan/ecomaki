@@ -72,13 +72,12 @@ ChapterView = ecomakiView.extend({
 
   showBackground: function(){
     if( (this.model.get('order_number') % 2) == 1) {
-      $('#background_odd')[0].src = config.background_idtourl(this.model.get('background_image_id'));
-      $('#background_odd').show('fade','slow');
-      $('#background_even').hide('fade','slow');
+      //$('#background_odd')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+      $('#background_odd').attr("src",config.background_idtourl(this.model.get('background_image_id'))).stop(true,true).hide().fadeIn('slow'); 
+      $('#background_even').fadeOut('slow');
     }else{
-      $('#background_even')[0].src = config.background_idtourl(this.model.get('background_image_id'));
-      $('#background_even').show('fade','slow');
-      $('#background_odd').hide('fade','slow');
+      $('#background_even').attr("src",config.background_idtourl(this.model.get('background_image_id'))).stop(true,true).hide().fadeIn('slow');
+      $('#background_odd').fadeOut('fade','slow');
     }
   },
 

@@ -11,6 +11,7 @@ class CreateEntries < ActiveRecord::Migration
       t.string  :option
       t.integer :order_number
       t.integer :canvas_index
+      t.integer :background_id
       t.timestamps
     end
   end
