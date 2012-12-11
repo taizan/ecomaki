@@ -75,11 +75,25 @@ ChapterView = ecomakiView.extend({
     var window_size = config.getScreenSize();
     var src = config.background_idtourl(this.model.get('background_image_id'));
     img.src = src;
+    var _self = this;
+
     $(img).load(
       function(){
         // 
+        var $current_bg;
+
+    if( (_self.model.get('order_number') % 2) == 1) {
+      $current_bg = $('#background_odd')
+        .attr("src",src).stop(true,true).hide().fadeIn('slow')
+      $('#background_even').stop(true,true).fadeOut('slow');
+    }else{
+      $current_bg =$('#background_even')
+        .attr("src",src).stop(true,true).hide().fadeIn('slow')
+      $('#background_odd').stop(true,true).fadeOut('slow');
+    }
+
         var scale = Math.min  ( window_size.y / img.height ,  window_size.x / img.width )  ;
-        $('.background')
+        $current_bg
           .width( scale *  img.width )
           .height( scale * img.height)
           .css({
@@ -94,17 +108,9 @@ ChapterView = ecomakiView.extend({
             });
        
        console.log(scale);
+
       }
-    )
-    if( (this.model.get('order_number') % 2) == 1) {
-      $('#background_odd')
-        .attr("src",src).stop(true,true).hide().fadeIn('slow')
-      $('#background_even').stop(true,true).fadeOut('slow');
-    }else{
-      $('#background_even')
-        .attr("src",src).stop(true,true).hide().fadeIn('slow')
-      $('#background_odd').stop(true,true).fadeOut('slow');
-    }
+    );
   },
 
   onDisplay: function(){

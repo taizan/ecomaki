@@ -20,16 +20,16 @@ body{
   //min-width: 1024px;
   
   /* Set up proportionate scaling */
-  width: auto;
-  height: 100%;
+  width: 100%;
+  height: auto;
   /* Set up positioning */
   position: fixed;
   /* またはabsolute; */
   //bottom: 0;
   //padding-top: 50%;
   //margin-top: -400px; 
-  top: 50%;
-  left: 50%;
+  top: 0;
+  left: 0;
   z-index: -1;
 }
 
