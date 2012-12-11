@@ -213,7 +213,7 @@ Picker.prototype = {
     var $a = $('<a></a>');
     var text = $a.text(text).text(); 
 
-    var item = $('<li id="pick_music_item'+id+'" class="picker_text_item picker_elem" ><p></p></li>').attr('title',text);
+    var item = $('<li id="pick_music_item'+id+'" class="picker_text_item picker_elem" ><hr><p></p><hr></li>').attr('title',text);
     $('p',item).text(name);
 
     if( $('#pick_music_item' + id).length == 0 ){

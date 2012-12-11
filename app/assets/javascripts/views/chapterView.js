@@ -71,13 +71,39 @@ ChapterView = ecomakiView.extend({
   },
 
   showBackground: function(){
+    var img = new Image();
+    var window_size = config.getScreenSize();
+    var src = config.background_idtourl(this.model.get('background_image_id'));
+    img.src = src;
+    $(img).load(
+      function(){
+        // 
+        var scale = Math.min  ( window_size.y / img.height ,  window_size.x / img.width )  ;
+        $('.background')
+          .width( scale *  img.width )
+          .height( scale * img.height)
+          .css({
+              'left': '50%',
+              'margin-left': -scale *  img.width /2 + 'px',
+              'top': '50%',
+              'margin-top': -scale * img.height/2 + 'px' 
+              //left: window_size.mx - scale *  img.width /2 , 
+              //top : window_size.my - scale * img.height/2 ,
+     //         width :  scale *  img.width / window_size.y * 100 + '%' ,
+     //         height :  scale *  img.height / window_size.x * 100 + '%' 
+            });
+       
+       console.log(scale);
+      }
+    )
     if( (this.model.get('order_number') % 2) == 1) {
-      //$('#background_odd')[0].src = config.background_idtourl(this.model.get('background_image_id'));
-      $('#background_odd').attr("src",config.background_idtourl(this.model.get('background_image_id'))).stop(true,true).hide().fadeIn('slow'); 
-      $('#background_even').fadeOut('slow');
+      $('#background_odd')
+        .attr("src",src).stop(true,true).hide().fadeIn('slow')
+      $('#background_even').stop(true,true).fadeOut('slow');
     }else{
-      $('#background_even').attr("src",config.background_idtourl(this.model.get('background_image_id'))).stop(true,true).hide().fadeIn('slow');
-      $('#background_odd').fadeOut('fade','slow');
+      $('#background_even')
+        .attr("src",src).stop(true,true).hide().fadeIn('slow')
+      $('#background_odd').stop(true,true).fadeOut('slow');
     }
   },
 
