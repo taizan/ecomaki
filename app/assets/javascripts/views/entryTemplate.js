@@ -2,8 +2,23 @@ EntryTemplate = function(){};
 
 EntryTemplate.prototype = 
 {
+  // get template from novel 1
+
+  novel: new Novel({id: 1}),
 
   getTemplate : function(i){
+    
+    var chapter = EntryTemplate.prototype.novel.chapters.at(i);
+    console.log(chapter);
+    if( chapter.entries.length > 0 ){
+      var j = Math.floor((Math.random() * chapter.entries.length));
+      return chapter.entries.at(j).attributes;
+    }
+    return null;
+  },
+
+  // old 
+  getTemplateFromList : function(i){
     if ( EntryTemplate.prototype.templateList[i]) {
       var tempList = EntryTemplate.prototype.templateList[i];
       if ( tempList.length > 0 ) {
