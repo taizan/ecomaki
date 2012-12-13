@@ -18,6 +18,12 @@
   <h2>公開された作品からスピンオフを作って共有!</h2>
   </div>
 
+  <div id="featured_pane">
+    <% @layouts.each do |layout| %>
+      <%=raw "#{layout.html}" %>
+    <% end %>
+  </div>
+
   <h1>List</h1>
 
   <div class=" novel_list">
