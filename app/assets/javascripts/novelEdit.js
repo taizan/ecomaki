@@ -38,9 +38,9 @@ $(function() {
 
 
 function initializeView(id,pass,isEditable){
-  novel = new Novel({id: id,password: pass});
-  novelView = new NovelView({model: novel , isEditable: isEditable});
-  novelView.appendTo($('#content'));
+  _novel = new Novel({id: id,password: pass});
+  _novelView = new NovelView({model: _novel , isEditable: isEditable});
+  _novelView.appendTo($('#content'));
 
   $('#toolbox').hide();
   $('#console').hide();  
@@ -60,8 +60,8 @@ function initializeTool(isEditable){
 			$('#preview_button img').attr('src', '/assets/novel/' + (isEditable ? 'preview.png' : 'edit.png'));
 			$('#preview_button p').text(isEditable ? 'preview' : 'edit');
       $('#content').empty();
-      novelView = new NovelView({model: novel , isEditable: isEditable});
-      novelView.appendTo($('#content'));
+      _novelView = new NovelView({model: _novel , isEditable: isEditable});
+      _novelView.appendTo($('#content'));
       if(isEditable) {
         $('#preview p').html('Preview');
         $('#toolbox').show();
@@ -73,7 +73,7 @@ function initializeTool(isEditable){
     });
   
   $('#publish_button').click(function(){ 
-      novel.save({'status': 'publish'}); 
+      _novel.save({'status': 'publish'}); 
       alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
     });
   

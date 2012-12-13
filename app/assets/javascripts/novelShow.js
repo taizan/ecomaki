@@ -21,18 +21,16 @@ $(function() {
   var isEditable = false;
     
   var urls = location.href.split('/');
-  var pass = urls.length > 5 ? urls[5] : null;  
-  console.log(pass);
 
-  initializeView(id,pass,isEditable);
+  initializeView(id,null,isEditable);
 
 });
 
 
 function initializeView(id,pass,isEditable){
-  novel = new Novel({id: id,password: pass});
-  novelView = new NovelView({model: novel , isEditable: isEditable});
-  novelView.appendTo($('#content'));
+  _novel = new Novel({id: id,password: pass});
+  _novelView = new NovelView({model: _novel , isEditable: isEditable});
+  _novelView.appendTo($('#content'));
 
   $(document).tooltip();
 }
