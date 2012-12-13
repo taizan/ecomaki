@@ -72,4 +72,6 @@ Ecomaki::Application.routes.draw do
   # Edit mode
   match 'edit/:id/:password' => 'novels#edit', :via => :get
 
+  # Layout Data
+  match 'layouts' => 'layouts#index', :via => :get
 end

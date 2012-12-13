@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(:version => 20121127121311) do
     t.string   "option"
     t.integer  "order_number"
     t.integer  "canvas_index"
+    t.integer  "background_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
@@ -152,6 +153,12 @@ ActiveRecord::Schema.define(:version => 20121127121311) do
     t.datetime "updated_at",         :null => false
   end
 
+  create_table "layouts", :force => true do |t|
+    t.string   "html"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "novel_histories", :force => true do |t|
     t.integer  "novel_id"
     t.integer  "author_id"
@@ -177,8 +184,10 @@ ActiveRecord::Schema.define(:version => 20121127121311) do
     t.string   "author_name"
     t.string   "status"
     t.string   "password"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.string   "background_music"
+    t.string   "option"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "tags", :force => true do |t|

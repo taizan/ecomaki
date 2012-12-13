@@ -5,8 +5,8 @@ one:
   author_id: 0
   title: Anonymouse Coward
   description: This is description
-  status: publish
-  password: p064fhpPZKom82Vq
+  status: system 
+  password: 
 
 two:
   id: 1
