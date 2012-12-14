@@ -190,8 +190,10 @@ ChapterView = ecomakiView.extend({
   },
 
   removeChapter: function(e){
-    $(this.el).remove();
-    this.model.destroy();
+    if ( confirm("章全体を削除します。よろしいですか？ Are you sure to remove this chapter?") ){
+      $(this.el).remove();
+      this.model.destroy();
+    }
   },
 
   render: function(){
