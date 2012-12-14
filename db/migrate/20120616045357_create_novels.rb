@@ -14,7 +14,8 @@ class CreateNovels < ActiveRecord::Migration
       t.string :password
 
       #for future work
-      t.string :background_music
+      t.integer :background_music_id
+      t.integer :background_image_id
       t.string :option
 
       t.timestamps

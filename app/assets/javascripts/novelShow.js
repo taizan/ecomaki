@@ -1,6 +1,5 @@
 //= require underscore
 //= require backbone
-//= require jquery.form
 //= require ./models
 //= require ./views/ecomakiView
 //= require ./views/entryItems
@@ -8,7 +7,6 @@
 //= require ./views/chapterView
 //= require ./views/novelView
 //= require ./views/musicPlayer
-//= require ./tools/textEdit
 //= require ./tools/textEditTool
 //= require ./tools/effecter
 
@@ -20,19 +18,15 @@ $(function() {
   
   var isEditable = false;
     
-  var urls = location.href.split('/');
+  //var urls = location.href.split('/');
 
-  initializeView(id,null,isEditable);
+  _novel = new Novel({id: id,password: null});
+  _novelView = new NovelView({model: _novel , isEditable: isEditable});
+  _novelView.appendTo($('#content'));
+  $(document).tooltip();
 
 });
 
 
-function initializeView(id,pass,isEditable){
-  _novel = new Novel({id: id,password: pass});
-  _novelView = new NovelView({model: _novel , isEditable: isEditable});
-  _novelView.appendTo($('#content'));
-
-  $(document).tooltip();
-}
 
 

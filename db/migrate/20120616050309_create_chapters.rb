@@ -9,6 +9,10 @@ class CreateChapters < ActiveRecord::Migration
       t.string :description
       t.integer :order_number
 
+      # for future
+      t.string :option
+      t.integer :layout_type
+
       t.timestamps
     end
   end
