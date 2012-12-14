@@ -13,40 +13,57 @@ NovelView = ecomakiView.extend({
     _.bindAll(this, "addChapter");
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
+    this.model.bind('sync',this.onSync);
+    this.model.bind('fetch',this.onSync);
 
     this.childModels = this.model.chapters.models;
+    /*
+    */
   },
 
   events: {
     "click #add_chapter" : "addChapter",
-    'click': 'onViewClick'    
+    'click': 'onViewClick',
+    'sync' : 'onSync'
   },
 
+  onSync: function() { console.log('synced'); },
 
   onLoad: function(){
-    var _self = this;
+      var _self = this;
+      //reflesh child
+      this.addAll();	
 
-    this.addAll();	
-
-    if (this.isEditable) {
-		  $('#title').click(function(ev){
-			    editableTextarea(this, _self.saveTitle);
-
-		    });
-		  $('#description').click(function(ev){
-			    editableTextarea(this, _self.saveDescription);
-		    });
-      $('#author').click( function(ev){ 
+      if (this.isEditable) {
+		    $('#title').click(function(ev){
+			      editableTextarea(this, _self.saveTitle);
+		      });
+		    $('#description').click(function(ev){
+			      editableTextarea(this, _self.saveDescription);
+		      });
+        $('#author').click( function(ev){ 
            editableTextarea(this, function(str){ _self.model.save('author_name',str); });
-        });
-	  }
-	  else {
-		  $(".editer_item", this.el).hide();
-	  }
-		this.render();
+         });
+	    }
+	    else {
+		    $(".editer_item", this.el).hide();
+	    }
+       
+      // call onScroll root here
+      $(window).scroll(this.onScroll);
+		  
+      this.render();
   },
 
   render: function() {
+    // temp code 
+    
+    console.log(this.model.get('status'));
+    if( this.model.get('status') !== undefined && this.model.get('status') != 'publish' && !this.isEditable) {
+      alert('公開されていません。this novle is not published');
+      $(this.el).remove();
+    } 
+    
     $('#title .text').html(this.model.get('title'));
     $('#description .text').html(this.model.get('description'));
     $('#author .text').html(this.model.get('author_name'));

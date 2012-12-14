@@ -43,7 +43,7 @@ ecomakiView = Backbone.View.extend({
     this.model.bind('destroy', this.render, this);
 
 
-		//call each vie initialize
+    //not use because too heavy
     this.onInit(args);
   },
 
@@ -57,7 +57,7 @@ ecomakiView = Backbone.View.extend({
     //console.log($(this.tmplId).html());
     $(template).appendTo(this.el);
     //console.log(this.el);
-    $(window).scroll(this.onScroll);
+    //$(window).scroll(this.onScroll);
 
     //this.hideButton();
     this.onLoad();
@@ -138,6 +138,12 @@ ecomakiView = Backbone.View.extend({
       if(this.isDisplay === false){
         this.isDisplay = true;
         this.onDisplay();
+        for ( var i = 0; i < this.childViews.length ; i++) {
+          if(this.childViews.onScroll) {
+            if ( this.childViews[i].onScroll() ) return true;
+          }
+        }
+        return true;
       }
     } else if( $(this.el).offset().top - window_center_height + $(this.el).height() < scroll) {
       if(this.isDisplayed === false){ this.onPostDisplay();}
@@ -147,8 +153,9 @@ ecomakiView = Backbone.View.extend({
 
     if( height <= window_height + scroll + offset ){
       this.onScrollEnd();
-    }
+    } 
 
+    return false;
   },
 	
 	onDisplay: function(){},

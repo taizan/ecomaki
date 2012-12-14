@@ -7,6 +7,7 @@
 //= require ./views/ecomakiView
 //= require ./views/entryItems
 //= require ./views/entryView
+//= require ./views/entryTemplate
 //= require ./views/chapterView
 //= require ./views/novelView
 //= require ./views/musicPlayer
@@ -34,7 +35,6 @@ $(function() {
 
   if(isEditable) initializeTool(isEditable);
 
-});
 
 
 function initializeView(id,pass,isEditable){
@@ -134,3 +134,5 @@ function onStaticBodyClick(ev){
   TextEdit.prototype.onBlur(ev);
   Picker.prototype.onBlur(ev);
 }
+
+});
