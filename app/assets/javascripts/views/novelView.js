@@ -50,7 +50,7 @@ NovelView = ecomakiView.extend({
 	    }
        
       // call onScroll root here
-      $(window).scroll(this.onScroll);
+      //$(window).scroll(this.onScroll);
 		  
       this.render();
   },
