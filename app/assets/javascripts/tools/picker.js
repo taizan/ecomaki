@@ -65,8 +65,11 @@ Picker.prototype = {
       //.attr({"action": "/characters/images", "method":"post","enctype":"multipart/form-data"  })
       .attr({"action": action , "method":"post","enctype":"multipart/form-data"  })
       .ajaxForm({
+        beforeSubmit: function() {
+          $('.submit_button',form).prop('disabled',true);
+        },
         success: function() { 
-          alert("Thank you"); 
+          alert("Uploaded"); 
           $(form).remove();
           if(action == "/characters" )  
             Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
@@ -90,6 +93,7 @@ Picker.prototype = {
     $('#input_file',form).attr('name',type);
 
     $('.cancel_button',form).click(function(){ $(form).remove()});
+    //$('.submit_button',form).click(function(){ $('.submit_button',form).prop('disabled',true)});
   },
 
 
