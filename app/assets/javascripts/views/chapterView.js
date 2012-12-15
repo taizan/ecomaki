@@ -114,11 +114,12 @@ ChapterView = ecomakiView.extend({
 
   onDisplay: function(){
     //console.log('isDisplayed');
-    console.log(this.model.get('order_number') % 2);
+    //console.log(this.model.get('order_number') % 2);
 
     this.showBackground();
 
     this.playMusicById(this.model.get('background_music_id')); 
+    console.log( 'background_music_id' + this.model.get('background_music_id'));
     return this;
   },
 
@@ -294,7 +295,7 @@ ChapterView = ecomakiView.extend({
 
   playMusicById: function(music_id) {
       //console.log(music_id);
-      if (music_id !== null && music_id != 'null' && music_id) {
+      if (music_id !== null && music_id > -1 ) {
           //console.log(+music_id);
           window.musicPlayer.playURL(config.music_idtourl(music_id));
       } else {

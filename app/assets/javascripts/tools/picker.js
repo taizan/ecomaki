@@ -213,10 +213,10 @@ Picker.prototype = {
     var $a = $('<a></a>');
     var text = $a.text(text).text(); 
 
-    var item = $('<li id="pick_music_item'+id+'" class="picker_text_item picker_elem" ><hr><p></p><hr></li>').attr('title',text);
+    var item = $('<li id="pick_music_item_'+id+'" class="picker_text_item picker_elem" ><hr><p></p><hr></li>').attr('title',text);
     $('p',item).text(name);
 
-    if( $('#pick_music_item' + id).length == 0 ){
+    if( $('#pick_music_item_' + id).length == 0 ){
       item.appendTo($(list_id));
       item.click(function(){
           if(Picker.prototype.selectedCallback){
@@ -230,10 +230,10 @@ Picker.prototype = {
   setBackgroundItem: function(list_id,id,text,url){
     var $a = $('<a></a>');
     var text = $a.text(text).text(); 
-    var item = $('<li id="pick_background_item'+id+'" class="picker_image_item" ><img src="' + url + '"></li>').attr('title',text);
+    var item = $('<li id="pick_background_item_'+id+'" class="picker_image_item" ><img src="' + url + '"></li>').attr('title',text);
     //item.appendTo($(list_id)).tooltip();
    
-    if( $('#pick_background_item' + id).length == 0 ){
+    if( $('#pick_background_item_' + id).length == 0 ){
       item.appendTo($(list_id));
       item.click(function(){
         if(Picker.prototype.selectedCallback){
@@ -306,7 +306,8 @@ Picker.prototype = {
   showMusicList: function(callback){
    if( !Picker.prototype.isMusicListAppended){ 
       $('#picker').find($('.picker_item')).remove();
-      Picker.prototype.setMusicItem('null','音楽なし','No BGM');
+		  var list_id = "#music_picker .picker_list"
+      Picker.prototype.setMusicItem(list_id,-1,'音楽なし','No BGM');
       Picker.prototype.loadXml("/background_musics.xml" , Picker.prototype.parseMusicXml );
       Picker.prototype.isMusicListAppended = true;
     }
