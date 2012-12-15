@@ -8,8 +8,15 @@ window.musicPlayer = {
         console.log(this);
 
         //$('audio').remove();
-        if(self.$audio) self.stop();
-
+        if(self.$audio ) {
+          if(self.$audio.attr('src') != url){
+            this.stop();
+          }else {
+            return true;
+          }
+        }
+        
+        //set up audio
         self.$audio = $('<audio>');
         self.$audio.prop('autoplay', true);
         self.$audio.prop('loop', true);
@@ -17,6 +24,7 @@ window.musicPlayer = {
         self.$audio[0].volume = 0.2;
         $(document.body).append(self.$audio);
         self.$audio.attr('src', url);
+
     },
     stop: function() {
         var self = this;
