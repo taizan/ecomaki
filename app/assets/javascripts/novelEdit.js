@@ -36,7 +36,21 @@ $(function() {
   if(isEditable) initializeTool(isEditable);
 
 
+  /*
+  window.onbeforeunload = function () {
+        if (document.title.indexOf("*") != -1) {
+                    return ("You have unsaved changes...");
+        }
+  }
+  window.onunload=function() {
+    alert();
+    return confirm('Are you sure you want to leave the current page?');
+    
+  }
 
+  $(window).unload( function () { alert("Bye now!"); } );
+  */
+                                
 function initializeView(id,pass,isEditable){
   _novel = new Novel({id: id,password: pass});
   _novelView = new NovelView({model: _novel , isEditable: isEditable});
