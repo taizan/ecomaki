@@ -8,7 +8,7 @@ TextEdit.prototype = {
   isAppended: false,
 
   onBlur: function(ev){
-    console.log(ev);
+    //console.log(ev);
     if( !$(ev.target).is('textarea') ){
         $('textarea').blur();
     }
