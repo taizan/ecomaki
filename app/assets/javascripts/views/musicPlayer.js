@@ -14,6 +14,7 @@ window.musicPlayer = {
         self.$audio.prop('autoplay', true);
         self.$audio.prop('loop', true);
         self.$audio.prop('controls', false);
+        self.$audio[0].volume = 0.2;
         $(document.body).append(self.$audio);
         self.$audio.attr('src', url);
     },
