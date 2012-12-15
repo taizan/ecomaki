@@ -229,9 +229,13 @@ EntryView = ecomakiView.extend({
 
   addBalloon: function( str ){
     console.log("addBalloon");
+    var w = 100;
+    var h = 50;
+    var l = Math.random() * (this.model.get('width') - w);
+    var t = Math.random() * (this.model.get('height') - h);
     this.model.balloons.create(
       {
-        left: 0,top: 0, width: 100, height: 50 ,
+        left: l,top: t, width: w, height: h ,
         z_index: this.maxIndex+1,
         content: str,
         border: ''
@@ -249,9 +253,13 @@ EntryView = ecomakiView.extend({
     console.log("addPicture");
     //var image = new ImageItem( this._self , src ,{});
     //image.appendTo( this.content);
+    var w = 100;
+    var h = 100;
+    var l = Math.random() * (this.model.get('width') - w);
+    var t = Math.random() * (this.model.get('height') - h);
     this.model.characters.create(
       {
-        left: 0,top: 0, width: 100, height: 100,
+        left: l,top: t, width: w, height: h,
         z_index: this.maxIndex+1,
         character_image_id: id
       });
@@ -265,11 +273,11 @@ EntryView = ecomakiView.extend({
 
 
   addDefaultBalloon: function(e){
-    this.addBalloon('dbl click here');
+    this.addBalloon('Click to edit');
   },
 
   addDefaultPicture: function(e){
-    this.addPicture(1);
+    this.addPicture(0);
   },
 
   remove: function(e){
@@ -309,13 +317,13 @@ EntryView = ecomakiView.extend({
     delete attr.updated_at;
 
     var i;
-    for(i = 0; i < attr.entry_balloon.length; i++ ){
+    if ( attr.entry_balloon ) for(i = 0; i < attr.entry_balloon.length; i++ ){
       delete attr.entry_balloon[i].id;
       delete attr.entry_balloon[i].entry_id;
       delete attr.entry_balloon[i].created_at;
       delete attr.entry_balloon[i].updated_at;
     }
-    for(i = 0; i < attr.entry_character.length; i++){
+    if ( attr.entry_character ) for(i = 0; i < attr.entry_character.length; i++){
       delete attr.entry_character[i].id;
       delete attr.entry_character[i].entry_id;
       delete attr.entry_character[i].created_at;
@@ -325,9 +333,6 @@ EntryView = ecomakiView.extend({
     return attr;
   },
 
-  addEntryWith1Character: function(){
-    this.addEntry(); 
-  },
 
   changeLayer: function(e){
     console.log("changeLayer");
