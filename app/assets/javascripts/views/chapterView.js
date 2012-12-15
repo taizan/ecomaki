@@ -122,44 +122,36 @@ ChapterView = ecomakiView.extend({
     return this;
   },
 
-
+  addItems: function(attr, entry) {
+    var j = 0;
+    console.log("addEntry Success");
+    if( attr.entry_balloon ) for(j = 0; j < attr.entry_balloon.length; j++ ){
+      entry.balloons.create(attr.entry_balloon[j]);
+    }
+    if ( attr.entry_character ) for(j = 0; j < attr.entry_character.length; j++){
+      entry.characters.create( attr.entry_character[j]);
+    }
+    entry.save();
+    entry.trigger('change');
+  },
 
   addEntryWithOrder: function(json, i){
     var attr = EntryView.prototype.deleteAttr(json); 
+    var _self = this;
     var entry = this.model.entries.create_after(attr,i,
         { wait:true,
-          success: function(){
-              var j = 0;
-              console.log("addEntry Success");
-              for(j = 0; j < attr.entry_balloon.length; j++ ){
-                entry.balloons.create(attr.entry_balloon[j]);
-              }
-              for(j = 0; j < attr.entry_character.length; j++){
-                entry.characters.create( attr.entry_character[j]);
-              }
-              entry.save();
-              entry.trigger('change');
-            }
-        });
+          success: function(){ this.addItems(attr,entry); }
+      });
     return entry;
   },
 
   addEntry: function(json){
     var attr = EntryView.prototype.deleteAttr(json); 
+    var _self = this;
     var entry = this.model.entries.create(attr,
         { wait:true,
-          success: function(){
-              var j = 0;
-              console.log("addEntry Success");
-              for(j = 0; j < attr.entry_balloon.length; j++ ){
-                entry.balloons.create(attr.entry_balloon[j]);
-              }
-              for(j = 0; j < attr.entry_character.length; j++){
-                entry.characters.create( attr.entry_character[j]);
-              }
-              entry.save();
-              entry.trigger('change');
-            }
+          success: function(){ this.addItems(attr,entry); }
+          
         });
     return entry;
   },
