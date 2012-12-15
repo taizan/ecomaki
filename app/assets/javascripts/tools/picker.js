@@ -46,7 +46,7 @@ Picker.prototype = {
   },
 
   onBlur: function(ev){
-    console.log(ev);
+    //console.log(ev);
     if (Picker.prototype.isBlurable) {
       if( !$(ev.target).is('.picker_elem') ){
         Picker.prototype.finish();
