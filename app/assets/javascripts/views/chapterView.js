@@ -141,7 +141,7 @@ ChapterView = ecomakiView.extend({
     var _self = this;
     var entry = this.model.entries.create_after(attr,i,
         { wait:true,
-          success: function(){ this.addItems(attr,entry); }
+          success: function(){ _self.addItems(attr,entry); }
       });
     return entry;
   },
@@ -151,7 +151,7 @@ ChapterView = ecomakiView.extend({
     var _self = this;
     var entry = this.model.entries.create(attr,
         { wait:true,
-          success: function(){ this.addItems(attr,entry); }
+          success: function(){ _self.addItems(attr,entry); }
           
         });
     return entry;
