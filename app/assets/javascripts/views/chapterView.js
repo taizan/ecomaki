@@ -126,10 +126,10 @@ ChapterView = ecomakiView.extend({
   addItems: function(attr, entry) {
     var j = 0;
     console.log("addEntry Success");
-    if( attr.entry_balloon ) for(j = 0; j < attr._entry_balloon.length; j++ ){
+    if( attr._entry_balloon ) for(j = 0; j < attr._entry_balloon.length; j++ ){
       entry.balloons.create(attr._entry_balloon[j]);
     }
-    if ( attr.entry_character ) for(j = 0; j < attr._entry_character.length; j++){
+    if ( attr._entry_character ) for(j = 0; j < attr._entry_character.length; j++){
       entry.characters.create( attr._entry_character[j]);
     }
     entry.save();
