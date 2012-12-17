@@ -323,19 +323,27 @@ EntryView = ecomakiView.extend({
     delete attr.updated_at;
 
     var i;
-    if ( attr.entry_balloon ) for(i = 0; i < attr.entry_balloon.length; i++ ){
-      delete attr.entry_balloon[i].id;
-      delete attr.entry_balloon[i].entry_id;
-      delete attr.entry_balloon[i].created_at;
-      delete attr.entry_balloon[i].updated_at;
+    if ( attr.entry_balloon ) {
+      for(i = 0; i < attr.entry_balloon.length; i++ ){
+        delete attr.entry_balloon[i].id;
+        delete attr.entry_balloon[i].entry_id;
+        delete attr.entry_balloon[i].created_at;
+        delete attr.entry_balloon[i].updated_at;
+      }
+      attr._entry_balloon = attr.entry_balloon;
+      delete attr.entry_balloon;
     }
-    if ( attr.entry_character ) for(i = 0; i < attr.entry_character.length; i++){
-      delete attr.entry_character[i].id;
-      delete attr.entry_character[i].entry_id;
-      delete attr.entry_character[i].created_at;
-      delete attr.entry_character[i].updated_at;
+    if ( attr.entry_character ) {
+      for(i = 0; i < attr.entry_character.length; i++){
+        delete attr.entry_character[i].id;
+        delete attr.entry_character[i].entry_id;
+        delete attr.entry_character[i].created_at;
+        delete attr.entry_character[i].updated_at;
+      }
+      attr._entry_character = attr.entry_character;
+      delete attr.entry_character;
     }
-
+    
     return attr;
   },
 
