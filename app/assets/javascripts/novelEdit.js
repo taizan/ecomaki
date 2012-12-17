@@ -53,7 +53,7 @@ $(function() {
                                 
 function initializeView(id,pass,isEditable){
   _novel = new Novel({id: id,password: pass});
-  _novelView = new NovelView({model: _novel , isEditable: isEditable});
+  _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreview: false});
   _novelView.appendTo($('#content'));
 
   $('#toolbox').hide();
@@ -74,7 +74,7 @@ function initializeTool(isEditable){
 			$('#preview_button img').attr('src', '/assets/novel/' + (isEditable ? 'preview.png' : 'edit.png'));
 			$('#preview_button p').text(isEditable ? 'preview' : 'edit');
       $('#content').empty();
-      _novelView = new NovelView({model: _novel , isEditable: isEditable});
+      _novelView = new NovelView({model: _novel , isEditable: isEditable, isPreview: true});
       _novelView.appendTo($('#content'));
       if(isEditable) {
         $('#preview p').html('Preview');

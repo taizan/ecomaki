@@ -8,6 +8,7 @@ NovelView = ecomakiView.extend({
   tmplId: "#novel_template",
   childViewType: ChapterView,
   elementList: ".chapterList",
+  
 
   onInit: function(args) {
     _.bindAll(this, "addChapter");
@@ -15,6 +16,7 @@ NovelView = ecomakiView.extend({
     this.model.chapters.bind('refresh', this.addAll);
     this.model.bind('sync',this.onSync);
     this.model.bind('fetch',this.onSync);
+
 
     this.childModels = this.model.chapters.models;
     /*
@@ -59,7 +61,8 @@ NovelView = ecomakiView.extend({
     // temp code 
     
     console.log(this.model.get('status'));
-    if( this.model.get('status') !== undefined && this.model.get('status') != 'publish' && !this.isEditable) {
+    console.log(this.isPreview);
+    if( this.model.get('status') !== undefined && this.model.get('status') != 'publish' && !this.isEditable && !this.isPreview) {
       alert('公開されていません。this novle is not published');
       $(this.el).remove();
     } 
