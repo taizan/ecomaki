@@ -1,6 +1,7 @@
 class TopController < ApplicationController
   def index
-    @novels = Novel.all
+    # Get the latest 20 novels.
+    @novels = Novel.order("created_at DESC").where("status = ?", "publish").limit(20)
     @layouts = Layout.all
   end
   def about
