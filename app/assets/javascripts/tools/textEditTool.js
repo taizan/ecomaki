@@ -79,6 +79,7 @@ TextEditMenu.prototype = {
     var setFont = TextEditMenu.prototype.setFont;
 
     $('.font_size_radio',selecter).change( setFont );
+    //$('.font_size_radio',selecter).click( setFont );
     $('.fontStyleTypes',selecter).change( setFont );
 		$('.fontFamilyTypes',selecter).change( setFont );
 		$('.fontBackgroundColors',selecter).change( setFont );
@@ -105,20 +106,17 @@ TextEditMenu.prototype = {
       $('.fontFamilyTypes option[value="'+item.get('font_family')+'"]',selecter).prop('selected',true);
   
     //console.log( item.get('font_size'));
-    $('.font_size_radio label',selecter).removeClass('ui-state-active');
+		$('.font_size_radio input',selecter).attr('checked', false)
     if(item.get('font_size') <= 8 ){
-			$('.font_size_radio label[value="8"]',selecter).addClass('ui-state-active');
-			$('.font_size_ratio #font_size_s').attr('checked', true);
+			$('.font_size_radio input#font_size_s',selecter).attr('checked', true)
 		}else if(item.get('font_size') <= 12 ){
-			$('.font_size_radio label[value="12"]',selecter).addClass('ui-state-active');
-			$('.font_size_ratio #font_size_m').attr('checked', true);
+			$('.font_size_radio input#font_size_m',selecter).attr('checked', true)
 		}else if(item.get('font_size') <= 24 ){
-			$('.font_size_radio label[value="24"]',selecter).addClass('ui-state-active');
-			$('.font_size_ratio #font_size_L').attr('checked', true);
+			$('.font_size_radio input#font_size_L',selecter).attr('checked', true)
 		}else{
-			$('.font_size_radio label[value="48"]',selecter).addClass('ui-state-active');
-			$('.font_size_ratio #font_size_XL').attr('checked', true);
+			$('.font_size_radio input#font_size_XL',selecter).attr('checked', true)
 		}
+		$('.font_size_radio',selecter).buttonset('refresh')
 
     $('.fontColors').empty();
 
@@ -215,11 +213,11 @@ TextEditMenu.prototype = {
     //console.log(color);
 		
 		var size = item.get('font_size');
-		//console.log( 'font_size = ' + size );
 		if(!size) size = 10;
 		else if (size > 80) size = 80;
 		else if (size < 8 ) size = 8;
     size += 'px';
+		//console.log( 'font_size = ' + size );
 		//console.log(size);
 
 		var family = item.get('font_family');
