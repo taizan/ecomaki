@@ -12,7 +12,7 @@ EntryTemplate.prototype =
     console.log(chapter);
     if( chapter.entries.length > 0 ){
       var j = Math.floor((Math.random() * chapter.entries.length));
-      return chapter.entries.at(j).attributes;
+      return chapter.entries.at(j).dup();
     }
 
     return EntryTemplate.prototype.templateList[i][0];

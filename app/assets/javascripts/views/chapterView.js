@@ -106,7 +106,7 @@ ChapterView = ecomakiView.extend({
      //         height :  scale *  img.height / window_size.x * 100 + '%' 
             });
        
-       console.log(scale);
+       //console.log(scale);
 
       }
     );
@@ -126,18 +126,17 @@ ChapterView = ecomakiView.extend({
   addItems: function(attr, entry) {
     var j = 0;
     console.log("addEntry Success");
-    if( attr._entry_balloon ) for(j = 0; j < attr._entry_balloon.length; j++ ){
-      entry.balloons.create(attr._entry_balloon[j]);
+    if( attr.entry_balloon ) for(j = 0; j < attr.entry_balloon.length; j++ ){
+      entry.balloons.create(attr.entry_balloon[j]);
     }
-    if ( attr._entry_character ) for(j = 0; j < attr._entry_character.length; j++){
-      entry.characters.create( attr._entry_character[j]);
+    if ( attr.entry_character ) for(j = 0; j < attr.entry_character.length; j++){
+      entry.characters.create( attr.entry_character[j]);
     }
     entry.save();
     entry.trigger('change');
   },
 
-  addEntryWithOrder: function(json, i){
-    var attr = EntryView.prototype.deleteAttr(json); 
+  addEntryWithOrder: function(attr, i){
     var _self = this;
     var entry = this.model.entries.create_after(attr,i,
         { wait:true,
@@ -146,8 +145,7 @@ ChapterView = ecomakiView.extend({
     return entry;
   },
 
-  addEntry: function(json){
-    var attr = EntryView.prototype.deleteAttr(json); 
+  addEntry: function(attr){
     var _self = this;
     var entry = this.model.entries.create(attr,
         { wait:true,
@@ -176,7 +174,7 @@ ChapterView = ecomakiView.extend({
     //var attributes = { height: 320, width: 640, canvas_index: 1 };
     //chapter.entries.create_after(attributes, currentIndex);
     
-    console.log("addChapter");
+    //console.log("addChapter");
     var novel = this.parentView.model;
     var currentIndex = novel.chapters.indexOf(this.model);
     novel.chapters.create_after({},currentIndex);
@@ -192,7 +190,7 @@ ChapterView = ecomakiView.extend({
   render: function(){
     // render all chapter if iseditable
     if(this.isLoaded || this.isEditable){
-      console.log("chapter render");
+      //console.log("chapter render");
 
       $('.title .text',this.el).html(this.model.get('title'));
       $('.description .text',this.el).html(this.model.get('description'));
@@ -221,18 +219,18 @@ ChapterView = ecomakiView.extend({
   },
 
   onSortStart: function(e,ui){
-    console.log('onsort');
+    //console.log('onsort');
     this.sortItemIndex =  $(ui.item).parent().children().index(ui.item);
-    console.log(this.sortItemIndex);
+    //console.log(this.sortItemIndex);
   },
 
   onSortStop: function(e,ui){
-    console.log('onsortstop');
+    //console.log('onsortstop');
     var i =  $(ui.item).parent().children().index(ui.item);
-    console.log(i);
+    //console.log(i);
     var entry = this.model.entries.at(this.sortItemIndex);
     var dest = this.model.entries.at(i);
-    console.log(entry);
+    //console.log(entry);
     this.model.entries.move_at(entry, i);
     this.model.entries.save();
     this.model.trigger('change');
@@ -240,11 +238,11 @@ ChapterView = ecomakiView.extend({
   },
 
   click: function(){
-     console.log("chapter click");
+     //console.log("chapter click");
   },
 
   onKeyPress: function (e){
-    console.log("onkeypress");
+    //console.log("onkeypress");
     alert(e.whitch );
     if(e.which == 13){
       $('#inputform').val("");

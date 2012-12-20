@@ -121,7 +121,43 @@ var Entry = Backbone.Model.extend(
 	    } else {
 		return base + '/' + this.id + '.json';
 	    }
-	}
+	},
+
+  dup: function() {
+    var new_entry = this.clone();
+    var attr = new_entry.attributes;
+    
+    delete attr.id;
+    delete attr.entry_id;
+    delete attr.chapter_id;
+    delete attr.novel_id;
+    delete attr.created_at;
+    delete attr.order_number;
+    delete attr.updated_at;
+
+    var i;
+    if ( attr.entry_balloon ) {
+      for(i = 0; i < attr.entry_balloon.length; i++ ){
+        attr.entry_balloon[i] = jQuery.extend(true,{},this.balloons.at(i).attributes);
+        delete attr.entry_balloon[i].id;
+        delete attr.entry_balloon[i].entry_id;
+        delete attr.entry_balloon[i].created_at;
+        delete attr.entry_balloon[i].updated_at;
+      }
+    }
+    if ( attr.entry_character ) {
+      for(i = 0; i < attr.entry_character.length; i++){
+        attr.entry_character[i] = jQuery.extend(true,{},this.characters.at(i).attributes);
+        delete attr.entry_character[i].id;
+        delete attr.entry_character[i].entry_id;
+        delete attr.entry_character[i].created_at;
+        delete attr.entry_character[i].updated_at;
+      }
+    }
+    return attr; 
+  }
+
+
     });
 
 
