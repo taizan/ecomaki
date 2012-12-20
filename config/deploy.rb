@@ -40,6 +40,16 @@ namespace :deploy do
   end
 end
 
+# Link /data directory
+after 'deploy:update_code', 'deploy:simlink_data'
+namespace :deploy do
+  desc "Simlinks the /data direcitory"
+  task :simlink_data, :roles => :app do
+    run "mv #{release_path}/data #{release_path}/data_skel"
+    run "ln -nfs #{deploy_to}/shared/data #{release_path}/data"
+  end
+end
+
 # db:fixtures:load
 namespace :deploy do
   desc "Load fixtures"
