@@ -57,7 +57,6 @@ TextEditMenu.prototype = {
               
   appendTextEditMenuTo: function(){    
 		//console.warn("appending");
-    TextEditMenu.prototype.isAppended = true;
 
     var selecterTemplate =  $("#text_menu_template").html();
     var selecter = $(selecterTemplate);
@@ -86,6 +85,8 @@ TextEditMenu.prototype = {
     $('.borderTypes',selecter).change( setFont );
     $('.borderWidths',selecter).change( setFont );
     $('.borderRadiuses',selecter).change( setFont );
+
+    TextEditMenu.prototype.isAppended = true;
   },
 	
   applyTarget: function(){ 
@@ -105,11 +106,19 @@ TextEditMenu.prototype = {
   
     //console.log( item.get('font_size'));
     $('.font_size_radio label',selecter).removeClass('ui-state-active');
-    if(item.get('font_size') <= 8 )       $('.font_size_radio label[value="8"]',selecter).addClass('ui-state-active');
-    else if(item.get('font_size') <= 12 ) $('.font_size_radio label[value="12"]',selecter).addClass('ui-state-active');
-    else if(item.get('font_size') <= 24 ) $('.font_size_radio label[value="24"]',selecter).addClass('ui-state-active')
-    else                                  $('.font_size_radio label[value="48"]',selecter).addClass('ui-state-active');
-       
+    if(item.get('font_size') <= 8 ){
+			$('.font_size_radio label[value="8"]',selecter).addClass('ui-state-active');
+			$('.font_size_ratio #font_size_s').attr('checked', true);
+		}else if(item.get('font_size') <= 12 ){
+			$('.font_size_radio label[value="12"]',selecter).addClass('ui-state-active');
+			$('.font_size_ratio #font_size_m').attr('checked', true);
+		}else if(item.get('font_size') <= 24 ){
+			$('.font_size_radio label[value="24"]',selecter).addClass('ui-state-active');
+			$('.font_size_ratio #font_size_L').attr('checked', true);
+		}else{
+			$('.font_size_radio label[value="48"]',selecter).addClass('ui-state-active');
+			$('.font_size_ratio #font_size_XL').attr('checked', true);
+		}
 
     $('.fontColors').empty();
 
@@ -122,6 +131,7 @@ TextEditMenu.prototype = {
         if(TextEditMenu.prototype.isInitialized){
 				  item.set('font_color', color);
     		  item.save();
+					//console.log('check point 1');
 				  TextEditMenu.prototype.applyFont();
           // console.log('set');
 			  }
@@ -173,6 +183,7 @@ TextEditMenu.prototype = {
     if( $('.borderTypes',selecter).val() == "double") borderWidth = 3;
     if( $('.borderTypes',selecter).val() == "dotted") borderWidth = 2;
 
+		//console.log('check ponit 2-1');
     if(TextEditMenu.prototype.isInitialized){
 			var setting = {
           'font_size': $('.font_size_radio',selecter).find('label[aria-pressed=true]').attr('value'),
@@ -184,8 +195,9 @@ TextEditMenu.prototype = {
           'border_radius': $('.borderRadiuses input')[0].checked ? 20 : 0
     	};
    		item.save(setting);
+			//console.log('check point 2-2');
 			TextEditMenu.prototype.applyFont();
-   		console.log('set');
+   		//console.log('set');
     }
   },
 	
@@ -203,6 +215,7 @@ TextEditMenu.prototype = {
     //console.log(color);
 		
 		var size = item.get('font_size');
+		//console.log( 'font_size = ' + size );
 		if(!size) size = 10;
 		else if (size > 80) size = 80;
 		else if (size < 8 ) size = 8;
