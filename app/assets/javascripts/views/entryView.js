@@ -300,14 +300,18 @@ EntryView = ecomakiView.extend({
     var currentIndex =  chapter.entries.indexOf(this.model);
     //console.log( currentIndex);
     
+    this.model.save();
     //for debug and get entry data
-    var copy = this.model.clone();
+    //var copy = this.model.clone();
+    //console.log(copy);
 
-    var attributes = this.deleteAttr(copy.attributes);
+    //var attributes = this.deleteAttr(copy.attributes);
     //console.log( window.JSON.stringify(this.model.attributes));
-    console.log( window.JSON.stringify(attributes) );
+    //console.log( window.JSON.stringify(attributes) );
 
-    this.parentView.addEntryWithOrder(copy.attributes , currentIndex);
+    var attributes = this.model.dup();
+
+    this.parentView.addEntryWithOrder(attributes , currentIndex);
     //chapter.entries.create_after(attributes, currentIndex);
     //chapter.entries.save();
   },
