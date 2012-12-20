@@ -1,9 +1,5 @@
 //= require ./imageselect
 
-function Debug(val){
-	$('.font_size_ratio #font_size_' + val).attr('checked');
-}
-
 function TextEditMenu(target,item){
   this.target = target;	
   this.item = item;
@@ -185,7 +181,7 @@ TextEditMenu.prototype = {
     if( $('.borderTypes',selecter).val() == "double") borderWidth = 3;
     if( $('.borderTypes',selecter).val() == "dotted") borderWidth = 2;
 
-		console.log('check ponit 2-1');
+		//console.log('check ponit 2-1');
     if(TextEditMenu.prototype.isInitialized){
 			var setting = {
           'font_size': $('.font_size_radio',selecter).find('label[aria-pressed=true]').attr('value'),
@@ -197,7 +193,7 @@ TextEditMenu.prototype = {
           'border_radius': $('.borderRadiuses input')[0].checked ? 20 : 0
     	};
    		item.save(setting);
-			console.log('check point 2-2');
+			//console.log('check point 2-2');
 			TextEditMenu.prototype.applyFont();
    		//console.log('set');
     }
@@ -221,7 +217,7 @@ TextEditMenu.prototype = {
 		else if (size > 80) size = 80;
 		else if (size < 8 ) size = 8;
     size += 'px';
-		console.log( 'font_size = ' + size );
+		//console.log( 'font_size = ' + size );
 		//console.log(size);
 
 		var family = item.get('font_family');
