@@ -190,7 +190,6 @@ Picker.prototype = {
             .appendTo('#character_picker .picker_list')
             .click(function(){ 
               $('.image_list','#character_item_'+id).toggle();
-              $('#character_picker').width(600);
               })
             .imagesLoaded( function(){  $('.image_list',header).masonry({ itemSelecter: '.picker_image_item'}); });
           
@@ -234,7 +233,7 @@ Picker.prototype = {
   setBackgroundItem: function(list_id,id,text,url){
     var $a = $('<a></a>');
     var text = $a.text(text).text(); 
-    var item = $('<li id="pick_background_item_'+id+'" class="picker_image_item" ><img src="' + url + '"></li>').attr('title',text);
+    var item = $('<div id="pick_background_item_'+id+'" class="picker_image_item" ><img src="' + url + '"></div>').attr('title',text);
     //item.appendTo($(list_id)).tooltip();
    
     if( $('#pick_background_item_' + id).length == 0 ){
@@ -255,7 +254,7 @@ Picker.prototype = {
     var item = $('<div id="pick_character_image_item_'+id+'" class="picker_image_item" ><img src="' + url + '"></div>').attr('title',text);
     //item.appendTo($(list_id)).tooltip();
     if(! $('.list_header_button img',list_id).attr('src') ){
-      console.log($(list_id));
+      //console.log($(list_id));
       $('.list_header_button img',list_id).attr('src',url);
     }
 
@@ -302,7 +301,8 @@ Picker.prototype = {
     }
     Picker.prototype.selectedCallback = callback;
 		
-    if(! Picker.prototype.visible)$('#background_picker').show('drop','fast');
+    if(! Picker.prototype.visible)
+      $('#background_picker').width(500).show('drop','fast');
     Picker.prototype.visible = true;
     Picker.prototype.isBlurable = true;
   },
