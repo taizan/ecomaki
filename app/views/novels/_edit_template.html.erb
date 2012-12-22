@@ -1,18 +1,19 @@
 
 
 <script type="text/template" id="novel_template">
-  <hr>
-  <div id="title" class="title" title="題名; Novel Title;">
-    <h2 class="text_help  editer_item">T I T L E</h2>
-    <h2 class="text" ></h2>
-  </div>
-  <div id="description" class="description" title="説明; description;"> 
-    <p class="text_help  editer_item">D E S C R I P T I O N</p>
-    <p class="text" ></p>
-  </div>
-  <div id="author" class="author" title="作者; autho of novel" > 
-    <p class="text_help  editer_item">A U T H O R</p>
-    <p class="text" ></p>
+  <div id="novel_header">
+    <div id="title"  title="題名; Novel Title;">
+      <h2 class="text_help  editer_item">T I T L E</h2>
+      <h2 class="text" ></h2>
+    </div>
+    <div id="description"  title="説明; description;"> 
+      <p class="text_help  editer_item">D E S C R I P T I O N</p>
+      <p class="text" ></p>
+    </div>
+    <div id="author"  title="作者; autho of novel" > 
+      <p class="text_help  editer_item">A U T H O R</p>
+      <p class="text" ></p>
+    </div>
   </div>
   
   <div class="buttons editer_item">
@@ -20,7 +21,6 @@
        <img src="/assets/novel/page_add_green.png">
     </button>
   </div>
-  <hr>
 
   <div class="chapterList"></div>
 
@@ -28,6 +28,7 @@
 
 <script type="text/template" id="chapter_template">
   <hr class="editer_item">
+
   <div class="chapter_control top_control editer_item">
     <button class="background_icon icon">
       <img src="/assets/novel/background_2.png" title="背景の選択; Select background "/>
@@ -38,13 +39,15 @@
     <button class="remove_chapter icon" title="この章全体の削除; Remove this chapter"> <img src="/assets/novel/remove.png" /></button>
   </div>
 
-  <div class="title" title="章の題名。省略可能; Chapter title. It can be omitted">
-    <h2 class="text_help editer_item">PAGE  TITLE</h2>
-    <h2 class="text">chapter title</h2>
-  </div>
-  <div class="description" title="章の説明。省略可能; Chapter description. It can be omitted">
-    <p class="text_help editer_item">DESCRIPTION</p>
-    <p class="text">des</p>
+  <div class="chapter_header">
+    <div class="title" title="章の題名。省略可能; Chapter title. It can be omitted">
+      <h2 class="text_help editer_item">PAGE  TITLE</h2>
+      <h2 class="text">chapter title</h2>
+    </div>
+    <div class="description" title="章の説明。省略可能; Chapter description. It can be omitted">
+      <p class="text_help editer_item">DESCRIPTION</p>
+      <p class="text">des</p>
+    </div>
   </div>
 
   <div class="entryList"></div>

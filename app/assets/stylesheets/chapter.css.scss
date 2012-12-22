@@ -1,41 +1,38 @@
-.chapter_buttons button{
-  height: 64px;
-  min-width: 128px;
+
+.chapter_header {
+  background: rgba(255,255,255,0.6);
 }
 
 
-
-.background_icon:hover{
-//  background: green;
+.title {
+    font-size: 24px; 
+    line-height: 1.5em;
+    position: relative;
 }
 
-.music_icon:hover{
-//  background: blue;
+.title .text_help {
+    font-size: 16px; 
+    line-height: 1.5em;
+    //background: #eee;
+    font-color: #444;
+    margin: 1px;
 }
 
-.top_control{
-  position: absolute;
-  //top: 0px;
-  right: 2px;
-  z-index: 99;
+
+.description {
+    font-size: 12px;
+    line-height: 1.5em;
+    position: relative;
 }
 
-.top_control .icon{
-  height: 64px;
-  width: 64px;
-  cursor:pointer;
+.description .text_help {
+    font-size: 12px; 
+    line-height: 1.5em;
+    //background: #ddd;
+    font-color: #333;
+    margin: 1px;
 }
 
-.bottom_control{
-  text-align: right;
-  z-index: 99;
-}
-
-.bottom_control .icon{
-  //height: 48px;
-  //width: 48px;
-  cursor:pointer;
-}
 
 hr {
   height: 2px;
