@@ -40,8 +40,14 @@ body{
 	position: relative;
 }
 
+#novel_header {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background: rgba(245,245,245,0.75);
+}
+
 #title {
-    font-size: 24px; 
+    font-size: 32px; 
     line-height: 1.5em;
     position: relative;
 }
@@ -64,36 +70,6 @@ body{
     font-color: #444;
     margin: 1px;
 }
-
-.title {
-    font-size: 24px; 
-    line-height: 1.5em;
-    position: relative;
-}
-
-.title .text_help {
-    font-size: 16px; 
-    line-height: 1.5em;
-    //background: #eee;
-    font-color: #444;
-    margin: 1px;
-}
-
-
-.description {
-    font-size: 12px;
-    line-height: 1.5em;
-    position: relative;
-}
-
-.description .text_help {
-    font-size: 12px; 
-    line-height: 1.5em;
-    //background: #ddd;
-    font-color: #333;
-    margin: 1px;
-}
-
 
 #entrylist {
 	   position: relative;

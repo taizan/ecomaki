@@ -15,7 +15,7 @@ body{
 }
 
 
-.author {
+#author {
     cursor:pointer;
 }
 
@@ -26,7 +26,7 @@ body{
     z-index: 99;
 }
 
-.title {
+#title , .title{
     cursor:pointer;
 }
 
@@ -37,7 +37,7 @@ body{
     z-index: 99;
 }
 
-.description {
+#description , .description {
     cursor:pointer;
 }
 
@@ -48,7 +48,15 @@ body{
     z-index: 99;
 }
 
-.author:hover {
+#title:hover {
+  background: #ede;
+}
+
+#description:hover {
+  background: #dee;
+}
+
+#author:hover {
   background: #eed;
 }
 
