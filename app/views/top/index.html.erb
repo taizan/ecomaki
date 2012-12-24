@@ -30,11 +30,11 @@
     <% @novels.each do |novel| %>
       <% if novel.status == 'publish' then %> 
         <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
-          <div class='span4 novel_list_item'>
-            <h2>
+          <div class="span4 novel_list_item">
+            <h2 class="novel_list_title">
               <%= "#{novel.title}" %>
             </h2>
-            <p>
+            <p class="nove_list_description"> 
               <%= "#{novel.description}" %>
             </p>
           </div >
