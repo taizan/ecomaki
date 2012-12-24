@@ -29,7 +29,7 @@ $(function() {
     
   var urls = location.href.split('/');
   var pass = urls.length > 5 ? urls[5] : null;  
-  console.log(pass);
+  //console.log(pass);
 
   initializeView(id,pass,isEditable);
 

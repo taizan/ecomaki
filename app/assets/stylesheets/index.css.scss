@@ -98,6 +98,13 @@
   overflow: hidden;
 }
 
+.novel_list_title{
+ max-height: 60px;
+}
+.novel_list_description{
+ max-height: 40px;
+}
+
 .novel_list_item:hover{
   background: gray;
 }
