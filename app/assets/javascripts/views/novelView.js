@@ -60,8 +60,8 @@ NovelView = ecomakiView.extend({
   render: function() {
     // temp code 
     
-    console.log(this.model.get('status'));
-    console.log(this.isPreview);
+    //console.log(this.model.get('status'));
+    //console.log(this.isPreview);
     if( this.model.get('status') !== undefined && this.model.get('status') != 'publish' && !this.isEditable && !this.isPreview) {
       alert('公開されていません。this novle is not published');
       $(this.el).remove();
