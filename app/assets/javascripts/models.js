@@ -134,26 +134,24 @@ var Entry = Backbone.Model.extend(
     delete attr.created_at;
     delete attr.order_number;
     delete attr.updated_at;
-
-    var i;
-    if ( attr.entry_balloon ) {
-      for(i = 0; i < attr.entry_balloon.length; i++ ){
-        attr.entry_balloon[i] = jQuery.extend(true,{},this.balloons.at(i).attributes);
-        delete attr.entry_balloon[i].id;
-        delete attr.entry_balloon[i].entry_id;
-        delete attr.entry_balloon[i].created_at;
-        delete attr.entry_balloon[i].updated_at;
-      }
+    attr.entry_balloon = [];
+    attr.entry_character = []; 
+    
+    for(var i = 0; i < this.balloons.length; i++ ){
+      attr.entry_balloon.push( jQuery.extend(true,{},this.balloons.at(i).attributes) );
+      delete attr.entry_balloon[i].id;
+      delete attr.entry_balloon[i].entry_id;
+      delete attr.entry_balloon[i].created_at;
+      delete attr.entry_balloon[i].updated_at;
     }
-    if ( attr.entry_character ) {
-      for(i = 0; i < attr.entry_character.length; i++){
-        attr.entry_character[i] = jQuery.extend(true,{},this.characters.at(i).attributes);
-        delete attr.entry_character[i].id;
-        delete attr.entry_character[i].entry_id;
-        delete attr.entry_character[i].created_at;
-        delete attr.entry_character[i].updated_at;
-      }
+    for(var i = 0; i < this.characters.length; i++){
+      attr.entry_character.push( jQuery.extend(true,{},this.characters.at(i).attributes) );
+      delete attr.entry_character[i].id;
+      delete attr.entry_character[i].entry_id;
+      delete attr.entry_character[i].created_at;
+      delete attr.entry_character[i].updated_at;
     }
+    console.log(attr);
     return attr; 
   }
 
