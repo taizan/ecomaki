@@ -147,7 +147,7 @@ var Entry = Backbone.Model.extend(
     }
     if ( attr.entry_character ) {
       for(i = 0; i < attr.entry_character.length; i++){
-        attr.entry_character[i] = jQuery.extend(true,{},this.characters.at(i).attributes);
+        attr._entry_character[i] = jQuery.extend(true,{},this.characters.at(i).attributes);
         delete attr.entry_character[i].id;
         delete attr.entry_character[i].entry_id;
         delete attr.entry_character[i].created_at;

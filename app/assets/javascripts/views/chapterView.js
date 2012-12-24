@@ -119,18 +119,19 @@ ChapterView = ecomakiView.extend({
     this.showBackground();
 
     this.playMusicById(this.model.get('background_music_id')); 
-    console.log( 'background_music_id' + this.model.get('background_music_id'));
+    //console.log( 'background_music_id' + this.model.get('background_music_id'));
     return this;
   },
 
   addItems: function(attr, entry) {
     var j = 0;
-    console.log("addEntry Success");
-    if( attr.entry_balloon ) for(j = 0; j < attr.entry_balloon.length; j++ ){
-      entry.balloons.create(attr.entry_balloon[j]);
+    //console.log("addEntry Success");
+
+    if( attr._entry_balloon ) for(j = 0; j < attr._entry_balloon.length; j++ ){
+      entry.balloons.create(attr._entry_balloon[j]);
     }
-    if ( attr.entry_character ) for(j = 0; j < attr.entry_character.length; j++){
-      entry.characters.create( attr.entry_character[j]);
+    if ( attr._entry_character ) for(j = 0; j < attr._entry_character.length; j++){
+      entry.characters.create( attr._entry_character[j]);
     }
     entry.save();
     entry.trigger('change');
@@ -138,6 +139,12 @@ ChapterView = ecomakiView.extend({
 
   addEntryWithOrder: function(attr, i){
     var _self = this;
+    // move item attr for avoid auto initialize   
+    attr._entry_balloon = attr.entry_balloon;
+    attr._entry_character = attr.entry_character;
+    delete attr.entry_balloon;
+    delete attr.entry_character;
+
     var entry = this.model.entries.create_after(attr,i,
         { wait:true,
           success: function(){ _self.addItems(attr,entry); }
@@ -147,10 +154,15 @@ ChapterView = ecomakiView.extend({
 
   addEntry: function(attr){
     var _self = this;
+    // move item attr for avoid auto initialize   
+    attr._entry_balloon = attr.entry_balloon;
+    attr._entry_character = attr.entry_character;
+    delete attr.entry_balloon;
+    delete attr.entry_character;
+
     var entry = this.model.entries.create(attr,
         { wait:true,
           success: function(){ _self.addItems(attr,entry); }
-          
         });
     return entry;
   },
@@ -169,12 +181,6 @@ ChapterView = ecomakiView.extend({
   },
 
   addChapter: function(e){
-    //var chapter = this.parentView.model;
-    //var currentIndex =  chapter.entries.indexOf(this.model);
-    //var attributes = { height: 320, width: 640, canvas_index: 1 };
-    //chapter.entries.create_after(attributes, currentIndex);
-    
-    //console.log("addChapter");
     var novel = this.parentView.model;
     var currentIndex = novel.chapters.indexOf(this.model);
     novel.chapters.create_after({},currentIndex);
@@ -205,16 +211,8 @@ ChapterView = ecomakiView.extend({
           start: this.onSortStart,
           stop: this.onSortStop
         });
-      
-        //$('.background_select',this.el)
-        //    .find('option[value=' + this.model.get('background_image_id') + ']').prop('selected', true);
-
-        //$('.bgm_select',this.el)
-        //    .find('option[value=' + this.model.get('background_music_id') + ']').prop('selected', true);
       }
-
     }
-
     return this;
   },
 
@@ -267,17 +265,7 @@ ChapterView = ecomakiView.extend({
       $('#background_even')[0].src = config.background_idtourl(this.model.get('background_image_id'));
     }
   },
-/*
-  initBackgroundList: function(){
-    //  console.log('init list');
-    var x = 3;
-    for(var i=0; i < x; i++){
-      var op = $('<option>').attr({ value: i }).text(i);
-      $('.background_select',this.el).append(op);
-      //console.log(i);
-    }
-  },
-*/
+
   onMusicButton: function(ev){
     Picker.prototype.showMusicList(this.setBgm);
     // to stop  blur picker at on ecomakiView Click 
