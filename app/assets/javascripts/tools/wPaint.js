@@ -5,6 +5,7 @@
 //=require ./Shapes/Rectangle
 //=require ./Shapes/Chrome
 //=require ./Shapes/Shape
+//=require ./EditMenu
 
 /******************************************
  *
@@ -20,8 +21,95 @@
  * @version         Version x.x
  *
  ******************************************/
+var debug = {};
 (function($)
 {
+	/*** Bi-Directional Linked List for store/restore ***/
+	var Node = {
+		next: null,
+		prev: null,
+		canvas: null,
+		tail: {}
+	};
+
+	//debug.tail = debug.head = Node.tail;
+	var head = Node.tail;
+	var target = null;
+	var pushCanvas = function(canvas){
+		var tmp = Object.create(Node);
+		tmp.canvas = canvas;
+		tmp.prev = head;
+		head.next = tmp;
+
+		head = tmp;
+		//debug.head = head;
+	};
+
+	var storeCanvas = function(canvas){
+		$(canvas).EditMenu('snapshot').EditMenu('edit');
+		pushCanvas(canvas);
+	};
+
+	var copyCanvas = function(){
+		//console.log("copy");
+		target && $(target).EditMenu('copy');
+	};
+
+	var cutCanvas = function(){
+		//console.log("cut");
+		target && $(target).EditMenu('cut');
+		pushCanvas(target);
+	};
+
+	var pasteCanvas = function(){
+		//console.log("paste");
+		target && $(target).EditMenu('paste');
+		pushCanvas(target);
+	};
+
+	var restoreCanvas = function(){
+		if(head && head.prev){
+			$(head.canvas).EditMenu('undo');
+			head = head.prev;
+			//debug.head = head;
+		}
+	};
+
+	var redoCanvas = function(){
+		if(head.next){
+			head = head.next;
+			//debug.head;
+			$(head.canvas).EditMenu('redo');
+		}
+	};
+
+	var pressedKey = function(e){
+		return (e.ctrlKey ? "ctrl-" : "") + (e.shiftKey ? "shift-" : "") + (e.altKey ? "alt-" : "") + e.keyCode;
+	};
+
+	var func = {
+		/* key map
+		 * "67" == 'c'
+		 * "86" == 'v'
+		 * "88" == 'x'
+		 * "90" == 'z'
+		 */
+		"ctrl-90": restoreCanvas,
+		"ctrl-shift-90": redoCanvas,
+		"88": cutCanvas, 
+		"67": copyCanvas,
+		"86": pasteCanvas
+	};
+
+	$(document).keydown(function(e){
+		//console.log(e);
+		//console.log(pressedKey(e));
+		//alert(e.keyCode);
+		var f = func[pressedKey(e)];
+		if(f){ f(); }
+	});
+	/*****************************************************/
+
 	var shapes = ['Rectangle', 'Ellipse', 'Line', 'Text'];
 
 	$.fn.wPaint = function(option, settings) // == $("#container").wPaint
@@ -178,24 +266,38 @@
 		 *******************************************************************************/
 		generate: function(width, height)
 		{	
-			this.canvas = document.createElement('canvas');
+			canv = this.canvas = document.createElement('canvas');
       $(this.canvas).addClass('paint');
 			this.ctx = this.canvas.getContext('2d');
+
+			$(this.canvas).EditMenu('init');
 			
 			//create local reference
 			var $this = this;
+			var $canvas = $(this.canvas);
 			
 			$(this.canvas)
 			.attr('width', width + 'px')
 			.attr('height', height + 'px')
 			.css({position: 'absolute', left: 0, top: 0})
 			.mousedown(function(e)
-			{
+			{ //this == canvas object
+				//console.log(this);
 				e.preventDefault();
 				e.stopPropagation();
+				//$canvas.EditMenu('snapshot').EditMenu('edit');
+				storeCanvas(this);
 				$this.draw = true;
 				$this.callFunc(e, $this, 'Down');
         //console.log($this);
+			})
+			.mouseover(function(e){
+				//console.log("over");
+				target = this;
+			})
+			.mouseout(function(e){
+				//console.log("out");
+				if(target == this){ target = null; }
 			});
 			
 			$(document)
