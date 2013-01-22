@@ -1,7 +1,5 @@
 <%= stylesheet_link_tag 'index' %> 
 
-<%= javascript_include_tag 'index' %>
-
 <% content_for :html_description, "web + マンガ ＋ アニメーション = 新しい創作のカタチ キャラクター,背景,BGMなどの要素をwebで共有。作品作りを手軽に" %>
 
 <div id="top_menu">
@@ -13,9 +11,9 @@
     <% end %>
   </div>
 
-  <h1>All Content List</h1>
 
   <div class=" novel_list">
+    <h1>All Content List</h1>
     <% @novels.each do |novel| %>
       <% if novel.status == 'publish' then %> 
         <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
@@ -26,7 +24,6 @@
               <%= "#{novel.description}" %>
             </p>
             
-          </div >
         <% end %>
       <% end %>
     <% end %>

@@ -154,8 +154,10 @@ EntryView = ecomakiView.extend({
           }
         }
       }else{
-        this.canvasImage.src = this.model.get('canvas'); 
-        $(this.canvasImage).css( { position: 'relative', zIndex:this.model.get('canvas_index') } );
+        if(this.model.get('canvas') ){
+          this.canvasImage.src = this.model.get('canvas'); 
+          $(this.canvasImage).css( { position: 'relative', zIndex:this.model.get('canvas_index') } );
+        }
       }
       this.effecter.resetEffect();
     }
