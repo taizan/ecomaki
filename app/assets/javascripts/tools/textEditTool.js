@@ -107,14 +107,12 @@ TextEditMenu.prototype = {
   
     //console.log( item.get('font_size'));
 		$('.font_size_radio input',selecter).attr('checked', false)
-    if(item.get('font_size') <= 8 ){
+    if(item.get('font_size') <= 12 ){
 			$('.font_size_radio input#font_size_s',selecter).attr('checked', true)
-		}else if(item.get('font_size') <= 12 ){
+		}else if(item.get('font_size') <= 16 ){
 			$('.font_size_radio input#font_size_m',selecter).attr('checked', true)
-		}else if(item.get('font_size') <= 24 ){
+		}else if(item.get('font_size') <= 28 ){
 			$('.font_size_radio input#font_size_L',selecter).attr('checked', true)
-		}else{
-			$('.font_size_radio input#font_size_XL',selecter).attr('checked', true)
 		}
 		$('.font_size_radio',selecter).buttonset('refresh')
 

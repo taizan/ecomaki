@@ -108,9 +108,9 @@ var Entry = Backbone.Model.extend(
 	    }
 	},
 	url: function() {
-	    var novel = this.collection.chapter.collection.novel;
+	    if(this.collection)var novel = this.collection.chapter.collection.novel;
 	    var base = '';
-	    if (novel.has('password')) {
+	    if (novel && novel.has('password')) {
 		base = '/edit/' + this.get('novel_id') + '/' + novel.get('password') + '/chapters/' + this.get('chapter_id') + '/entries';
 	    } else {
 		base = '/novels/' + this.get('novel_id') + '/chapters/' + this.get('chapter_id') + '/entries';
@@ -164,7 +164,7 @@ var EntryList = Backbone.Collection.extend(
 	model: Entry,
 	url: function() {
 	    var novel = this.chapter.collection.novel;
-	    if (novel.has('password')) {
+	    if (novel && novel.has('password')) {
 		return '/edit/' + this.novel_id + '/' + novel.get('password') + '/chapters/' + this.chapter_id() + '/entries';
 	    } else {
 		return "/novels/" + this.novel_id + "/chapters/" + this.chapter_id() + "/entries";		
@@ -208,8 +208,9 @@ var EntryList = Backbone.Collection.extend(
 	    //this.sort();
 	    
 	    var cur_index = this.models.indexOf(model);
+      console.log( cur_index + ',' + index);
 	    if (index > cur_index) {
-		this.models.splice(index, 0, model); // Insert
+		this.models.splice(index+1, 0, model); // Insert
 		this.models.splice(cur_index, 1); // Remove
 	    } else if (index < cur_index) {
 		this.models.splice(cur_index, 1);

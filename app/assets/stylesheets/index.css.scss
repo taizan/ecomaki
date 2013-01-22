@@ -1,3 +1,7 @@
+.entry {
+  text-align: center;
+}
+
 .init_form {
   position: fixed;
   background: white;
@@ -89,12 +93,14 @@
 .novel_list{
   margin-right:auto;
   margin-left:auto;
+  text-align: center;
 }
 
 .novel_list_item{
   border: 1px solid gray;
   gargin: 2px;
-  max-height: 100px; 
+//  max-height: 100px; 
+  max-width: 900px; 
   overflow: hidden;
 }
 
@@ -110,7 +116,7 @@
 }
 
 .novel_list_item:hover{
-  background: gray;
+  background: #CCFFCC;
 }
 
 .novel_list_item h2 , .novel_list_item p{

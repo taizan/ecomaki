@@ -1,5 +1,6 @@
 Ecomaki::Application.routes.draw do
   root :to => 'top#index'
+  match 'all' => 'top#all'
   match 'about' => 'top#about'
 
   # Balloons
