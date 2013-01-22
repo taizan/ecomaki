@@ -2,6 +2,15 @@
 //= require backbone
 //= require jquery.form
 
+//= require ./models
+//= require ./views/ecomakiView
+//= require ./views/entryItems
+//= require ./views/entryView
+//= require ./views/chapterView
+//= require ./views/novelView
+//= require ./tools/textEditTool
+//= require ./tools/effecter
+
 
 $(function() {
   // load template	
@@ -19,7 +28,15 @@ $(function() {
   $('#create_button').click( function(){ $(form).show('drop','fast'); } );
 
   $(document).tooltip();
-
+  
+  //obj = <%= @novels.to_json %>;
+  for (i = 0; i < entries.length; i++){
+    entry = new Entry(entries[i][0]);
+    entryView = new EntryView({'model':entry});
+    $(entryView.el).appendTo('.novel_list_item_'+ i);
+    console.log('.novel_list_item_'+ i);
+    entryView.load();
+  }
 });
 
 
