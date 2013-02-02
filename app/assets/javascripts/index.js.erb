@@ -33,10 +33,11 @@ $(function() {
   for (i = 0; i < entries.length; i++){
     entry = new Entry(entries[i][0]);
     entryView = new EntryView({'model':entry});
-    $(entryView.el).appendTo('.novel_list_item_'+ i);
+    $(entryView.el).appendTo('.novel_list_item_'+ i +" .entry_preview");
     //console.log('.novel_list_item_'+ i);
     entryView.load();
   }
+
 });
 
 
