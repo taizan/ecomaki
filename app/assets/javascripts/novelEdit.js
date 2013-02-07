@@ -62,6 +62,7 @@ $(function() {
 
     $(document).tooltip();
     $('#static_body').bind('mousedown',onStaticBodyClick);
+
   }
 
   function initializeTool(isEditable){

@@ -24,12 +24,20 @@ ChapterView = ecomakiView.extend({
               "onMusicButton",
               "showBackground",
               "setBackground",
-              "setBgm");
+              "setBgm",
+              "onSync");
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
     this.model.entries.bind('change', this.onChange);
 
+    this.model.entries.bind('add', this.onSync); 
+    this.model.bind('add', this.onSync); 
+
     this.childModels = this.model.entries.models;
+  },
+
+  onChangeEntries: function() {
+     console.log(this.model.entries.length);
   },
 
   events: {
@@ -45,6 +53,22 @@ ChapterView = ecomakiView.extend({
     "click .remove_chapter" : "removeChapter",
   },
 
+  onSync: function(){
+    
+      console.log(this.model.entries.length);
+      if( this.model.entries.length == 0){
+        this.model.create_entry({"width": 640 ,"height": 480});
+        this.model.entries.save();
+      //TEMP
+      // when new novel created there no id entry
+      }else if( this.model.entries.at(0).id === undefined ){
+        this.model.entries.at(0).destroy();
+        this.model.create_entry({"width": 640 ,"height": 480 , "order_number": 0});
+        this.model.entries.save();
+      }
+
+  },
+
   onLoad: function(){
     var _self = this;
 
@@ -57,6 +81,9 @@ ChapterView = ecomakiView.extend({
       //$('.background_select',this.el).change( function(){ _self.setBackground( $(this).val() );} );
       //this.initBackgroundList();
       //$('.bgm_select',this.el).change( function(){ _self.bgmSelect( $(this).val() );} );
+      
+      //add default entry if it was empty
+      //
     }else{
       $(".editer_item",this.el).hide();
     }

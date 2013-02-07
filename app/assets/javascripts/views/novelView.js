@@ -11,11 +11,14 @@ NovelView = ecomakiView.extend({
   
 
   onInit: function(args) {
-    _.bindAll(this, "addChapter");
+    _.bindAll(this, "addChapter","onSync");
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
     this.model.bind('sync',this.onSync);
     this.model.bind('fetch',this.onSync);
+    this.model.bind('add',this.onSync);
+    this.model.bind('refresh',this.onSync);
+    this.model.bind('change:status',this.onSync);
 
 
     this.childModels = this.model.chapters.models;
@@ -26,10 +29,19 @@ NovelView = ecomakiView.extend({
   events: {
     "click #add_chapter" : "addChapter",
     'click': 'onViewClick',
-    'sync' : 'onSync'
   },
 
-  onSync: function() { console.log('synced'); },
+  onSync: function() {
+  
+    // add chapter if status = initial
+    // or 
+    console.log(this.model.get('status'));
+    if(this.model.get('status') == 'initial'){
+      //this.model.create_chapter();
+      var chapter =  this.model.chapters.create_after({},-1);
+      this.model.save({'status': 'draft'})
+    }
+  },
 
   onLoad: function(){
       var _self = this;
@@ -53,7 +65,8 @@ NovelView = ecomakiView.extend({
        
       // call onScroll root here
       //$(window).scroll(this.onScroll);
-		  
+		 
+
       this.render();
   },
 
