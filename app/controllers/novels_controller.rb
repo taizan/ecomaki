@@ -71,11 +71,13 @@ class NovelsController < ApplicationController
 
     # Set as an initial password.
     params[:novel] ||= {}
-    params[:novel][:status] = 'draft'
+    params[:novel][:status] = 'initial'
     params[:novel][:password] = generate_password
 
     # Create on DB.
     @novel = Novel.create(params[:novel])
+
+    #@novel.status = 'draft'
     redirect_to :action => :edit, :id => @novel.id, :password => @novel.password
   end
 

@@ -101,6 +101,16 @@ body{
   height:56px;
 }
 
+//novel
+
+.novel_buttons {
+  text-align: right;
+}
+
+#add_chapter{
+  //position: absolute;
+  right: 2px;
+}
 
 // chapter
 
@@ -117,8 +127,8 @@ body{
 }
 
 .top_control .icon{
-  height: 60px;
-  width: 64px;
+  height: 44px;
+  width: 48px;
   cursor:pointer;
 }
 
@@ -128,9 +138,12 @@ body{
 }
 
 .bottom_control .icon{
-  //height: 48px;
-  //width: 48px;
   cursor:pointer;
+}
+
+.add_chapter {
+  height: 48px;
+  width: 48px;
 }
 
 hr {
