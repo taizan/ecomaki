@@ -14,35 +14,24 @@ Picker.prototype = {
   isApeended: false,
 
   initialize: function(){
-    
-
+   
+    // hide on blur 
     $($('#character_picker_template').html())
 		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
     $($('#background_picker_template').html())
 		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
-	  $($('#music_picker_template').html())
+    $($('#music_picker_template').html())
+		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
+
+    $($('#balloon_picker_template').html())
 		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
 			
     $('.picker_cancel_button').click(Picker.prototype.finish);
 
- /*   
-		var pickerTemplate = $('#picker_template').html();
-    $(pickerTemplate).appendTo('body');
-		
-    $('#picker').blur(Picker.prototype.onBlur);
-		
-    //$('#picker').click(function(ev){ ev.stopPropagation(); });
-    $("#picker").hide();
-    $("#picker").tabs();
-    $('#picker_cancel_button').click(Picker.prototype.finish);
-    //$('#picker_upload_button').click(Picker.prototype.appendForm)
-    $('#character_upload_button')  .click(function(){ Picker.prototype.appendForm("/characters/images");} );
-    $('#background_upload_button') .click(function(){ Picker.prototype.appendForm("/background_images");} );
-    $('#music_upload_button')      .click(function(){ Picker.prototype.appendForm("/background_musics"); } );
-*/
+    // set form button click 
     $('#add_character_button')  .click(function(){ Picker.prototype.appendForm("/characters", "image");} );
-    $('#add_background_button')  .click(function(){ Picker.prototype.appendForm("/background_images","image");} );
-    $('#add_music_button')  .click(function(){ Picker.prototype.appendForm("/background_musics","music");} );
+    $('#add_background_button') .click(function(){ Picker.prototype.appendForm("/background_images","image");} );
+    $('#add_music_button')      .click(function(){ Picker.prototype.appendForm("/background_musics","music");} );
   },
 
   onBlur: function(ev){
@@ -57,8 +46,7 @@ Picker.prototype = {
   appendForm: function(action,type,id){
     
     ///<input id="char_upload" type="file" name="image" data-url="/characters/images" multiple>
-    var template;
-		var template = $("#upload_form_template").html();
+    var template = $("#upload_form_template").html();
 
     var form = $(template)
       .appendTo('body')
@@ -68,6 +56,7 @@ Picker.prototype = {
         beforeSubmit: function() {
           $('.submit_button',form).prop('disabled',true);
         },
+
         success: function() { 
           alert("Uploaded"); 
           $(form).remove();
@@ -80,10 +69,10 @@ Picker.prototype = {
           if(action == "/background_musics" )
             Picker.prototype.loadXml("/background_musics.xml" , Picker.prototype.parseMusicXml );
         },
+
         error: function(response) {
           //res= response;
           alert(response.responseText);
-
         }
         });
     //for character image upload
@@ -113,18 +102,16 @@ Picker.prototype = {
 
     $(xml).find('background-music').each(
       function(){
-        var id = $(this).find('id').text();
-        var name = $(this).find('name').text();
+        var id          = $(this).find('id').text();
+        var name        = $(this).find('name').text();
+        var author      = $(this).find('author').text();
+        var description = $(this).find('description').text();
         //var height = $(this).find('height').text();
         //var width = $(this).find('width').text();
-        var author = $(this).find('author').text();
-        var description = $(this).find('description').text();
 
         var text = name +', '+ description +', by '+ author;
-        
-				var list_id = "#music_picker .picker_list"
+	var list_id = "#music_picker .picker_list"
 
-        console.log(name);
         Picker.prototype.setMusicItem(list_id,id,text,id + ': '+name);
       }
     );
@@ -135,17 +122,16 @@ Picker.prototype = {
 
     $(xml).find('background-image').each(
       function(){
-        var id = $(this).find('id').text();
-        var name = $(this).find('name').text();
+        var id          = $(this).find('id').text();
+        var name        = $(this).find('name').text();
+        var author      = $(this).find('author').text();
+        var description = $(this).find('description').text();
         //var height = $(this).find('height').text();
         //var width = $(this).find('width').text();
-        var author = $(this).find('author').text();
-        var description = $(this).find('description').text();
 
         var text = name +', '+ description +', by '+ author;
         var list_id = '#background_picker .picker_list';
 
-        console.log(id);
         Picker.prototype.setBackgroundItem(list_id,id,text,config.background_idtourl(id));
       }
     );
@@ -156,20 +142,20 @@ Picker.prototype = {
 
     $(xml).find('character-image').each(
       function(){
-        var id = $(this).find('id').text();
-        var name = $(this).find('name').text();
+        var id           = $(this).find('id').text();
+        var name         = $(this).find('name').text();
         var character_id = $(this).find('character-id').text();
+        var author       = $(this).find('author').text();
+        var description  = $(this).find('description').text();
         //var height = $(this).find('height').text();
         //var width = $(this).find('width').text();
-        var author = $(this).find('author').text();
-        var description = $(this).find('description').text();
+
         var text = name +', '+ description +', by '+ author;
         var list_id = '#character_item_'+character_id;
 
         Picker.prototype.setCharacterImageItem(list_id,id,text,config.character_image_idtourl(id));
       }
     );
-
   },
 
   parseCharacterXml: function(xml,status){
@@ -177,9 +163,9 @@ Picker.prototype = {
 
     $(xml).find('character').each(
       function(){
-        var id = $(this).find('id').text();
-        var name = $(this).find('name').text();
-        var author = $(this).find('author').text();
+        var id          = $(this).find('id').text();
+        var name        = $(this).find('name').text();
+        var author      = $(this).find('author').text();
         var description = $(this).find('description').text();
         var text = name +', '+ description +', by '+ author;
 
@@ -189,12 +175,12 @@ Picker.prototype = {
             .attr({ 'id':'character_item_'+id ,'title': text })
             .appendTo('#character_picker .picker_list')
             .click(function(){ 
-              $('.image_list','#character_item_'+id).toggle();
+                $('.image_list','#character_item_'+id).toggle();
               })
             .imagesLoaded( function(){  $('.image_list',header).masonry({ itemSelecter: '.picker_image_item'}); });
           
-					$('.list_header_name',header).html( name );
-					$('.list_header_description',header).html( description );
+	  $('.list_header_name',header).html( name );
+	  $('.list_header_description',header).html( description );
 
           // init form add button
           $('.add_character_image_button','#character_item_'+id).click(function(){
@@ -213,6 +199,7 @@ Picker.prototype = {
   },
 
   setMusicItem: function(list_id,id,text,name){
+    // escape text 
     var $a = $('<a></a>');
     var text = $a.text(text).text(); 
 
@@ -239,11 +226,11 @@ Picker.prototype = {
     if( $('#pick_background_item_' + id).length == 0 ){
       item.appendTo($(list_id));
       item.click(function(){
-        if(Picker.prototype.selectedCallback){
-        //set img elem for use img tag information.
-          Picker.prototype.selectedCallback(id,$('img',item)[0]);
-          Picker.prototype.finish();
-        }
+          if(Picker.prototype.selectedCallback){
+          //set img elem for use img tag information.
+            Picker.prototype.selectedCallback(id,$('img',item)[0]);
+            Picker.prototype.finish();
+          }
         });
     }
 
@@ -260,7 +247,6 @@ Picker.prototype = {
 
     $(list_id).click(function(){
       //click hide and show
-      //alert();
       if($("#pick_character_image_item_"+id ).length == 0 ){
         item.appendTo($('.image_list',list_id));
         item.click(function(){
@@ -285,12 +271,8 @@ Picker.prototype = {
     //  Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
       Picker.prototype.isCharacterListAppended = true;
     }
-    Picker.prototype.selectedCallback = callback;
     
-    if(! Picker.prototype.visible)
-      $('#character_picker').width(600).show('drop','fast');
-    Picker.prototype.visible = true;
-    Picker.prototype.isBlurable = true;
+    Picker.prototype.showPicker(callback,'#character_picker',600);
   },
 
   showBackgroundList: function(callback){
@@ -299,12 +281,8 @@ Picker.prototype = {
       Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
       Picker.prototype.isBackgroundListAppended = true;
     }
-    Picker.prototype.selectedCallback = callback;
 		
-    if(! Picker.prototype.visible)
-      $('#background_picker').width(500).show('drop','fast');
-    Picker.prototype.visible = true;
-    Picker.prototype.isBlurable = true;
+    Picker.prototype.showPicker(callback,'#background_picker',500);
   },
 
   showMusicList: function(callback){
@@ -315,17 +293,34 @@ Picker.prototype = {
       Picker.prototype.loadXml("/background_musics.xml" , Picker.prototype.parseMusicXml );
       Picker.prototype.isMusicListAppended = true;
     }
-    Picker.prototype.selectedCallback = callback;
     
-    if(! Picker.prototype.visible)$('#music_picker').show('drop','fast');
-    Picker.prototype.visible = true;
-    Picker.prototype.isBlurable = true;
+    Picker.prototype.showPicker(callback,'#music_picker',300);
   },
 
-  showPicker: function() {
-      if(! Picker.prototype.visible)$('#picker').show('drop','fast');
-      Picker.prototype.visible = true;
-      Picker.prototype.isBlurable = true;
+  showBalloonList: function(callback){
+   if( !Picker.prototype.isBalloonListAppended){ 
+      Picker.prototype.isBalloonListAppended = true;
+    }
+    
+    Picker.prototype.showPicker(callback,'#balloon_picker',300);
+  },
+
+  setBalloonList: function(){
+    var i = 0;
+    $('.balloon_picker_list_item' ).click(
+        function() {
+          callback( $(this).attr('id') );
+        }
+      );
+    }
+  },
+
+  showPicker: function(callback,picker,width) {
+    Picker.prototype.selectedCallback = callback;
+    if(! Picker.prototype.visible)$(picker).width(width).show('drop','fast');
+
+    Picker.prototype.visible = true;
+    Picker.prototype.isBlurable = true;
   },
 
   finish: function(){
