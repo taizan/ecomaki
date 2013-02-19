@@ -36,7 +36,8 @@ EntryItem.prototype = {
         "onDragStart",
         "onDragStop",
         "appendTo",
-        "setButton",
+        "initButton",
+        "setRemoveButton",
         "showOutLine",
         "init",
 				"onDisplay",
@@ -113,22 +114,28 @@ EntryItem.prototype = {
       });
   },
 
-  setButton: function(){
+  initButton: function() {
+    var target = this.target;
+    var _self = this;
+
+    $(target)
+      .mouseover(function(){
+        if(_self.isEditable){
+          $('.item-button',target).show();
+        }
+      })
+      .mouseout(function(){
+        $('.item-button',target).hide();
+      });
+
+  },
+
+  setRemoveButton: function(){
     var target = this.target;
     var _self = this;
     var button = $('<i class="icon-remove-sign item-button item-remove" title="削除; remove" />');
     button.appendTo(target);
     button.hide();
-
-    $(target)
-      .mouseover(function(){
-        if(_self.isEditable){
-          button.show();
-        }
-      })
-      .mouseout(function(){
-        button.hide();
-      });
 
     var item = this.item;
 
@@ -162,7 +169,7 @@ BalloonItem = EntryItem.extend({
   tmpl : '<div class="item balloon item-resizable item-draggable sticky" ><div class="text"></div></div>',
 
   initialize: function(){
-    _.bindAll(this,"saveText");
+    _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton");
     $('.text',this.el).html(this.item.get('content'));
   },
 
@@ -176,7 +183,6 @@ BalloonItem = EntryItem.extend({
     this.$el.children().width(this.item.get('width')).height(this.item.get('height'));
 
     if(this.isEditable){
-
 		
       $(this.el).draggable({
         containment: "parent",
@@ -200,7 +206,9 @@ BalloonItem = EntryItem.extend({
           $('.ui-tooltip').hide();
         }));
       
-      this.setButton();
+      this.setRemoveButton();
+      this.setBackgroundButton();
+      this.initButton();
       $(this.el).attr({title:"クリックで編集、ドラッグで移動; Click to edit. Dragg to move."});
       $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
     }
@@ -214,6 +222,30 @@ BalloonItem = EntryItem.extend({
     this.item.set('content',txt);
     this.item.save();
   },
+  
+  saveBackground: function(txt){
+    this.item.set('entry_balloon_background_id',txt);
+    this.item.save();
+    this.textMenu.applyFont();
+  },
+
+  setBackgroundButton: function(){
+    var target = this.target;
+    var _self = this;
+    var button = $('<i class="icon-comment item-button item-background" title="吹き出しのタイプ; balloon type" />');
+    button.appendTo(target);
+    button.hide();
+
+    var item = this.item;
+
+    $('.item-background',target).click(
+      function(){
+        //console.log(target);
+        Picker.prototype.showBalloonList(_self.saveBackground);
+      }
+    );
+  },
+
 
 });
 
@@ -248,7 +280,10 @@ ImageItem = EntryItem.extend({
       $(this.el).click(function(){
         $('#toolbox .font_selecter').remove();
       });
-      this.setButton();
+      
+      //set UI on mouseovered
+      this.setRemoveButton();
+      this.initButton();
       this.showOutLine();
       $(this.el).attr({title:"クリックで画像選択、ドラッグして移動; Click to select image.Dragg to move"});
       $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});

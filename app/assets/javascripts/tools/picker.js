@@ -25,6 +25,7 @@ Picker.prototype = {
 
     $($('#balloon_picker_template').html())
 		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
+    Picker.prototype.setBalloonList();
 			
     $('.picker_cancel_button').click(Picker.prototype.finish);
 
@@ -307,12 +308,15 @@ Picker.prototype = {
 
   setBalloonList: function(){
     var i = 0;
-    $('.balloon_picker_list_item' ).click(
+    $('.balloon_picker_item' ).click(
         function() {
-          callback( $(this).attr('id') );
+          if( Picker.prototype.selectedCallback ){
+            Picker.prototype.selectedCallback( $(this).attr('id') );
+            //console.log( $(this).attr('id'));
+            Picker.prototype.finish();
+          }
         }
       );
-    }
   },
 
   showPicker: function(callback,picker,width) {

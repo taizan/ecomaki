@@ -158,10 +158,16 @@ hr {
   cursor:pointer;
 }
 
-.item-button {
+.item-remove {
+  position: absolute;
+  right: 0;
+  top: 0px;
+}
+
+.item-background {
   position: absolute;
   left: 0px;
-  top: 0px;
+  top: 0;
 }
 
 .sticky textarea{

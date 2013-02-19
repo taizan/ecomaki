@@ -67,6 +67,40 @@ class NovelsController < ApplicationController
     end
   end
 
+  def maker
+    has_valid_password = (@novel.password == params[:password])
+
+    options = {:include => [:author, :chapter => {
+          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
+        }
+      ]
+    }
+
+    options_without_password = {:except => :password,
+      :include => [:author, :chapter => {
+          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
+        }
+      ]
+    }
+
+    respond_to do |format|
+      format.html { 
+        if has_valid_password
+          render
+        else
+          flash[:error] = "The required URL is invalid."
+          redirect_to :action => "show", :id => params[:id]
+        end
+      }
+      format.xml {
+        render :xml => @novel.to_xml(has_valid_password ? options : options_without_password)
+      }
+      format.json {
+        render :json => @novel.to_json(has_valid_password ? options : options_without_password)
+      }
+    end
+  end
+
   def create
 
     # Set as an initial password.
@@ -80,6 +114,7 @@ class NovelsController < ApplicationController
     #@novel.status = 'draft'
     redirect_to :action => :edit, :id => @novel.id, :password => @novel.password
   end
+
 
   def novel_dup
     novel = Novel.find(params[:id]) or redirect_to root_path

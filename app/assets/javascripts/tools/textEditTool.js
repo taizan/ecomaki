@@ -227,20 +227,39 @@ TextEditMenu.prototype = {
     borderRadius += 'px';
     //console.log(borderRadius);
     
-		var background = item.get('background_color');
-		if(!background){ background = 'white'; }
+		var backgroundColor = item.get('background_color');
+		if(!backgroundColor){ backgroundColor = 'white'; }
 
-		$(target).css({
-			'color': color,
-			'font-size': size,
-      'line-height': size,
-			'font-family': family,
-			'border': border,
-		  'border-radius': borderRadius,         /* CSS3 */
-      '-moz-border-radius': borderRadius,    /* Firefox */
-      '-webkit-border-radius': borderRadius, /* Safari,Chrome */
-			'background': background
-		});
+    var background ;
+		var backgroundId = item.get('entry_balloon_background_id');
+		if(backgroundId){ 
+      background = "url('/assets/balloon/"+ backgroundId + ".png')"; 
+      console.log(background);
+      $(target).css({
+			  'color': color,
+			  'font-size': size,
+        'line-height': size,
+			  'font-family': family,
+		  	'border': 'none',
+		  	'background': background ,
+        'background-repeat': 'no-repeat',
+        'background-size': '100% 100%',
+		  });
+
+    } else {
+		
+      $(target).css({
+			  'color': color,
+			  'font-size': size,
+        'line-height': size,
+			  'font-family': family,
+		  	'border': border,
+	  	  'border-radius': borderRadius,         /* CSS3 */
+        '-moz-border-radius': borderRadius,    /* Firefox */
+        '-webkit-border-radius': borderRadius, /* Safari,Chrome */
+		  	'background': backgroundColor
+		  });
+    }
 	},
 
   finish: function(){
