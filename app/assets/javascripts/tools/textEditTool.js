@@ -232,7 +232,7 @@ TextEditMenu.prototype = {
 
     var background ;
 		var backgroundId = item.get('entry_balloon_background_id');
-		if(backgroundId){ 
+		if( backgroundId && backgroundId != "0"){ 
       background = "url('/assets/balloon/"+ backgroundId + ".png')"; 
       console.log(background);
       $(target).css({

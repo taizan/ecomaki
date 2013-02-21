@@ -59,8 +59,8 @@ Picker.prototype = {
         },
 
         success: function() { 
-          alert("Uploaded"); 
           $(form).remove();
+          if(confirm('Uploaded')) {
           if(action == "/characters" )  
             Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
           if(action == "/characters/images" )  
@@ -69,6 +69,9 @@ Picker.prototype = {
             Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
           if(action == "/background_musics" )
             Picker.prototype.loadXml("/background_musics.xml" , Picker.prototype.parseMusicXml );
+          }
+          //alert("Uploaded"); 
+                    
         },
 
         error: function(response) {
@@ -175,17 +178,21 @@ Picker.prototype = {
           var header =  $($('#picker_item_template').html())
             .attr({ 'id':'character_item_'+id ,'title': text })
             .appendTo('#character_picker .picker_list')
-            .click(function(){ 
-                $('.image_list','#character_item_'+id).toggle();
+            .click(function( e ){ 
+                //console.log(e.target);
+                if( $(e.target).hasClass('add_character_image') === false ){
+                  $('.image_list','#character_item_'+id).toggle();
+                }
               })
             .imagesLoaded( function(){  $('.image_list',header).masonry({ itemSelecter: '.picker_image_item'}); });
           
-	  $('.list_header_name',header).html( name );
-	  $('.list_header_description',header).html( description );
+	        $('.list_header_name',header).html( name );
+	        $('.list_header_description',header).html( description );
 
           // init form add button
           $('.add_character_image_button','#character_item_'+id).click(function(){
               Picker.prototype.appendForm("/characters/images","image",id); 
+              $('.image_list','#character_item_'+id).show();
             });
           
         }
@@ -245,11 +252,13 @@ Picker.prototype = {
       //console.log($(list_id));
       $('.list_header_button img',list_id).attr('src',url);
     }
-
-    $(list_id).click(function(){
-      //click hide and show
+    
+    function addImageItem(){
+      // hide and show
       if($("#pick_character_image_item_"+id ).length == 0 ){
-        item.appendTo($('.image_list',list_id));
+      //console.log($('pick_item'+id));
+       //item.appendTo($('.image_list',list_id));
+        $('.image_list',list_id).prepend(item);
         item.click(function(){
           if(Picker.prototype.selectedCallback){
             //set img elem for use img tag information.
@@ -258,7 +267,15 @@ Picker.prototype = {
           }
         });
       }
-      console.log($('pick_item'+id));
+    }
+    
+    if( $(list_id).attr('display') != 'none'){
+      addImageItem();   
+    }
+
+    $(list_id).click(function(){
+      addImageItem();   
+      //console.log($('pick_item'+id));
     });
   },
 
