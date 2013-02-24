@@ -25,10 +25,15 @@ $(function() {
   // default hided
   $(form).hide();
   
-  $('#create_button').click( function(){ $(form).show('drop','fast'); } );
+  $('#create_button').click( function(){
+      //$(form).show('drop','fast'); 
+      $(".submit_button",form).click();
+    } );
 
   $(document).tooltip();
   
+  //--
+  // init previews of novel
   //obj = <%= @novels.to_json %>;
   for (i = 0; i < entries.length; i++){
     entry = new Entry(entries[i][0]);
@@ -37,6 +42,7 @@ $(function() {
     //console.log('.novel_list_item_'+ i);
     entryView.load();
   }
+  //--
 
 });
 
