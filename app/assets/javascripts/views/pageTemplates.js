@@ -73,7 +73,7 @@ var selectTemplate = (function(){
 			buttons.append( obj.button.click( function(){
 				//setPage(novelView, key);
 				buttons.remove();
-				PageTemplate[key].set(novelView);
+				obj.set(novelView);
 			} ) );
 		})
 	};
