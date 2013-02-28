@@ -1,5 +1,5 @@
 class NovelsController < ApplicationController
-  before_filter :require_novel, :only => [:show, :update, :edit]
+  before_filter :require_novel, :only => [:show, :update, :edit , :maker]
 
   def show
     options = {
@@ -67,38 +67,9 @@ class NovelsController < ApplicationController
     end
   end
 
+  # same as edit mode 
   def maker
-    has_valid_password = (@novel.password == params[:password])
-
-    options = {:include => [:author, :chapter => {
-          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
-        }
-      ]
-    }
-
-    options_without_password = {:except => :password,
-      :include => [:author, :chapter => {
-          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
-        }
-      ]
-    }
-
-    respond_to do |format|
-      format.html { 
-        if has_valid_password
-          render
-        else
-          flash[:error] = "The required URL is invalid."
-          redirect_to :action => "show", :id => params[:id]
-        end
-      }
-      format.xml {
-        render :xml => @novel.to_xml(has_valid_password ? options : options_without_password)
-      }
-      format.json {
-        render :json => @novel.to_json(has_valid_password ? options : options_without_password)
-      }
-    end
+    edit
   end
 
   def create
@@ -116,16 +87,21 @@ class NovelsController < ApplicationController
   end
 
 
-  def novel_dup
+  def novel_dup (status = 'draft', action = :edit)
     novel = Novel.find(params[:id]) or redirect_to root_path
     new_novel = novel.dup
 
     new_novel.parent_novel_id = novel.id
-    new_novel.status = 'draft'
+    new_novel.status = status
     new_novel.password = generate_password
     new_novel.save
 
-    redirect_to :action => :edit, :id => new_novel.id, :password => new_novel.password
+    redirect_to :action => action, :id => new_novel.id, :password => new_novel.password
+  end
+
+  # redirect to maker path and init status as maker
+  def novel_dup_as_maker
+    novel_dup('maker',:maker)
   end
 
   private

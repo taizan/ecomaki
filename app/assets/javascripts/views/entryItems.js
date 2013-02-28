@@ -1,4 +1,3 @@
-//= require jquery.jStageAligner
 //position obj is there some nomal one?
 
 
@@ -185,7 +184,7 @@ BalloonItem = EntryItem.extend({
     if(this.isEditable){
 		
       $(this.el).draggable({
-        containment: "parent",
+        //containment: "parent",
         start: this.onDragStart,
         stop: this.onDragStop
       });

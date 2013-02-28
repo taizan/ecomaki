@@ -37,9 +37,15 @@ NovelView = ecomakiView.extend({
     // or 
     console.log(this.model.get('status'));
     if(this.model.get('status') == 'initial'){
-      //this.model.create_chapter();
-      var chapter =  this.model.chapters.create_after({},-1);
+      this.model.create_chapter();
+      //var chapter =  this.model.chapters.create_after({},-1);
       this.model.save({'status': 'draft'})
+    }
+    
+    //console.log(this.isPreview);
+    if( this.model.get('status') !== undefined && this.model.get('status') != 'publish' && !this.isEditable && !this.isPreview) {
+      $(this.el).remove();
+      alert('公開されていません。this novle is not published');
     }
   },
 
@@ -74,11 +80,7 @@ NovelView = ecomakiView.extend({
     // temp code 
     
     //console.log(this.model.get('status'));
-    //console.log(this.isPreview);
-    if( this.model.get('status') !== undefined && this.model.get('status') != 'publish' && !this.isEditable && !this.isPreview) {
-      alert('公開されていません。this novle is not published');
-      $(this.el).remove();
-    } 
+     
     
     $('#title .text').html(this.model.get('title'));
     $('#description .text').html(this.model.get('description'));
