@@ -1,0 +1,36 @@
+<%= stylesheet_link_tag 'wColorPicker.1.2.min.css' %>
+<%= stylesheet_link_tag 'novel' %>
+<%= stylesheet_link_tag 'chapter' %>
+<%= stylesheet_link_tag 'entry' %>
+<%= stylesheet_link_tag 'entryItem' %>
+<%= stylesheet_link_tag 'editerItem' %>
+<%= stylesheet_link_tag 'picker' %>
+<%= stylesheet_link_tag 'toolMenu' %>
+<%= stylesheet_link_tag 'textEditTool' %>
+<%= stylesheet_link_tag 'wPaint' %>
+
+<%= javascript_include_tag 'novelMaker' %>
+
+<% content_for :html_title, @novel.title %>
+<% content_for :html_description, @novel.description %>
+
+
+<div class="novel_container" id="<%= @novel.id%>">
+
+
+  <!-- 公開ボタン -->
+  <a id="publish_button" class="btn btn-info" width="80px" href="/novel/<%= @novel.id %>" title="公開 publish">
+    <img src="/assets/novel/publish.png">
+    <p>PUBLISH</p>
+  </a>
+
+
+  <!-- Main content container  -->
+  <div id="content" >
+  </div>
+  
+</div>
+
+<%= render :partial => "novels/edit_template" %> 
+<%= render :partial => "novels/tool_template" %> 
+
