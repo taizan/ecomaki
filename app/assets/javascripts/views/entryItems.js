@@ -1,100 +1,105 @@
 //position obj is there some nomal one?
 
 
-var EntryItem = function(item,view,isEditable){
-  this.parentView = view;
-  this.item = item;
-  this.isEditable = isEditable;
-  this.content = this.parentView.content;
-  
-  this.defaultInitialize.apply(this,arguments);
+EntryItemView = Backbone.View.extend ({
 
-  this.initialize.apply(this,arguments);
-
-};
-
-EntryItem.extend = function (protoProps, classProps) {
-  var child = config.inherits(this, protoProps, classProps);
-  child.extend = this.extend;
-  
-	return child;
-};
-
-EntryItem.prototype = {
-  // for over ride
-  initialize: function(){},
-
-  // for over ride
-  tmpl: '',
-
-  defaultInitialize: function(){
-    _.bindAll(this,
+  initialize: function(args){
+     _.bindAll(this,
         "onChange",
         "onClick",
         "onResize",
         "onDragStart",
         "onDragStop",
         "appendTo",
+        "onAppend",
+        "onRender",
         "initButton",
         "setRemoveButton",
         "showOutLine",
-        "init",
 				"onDisplay",
 				"onPreDisplay"
       );
-    this.item.on('change',this.onChange);
-    this.$el = $(this.tmpl);
-    this.el = this.$el[0];
-    var z = this.item.get('z_index') != null ? this.item.get('z_index') : 0;  
+   
+    this.parentView = args.parentView;
+    this.isEditable = args.isEditable;
+    this.content = this.parentView.content;
+  
+    this.defaultInitialize.apply(this,arguments);
 
-    this.$el
-      .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left'), zIndex: z })
-      .width(this.item.get('width')).height(this.item.get('height'));
+    this.onInit.apply(this,arguments);
+
+  },
+
+  // for over ride
+  onInit: function(){},
+
+  // for over ride
+  tmpl: '',
+
+  defaultInitialize: function(){
+   this.model.on('change',this.onChange);
+    //this.el = this.tmpl;
+    var z = this.model.get('z_index') != null ? this.model.get('z_index') : 0;  
+
+    $(this.el)
+      .css({position: 'absolute', top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
+      .width(this.model.get('width')).height(this.model.get('height'));
      
   },
 
+  render: function(){
+    var z = this.model.get('z_index') != null ? this.model.get('z_index') : 0;  
+
+    $(this.el)
+      .css({position: 'absolute', top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
+      .width(this.model.get('width')).height(this.model.get('height'));
+    
+    this.onRender();
+  },
+  
+  onRender: function(){},
+
   onChange: function(){
-    //console.log('on item change');
-    //this.item.save();
+    //console.log('on model change');
+    //this.model.save();
   },
 
   appendTo: function(target){
-    this.$el.appendTo(target);
-    this.el = this.$el[0];
+    $(this.el).appendTo(target);
 
     if(this.isEditable) $(this.el).click(this.onClick);
-    this.init();
+    this.onAppend();
   },
 
-  init: function(){},
+  onAppend: function(){},
 
   onResize: function(){
     this.effecter.changeSelecter();
 
-    this.item.set('width',$(this.el).width());
-    this.item.set('height' , $(this.el).height());
-    this.item.save();
+    this.model.set('width',$(this.el).width());
+    this.model.set('height' , $(this.el).height());
+    this.model.save();
   },
 
   onDragStart: function(){
     this.effecter.changeSelecter();
 
     var z = this.parentView.maxIndex ;
-    //if(this.item.get('z_index') < z) {
+    //if(this.model.get('z_index') < z) {
       z ++;
       this.parentView.maxIndex++;
     //}
     $(this.el).css({zIndex: z});
     $(this.target).css({zIndex: z});
-    this.item.set('z_index', z);
-    this.item.save();
+    this.model.set('z_index', z);
+    this.model.save();
   },
 
   onDragStop: function(){
-    this.item.set('top' , $(this.el).offset().top - $(this.content).offset().top );
-    this.item.set('left' , $(this.el).offset().left - $(this.content).offset().left );
+    this.model.set('top' , $(this.el).offset().top - $(this.content).offset().top );
+    this.model.set('left' , $(this.el).offset().left - $(this.content).offset().left );
 
-    this.item.save();
+    this.model.save();
     
     console.log(this);
   },
@@ -132,18 +137,18 @@ EntryItem.prototype = {
   setRemoveButton: function(){
     var target = this.target;
     var _self = this;
-    var button = $('<i class="icon-remove-sign item-button item-remove" title="削除; remove" />');
+    var button = $('<i class="icon-remove-sign item-button item-remove" title="削除" />');
     button.appendTo(target);
     button.hide();
 
-    var item = this.item;
+    var model = this.model;
 
     $('.item-remove',target).click(
       function(){
         //console.log(target);
-        $('.item',target).remove();
+        $('.model',target).remove();
         $(target).remove();
-        item.destroy();
+        model.destroy();
       }
     );
   },
@@ -161,25 +166,27 @@ EntryItem.prototype = {
     this.effecter.changeSelecter();
   },
 
-};
+});
 
 
-BalloonItem = EntryItem.extend({
-  tmpl : '<div class="item balloon item-resizable item-draggable sticky" ><div class="text"></div></div>',
+BalloonView = EntryItemView.extend({
+  //tmpl : '<div class=" balloon" ><div class="text"></div></div>',
+  className : "balloon",
 
-  initialize: function(){
+  onInit: function(){
     _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton");
-    $('.text',this.el).html(this.item.get('content'));
+    $('<div class="text"></div>').appendTo(this.el);
+    $('.text',this.el).html(this.model.get('content'));
   },
 
-  init: function(){
+  onAppend: function(){
     //console.log(this.el);
     this.target = $(this.el);
-    this.effecter = new Effecter(this.target,this.item,'option','balloon'+this.item.get('id') );
-    //this.fontSelecter = new FontSelecter(this.target,this.item);
-		this.textMenu = new TextEditMenu(this.target, this.item);
+    this.effecter = new Effecter(this.target,this.model,'option','balloon'+this.model.get('id') );
+    //this.fontSelecter = new FontSelecter(this.target,this.model);
+		this.textMenu = new TextEditMenu(this.target, this.model);
 
-    this.$el.children().width(this.item.get('width')).height(this.item.get('height'));
+    $(this.el).children().width(this.model.get('width')).height(this.model.get('height'));
 
     if(this.isEditable){
 		
@@ -208,34 +215,39 @@ BalloonItem = EntryItem.extend({
       this.setRemoveButton();
       this.setBackgroundButton();
       this.initButton();
-      $(this.el).attr({title:"クリックで編集、ドラッグで移動; Click to edit. Dragg to move."});
-      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
+
+      // TEMP ? goto temp html?
+      $(this.el).attr({title:"クリックで編集、ドラッグで移動"});
+      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ"});
     }
-    this.effecter.resetEffect(); 
     //this.fontSelecter.applyFont();
+  },
+
+  onRender: function(){
+    this.effecter.resetEffect(); 
     this.textMenu.applyFont();
   },
 
 
   saveText: function(txt){
-    this.item.set('content',txt);
-    this.item.save();
+    this.model.set('content',txt);
+    this.model.save();
   },
   
   saveBackground: function(txt){
-    this.item.set('entry_balloon_background_id',txt);
-    this.item.save();
-    this.textMenu.applyFont();
+    this.model.set('entry_balloon_background_id',txt);
+    this.model.save();
+    //this.textMenu.applyFont();
   },
 
   setBackgroundButton: function(){
     var target = this.target;
     var _self = this;
-    var button = $('<i class="icon-comment item-button item-background" title="吹き出しのタイプ; balloon type" />');
+    var button = $('<i class="icon-comment item-button item-background" title="吹き出しのタイプ" />');
     button.appendTo(target);
     button.hide();
 
-    var item = this.item;
+    var model = this.model;
 
     $('.item-background',target).click(
       function(){
@@ -249,15 +261,18 @@ BalloonItem = EntryItem.extend({
 });
 
 
-ImageItem = EntryItem.extend({
-  tmpl: '<div class="wrapper item item-resizable item-draggable"><img class="item_image"></div>',
+CharacterView = EntryItemView.extend({
+  //tmpl: '<div class="wrapper model model-resizable model-draggable"><img class="model_image"></div>',
+  className : "character",
   //pre append method
-  initialize: function(){
-    _.bindAll(this,"selectImage","setImage","init");
-    $('img',this.el).attr('src', config.character_image_idtourl( this.item.get('character_image_id') ) );
+  onInit: function(){
+    _.bindAll(this,"selectCharacter","setCharacter");
+    $('<img class="character_image">').appendTo(this.el);
+    $('img',this.el).attr('src', config.character_image_idtourl( this.model.get('character_image_id') ) );
   },
+
   //post append messod
-  init: function(){
+  onAppend: function(){
     if(this.isEditable){
       $(this.el).resizable({
         //  containment: "parent parent" ,
@@ -268,14 +283,14 @@ ImageItem = EntryItem.extend({
       });
 
       this.target = $(this.el);
-			this.effecter = new Effecter(this.target,this.item,'option' , 'image'+this.item.get('id'));
+			this.effecter = new Effecter(this.target,this.model,'option' , 'image'+this.model.get('id'));
 
       $(this.el).draggable({
         start: this.onDragStart,
         stop: this.onDragStop
       });
 
-      $(this.el).click(this.selectImage);
+      $(this.el).click(this.selectCharacter);
       $(this.el).click(function(){
         $('#toolbox .font_selecter').remove();
       });
@@ -289,20 +304,23 @@ ImageItem = EntryItem.extend({
 
     }else{
       this.target = $(this.el);
-      this.effecter = new Effecter(this.target,this.item,'option');
+      this.effecter = new Effecter(this.target,this.model,'option');
     }
+  },
+
+  onRender: function(){
     this.effecter.resetEffect(); 
   },
 
-  selectImage: function(ev){
+  selectCharacter: function(ev){
     //console.log('selectimage');
-    Picker.prototype.showCharacterList(this.setImage);
+    Picker.prototype.showCharacterList(this.setCharacter);
   },
 // use img to get size 
 // this not clear bu fast
-  setImage: function(id,img){
-    this.item.set('character_image_id' , id );
-    var targetImage = $('img',this.el).attr('src',config.character_image_idtourl(id));
+  setCharacter: function(id,img){
+    this.model.set('character_image_id' , id );
+    var targetCharacter = $('img',this.el).attr('src',config.character_image_idtourl(id));
 /*
     var destHeight = this.content.offset().top + this.content.height() - $(this.el).offset().top;
     if(destHeight < img.height ){
@@ -320,9 +338,9 @@ ImageItem = EntryItem.extend({
 
 */
     $(this.el).height(img.height).width(img.width);
-    this.item.set('width' , img.width);
-    this.item.set('height' , img.height);
-    this.item.save();
+    this.model.set('width' , img.width);
+    this.model.set('height' , img.height);
+    this.model.save();
   }
 
 });

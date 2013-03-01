@@ -9,18 +9,24 @@ EntryView = ecomakiView.extend({
     this.itemNum = 1;
     
     _.bindAll(this,
+        "addItemView",
+        "addBalloonView",
+        "addCharacterView",
         "onClick",
         "onCanvasClick",
         "applySize",
         "onResize",
         "addBalloon",
-        "addPicture",
+        "addCharacter",
         "addDefaultBalloon",
-        "addDefaultPicture",
+        "addDefaultCharacter",
         "remove",
         "addEntry",
         "changeLayer"
       );
+
+      this.model.balloons.bind('add', this.addBalloonView); 
+      this.model.characters.bind('add', this.addCharacterView); 
   },
 
   applySize: function(){
@@ -53,6 +59,9 @@ EntryView = ecomakiView.extend({
 
     this.canvasFlag = true;
     this.isDrawDown = false;
+
+
+
     if(this.isEditable){
 
       //--
@@ -83,6 +92,11 @@ EntryView = ecomakiView.extend({
           autoHide: true,
         });
 
+      // should be initialize after content resizable because conflict autoHide
+      _(this.model.balloons.models).each( function(model){ _self.addBalloonView(model , {} , {} ); } );
+
+      _(this.model.characters.models).each( function(model){ _self.addCharacterView(model , {} , {} ); } );
+
     }else{
       this.canvasImage = new Image();
       $(this.canvasImage).addClass('paint');
@@ -95,10 +109,32 @@ EntryView = ecomakiView.extend({
         $(this.canvasImage).appendTo(this.content).width( this.model_width ).height( this.model_height );
       }
     }
+
+
     this.effecter = new Effecter($('.paint',this.el),this.model,'option','canvas_'+this.model.get('id'));
     
     this.hideButton();
     return this.render();
+  },
+ 
+  addBalloonView: function( model , t , options ){
+    this.addItemView( BalloonView , model , t , options );
+  }, 
+
+  addCharacterView: function( model , t , options ){
+    this.addItemView( CharacterView , model , t , options );
+  },
+
+  addItemView: function( viewClass , model , t , options ){
+      console.log('load entry item');
+
+     this.maxIndex = this.model.get('canvas_index') != null  ? this.model.get('canvas_index') : 0;
+
+     var itemView = new viewClass( { model:model , parentView: this , isEditable: this.isEditable });
+     itemView.appendTo( this.content);
+     this.itemNum ++;
+     this.itemList.push(itemView);
+     this.maxIndex = ( model.get('z_index') > this.maxIndex ) ?   model.get('z_index') : this.maxIndex;
   },
 
   render: function(){
@@ -114,6 +150,7 @@ EntryView = ecomakiView.extend({
       // init height width
       this.applySize();
     
+      /*
       $('.item',this.el).remove();
       $('.itemEffectSelecters',this.el).empty();
 
@@ -123,7 +160,8 @@ EntryView = ecomakiView.extend({
     
       var initItemView = function(item, itemClass) {
         //console.log(item);
-        var itemView = new itemClass(item , _self ,_self.isEditable);
+        //var itemView = new itemClass(item , _self ,_self.isEditable);
+        var itemView = new itemClass( { model:item , parentView: _self , isEditable: _self.isEditable });
         itemView.appendTo( content);
         _self.itemNum ++;
         _self.itemList.push(itemView);
@@ -133,10 +171,12 @@ EntryView = ecomakiView.extend({
 
       _(this.model.balloons.models).each( function(item){ initItemView(item, BalloonItem); } );
 
-      _(this.model.characters.models).each( function(item){ initItemView(item ,ImageItem ); } );
+      _(this.model.characters.models).each( function(item){ initItemView(item ,CharacterItem ); } );
+      */
 
       // set image to canvas
       if(this.isEditable){
+        // if isEditable , set image data to canvas
         if(this.canvasFlag){
           this.canvasFlag = false;
           var canvasUrl = this.model.get('canvas');
@@ -154,6 +194,7 @@ EntryView = ecomakiView.extend({
           }
         }
       }else{
+        // if not isEditable , set image to img tag
         if(this.model.get('canvas') ){
           this.canvasImage.src = this.model.get('canvas'); 
           $(this.canvasImage).css( { position: 'relative', zIndex:this.model.get('canvas_index') } );
@@ -169,7 +210,7 @@ EntryView = ecomakiView.extend({
     //"click" : "onViewClick" ,
     "dblclick" : "dblclick",
     "click .--btn-balloon": "addDefaultBalloon",
-    "click .--btn-picture": "addDefaultPicture",
+    "click .--btn-picture": "addDefaultCharacter",
     "click .--btn-remove": "remove",
     "click .--btn-entry": "addEntry",
     "click .--btn-layer": "changeLayer"
@@ -257,8 +298,8 @@ EntryView = ecomakiView.extend({
     $('.--btn-layer',this.el).removeClass('btn-primary');
   },
 
-  addPicture: function( id ){
-    //console.log("addPicture");
+  addCharacter: function( id ){
+    //console.log("addCharacter");
     //var image = new ImageItem( this._self , src ,{});
     //image.appendTo( this.content);
     var w = 100;
@@ -284,8 +325,8 @@ EntryView = ecomakiView.extend({
     this.addBalloon('Click to edit');
   },
 
-  addDefaultPicture: function(e){
-    this.addPicture(0);
+  addDefaultCharacter: function(e){
+    this.addCharacter(0);
   },
 
   remove: function(e){

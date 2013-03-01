@@ -89,9 +89,9 @@ ecomakiView = Backbone.View.extend({
   },
 
 
-  addOne: function (item,t,options) {
+  addOne: function ( model , t , options ) {
     //console.log(item);
-    var view = new (this.childViewType)({model: item , parentView: this ,isEditable: this.isEditable , isPreview: this.isPreview});
+    var view = new (this.childViewType)({ model: model , parentView: this ,isEditable: this.isEditable , isPreview: this.isPreview});
     //console.log(view);
     this.childViews.push(view);
     $(this.elementList,this.el).insertAt(options.index,view.render().el);
