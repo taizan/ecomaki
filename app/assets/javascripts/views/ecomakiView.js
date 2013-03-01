@@ -41,7 +41,8 @@ ecomakiView = Backbone.View.extend({
     this.isPreview = args.isPreview;
 		this.parentView = args.parentView;
 
-    this.model.bind('change', this.render, this);
+    //this.model.bind('change', this.render, this);
+    this.model.bind('sync',this.render,this);
     this.model.bind('destroy', this.render, this);
 
 
@@ -64,7 +65,6 @@ ecomakiView = Backbone.View.extend({
 
     //this.hideButton();
     this.onLoad();
-
 	},
 
   onLoad: function(){},

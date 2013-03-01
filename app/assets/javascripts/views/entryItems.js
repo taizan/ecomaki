@@ -4,8 +4,14 @@
 EntryItemView = Backbone.View.extend ({
 
   initialize: function(args){
+     
+    this.parentView = args.parentView;
+    this.isEditable = args.isEditable;
+    this.content = this.parentView.content;
+     
      _.bindAll(this,
         "onChange",
+        "onSync",
         "onClick",
         "onResize",
         "onDragStart",
@@ -20,14 +26,16 @@ EntryItemView = Backbone.View.extend ({
 				"onPreDisplay"
       );
    
-    this.parentView = args.parentView;
-    this.isEditable = args.isEditable;
-    this.content = this.parentView.content;
-  
+    //this.model.bind('change', this.render, this);
+    this.model.bind('sync', this.render, this);
+
     this.defaultInitialize.apply(this,arguments);
 
     this.onInit.apply(this,arguments);
+  },
 
+  onSync: function(){
+    console.log('onsync');
   },
 
   // for over ride
@@ -48,12 +56,14 @@ EntryItemView = Backbone.View.extend ({
   },
 
   render: function(){
+    //console.log('render');
+    
     var z = this.model.get('z_index') != null ? this.model.get('z_index') : 0;  
 
     $(this.el)
       .css({position: 'absolute', top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
       .width(this.model.get('width')).height(this.model.get('height'));
-    
+   
     this.onRender();
   },
   
@@ -69,6 +79,7 @@ EntryItemView = Backbone.View.extend ({
 
     if(this.isEditable) $(this.el).click(this.onClick);
     this.onAppend();
+    this.render();
   },
 
   onAppend: function(){},
@@ -92,16 +103,16 @@ EntryItemView = Backbone.View.extend ({
     $(this.el).css({zIndex: z});
     $(this.target).css({zIndex: z});
     this.model.set('z_index', z);
-    this.model.save();
+    // donot save here because it triger render 
+    //this.model.save();
   },
 
   onDragStop: function(){
     this.model.set('top' , $(this.el).offset().top - $(this.content).offset().top );
     this.model.set('left' , $(this.el).offset().left - $(this.content).offset().left );
-
     this.model.save();
     
-    console.log(this);
+    //console.log(this);
   },
 
   showOutLine: function(){
@@ -176,7 +187,6 @@ BalloonView = EntryItemView.extend({
   onInit: function(){
     _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton");
     $('<div class="text"></div>').appendTo(this.el);
-    $('.text',this.el).html(this.model.get('content'));
   },
 
   onAppend: function(){
@@ -186,7 +196,6 @@ BalloonView = EntryItemView.extend({
     //this.fontSelecter = new FontSelecter(this.target,this.model);
 		this.textMenu = new TextEditMenu(this.target, this.model);
 
-    $(this.el).children().width(this.model.get('width')).height(this.model.get('height'));
 
     if(this.isEditable){
 		
@@ -224,6 +233,9 @@ BalloonView = EntryItemView.extend({
   },
 
   onRender: function(){
+    $('.text',this.el)
+      .html(this.model.get('content'))
+      .width(this.model.get('width')).height(this.model.get('height'));
     this.effecter.resetEffect(); 
     this.textMenu.applyFont();
   },
@@ -268,7 +280,6 @@ CharacterView = EntryItemView.extend({
   onInit: function(){
     _.bindAll(this,"selectCharacter","setCharacter");
     $('<img class="character_image">').appendTo(this.el);
-    $('img',this.el).attr('src', config.character_image_idtourl( this.model.get('character_image_id') ) );
   },
 
   //post append messod
@@ -309,6 +320,7 @@ CharacterView = EntryItemView.extend({
   },
 
   onRender: function(){
+    $('img',this.el).attr('src', config.character_image_idtourl( this.model.get('character_image_id') ) );
     this.effecter.resetEffect(); 
   },
 
@@ -320,7 +332,7 @@ CharacterView = EntryItemView.extend({
 // this not clear bu fast
   setCharacter: function(id,img){
     this.model.set('character_image_id' , id );
-    var targetCharacter = $('img',this.el).attr('src',config.character_image_idtourl(id));
+    //var targetCharacter = $('img',this.el).attr('src',config.character_image_idtourl(id));
 /*
     var destHeight = this.content.offset().top + this.content.height() - $(this.el).offset().top;
     if(destHeight < img.height ){
@@ -337,7 +349,7 @@ CharacterView = EntryItemView.extend({
     }
 
 */
-    $(this.el).height(img.height).width(img.width);
+    //$(this.el).height(img.height).width(img.width);
     this.model.set('width' , img.width);
     this.model.set('height' , img.height);
     this.model.save();

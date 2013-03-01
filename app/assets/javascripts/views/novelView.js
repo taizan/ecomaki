@@ -14,10 +14,10 @@ NovelView = ecomakiView.extend({
     _.bindAll(this, "addChapter","onSync");
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
-    this.model.bind('sync',this.onSync);
-    this.model.bind('fetch',this.onSync);
-    this.model.bind('add',this.onSync);
-    this.model.bind('refresh',this.onSync);
+    //this.model.bind('sync',this.onSync);
+    //this.model.bind('fetch',this.onSync);
+    //this.model.bind('add',this.onSync);
+    //this.model.bind('refresh',this.onSync);
     this.model.bind('change:status',this.onSync);
 
 
@@ -47,6 +47,8 @@ NovelView = ecomakiView.extend({
       $(this.el).remove();
       alert('公開されていません。this novle is not published');
     }
+
+    this.render();
   },
 
   onLoad: function(){
@@ -71,17 +73,13 @@ NovelView = ecomakiView.extend({
        
       // call onScroll root here
       //$(window).scroll(this.onScroll);
-		 
-
-      this.render();
+      
+      // do not work not loaded
+      //this.render();
   },
 
   render: function() {
-    // temp code 
-    
-    //console.log(this.model.get('status'));
-     
-    
+    console.log(this.model.get('description'));
     $('#title .text').html(this.model.get('title'));
     $('#description .text').html(this.model.get('description'));
     $('#author .text').html(this.model.get('author_name'));
