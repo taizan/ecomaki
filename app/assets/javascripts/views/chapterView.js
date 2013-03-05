@@ -78,12 +78,11 @@ ChapterView = ecomakiView.extend({
       $('.title',this.el).click( function(){ editableTextarea(this,_self.saveTitle); });
       $('.description',this.el).click( function(){ editableTextarea(this,_self.saveDescription); });
     
-      //$('.background_select',this.el).change( function(){ _self.setBackground( $(this).val() );} );
-      //this.initBackgroundList();
-      //$('.bgm_select',this.el).change( function(){ _self.bgmSelect( $(this).val() );} );
-      
-      //add default entry if it was empty
-      //
+      $('.entryList',this.el).sortable({
+          handle: '.hide_buttons',
+          start: this.onSortStart,
+          stop: this.onSortStop
+        });
     }else{
       $(".editer_item",this.el).hide();
     }
@@ -233,13 +232,7 @@ ChapterView = ecomakiView.extend({
         //this.playMusicById(this.model.get('chapter_sound_id'));
       }
 
-      if(this.isEditable){
-        $('.entryList',this.el).sortable({
-          handle: '.hide_buttons',
-          start: this.onSortStart,
-          stop: this.onSortStop
-        });
-      }
+      
     }
     return this;
   },

@@ -11,15 +11,15 @@ NovelView = ecomakiView.extend({
   
 
   onInit: function(args) {
-    _.bindAll(this, "addChapter","onSync");
+    _.bindAll(this, "addChapter","onSync","onChangeStatus");
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
     //this.model.bind('sync',this.onSync);
     //this.model.bind('fetch',this.onSync);
     //this.model.bind('add',this.onSync);
     //this.model.bind('refresh',this.onSync);
-    this.model.bind('change:status',this.onSync);
-
+    this.model.bind('change:status',this.onChangeStatus);
+    this.model.bind('change',this.render);
 
     this.childModels = this.model.chapters.models;
     /*
@@ -31,7 +31,10 @@ NovelView = ecomakiView.extend({
     'click': 'onViewClick',
   },
 
-  onSync: function() {
+  onSync: function(){
+  },
+
+  onChangeStatus: function() {
   
     // add chapter if status = initial
     // or 
@@ -48,7 +51,6 @@ NovelView = ecomakiView.extend({
       alert('公開されていません。this novle is not published');
     }
 
-    this.render();
   },
 
   onLoad: function(){
@@ -57,15 +59,21 @@ NovelView = ecomakiView.extend({
       this.addAll();	
 
       if (this.isEditable) {
-		    $('#title').click(function(ev){
-			      editableTextarea(this, _self.saveTitle);
-		      });
-		    $('#description').click(function(ev){
-			      editableTextarea(this, _self.saveDescription);
-		      });
-        $('#author').click( function(ev){ 
-           editableTextarea(this, function(str){ _self.model.save('author_name',str); });
-         });
+
+        function setEditable(target){
+          $('#'+target)
+            .bind('input', function(){
+               _self.isEditing = true;
+               _self.model.save(target,( $('#'+target).text() ));
+            })
+            .bind('blur', function(){
+               _self.isEditing = false;
+            });
+        }
+
+        setEditable('title');
+        setEditable('description');
+        setEditable('author_name');
 	    }
 	    else {
 		    $(".editer_item", this.el).hide();
@@ -79,11 +87,12 @@ NovelView = ecomakiView.extend({
   },
 
   render: function() {
-    console.log(this.model.get('description'));
-    $('#title .text').html(this.model.get('title'));
-    $('#description .text').html(this.model.get('description'));
-    $('#author .text').html(this.model.get('author_name'));
-    //this.addAll();
+    console.log('render novel');
+    if( ! this.isEditing ){
+      $('#title').html(this.model.get('title'));
+      $('#description').html(this.model.get('description'));
+      $('#author_name').html(this.model.get('author_name'));
+    }
   },
 
   onAddChild: function(view){
