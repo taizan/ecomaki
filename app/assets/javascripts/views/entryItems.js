@@ -27,7 +27,6 @@ EntryItemView = Backbone.View.extend ({
       );
    
     //this.model.bind('change', this.render, this);
-    this.model.bind('sync', this.render, this);
 
     this.defaultInitialize.apply(this,arguments);
 
@@ -89,6 +88,8 @@ EntryItemView = Backbone.View.extend ({
 
     this.model.set('width',$(this.el).width());
     this.model.set('height' , $(this.el).height());
+    this.model.set('top' , $(this.el).offset().top - $(this.content).offset().top );
+    this.model.set('left' , $(this.el).offset().left - $(this.content).offset().left );
     this.model.save();
   },
 
@@ -186,16 +187,28 @@ BalloonView = EntryItemView.extend({
 
   onInit: function(){
     _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton");
-    $('<div class="text"></div>').appendTo(this.el);
+    //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
+    $('<div class="text" ></div>').appendTo(this.el);
+
+    //this.model.bind('sync', this.render, this);
   },
 
   onAppend: function(){
+
     //console.log(this.el);
     this.target = $(this.el);
+		var self = this;
+
     this.effecter = new Effecter(this.target,this.model,'option','balloon'+this.model.get('id') );
     //this.fontSelecter = new FontSelecter(this.target,this.model);
 		this.textMenu = new TextEditMenu(this.target, this.model);
-
+    //this.effecter.resetEffect(); 
+    //this.textMenu.applyFont();
+    this.model.bind('change:option', this.effecter.resetEffect );
+    this.model.bind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont);
+    this.model.bind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont);
+    this.model.bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
+   
 
     if(this.isEditable){
 		
@@ -214,13 +227,28 @@ BalloonView = EntryItemView.extend({
 
       //$(this.el).click(this.editText);
       //$(this.el).click(this.fontSelecter.changeSelecter);
-			var self = this;
-      $(this.el).click((function(){
-          editableTextarea(self.el,self.saveText);
-          self.textMenu.changeSelecter(self.target)
+
+      $(this.el).bind('click', function(){
+          if ( ! $(self).is('.ui-draggable-dragging') && !self.isEditing ) {
+            $(self.el).draggable("option","disabled",true).removeClass('ui-state-disabled');
+            self.el.removeAttribute('aria-disabled');
+            $('.text',self.el).attr('contenteditable','true');
+            $('.text',self.el).focus();
+            self.isEditing = true;
+            console.log(self.isEditing);
+          }
+          self.textMenu.changeSelecter(self.target);
+          //editableTextarea(self.el,self.saveText);
           $('.ui-tooltip').hide();
-        }));
-      
+        });
+      $('.text',this.el).blur(function(ev){
+          $(self.el).draggable("option","disabled",false);
+          $('.text',self.el).attr('contenteditable','false');
+          self.isEditing = false;
+        });
+      $('.text',this.el).bind('input', function(){
+            self.saveText( $('.text',self.el).text() );
+         });
       this.setRemoveButton();
       this.setBackgroundButton();
       this.initButton();
@@ -280,6 +308,8 @@ CharacterView = EntryItemView.extend({
   onInit: function(){
     _.bindAll(this,"selectCharacter","setCharacter");
     $('<img class="character_image">').appendTo(this.el);
+
+    this.model.bind('sync', this.render, this);
   },
 
   //post append messod

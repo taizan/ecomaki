@@ -93,9 +93,9 @@ EntryView = ecomakiView.extend({
         });
 
       // should be initialize after content resizable because conflict autoHide
-      _(this.model.balloons.models).each( function(model){ _self.addBalloonView(model , {} , {} ); } );
+      _(this.model.balloons.models).each( function(model){ _self.addBalloonView( model , {} , {} ); } );
 
-      _(this.model.characters.models).each( function(model){ _self.addCharacterView(model , {} , {} ); } );
+      _(this.model.characters.models).each( function(model){ _self.addCharacterView( model , {} , {} ); } );
 
     }else{
       this.canvasImage = new Image();
@@ -126,7 +126,7 @@ EntryView = ecomakiView.extend({
   },
 
   addItemView: function( viewClass , model , t , options ){
-      console.log('load entry item');
+     // console.log('load entry item');
 
      this.maxIndex = this.model.get('canvas_index') != null  ? this.model.get('canvas_index') : 0;
 
@@ -188,7 +188,7 @@ EntryView = ecomakiView.extend({
             $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
 
             if( this.model.get('canvas_index') == this.maxIndex ) {
-              $('.--btn-layer',this.el).addClass('btn-primary');
+              $('.btn_layer',this.el).addClass('btn-primary');
             //console.log('add btnprimary');
             }
           }
@@ -207,13 +207,13 @@ EntryView = ecomakiView.extend({
   },
 
   events: {
-    //"click" : "onViewClick" ,
+    "click" : "onClick" ,
     "dblclick" : "dblclick",
-    "click .--btn-balloon": "addDefaultBalloon",
-    "click .--btn-picture": "addDefaultCharacter",
-    "click .--btn-remove": "remove",
-    "click .--btn-entry": "addEntry",
-    "click .--btn-layer": "changeLayer"
+    "click .btn_balloon": "addDefaultBalloon",
+    "click .btn_character": "addDefaultCharacter",
+    "click .btn_remove": "remove",
+    "click .btn_entry": "addEntry",
+    "click .btn_layer": "changeLayer"
   },
   
   onDisplay: function(){
@@ -237,8 +237,14 @@ EntryView = ecomakiView.extend({
   },
 
   onClick: function(ev){
-    //console.log("click entry");
-    //console.log(ev.target);
+    console.log("click entry");
+    console.log(ev.target);
+    
+    texts = $('.text',this.el);
+    for( i = 0 ; i < texts.length; i++ ) {
+      if( texts[i] != ev.target) 
+        $(texts[i]).blur();
+    }
   },
 
   dblclick: function(ev){
@@ -250,11 +256,11 @@ EntryView = ecomakiView.extend({
   onCanvasClick: function(){
     //this.onViewClick({target: 'canvas'});
     this.isDrawDown = true;
-
     this.effecter.changeSelecter();
     
     //this.onViewClick({target: 'canvas'})
     $('#static_body').mousedown();
+    $('.text',this.el).blur();
   },
 
 
@@ -295,7 +301,7 @@ EntryView = ecomakiView.extend({
     this.model.save();
     this.model.trigger('change');
 
-    $('.--btn-layer',this.el).removeClass('btn-primary');
+    $('.btn_layer',this.el).removeClass('btn-primary');
   },
 
   addCharacter: function( id ){
@@ -316,7 +322,7 @@ EntryView = ecomakiView.extend({
     this.model.save();
     this.model.trigger('change');
 
-    $('.--btn-layer',this.el).removeClass('btn-primary');
+    $('.btn_layer',this.el).removeClass('btn-primary');
 
   },
 
@@ -355,8 +361,8 @@ EntryView = ecomakiView.extend({
     var canvas = $('canvas',this.el);
     //var index = 5;
 
-    $('.--btn-layer',this.el).toggleClass('btn-primary');
-    if( $('.--btn-layer',this.el).hasClass('btn-primary')){
+    $('.btn_layer',this.el).toggleClass('btn-primary');
+    if( $('.btn_layer',this.el).hasClass('btn-primary')){
       canvas.zIndex( this.maxIndex + 1 ); 
       this.maxIndex ++;
       this.model.set('canvas_index',canvas.zIndex());

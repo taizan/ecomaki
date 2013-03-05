@@ -151,7 +151,7 @@ $(function() {
   }
 
   function onStaticBodyClick(ev){
-    //console.log(ev);
+    //console.log(ev.target);
     TextEditMenu.prototype.onBlur(ev);
     TextEdit.prototype.onBlur(ev);
     Picker.prototype.onBlur(ev);

@@ -235,6 +235,7 @@ ChapterView = ecomakiView.extend({
 
       if(this.isEditable){
         $('.entryList',this.el).sortable({
+          handle: '.hide_buttons',
           start: this.onSortStart,
           stop: this.onSortStop
         });
