@@ -60,20 +60,9 @@ NovelView = ecomakiView.extend({
 
       if (this.isEditable) {
 
-        function setEditable(target){
-          $('#'+target)
-            .bind('input', function(){
-               _self.isEditing = true;
-               _self.model.save(target,( $('#'+target).text() ));
-            })
-            .bind('blur', function(){
-               _self.isEditing = false;
-            });
-        }
-
-        setEditable('title');
-        setEditable('description');
-        setEditable('author_name');
+        this.setEditable('#title','title');
+        this.setEditable('#description','description');
+        this.setEditable('#author_name','author_name');
 	    }
 	    else {
 		    $(".editer_item", this.el).hide();
@@ -83,7 +72,7 @@ NovelView = ecomakiView.extend({
       //$(window).scroll(this.onScroll);
       
       // do not work not loaded
-      //this.render();
+      this.render();
   },
 
   render: function() {

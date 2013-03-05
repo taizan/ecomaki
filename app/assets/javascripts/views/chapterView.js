@@ -28,10 +28,10 @@ ChapterView = ecomakiView.extend({
               "onSync");
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
-    this.model.entries.bind('change', this.onChange);
-
-    this.model.entries.bind('add', this.onSync); 
-    this.model.bind('add', this.onSync); 
+    this.model.bind('change',this.render)
+    //this.model.entries.bind('change', this.onChange);
+    //this.model.entries.bind('add', this.onSync); 
+    //this.model.bind('add', this.onSync); 
 
     this.childModels = this.model.entries.models;
   },
@@ -75,9 +75,9 @@ ChapterView = ecomakiView.extend({
     this.addAll();
 
     if(this.isEditable){
-      $('.title',this.el).click( function(){ editableTextarea(this,_self.saveTitle); });
-      $('.description',this.el).click( function(){ editableTextarea(this,_self.saveDescription); });
-    
+      this.setEditable('.title','title');
+      this.setEditable('.description','description');
+
       $('.entryList',this.el).sortable({
           handle: '.hide_buttons',
           start: this.onSortStart,
@@ -88,6 +88,26 @@ ChapterView = ecomakiView.extend({
     }
 
     this.render();
+    return this;
+
+  },
+
+  render: function(){
+    // render all chapter if iseditable
+    if(this.isLoaded || this.isEditable){
+      //console.log("chapter render");
+      
+      if(!this.isEditing){
+        $('.title',this.el).html(this.model.get('title'));
+        $('.description',this.el).html(this.model.get('description'));
+      }
+
+      if(this.isDisplay) { 
+        this.showBackground();
+        //this.playMusicById(this.model.get('chapter_sound_id'));
+      }
+      
+    }
     return this;
   },
 
@@ -140,12 +160,8 @@ ChapterView = ecomakiView.extend({
 
   onDisplay: function(){
     //console.log('isDisplayed');
-    //console.log(this.model.get('order_number') % 2);
-
     this.showBackground();
-
     this.playMusicById(this.model.get('background_music_id')); 
-    //console.log( 'background_music_id' + this.model.get('background_music_id'));
     return this;
   },
 
@@ -219,24 +235,7 @@ ChapterView = ecomakiView.extend({
     }
   },
 
-  render: function(){
-    // render all chapter if iseditable
-    if(this.isLoaded || this.isEditable){
-      //console.log("chapter render");
-
-      $('.title .text',this.el).html(this.model.get('title'));
-      $('.description .text',this.el).html(this.model.get('description'));
-
-      if(this.isDisplay) { 
-        this.showBackground();
-        //this.playMusicById(this.model.get('chapter_sound_id'));
-      }
-
-      
-    }
-    return this;
-  },
-
+  
   onSortStart: function(e,ui){
     //console.log('onsort');
     this.sortItemIndex =  $(ui.item).parent().children().index(ui.item);

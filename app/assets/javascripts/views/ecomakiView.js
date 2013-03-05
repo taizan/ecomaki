@@ -25,8 +25,7 @@ ecomakiView = Backbone.View.extend({
         "onAddChild",
 				"appendTo",
 				"load",
-				"saveTitle",
-				"saveDescription",
+        "setEditable",
 				"onScroll",
 				"onScrollEnd",
 				"onDisplay",
@@ -113,15 +112,17 @@ ecomakiView = Backbone.View.extend({
   },
 
 
-  saveTitle: function(txt){
-    this.model.save('title',txt);
+  setEditable: function(target , key){
+    self=this;
+    $(target,this.el)
+      .bind('input', function(){
+        self.isEditing = true;
+        self.model.save(key,( $(target).text() ));
+      })
+      .bind('blur', function(){
+        self.isEditing = false;
+      });
   },
-
-  saveDescription: function(txt){
-    this.model.save('description',txt);
-  },
-
-
 
   onScroll: function(){
     var window_height = config.getScreenSize().y;
