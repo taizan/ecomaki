@@ -10,7 +10,6 @@ EntryItemView = Backbone.View.extend ({
     this.content = this.parentView.content;
      
      _.bindAll(this,
-        "onChange",
         "onSync",
         "onClick",
         "onResize",
@@ -44,7 +43,6 @@ EntryItemView = Backbone.View.extend ({
   tmpl: '',
 
   defaultInitialize: function(){
-   this.model.on('change',this.onChange);
     //this.el = this.tmpl;
     var z = this.model.get('z_index') != null ? this.model.get('z_index') : 0;  
 
@@ -68,16 +66,15 @@ EntryItemView = Backbone.View.extend ({
   
   onRender: function(){},
 
-  onChange: function(){
-    //console.log('on model change');
-    //this.model.save();
-  },
-
   appendTo: function(target){
     $(this.el).appendTo(target);
 
     if(this.isEditable) $(this.el).click(this.onClick);
+    
     this.onAppend();
+    
+    this.setRemoveButton();
+    this.initButton();
     this.render();
   },
 
@@ -86,11 +83,12 @@ EntryItemView = Backbone.View.extend ({
   onResize: function(){
     this.effecter.changeSelecter();
 
-    this.model.set('width',$(this.el).width());
-    this.model.set('height' , $(this.el).height());
-    this.model.set('top' , $(this.el).offset().top - $(this.content).offset().top );
-    this.model.set('left' , $(this.el).offset().left - $(this.content).offset().left );
-    this.model.save();
+    this.model.save({
+        'width' : $(this.el).width() ,
+        'height': $(this.el).height() ,
+        'top'   : $(this.el).offset().top - $(this.content).offset().top ,
+        'left'  : $(this.el).offset().left - $(this.content).offset().left 
+      });
   },
 
   onDragStart: function(){
@@ -109,10 +107,10 @@ EntryItemView = Backbone.View.extend ({
   },
 
   onDragStop: function(){
-    this.model.set('top' , $(this.el).offset().top - $(this.content).offset().top );
-    this.model.set('left' , $(this.el).offset().left - $(this.content).offset().left );
-    this.model.save();
-    
+    this.model.save({
+        'top' : $(this.el).offset().top - $(this.content).offset().top ,
+        'left': $(this.el).offset().left - $(this.content).offset().left 
+    });
     //console.log(this);
   },
 
@@ -148,19 +146,17 @@ EntryItemView = Backbone.View.extend ({
 
   setRemoveButton: function(){
     var target = this.target;
-    var _self = this;
+    var self = this;
     var button = $('<i class="icon-remove-sign item-button item-remove" title="削除" />');
     button.appendTo(target);
     button.hide();
 
-    var model = this.model;
 
     $('.item-remove',target).click(
       function(){
         //console.log(target);
-        $('.model',target).remove();
-        $(target).remove();
-        model.destroy();
+        self.destroyView();
+        self.model.destroy();
       }
     );
   },
@@ -178,6 +174,24 @@ EntryItemView = Backbone.View.extend ({
     this.effecter.changeSelecter();
   },
 
+  destroyView: function() {
+
+    //COMPLETELY UNBIND THE VIEW
+    this.undelegateEvents();
+    
+    this.$el.removeData().unbind(); 
+
+    this.model.unbind('change',this.render);
+  
+    //Remove view from DOM
+    this.onRemove();
+    this.remove();  
+    Backbone.View.prototype.remove.call(this);
+   
+  },
+
+  onRemove: function() {},
+
 });
 
 
@@ -186,7 +200,7 @@ BalloonView = EntryItemView.extend({
   className : "balloon",
 
   onInit: function(){
-    _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton");
+    _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton","setBalloonEditable");
     //this.model.bind('sync', this.render, this);
 
     //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
@@ -226,11 +240,23 @@ BalloonView = EntryItemView.extend({
         autoHide: true
       });
 
-      //$(this.el).click(this.editText);
-      //$(this.el).click(this.fontSelecter.changeSelecter);
+      this.setBalloonEditable();
 
-      $(this.el)
+      this.setBackgroundButton();
+
+      // TEMP ? goto temp html?
+      $(this.el).attr({title:"クリックで編集、ドラッグで移動"});
+      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ"});
+    }
+    //this.fontSelecter.applyFont();
+  },
+
+  setBalloonEditable: function(){
+		var self = this;
+    $(this.el)
         .bind('click', function(){
+            // disable draggable when focusing contenteditable
+            // and disable text render with isEditing flag
             if ( ! $(self).is('.ui-draggable-dragging') && !self.isEditing ) {
               $(self.el).draggable("option","disabled",true).removeClass('ui-state-disabled');
               self.el.removeAttribute('aria-disabled');
@@ -238,6 +264,7 @@ BalloonView = EntryItemView.extend({
               $('.text',self.el).attr('contenteditable','true').focus();
               self.isEditing = true;
             }
+
             self.textMenu.changeSelecter(self.target);
             $('.ui-tooltip').hide();
           });
@@ -253,15 +280,7 @@ BalloonView = EntryItemView.extend({
             self.saveText( txt );
          });
 
-      this.setRemoveButton();
-      this.setBackgroundButton();
-      this.initButton();
 
-      // TEMP ? goto temp html?
-      $(this.el).attr({title:"クリックで編集、ドラッグで移動"});
-      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ"});
-    }
-    //this.fontSelecter.applyFont();
   },
 
   onRender: function(){
@@ -319,6 +338,10 @@ CharacterView = EntryItemView.extend({
   //post append messod
   onAppend: function(){
     if(this.isEditable){
+      this.target = this.el;
+			this.effecter = new Effecter(this.target,this.model,'option' , 'image'+this.model.get('id'));
+
+
       $(this.el).resizable({
         //  containment: "parent parent" ,
         aspectRatio: true,
@@ -327,23 +350,16 @@ CharacterView = EntryItemView.extend({
         "handles": "n, e, s, w, ne, se, sw, nw",
       });
 
-      this.target = this.el;
-			this.effecter = new Effecter(this.target,this.model,'option' , 'image'+this.model.get('id'));
-
       $(this.el).draggable({
         start: this.onDragStart,
         stop: this.onDragStop
       });
 
       $(this.el).click(this.selectCharacter);
-      $(this.el).click(function(){
-        $('#toolbox .font_selecter').remove();
-      });
       
       //set UI on mouseovered
-      this.setRemoveButton();
-      this.initButton();
       this.showOutLine();
+
       $(this.el).attr({title:"クリックで画像選択、ドラッグして移動; Click to select image.Dragg to move"});
       $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
 
@@ -362,31 +378,15 @@ CharacterView = EntryItemView.extend({
     //console.log('selectimage');
     Picker.prototype.showCharacterList(this.setCharacter);
   },
+
 // use img to get size 
 // this not clear bu fast
   setCharacter: function(id,img){
-    this.model.set('character_image_id' , id );
-    //var targetCharacter = $('img',this.el).attr('src',config.character_image_idtourl(id));
-/*
-    var destHeight = this.content.offset().top + this.content.height() - $(this.el).offset().top;
-    if(destHeight < img.height ){
-      console.log('modefy height');
-      img.width =  img.width * destHeight / img.height;
-      img.height = destHeight;
-    }
-    var destWidth = this.content.offset().left + this.content.width() - $(this.el).offset().left;
-    if(destWidth < img.width ){
-      // this should just this jyunjyo
-      console.log('modefy height');
-      img.height =  img.height * destWidth / img.width;
-      img.width = destWidth;
-    }
-
-*/
-    //$(this.el).height(img.height).width(img.width);
-    this.model.set('width' , img.width);
-    this.model.set('height' , img.height);
-    this.model.save();
-  }
+    this.model.save({
+      'character_image_id' : id ,
+      'width' : img.width,
+      'height': img.height,
+    });
+  },
 
 });

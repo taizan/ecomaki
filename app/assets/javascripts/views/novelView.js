@@ -11,7 +11,7 @@ NovelView = ecomakiView.extend({
   
 
   onInit: function(args) {
-    _.bindAll(this, "addChapter","onSync","onChangeStatus","reLoad");
+    _.bindAll(this, "addChapter","onSync","onChangeStatus");
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
     //this.model.bind('sync',this.onSync);
@@ -58,9 +58,6 @@ NovelView = ecomakiView.extend({
 
   },
   
-  reLoad: function(){
-    this.load();
-  },
 
   onLoad: function(){
       var _self = this;

@@ -39,10 +39,10 @@
         <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
           <div class="novel_list_item novel_list_item_<%= i %>" >
             <h2 class="novel_list_title">
-              <%= "#{novel.title}" %>
+              <%=raw "#{novel.title}" %>
             </h2>
             <p class="nove_list_description"> 
-              <%= "#{novel.description}" %>
+              <%=raw "#{novel.description}" %>
             </p>
             <div class="entry_preview"></div>
             <h2> >> 続きを読む！ </h2>
