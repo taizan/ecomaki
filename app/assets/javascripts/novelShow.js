@@ -23,6 +23,7 @@ $(function() {
   _novel = new Novel({id: id,password: null});
   _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreView: false});
   _novelView.appendTo($('#content'));
+
   $(document).tooltip();
 
 });

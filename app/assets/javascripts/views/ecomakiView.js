@@ -115,19 +115,34 @@ ecomakiView = Backbone.View.extend({
   },
 
 
-  setEditable: function(target , key){
+  setEditable: function(target , attr){
     var self=this;
     $(target,self.el)
       .bind('input', function(){
         self.isEditing = true;
         console.log("oninput");
         var txt = Config.prototype.escapeText($(target,self.el).html());
-        self.model.save(key, txt );
+        self.model.save( attr, txt );
         //self.model.save();
       })
       .bind('blur', function(){
         self.isEditing = false;
       });
+  },
+
+
+  // set text to target DOM from model.attributes 
+  // if attr was empty , set def txet
+  setTextTo: function(attr, target , def){
+    var txt = this.model.get(attr);
+    if(txt == "" || txt == "<br>"|| txt === null || txt === undefined){
+      if(this.isEditable) { txt = def; } 
+      else {  txt = ''; }
+      $(target).html(txt);
+    }
+    else {
+      $(target).html(txt);
+    }
   },
 
   onScroll: function(){

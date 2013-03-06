@@ -85,9 +85,9 @@ NovelView = ecomakiView.extend({
     console.log('render novel');
     console.log(this.isEditing);
     if( ! this.isEditing ){
-      $('#title').html(this.model.get('title'));
-      $('#description').html(this.model.get('description'));
-      $('#author_name').html(this.model.get('author_name'));
+      this.setTextTo('title','#title','UnTitled');
+      this.setTextTo('description','#description','UnDescripted');
+      this.setTextTo('author_name','#author_name','UnTitled');
     }
   },
 
