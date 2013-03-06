@@ -43,7 +43,7 @@ EntryView = ecomakiView.extend({
     var button_offset = 40;
 
     $('.entry_wrapper',this.el)
-      .width( this.model_width )
+      .width( this.model_width + 2* button_offset )
       .height( this.model_height );
     $(this.content)
       .width( this.model_width )
