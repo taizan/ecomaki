@@ -77,6 +77,7 @@ ChapterView = ecomakiView.extend({
     var _self = this;
 
     this.addAll();
+    //$(this.el).width(600);
 
     if(this.isEditable){
       this.setEditable('.title','title');
@@ -243,7 +244,8 @@ ChapterView = ecomakiView.extend({
   onSortStart: function(e,ui){
     //console.log('onsort');
     this.sortItemIndex =  $(ui.item).parent().children().index(ui.item);
-    //console.log(this.sortItemIndex);
+    // console.log(e.target);
+    $('.ui-sortable-helper',this.el).css( {'margin-left': '200px' } );
   },
 
   onSortStop: function(e,ui){

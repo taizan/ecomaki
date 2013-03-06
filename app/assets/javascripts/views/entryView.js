@@ -42,14 +42,17 @@ EntryView = ecomakiView.extend({
     this.model_height = this.model.get('height');
     var button_offset = 40;
 
-    this.content
+    $('.entry_wrapper',this.el)
+      .width( this.model_width )
+      .height( this.model_height );
+    $(this.content)
       .width( this.model_width )
       .height( this.model_height )
       .css({'left':'40px'});
     // to make center as content center add button_offset other hand 
     $(this.el)
-      .width( this.content.width() + 2* button_offset )
-      .height( this.content.height() )
+    //  .width( this.content.width() + 2* button_offset )
+      .height( this.content.height() );
     $('.hide_buttons',this.el).css( { left: this.content.width() + button_offset} );
   },
 
@@ -57,7 +60,7 @@ EntryView = ecomakiView.extend({
     console.log('entry load');
     var _self = this;
     // entry content of view
-    this.content = $(this.el).find('.entry-content');
+    this.content = $(this.el).find('.entry_content');
 		
     this.applySize();
     

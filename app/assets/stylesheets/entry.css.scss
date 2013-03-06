@@ -11,18 +11,20 @@
 
 .entry {
   position: relative;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 60px;
 }
 
-
-.entry-content {
- background: url("/assets/entry/entry_background.png"); 
+.entry .entry_wrapper {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-
-.entry-content {
+.entry_content {
+  background: url("/assets/entry/entry_background.png"); 
   position: absolute;
   left: 0px;
   top: 0px;
