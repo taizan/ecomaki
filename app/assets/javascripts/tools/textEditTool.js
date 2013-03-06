@@ -16,8 +16,6 @@ TextEditMenu.prototype = {
   
   isInitialized: false,
   
-  target: {},
-  item: {},
 
 	bar: $('<div id="textMenu"></div>')
 		.appendTo($('body')),
@@ -38,11 +36,11 @@ TextEditMenu.prototype = {
     	TextEditMenu.prototype.applyTarget();
 		}
 
-		var offset = target.offset();
+		var offset = $(target).offset();
 		TextEditMenu.prototype.bar.css({
 			position: 'absolute',
 			left: offset.left + "px",
-			top: (offset.top + target.height()) + "px",
+			top: (offset.top + $(target).height()) + "px",
 			'z-index': 9999,
 		});
 
@@ -266,8 +264,9 @@ TextEditMenu.prototype = {
     $('#textMenu .text_menu').hide();
   },
 
-  onBlur: function(){
-    TextEditMenu.prototype.finish();
+  onBlur: function(ev){
+    // if target was selected item , not blur
+    if( ev.target != $('.text',this.target)[0] )TextEditMenu.prototype.finish();
   }
 
 }

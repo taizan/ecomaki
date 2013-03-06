@@ -31,7 +31,8 @@ ecomakiView = Backbone.View.extend({
 				"onDisplay",
 				"onPreDisplay",
 				"onPostDisplay",
-				"hideButton"
+				"hideButton",
+        "destroy_view"
 			);
 
     var _self = this;
@@ -40,9 +41,9 @@ ecomakiView = Backbone.View.extend({
     this.isPreview = args.isPreview;
 		this.parentView = args.parentView;
 
-    //this.model.bind('change', this.render, this);
+    this.model.bind('change', this.render, this);
     //this.model.bind('sync',this.render,this);
-    this.model.bind('destroy', this.render, this);
+    //this.model.bind('destroy', this.render, this);
 
 
     //not use because too heavy
@@ -53,6 +54,7 @@ ecomakiView = Backbone.View.extend({
 
 
   load: function(){
+    //this.isEditable = isEditable;
 		this.isLoaded = true;
     $(this.el).empty();
 		var template = _.template( $(this.tmplId).html() , this.model.attributes);
@@ -101,7 +103,8 @@ ecomakiView = Backbone.View.extend({
   onAddChild: function(view){},
 
   addAll: function () {
-    $(this.elementList,this.el).empty();
+    console.log('refresh');
+    $(this.elementList,this.el).unbind().empty();
     this.childViews = [];
     _(this.childModels).each(this.addOne);
 
@@ -113,11 +116,13 @@ ecomakiView = Backbone.View.extend({
 
 
   setEditable: function(target , key){
-    self=this;
-    $(target,this.el)
+    var self=this;
+    $(target,self.el)
       .bind('input', function(){
         self.isEditing = true;
-        self.model.save(key,( $(target).text() ));
+        console.log("oninput");
+        self.model.save(key,( $(target,self.el).html() ));
+        //self.model.save();
       })
       .bind('blur', function(){
         self.isEditing = false;
@@ -172,7 +177,8 @@ ecomakiView = Backbone.View.extend({
 	
 	onScrollEnd: function(){},
 	
-	
+ 
+
   hideButton: function(){
     if(!this.isHideButton){
       this.isHideButton = true;
@@ -199,5 +205,23 @@ ecomakiView = Backbone.View.extend({
     }
     return this;
   },
-	
+
+  destroy_view: function() {
+
+    //COMPLETELY UNBIND THE VIEW
+    this.undelegateEvents();
+    
+    this.$el.removeData().unbind(); 
+
+    this.model.unbind('change',this.render);
+  
+    //Remove view from DOM
+    this.onRemove();
+    this.remove();  
+    Backbone.View.prototype.remove.call(this);
+   
+ },
+
+ onRemove: function() {},
+
 });

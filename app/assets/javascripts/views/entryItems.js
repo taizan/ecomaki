@@ -55,7 +55,7 @@ EntryItemView = Backbone.View.extend ({
   },
 
   render: function(){
-    //console.log('render');
+    console.log('render');
     
     var z = this.model.get('z_index') != null ? this.model.get('z_index') : 0;  
 
@@ -187,16 +187,17 @@ BalloonView = EntryItemView.extend({
 
   onInit: function(){
     _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton");
+    //this.model.bind('sync', this.render, this);
+
     //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
     $('<div class="text" ></div>').appendTo(this.el);
 
-    //this.model.bind('sync', this.render, this);
   },
 
   onAppend: function(){
 
     //console.log(this.el);
-    this.target = $(this.el);
+    this.target = this.el;
 		var self = this;
 
     this.effecter = new Effecter(this.target,this.model,'option','balloon'+this.model.get('id') );
@@ -323,7 +324,7 @@ CharacterView = EntryItemView.extend({
         "handles": "n, e, s, w, ne, se, sw, nw",
       });
 
-      this.target = $(this.el);
+      this.target = this.el;
 			this.effecter = new Effecter(this.target,this.model,'option' , 'image'+this.model.get('id'));
 
       $(this.el).draggable({

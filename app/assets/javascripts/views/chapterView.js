@@ -28,12 +28,16 @@ ChapterView = ecomakiView.extend({
               "onSync");
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
-    this.model.bind('change',this.render)
     //this.model.entries.bind('change', this.onChange);
     //this.model.entries.bind('add', this.onSync); 
     //this.model.bind('add', this.onSync); 
 
     this.childModels = this.model.entries.models;
+  },
+
+  onRemove: function() {
+    this.model.entries.unbind('add', this.addOne);
+    this.model.entries.unbind('refresh', this.addAll);
   },
 
   onChangeEntries: function() {
