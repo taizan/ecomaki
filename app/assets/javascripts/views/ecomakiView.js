@@ -121,7 +121,8 @@ ecomakiView = Backbone.View.extend({
       .bind('input', function(){
         self.isEditing = true;
         console.log("oninput");
-        self.model.save(key,( $(target,self.el).html() ));
+        var txt = Config.prototype.escapeText($(target,self.el).html());
+        self.model.save(key, txt );
         //self.model.save();
       })
       .bind('blur', function(){

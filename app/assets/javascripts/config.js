@@ -167,5 +167,11 @@ Config.prototype.rgba2string = function(rgba){
 	return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
 };
 
+Config.prototype.escapeText = function(txt){
+  var $d = $('<div></div>');
+  $d.text(txt);
+  return $d.text().split('\n').join('<br>');
+};
 
 Config.Shapes = {};
+

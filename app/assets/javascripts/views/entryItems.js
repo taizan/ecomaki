@@ -229,27 +229,30 @@ BalloonView = EntryItemView.extend({
       //$(this.el).click(this.editText);
       //$(this.el).click(this.fontSelecter.changeSelecter);
 
-      $(this.el).bind('click', function(){
-          if ( ! $(self).is('.ui-draggable-dragging') && !self.isEditing ) {
-            $(self.el).draggable("option","disabled",true).removeClass('ui-state-disabled');
-            self.el.removeAttribute('aria-disabled');
-            $('.text',self.el).attr('contenteditable','true');
-            $('.text',self.el).focus();
-            self.isEditing = true;
-            console.log(self.isEditing);
-          }
-          self.textMenu.changeSelecter(self.target);
-          //editableTextarea(self.el,self.saveText);
-          $('.ui-tooltip').hide();
-        });
-      $('.text',this.el).blur(function(ev){
-          $(self.el).draggable("option","disabled",false);
-          $('.text',self.el).attr('contenteditable','false');
-          self.isEditing = false;
-        });
-      $('.text',this.el).bind('input', function(){
-            self.saveText( $('.text',self.el).text() );
+      $(this.el)
+        .bind('click', function(){
+            if ( ! $(self).is('.ui-draggable-dragging') && !self.isEditing ) {
+              $(self.el).draggable("option","disabled",true).removeClass('ui-state-disabled');
+              self.el.removeAttribute('aria-disabled');
+
+              $('.text',self.el).attr('contenteditable','true').focus();
+              self.isEditing = true;
+            }
+            self.textMenu.changeSelecter(self.target);
+            $('.ui-tooltip').hide();
+          });
+
+      $('.text',this.el)
+        .blur(function(ev){
+            $(self.el).draggable("option","disabled",false);
+            $('.text',self.el).attr('contenteditable','false');
+            self.isEditing = false;
+          })
+        .bind('input', function(){
+            var txt = Config.prototype.escapeText($('.text',self.el).html());
+            self.saveText( txt );
          });
+
       this.setRemoveButton();
       this.setBackgroundButton();
       this.initButton();
