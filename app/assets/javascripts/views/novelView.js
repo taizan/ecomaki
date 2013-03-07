@@ -1,4 +1,4 @@
-
+//= require ./pageTemplates
 
 NovelView = ecomakiView.extend({
   className: 'novel',
@@ -45,8 +45,12 @@ NovelView = ecomakiView.extend({
     // or 
     console.log(this.model.get('status'));
     if(this.model.get('status') == 'initial'){
-      this.model.create_chapter();
+      //this.model.create_chapter();
       //var chapter =  this.model.chapters.create_after({},-1);
+			//setPageByTemplate["empty"].apply(this);
+			//setPageByTemplate["4-cell"].apply(this);
+			selectTemplate(this);
+//>>>>>>> make templates
       this.model.save({'status': 'draft'})
     }
     
