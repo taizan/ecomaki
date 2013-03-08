@@ -49,7 +49,9 @@
 //*********************************************************************************
 
 (function($){
+	var undefined; // undefined === undefined
 	var clipboard = null;
+	var debug = 0;
 
 	var check = function(cxt){
 		if(!cxt){
@@ -118,6 +120,9 @@
 			this.store = settings.store || null;
 			this.dirty = settings.dirty || true;
 			clipboard = settings.clipboard || clipboard;
+			if( settings.callback !== undefined ){
+				this.EditMenuCallback = settings.callback;
+			}
 		}else{ //by defalut
 			this.store = null;
 			this.dirty = true;
@@ -272,13 +277,22 @@
 
 		return this.each(function(){
 			//this == canvas object
+			var varout;
 			if( methods[method] ){
-				return methods[method].apply( this, Array(settings) );
+				varout = methods[method].apply( this, Array(settings) );
 			}else if( typeof method === 'object' || ! method ){
-				return methods.init.apply( this, Array(settings) )
+				varout =  methods.init.apply( this, Array(settings) );
 			}else{
-				$.error( 'Method ' + method + ' does not exist on jQuery.Storable' );
+				$.error( 'Method ' + method + ' does not exist on jQuery.EditMenu' );
 			}
+
+			if( settings.callback ){
+				settings.callback(method);
+			}else if( this.EditMenuCallback ){
+				this.EditMenuCallback(method);
+			}
+
+			return varout;
 		});
 	};
 })(jQuery);

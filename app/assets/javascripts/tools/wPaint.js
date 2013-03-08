@@ -270,7 +270,7 @@ var debug = {};
       $(this.canvas).addClass('paint');
 			this.ctx = this.canvas.getContext('2d');
 
-			$(this.canvas).EditMenu('init');
+			$(this.canvas).EditMenu('init', {callback: this.localSettings.EditMenuCallback});
 			
 			//create local reference
 			var $this = this;

@@ -70,14 +70,32 @@ EntryView = ecomakiView.extend({
     this.canvasFlag = true;
     this.isDrawDown = false;
 
-  if(this.isEditable){
+  	if(this.isEditable){
     
       //--
       //set painting options
+			var self = this;
+			var keyctrl = function(event){
+				switch(event){
+					case "undo":
+						console.log( "Ctrl-Z is Pressed on", self);
+						break;
+
+					case "redo":
+						console.log( "Shift-Ctrl-Z is Pressed on", self);
+						break;
+
+					default:
+						console.log("keyctrl:", event, "|", self);
+						break;
+				}
+			};
+
       this.content.wPaint({
-          drawDown:  _self.onCanvasClick ,
-          drawUp : _self.onDraw
-        });
+        drawDown:  _self.onCanvasClick ,
+        drawUp : _self.onDraw,
+				EditMenuCallback: keyctrl
+      });
 
       this.content.mouseleave(function(){
           //_self.canvasFlag= true;
