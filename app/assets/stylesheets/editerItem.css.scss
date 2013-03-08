@@ -56,7 +56,7 @@ body{
   background: #dee;
 }
 
-#author:hover {
+#author_name:hover {
   background: #eed;
 }
 
@@ -154,7 +154,11 @@ hr {
 
 // entnryItem
 
-.item {
+.balloon {
+  cursor:pointer;
+}
+
+.character {
   cursor:pointer;
 }
 
@@ -203,6 +207,10 @@ canvas {
   top: 0px;
 }
 
+.new_entry_handle:hover{
+  background: #878;
+  cursor:pointer;
+}
 
 .entry .hide_buttons button{
   height: 34px;
@@ -212,6 +220,9 @@ canvas {
 .entry .hide_buttons button img{
 }
 
+.entry .entry_handle {
+  cursor:n-resize;
+}
 
 // Tutorial Dialog
 
