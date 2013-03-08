@@ -205,8 +205,9 @@ EntryView = ecomakiView.extend({
     "click .btn_balloon": "addDefaultBalloon",
     "click .btn_character": "addDefaultCharacter",
     "click .btn_remove": "destroyEntry",
-    "click .btn_entry": "addEntry",
-    "click .btn_layer": "changeLayer"
+    "click .btn_entry": "copyEntry",
+    "click .btn_layer": "changeLayer",
+    "click .new_entry_handle": "addEntry"
   },
   
   onDisplay: function(){
@@ -343,7 +344,7 @@ EntryView = ecomakiView.extend({
 
   },
 
-  addEntry: function(e){
+  copyEntry: function(e){
     // console.log("addEntry");
     var chapter = this.parentView.model;
     var currentIndex =  chapter.entries.indexOf(this.model);
@@ -354,7 +355,16 @@ EntryView = ecomakiView.extend({
 
     this.parentView.addEntryWithOrder(attributes , currentIndex);
   },
-  
+
+  addEntry: function(e){
+    // console.log("addEntry");
+    var chapter = this.parentView.model;
+    var currentIndex =  chapter.entries.indexOf(this.model);
+   
+    var attributes ={"canvas_index":1,"height":320,"width":480}  
+
+    this.parentView.addEntryWithOrder(attributes , currentIndex);
+  },
 
   changeLayer: function(e){
     //console.log("changeLayer");
