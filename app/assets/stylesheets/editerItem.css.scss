@@ -207,9 +207,16 @@ canvas {
   top: 0px;
 }
 
-.new_entry_handle:hover{
-  background: #878;
+.new_entry_handle{
   cursor:pointer;
+  border: 1px silver dotted ;
+  color: gray;
+}
+
+.new_entry_handle:hover{
+  background: #dfe;
+  cursor:pointer;
+  color: black;
 }
 
 .entry .hide_buttons button{
