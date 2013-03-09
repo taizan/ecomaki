@@ -58,7 +58,8 @@ EntryView = ecomakiView.extend({
   },
 
   onLoad: function(){
-    console.log('entry load');
+	  var self = this;
+    //console.log('entry load');
     // entry content of view
     this.content = $(this.el).find('.entry_content');
 		
@@ -74,7 +75,6 @@ EntryView = ecomakiView.extend({
     
       //--
       //set painting options
-			var self = this;
 
 			this.content.wPaint({
         drawDown:  self.onCanvasClick ,
