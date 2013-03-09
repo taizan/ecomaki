@@ -15,6 +15,7 @@ EntryView = ecomakiView.extend({
         "onClick",
         "canvasRender",
         "onCanvasClick",
+        "keyctrl",
         "onDraw",
         "applySize",
         "onResize",
@@ -58,7 +59,6 @@ EntryView = ecomakiView.extend({
 
   onLoad: function(){
     console.log('entry load');
-    var _self = this;
     // entry content of view
     this.content = $(this.el).find('.entry_content');
 		
@@ -75,31 +75,16 @@ EntryView = ecomakiView.extend({
       //--
       //set painting options
 			var self = this;
-			var keyctrl = function(event){
-				switch(event){
-					case "undo":
-						console.log( "Ctrl-Z is Pressed on", self);
-						break;
 
-					case "redo":
-						console.log( "Shift-Ctrl-Z is Pressed on", self);
-						break;
-
-					default:
-						console.log("keyctrl:", event, "|", self);
-						break;
-				}
-			};
-
-      this.content.wPaint({
-        drawDown:  _self.onCanvasClick ,
-        drawUp : _self.onDraw,
-				EditMenuCallback: keyctrl
+			this.content.wPaint({
+        drawDown:  self.onCanvasClick ,
+        drawUp : self.onDraw,
+				EditMenuCallback: self.keyctrl
       });
 
       this.content.mouseleave(function(){
           //_self.canvasFlag= true;
-          _self.canvasRender();
+          self.canvasRender();
         });
       //--
 
@@ -126,9 +111,9 @@ EntryView = ecomakiView.extend({
     }
 
     // should be initialize after content resizable because conflict autoHide
-    _(this.model.balloons.models).each( function(model){ _self.addBalloonView( model , {} , {} ); } );
+    _(this.model.balloons.models).each( function(model){ self.addBalloonView( model , {} , {} ); } );
 
-    _(this.model.characters.models).each( function(model){ _self.addCharacterView( model , {} , {} ); } );
+    _(this.model.characters.models).each( function(model){ self.addCharacterView( model , {} , {} ); } );
 
     this.effecter = new Effecter($('.paint',this.el),this.model,'option','canvas_'+this.model.get('id'));
     
@@ -258,8 +243,27 @@ EntryView = ecomakiView.extend({
     $('.text',this.el).blur();
   },
 
+  keyctrl: function(event){
+    var self = this;
+	  	switch(event){
+		  	case "undo":
+		  		console.log( "Ctrl-Z is Pressed on", self);
+					break;
+
+				case "redo":
+					console.log( "Shift-Ctrl-Z is Pressed on", self);
+					break;
+
+				default:
+					console.log("keyctrl:", event, "|", self);
+          if( $('.paint', self.el)[0] )
+            self.model.save({canvas: $('.paint', self.el)[0].toDataURL('image/png')},{wait: true});
+					break;
+			}
+	},
+
   onDraw: function(){
-     this.model.save({canvas: $('.paint', this.el)[0].toDataURL('image/png')},{wait: true});
+     //this.model.save({canvas: $('.paint', this.el)[0].toDataURL('image/png')},{wait: true});
   },
 
   onResize: function(){
@@ -269,10 +273,11 @@ EntryView = ecomakiView.extend({
     
     //for reflush canvas size
     $('canvas',this.content).remove();
-    var _self = this;
+    var self = this;
     this.content.wPaint({
-        drawDown:  _self.onCanvasClick ,
-        drawUp: _self.onDraw
+        drawDown:  self.onCanvasClick ,
+        drawUp: self.onDraw,
+				EditMenuCallback: self.keyctrl
       });
     this.canvasFlag = true;
     //re render view
