@@ -41,7 +41,7 @@ ecomakiView = Backbone.View.extend({
     this.isPreview = args.isPreview;
 		this.parentView = args.parentView;
 
-    this.model.bind('change', this.render, this);
+    ///this.model.bind('change', this.render, this);
     //this.model.bind('sync',this.render,this);
     //this.model.bind('destroy', this.render, this);
 
@@ -91,11 +91,11 @@ ecomakiView = Backbone.View.extend({
 
 
   addOne: function ( model , t , options ) {
-    //console.log(item);
+    console.log(model);
     var view = new (this.childViewType)({ model: model , parentView: this ,isEditable: this.isEditable , isPreview: this.isPreview});
-    //console.log(view);
+    console.log(view);
     this.childViews.push(view);
-    $(this.elementList,this.el).insertAt(options.index,view.render().el);
+    $(this.elementList,this.el).insertAt(options.index,view.el);
     view.onAppend();
     this.onAddChild(view);
   },

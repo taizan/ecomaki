@@ -16,7 +16,7 @@ $(function() {
   
   var id = $('.novel_container').attr('id');
   
-  var isEditable = false;
+  var isEditable = false; 
     
   //var urls = location.href.split('/');
 

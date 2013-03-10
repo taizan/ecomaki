@@ -79,6 +79,7 @@ ChapterView = ecomakiView.extend({
     this.addAll();
     //$(this.el).width(600);
 
+      console.log(this.model.entries.length);
     if(this.isEditable){
       this.setEditable('.title','title');
       this.setEditable('.description','description');
