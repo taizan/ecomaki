@@ -26,8 +26,13 @@ $(function() {
 
   function initializeView(id,pass,isEditable){
     _novel = new Novel({id: id,password: pass});
-    _novelView = new MakerNovelView({model: _novel , isEditable: isEditable , isPreview: true});
-    _novelView.appendTo($('#content'));
+    _novel.fetch({
+      success: function(){
+        _novelView = new MakerNovelView({model: _novel , isEditable: isEditable , isPreView: false});
+        _novelView.appendTo($('#content'));
+      }
+     });
+
 
 
     $('#static_body').bind('mousedown',onStaticBodyClick);
@@ -45,9 +50,6 @@ $(function() {
 
   function onStaticBodyClick(ev){
     //console.log(ev);
-    TextEditMenu.prototype.onBlur(ev);
-    TextEdit.prototype.onBlur(ev);
-    Picker.prototype.onBlur(ev);
   }
 
 });

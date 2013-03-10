@@ -11,14 +11,14 @@ NovelView = ecomakiView.extend({
   
 
   onInit: function(args) {
-    _.bindAll(this, "addChapter","onSync","onChangeStatus");
+    _.bindAll(this, "addChapter");
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
     //this.model.bind('sync',this.onSync);
     //this.model.bind('fetch',this.onSync);
     //this.model.bind('add',this.onSync);
     //this.model.bind('refresh',this.onSync);
-    this.model.bind('change:status',this.onChangeStatus);
+    //this.model.bind('change:status',this.onChangeStatus);
     this.model.bind('change:title',this.render);
     this.model.bind('change:description',this.render);
     this.model.bind('change:author_name',this.render);
@@ -40,10 +40,8 @@ NovelView = ecomakiView.extend({
     'click': 'onViewClick',
   },
 
-  onSync: function(){
-  },
 
-  onChangeStatus: function() {
+  checkStatus: function() {
   
     // add chapter if status = initial
     // or 
@@ -68,14 +66,15 @@ NovelView = ecomakiView.extend({
         this.unPublished =true;
       }
     }
-
-    this.render();
   },
   
 
   onLoad: function(){
       var _self = this;
       //reflesh child
+
+      this.checkStatus();
+
       this.addAll();	
 
       if (this.isEditable) {

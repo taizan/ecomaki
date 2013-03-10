@@ -12,7 +12,7 @@
 
 
 
-$(function() {
+$(function(d,s,id) {
   
   var id = $('.novel_container').attr('id');
   
@@ -21,13 +21,19 @@ $(function() {
   //var urls = location.href.split('/');
 
   _novel = new Novel({id: id,password: null});
-  _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreView: false});
-  _novelView.appendTo($('#content'));
+  _novel.fetch({
+    success: function(){
+      _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreView: false});
+      _novelView.appendTo($('#content'));
+    }
+  });
+
 
   $(document).tooltip();
+  
+  //$('#social_template').appendTo('body');
 
 });
 
-
-
-
+/*
+*/

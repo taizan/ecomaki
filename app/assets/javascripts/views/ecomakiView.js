@@ -42,7 +42,7 @@ ecomakiView = Backbone.View.extend({
 		this.parentView = args.parentView;
 
     ///this.model.bind('change', this.render, this);
-    //this.model.bind('sync',this.render,this);
+    this.model.bind('sync',this.onSync,this);
     //this.model.bind('destroy', this.render, this);
 
 
@@ -52,6 +52,9 @@ ecomakiView = Backbone.View.extend({
 
   onInit: function(args){},
 
+  onSync: function(model,option){
+    console.log(model,option);
+  },
 
   load: function(){
     //this.isEditable = isEditable;

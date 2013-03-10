@@ -34,8 +34,12 @@ $(function() {
   
   initializeView : function(id,pass,isEditable){
     _novel = new Novel({id: id,password: pass});
-    _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreview: false});
-    _novelView.appendTo($('#content'));
+    _novel.fetch({
+    success: function(){
+      _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreView: false});
+      _novelView.appendTo($('#content'));
+    }
+  });
 
     $('#toolbox').hide();
     $('#console').hide();  
