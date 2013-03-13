@@ -36,7 +36,7 @@ $(function() {
     _novel = new Novel({id: id,password: pass});
     _novel.fetch({
     success: function(){
-      _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreView: false});
+      _novelView = new NovelView({model: _novel , isEditable: isEditable  });
       _novelView.appendTo($('#content'));
     }
   });
@@ -59,16 +59,14 @@ $(function() {
     $('#preview_button').click(function(){
         isEditable = isEditable ? false : true;
 			  $('#preview_button img').attr('src', '/assets/novel/' + (isEditable ? 'preview.png' : 'edit.png'));
-			  $('#preview_button p').text(isEditable ? 'preview' : 'edit');
+			  $('#preview_button p').text(isEditable ? 'Preview' : 'Edit');
         $('#content').empty();
         _novelView.destroy_view();
-        _novelView = new NovelView({model: _novel , isEditable: isEditable, isPreview: true});
+        _novelView = new NovelView({model: _novel , isEditable: isEditable });
         _novelView.appendTo($('#content'));
         if(isEditable) {
-          $('#preview p').html('Preview');
           $('#toolbox').show();
         }else{
-          $('#preview p').html('Edit');
           $('#toolbox').hide();
           $('.tutorial_dialog').hide();
         }

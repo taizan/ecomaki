@@ -57,7 +57,7 @@ NovelView = ecomakiView.extend({
     }
     
     //console.log(this.isPreview);
-    if( this.model.get('status') !== undefined && this.model.get('status') != 'publish' && !this.isEditable && !this.isPreview) {
+    if( this.model.get('status') !== undefined && this.model.get('status') != 'publish' && !this.isEditable ) {
       $(this.el).remove();
       // set global obj to null
       //if(_novel)_novel = null; 

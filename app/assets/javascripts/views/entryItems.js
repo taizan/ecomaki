@@ -62,8 +62,19 @@ EntryItemView = Backbone.View.extend ({
   appendTo: function(target){
     $(this.el).appendTo(target);
 
-    if(this.isEditable) $(this.el).click(this.onClick);
-    
+    this.effecter = new Effecter(this.el,this.model,'option',this.className + this.model.get('id') );
+    this.model.bind('change:option', this.effecter.resetEffect )
+
+    if(this.isEditable){ 
+      $(this.el)
+        .click(this.onClick)
+        .draggable({
+          //containment: "parent",
+          start: this.onDragStart,
+          stop: this.onDragStop
+        });
+    }
+
     this.onAppend();
    
     // do post appedn method
@@ -72,6 +83,7 @@ EntryItemView = Backbone.View.extend ({
     $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
     
     this.render();
+    //$(this.el).click();
   },
 
   onResize: function(){
@@ -195,7 +207,8 @@ BalloonView = EntryItemView.extend({
   className : "balloon",
 
   onInit: function(){
-    _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton","setBalloonEditable");
+    _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton","setBalloonEditable",
+      'editStart','editEnd');
     //this.model.bind('sync', this.render, this);
 
     //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
@@ -208,13 +221,9 @@ BalloonView = EntryItemView.extend({
     //console.log(this.el);
 		var self = this;
 
-    this.effecter = new Effecter(this.el,this.model,'option','balloon'+this.model.get('id') );
-    //this.fontSelecter = new FontSelecter(this.el,this.model);
 		this.textMenu = new TextEditMenu(this.el, this.model);
-    //this.effecter.resetEffect(); 
-    //this.textMenu.applyFont();
+
     this.model
-      .bind('change:option', this.effecter.resetEffect )
       .bind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
       .bind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
       .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
@@ -223,12 +232,6 @@ BalloonView = EntryItemView.extend({
     if(this.isEditable){
 		
       $(this.el)
-        .draggable({
-          //containment: "parent",
-          start: this.onDragStart,
-          stop: this.onDragStop
-        })
-
         .resizable({
           alsoResize: $('.text',this.el),
           containment: "parent",
@@ -250,37 +253,60 @@ BalloonView = EntryItemView.extend({
 		var self = this;
 
     $(this.el)
-      .bind('click', function(){
-          // disable draggable when focusing contenteditable
-          // and disable text render with isEditing flag
-          if ( ! $(self).is('.ui-draggable-dragging') && !self.isEditing ) {
-            $(self.el).draggable("option","disabled",true).removeClass('ui-state-disabled');
-            self.el.removeAttribute('aria-disabled');
-
-            $('.text',self.el).attr('contenteditable','true').focus();
-            self.isEditing = true;
-          }
-
-          self.textMenu.changeSelecter(self.el);
-          $('.ui-tooltip').hide();
-        });
+      .bind('click', this.editStart);
 
     $('.text',this.el)
-      .blur(function(ev){
-          $(self.el).draggable("option","disabled",false);
-          $('.text',self.el).attr('contenteditable','false');
-          self.isEditing = false;
-        })
-      .bind('input', function(){
-          var txt = Config.prototype.escapeText($('.text',self.el).html());
-          self.saveText( txt );
-        });
+      .blur(this.editEnd)
+      .bind('input', this.saveText);
 
+  },
+
+  editStart: function(){
+    // disable draggable when focusing contenteditable
+    // and disable text render with isEditing flag
+		var self = this;
+
+    if ( ! $(self).is('.ui-draggable-dragging') && !self.isEditing ) {
+      $(self.el).draggable("option","disabled",true).removeClass('ui-state-disabled');
+      self.el.removeAttribute('aria-disabled');
+
+      $('.text',self.el).attr('contenteditable','true').focus();
+      this.setFocus();
+      self.isEditing = true;
+    }
+
+    self.textMenu.changeSelecter(self.el);
+    $('.ui-tooltip').hide();
+  },
+
+  editEnd: function(){
+		var self = this;
+    $(self.el).draggable("option","disabled",false);
+    $('.text',self.el).attr('contenteditable','false');
+    self.isEditing = false;
+  },
+
+  setFocus: function(){
+    var node = $('.text',this.el)[0];
+    var pos = 0;
+    if(!node){
+      return false;
+    }else if(node.createTextRange){
+      var textRange = node.createTextRange();
+      textRange.collapse(true);
+      textRange.moveEnd(pos);
+      textRange.moveStart(pos);
+      textRange.select();
+      return true;
+    }else if(node.setSelectionRange){
+      node.setSelectionRange(pos,pos);
+      return true;
+    }
   },
 
   onRender: function(){
     $('.text',this.el)
-      .html(this.model.get('content'))
+      .html( this.model.get('content') )
       .width(this.model.get('width')).height(this.model.get('height'));
     this.effecter.resetEffect(); 
     this.textMenu.applyFont();
@@ -288,13 +314,12 @@ BalloonView = EntryItemView.extend({
 
 
   saveText: function(txt){
-    this.model.set('content',txt);
-    this.model.save();
+    txt = Config.prototype.escapeText($('.text',self.el).html());
+    this.model.save('content',txt);
   },
   
-  saveBackground: function(txt){
-    this.model.set('entry_balloon_background_id',txt);
-    this.model.save();
+  saveBackground: function(id){
+    this.model.save('entry_balloon_background_id',id);
     //this.textMenu.applyFont();
   },
 
@@ -329,8 +354,6 @@ CharacterView = EntryItemView.extend({
   //post append messod
   onAppend: function(){
     if(this.isEditable){
-			this.effecter = new Effecter(this.el,this.model,'option' , 'image'+this.model.get('id'));
-
 
       $(this.el)
         .resizable({
@@ -341,21 +364,16 @@ CharacterView = EntryItemView.extend({
           "handles": "n, e, s, w, ne, se, sw, nw",
         })
 
-        .draggable({
-          start: this.onDragStart,
-          stop: this.onDragStop
-         })
-
         .click(this.selectCharacter)
       
         .attr({title:"クリックで画像選択、ドラッグして移動"});
       
+
       //set UI on mouseovered
       this.showOutLine();
 
-    }else{
-      this.effecter = new Effecter(this.el,this.model,'option');
     }
+    
   },
 
   onRender: function(){

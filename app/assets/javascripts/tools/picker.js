@@ -23,8 +23,8 @@ Picker.prototype = {
     $($('#music_picker_template').html())
 		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
 
-    $($('#balloon_picker_template').html())
-		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
+//    $($('#balloon_picker_template').html())
+//		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
     Picker.prototype.setBalloonList();
 			
     $('.picker_cancel_button').click(Picker.prototype.finish);

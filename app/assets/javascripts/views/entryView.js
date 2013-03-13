@@ -21,6 +21,8 @@ EntryView = ecomakiView.extend({
         "onResize",
         "addBalloon",
         "addCharacter",
+        //"addNewtBalloon",
+        //"addNewCharacter",
         "addDefaultBalloon",
         "addDefaultCharacter",
         "destroyEntry",
@@ -30,6 +32,8 @@ EntryView = ecomakiView.extend({
 
     this.model.balloons.bind('add', this.addBalloonView); 
     this.model.characters.bind('add', this.addCharacterView); 
+
+    this.model.bind('sync', this.render); 
   },
 
   onRemove: function(){
@@ -131,9 +135,21 @@ EntryView = ecomakiView.extend({
       this.canvasRender();
      
       this.effecter.resetEffect();
+    
+      this.defaultIconRender();
     }
 
     return this;
+  },
+
+  defaultIconRender: function() {
+    // hie add default item button
+    if( this.model.balloons.models.length > 0 ) $('.add_default_balloon_icon',this.el).hide();
+    else $('.add_default_balloon_icon',this.el).show();
+    
+    if( this.model.characters.models.length > 0 ) $('.add_default_character_icon',this.el).hide();
+    else  $('.add_default_character_icon',this.el).show();
+
   },
 
   canvasRender: function() {
@@ -187,11 +203,14 @@ EntryView = ecomakiView.extend({
   events: {
     "click" : "onClick" ,
     "dblclick" : "dblclick",
-    "click .btn_balloon": "addDefaultBalloon",
-    "click .btn_character": "addDefaultCharacter",
+    "click .btn_balloon": "addNewBalloon",
+    "click .btn_character": "addNewCharacter",
     "click .btn_remove": "destroyEntry",
     "click .btn_entry": "copyEntry",
     "click .btn_layer": "changeLayer",
+
+    "click .add_default_balloon_icon": "addDefaultBalloon",
+    "click .add_default_character_icon": "addDefaultCharacter",
     "click .new_entry_handle": "addEntry"
   },
   
@@ -287,12 +306,14 @@ EntryView = ecomakiView.extend({
     ///this.model.save();
   },
 
-  addBalloon: function( str ){
+  addBalloon: function( str , w , h , l , t ){
     //console.log("addBalloon");
-    var w = 100;
-    var h = 50;
-    var l = Math.random() * (this.model.get('width') - w);
-    var t = Math.random() * (this.model.get('height') - h);
+    if(typeof str === 'undefined') str = 'クリックして編集';
+    if(typeof w === 'undefined') w = 100;
+    if(typeof h === 'undefined') h = 50;
+    if(typeof l === 'undefined') l = Math.random() * (this.model.get('width') - w); 
+    if(typeof t === 'undefined') t = Math.random() * (this.model.get('height') - h);
+
     this.model.balloons.create(
       {
         left: l,top: t, width: w, height: h ,
@@ -304,19 +325,21 @@ EntryView = ecomakiView.extend({
 
     //temp
     this.model.save();
-    this.model.trigger('change');
 
     $('.btn_layer',this.el).removeClass('btn-primary');
   },
 
-  addCharacter: function( id ){
+  addCharacter: function( id , w , h , l , t){
     //console.log("addCharacter");
     //var image = new ImageItem( this._self , src ,{});
     //image.appendTo( this.content);
-    var w = 100;
-    var h = 100;
-    var l = Math.random() * (this.model.get('width') - w);
-    var t = Math.random() * (this.model.get('height') - h);
+    if(typeof id === 'undefined') id = 0;
+    if(typeof w === 'undefined') w = 100;
+    if(typeof h === 'undefined') h = 100;
+    if(typeof l === 'undefined') l = Math.random() * (this.model.get('width') - w); 
+    if(typeof t === 'undefined') t = Math.random() * (this.model.get('height') - h);
+
+
     this.model.characters.create(
       {
         left: l,top: t, width: w, height: h,
@@ -325,19 +348,35 @@ EntryView = ecomakiView.extend({
       });
     this.maxIndex++;
     this.model.save();
-    this.model.trigger('change');
 
     $('.btn_layer',this.el).removeClass('btn-primary');
 
   },
 
+  addNewBalloon: function(){
+    this.addBalloon();
+  },
+
+  addNewCharacter: function(){
+    this.addCharacter();
+  },
 
   addDefaultBalloon: function(e){
-    this.addBalloon('Click to edit');
+    var $icon = $('.add_default_balloon_icon');
+    console.log($icon.offset(),$(this.el).offset());
+    this.addBalloon('' , $icon.width(),$icon.height(),
+      -$icon.offset().left + $(this.content).offset().left ,
+      - $icon.offset().top + $(this.content).offset().top  
+      );
   },
 
   addDefaultCharacter: function(e){
-    this.addCharacter(0);
+    var $icon = $('.add_default_character_icon');
+    this.addCharacter(0 , $icon.width(),$icon.height(),
+      - $icon.offset().left + $(this.content).offset().left ,
+      - $icon.offset().top + $(this.content).offset().top  
+      );
+
   },
 
   destroyEntry: function(e){
