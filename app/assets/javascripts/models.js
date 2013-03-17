@@ -19,7 +19,14 @@ var EntryBalloon = Backbone.Model.extend(
 	    } else {
 		return base + '/' + this.id + '.json';
 	    }
-	}
+	},
+
+  addTo: function(collection) {
+    this.collection = collection;
+    this.initialize();
+    var o = this.collection.add(this,{silent: true , success: this.save} );
+    return o;
+  }
     });
 
 var EntryCharacter = Backbone.Model.extend(
@@ -43,7 +50,14 @@ var EntryCharacter = Backbone.Model.extend(
 	    } else {
 		return base + '/' + this.id + '.json';
 	    }
-	}
+	},
+  
+  addTo: function(collection) {
+    this.collection = collection;
+    this.initialize();
+    var o = this.collection.add(this,{silent: true , success: this.save} );
+    return o;
+  }
     });
 
 var EntryBalloonList = Backbone.Collection.extend(
@@ -59,7 +73,16 @@ var EntryBalloonList = Backbone.Collection.extend(
 	},
 	entry_id: function() {
 	    return this.entry.id;
-	}
+	},
+  
+  addModel: function(model) {
+    model.collection = this;
+    model.initialize();
+    //add to collection but not call add event to prevent add view
+    var o = this.add(model,{silent: true} );
+    model.save();
+    return o;
+  }
     });
 
 var EntryCharacterList = Backbone.Collection.extend(
@@ -75,7 +98,15 @@ var EntryCharacterList = Backbone.Collection.extend(
 	},
 	entry_id: function() {
 	    return this.entry.id;
-	}
+	},
+
+  addModel: function(model) {
+    model.collection = this;
+    model.initialize();
+    var o = this.add(model,{silent: true} );
+    model.save();
+    return o;
+  }
     });
 
 var Entry = Backbone.Model.extend(
