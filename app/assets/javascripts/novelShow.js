@@ -23,8 +23,14 @@ $(function(d,s,id) {
   _novel = new Novel({id: id,password: null});
   _novel.fetch({
     success: function(){
-      _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreView: false});
-      _novelView.appendTo($('#content'));
+      if(_novel.get('status') == "published"){
+        _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreView: false});
+        _novelView.appendTo($('#content'));
+       }
+       else{
+        alert('公開されていません。');
+        _novel = null;
+       }
     }
   });
 

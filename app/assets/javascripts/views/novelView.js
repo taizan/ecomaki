@@ -56,16 +56,6 @@ NovelView = ecomakiView.extend({
       this.model.save({'status': 'draft'})
     }
     
-    //console.log(this.isPreview);
-    if( this.model.get('status') !== undefined && this.model.get('status') != 'publish' && !this.isEditable ) {
-      $(this.el).remove();
-      // set global obj to null
-      //if(_novel)_novel = null; 
-      if(!this.unPublished) {
-        alert('公開されていません。');
-        this.unPublished =true;
-      }
-    }
   },
   
 
