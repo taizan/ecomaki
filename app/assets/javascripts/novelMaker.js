@@ -33,8 +33,6 @@ $(function() {
       }
      });
 
-
-
     $('#static_body').bind('mousedown',onStaticBodyClick);
   }
 

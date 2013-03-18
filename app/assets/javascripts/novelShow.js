@@ -23,7 +23,7 @@ $(function(d,s,id) {
   _novel = new Novel({id: id,password: null});
   _novel.fetch({
     success: function(){
-      if(_novel.get('status') == "published"){
+      if(_novel.get('status') == "publish"){
         _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreView: false});
         _novelView.appendTo($('#content'));
        }

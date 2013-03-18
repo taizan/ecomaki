@@ -61,7 +61,7 @@ $(function() {
 			  $('#preview_button img').attr('src', '/assets/novel/' + (isEditable ? 'preview.png' : 'edit.png'));
 			  $('#preview_button p').text(isEditable ? 'Preview' : 'Edit');
         $('#content').empty();
-        _novelView.destroy_view();
+        _novelView.destroyView();
         _novelView = new NovelView({model: _novel , isEditable: isEditable });
         _novelView.appendTo($('#content'));
         if(isEditable) {
@@ -136,7 +136,7 @@ $(function() {
   },
 
   onStaticBodyClick: function(ev){
-    console.log(ev.target);
+    //console.log(ev.target);
     TextEditMenu.prototype.onBlur(ev);
     TextEdit.prototype.onBlur(ev);
     Picker.prototype.onBlur(ev);
