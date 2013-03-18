@@ -24,8 +24,8 @@ ChapterView = ecomakiView.extend({
               "onMusicButton",
               "showBackground",
               "setBackground",
-              "setBgm",
-              "onSync");
+              "setBgm"
+              );
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
     //this.model.entries.bind('change', this.onChange);
@@ -57,18 +57,13 @@ ChapterView = ecomakiView.extend({
     "click .remove_chapter" : "removeChapter",
   },
 
-  onSync: function(){
-    
+  onCheckStatus: function(){
       console.log(this.model.entries.length);
-      if( this.model.entries.length == 0){
-        this.model.create_entry({"width": 640 ,"height": 480});
-        this.model.entries.save();
-      //TEMP
-      // when new novel created there no id entry
-      }else if( this.model.entries.at(0).id === undefined ){
-        this.model.entries.at(0).destroy();
-        this.model.create_entry({"width": 640 ,"height": 480 , "order_number": 0});
-        this.model.entries.save();
+      if( this.model.entries.length == 0 ){
+        // need wait true option to make isNew entry option time 
+        var newEntry = this.model.create_entry({"width": 640 ,"height": 480});
+
+        //this.model.entries.save();
       }
 
   },
@@ -92,6 +87,8 @@ ChapterView = ecomakiView.extend({
     }else{
       $(".editer_item",this.el).hide();
     }
+
+    this.onCheckStatus();
 
     this.render();
     return this;
@@ -236,7 +233,7 @@ ChapterView = ecomakiView.extend({
 
   removeChapter: function(e){
     if ( confirm("章全体を削除します。よろしいですか？ Are you sure to remove this chapter?") ){
-      $(this.el).remove();
+      
       this.model.destroy();
     }
   },

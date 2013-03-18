@@ -31,16 +31,15 @@ ecomakiView = Backbone.View.extend({
 				"onPreDisplay",
 				"onPostDisplay",
 				"hideButton",
-        "destroy_view"
+        "destroyView"
 			);
-
-    var _self = this;
 
     this.isEditable = args.isEditable;
 		this.parentView = args.parentView;
 
     ///this.model.bind('change', this.render, this);
     this.model.bind('sync',this.onSync,this);
+    this.model.bind('destroy',this.destroyView);
     //this.model.bind('destroy', this.render, this);
 
 
@@ -201,12 +200,12 @@ ecomakiView = Backbone.View.extend({
       this.isHideButton = true;
       var hide_button = '.hide_buttons';
       var button = '.buttons';
-      var _self = this;
+      var self = this;
       $(this.el)
         .mouseover(function(){
-          if(_self.isEditable){
+          if(self.isEditable){
      //       $(this).children(button).show();
-            $(hide_button,_self.el).show();
+            $(hide_button,self.el).show();
           }
         })
         .mouseleave(function(ev){
@@ -223,7 +222,7 @@ ecomakiView = Backbone.View.extend({
     return this;
   },
 
-  destroy_view: function() {
+  destroyView: function() {
 
     //COMPLETELY UNBIND THE VIEW
     this.undelegateEvents();

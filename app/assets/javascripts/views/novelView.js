@@ -32,11 +32,16 @@ NovelView = ecomakiView.extend({
   onRemove: function() {
     this.model.chapters.unbind('add', this.addOne);
     this.model.chapters.unbind('refresh', this.addAll);
-    this.model.unbind('change:status',this.onChangeStatus);
+    //this.model.unbind('change:status',this.onChangeStatus);
+    this.model.unbind('change:title',this.render);
+    this.model.unbind('change:description',this.render);
+    this.model.unbind('change:author_name',this.render);
+    
   },
 
   events: {
     "click #add_chapter" : "addChapter",
+    "click #new_chapter_handle" : "addChapter",
     'click': 'onViewClick',
   },
 
@@ -60,7 +65,6 @@ NovelView = ecomakiView.extend({
   
 
   onLoad: function(){
-      var _self = this;
       //reflesh child
 
       this.checkStatus();
@@ -88,9 +92,9 @@ NovelView = ecomakiView.extend({
     console.log('render novel');
     console.log(this.isEditing);
     if( ! this.isEditing ){
-      this.setTextTo('title','#title','UnTitled');
-      this.setTextTo('description','#description','UnDescripted');
-      this.setTextTo('author_name','#author_name','UnTitled');
+      this.setTextTo('title','#title','無題');
+      this.setTextTo('description','#description','説明書き');
+      this.setTextTo('author_name','#author_name','名無しさん');
     }
   },
 

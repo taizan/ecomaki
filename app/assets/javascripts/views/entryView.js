@@ -3,10 +3,10 @@ EntryView = ecomakiView.extend({
 
   className : 'entry',
   tmplId: "#entry_template",
-  itemList: [],
 	
   onInit: function(args){
-    this.itemNum = 1;
+    this.itemNum = 0;
+    this.itemList = [],
     
     _.bindAll(this,
         "addItemView",
@@ -119,6 +119,15 @@ EntryView = ecomakiView.extend({
 
     _(this.model.characters.models).each( function(model){ self.addCharacterView( model , {} , {} ); } );
 
+    //console.log(this.itemNum);
+    //console.log(this.itemList);
+    // should be afeter adding views
+    if( this.isEditable  && ( this.model.isNewEntry || this.itemNum == 0 ) ) {
+        console.log('adddef');
+       this.addDefaultBalloon();
+       this.addDefaultCharacter();
+    }
+
     this.effecter = new Effecter($('.paint',this.el),this.model,'option','canvas_'+this.model.get('id'));
     
     this.hideButton();
@@ -134,22 +143,10 @@ EntryView = ecomakiView.extend({
     
       this.canvasRender();
      
-      this.effecter.resetEffect();
-    
-      this.defaultIconRender();
+      //this.defaultIconRender();
     }
 
     return this;
-  },
-
-  defaultIconRender: function() {
-    // hie add default item button
-    if( this.model.balloons.models.length > 0 ) $('.add_default_balloon_icon',this.el).hide();
-    else $('.add_default_balloon_icon',this.el).show();
-    
-    if( this.model.characters.models.length > 0 ) $('.add_default_character_icon',this.el).hide();
-    else  $('.add_default_character_icon',this.el).show();
-
   },
 
   canvasRender: function() {
@@ -314,7 +311,7 @@ EntryView = ecomakiView.extend({
     if(typeof l === 'undefined') l = Math.random() * (this.model.get('width') - w); 
     if(typeof t === 'undefined') t = Math.random() * (this.model.get('height') - h);
 
-    this.model.balloons.create(
+    var newBalloon = this.model.balloons.create(
       {
         left: l,top: t, width: w, height: h ,
         z_index: this.maxIndex+1,
@@ -327,6 +324,8 @@ EntryView = ecomakiView.extend({
     this.model.save();
 
     $('.btn_layer',this.el).removeClass('btn-primary');
+
+    return newBalloon;
   },
 
   addCharacter: function( id , w , h , l , t){
@@ -340,7 +339,7 @@ EntryView = ecomakiView.extend({
     if(typeof t === 'undefined') t = Math.random() * (this.model.get('height') - h);
 
 
-    this.model.characters.create(
+    var newCharacter = this.model.characters.create(
       {
         left: l,top: t, width: w, height: h,
         z_index: this.maxIndex+1,
@@ -351,6 +350,7 @@ EntryView = ecomakiView.extend({
 
     $('.btn_layer',this.el).removeClass('btn-primary');
 
+    return newCharacter;
   },
 
   addNewBalloon: function(){
@@ -362,29 +362,63 @@ EntryView = ecomakiView.extend({
   },
 
   addDefaultBalloon: function(e){
-    var $icon = $('.add_default_balloon_icon');
-    console.log($icon.offset(),$(this.el).offset());
-    this.addBalloon('' , $icon.width(),$icon.height(),
-      -$icon.offset().left + $(this.content).offset().left ,
-      - $icon.offset().top + $(this.content).offset().top  
-      );
+    var self = this;
+
+    var newBalloon = new EntryBalloon(
+      {
+        content: 'セリフの追加',
+        left: $(this.content).width() * 0.7 - 64,
+        top: $(this.content).height() * 0.5 - 32,
+        width: 128, height: 64 ,
+        z_index: this.maxIndex+1,
+      });
+
+    newBalloon.isDefaultItem = true;
+    newBalloon.defaultItemSave = function() { 
+        self.model.balloons.addModel( newBalloon );
+        newBalloon.defaultItemSave = function(){};
+      };
+
+    var newBalloonView = new BalloonView( { model:newBalloon , parentView: this , isEditable: this.isEditable });
+    newBalloonView.appendTo( this.content);
+    this.itemNum ++;
+    this.itemList.push( newBalloonView);
+
+
+    return newBalloon;
   },
 
   addDefaultCharacter: function(e){
-    var $icon = $('.add_default_character_icon');
-    this.addCharacter(0 , $icon.width(),$icon.height(),
-      - $icon.offset().left + $(this.content).offset().left ,
-      - $icon.offset().top + $(this.content).offset().top  
-      );
+    var self = this;
 
+    var newCharacter = new EntryCharacter(
+      {
+        id: 0 ,
+        left: $(this.content).width() * 0.3 - 64,
+        top: $(this.content).height() * 0.5 - 64,
+        width: 128, height: 128 ,
+        z_index: this.maxIndex+1,
+      });
+
+    newCharacter.isDefaultItem = true;
+    newCharacter.defaultItemSave = function() { 
+        self.model.characters.addModel(newCharacter );
+        newCharacter.defaultItemSave = function(){};
+      };
+
+    var newCharacterView = new CharacterView( { model:newCharacter , parentView: this , isEditable: this.isEditable });
+    newCharacterView.appendTo( this.content);
+    this.itemNum ++;
+    this.itemList.push(newCharacterView);
+ 
+    return newCharacter;
   },
 
   destroyEntry: function(e){
     //console.log("remove");
-    this.destroy_view();
 
     this.parentView.model.destroy_entry(this.model);
-    this.parentView.model.fetch();
+    //this.parentView.model.fetch();
 
   },
 
@@ -407,7 +441,7 @@ EntryView = ecomakiView.extend({
    
     var attributes ={"canvas_index":1,"height":320,"width":480}  
 
-    this.parentView.addEntryWithOrder(attributes , currentIndex);
+    var newEntry = this.parentView.addEntryWithOrder(attributes , currentIndex);
   },
 
   changeLayer: function(e){
