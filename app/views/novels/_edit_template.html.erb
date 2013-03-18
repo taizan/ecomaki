@@ -6,20 +6,26 @@
     <div id="description" contenteditable = "true" title="説明"></div>
     <div id="author_name" contenteditable = "true"  title="作者" ></div>
   </div>
-  
+  <!-- 
   <div class="buttons novel_buttons editer_item">
     <button id="add_chapter" class="btn add_chapter" title="新しい章の作成"> 
        <img src="/assets/novel/page_add_green.png">
     </button>
   </div>
+  -->
 
+  <div id="new_chapter_handle" class="new_chapter_handle editor_item" >新規ページ追加 </div> 
+
+  <br>
   <div class="chapterList"></div>
+  <br>
 
 </script>
 
 <script type="text/template" id="chapter_template">
-  <hr class="editer_item">
-
+  <!--<hr class="editer_item">-->
+  
+  <div class="chapter_wrapper">
   <div class="chapter_control top_control editer_item">
     <button class="background_icon icon">
       <img src="/assets/novel/background_2.png" title="背景の選択"/>
@@ -37,6 +43,9 @@
 
   <div class="entryList"></div>
   <br>
+
+  </div>
+ <!-- 
   <div class="buttons chapter_buttons editer_item">
     <button class="btn add_entry add_one_char" title="コマの追加,キャラクター１人タイプ">
        <img src="/assets/novel/add_1_char_1_ball.png">
@@ -50,12 +59,16 @@
   </div>
 
   <hr class="editer_item">
+
   <div class="chapter_control bottom_control editer_item">
     <button class="btn add_chapter icon" title="新しい章の追加; Add new chapter">
        <img src="/assets/novel/page_add_green.png">
     </button>
   </div>
-  
+  -->
+  <br>
+  <div class="new_chapter_handle editor_item" >新規ページ追加 </div> 
+  <br>
 </script>
 
 <script type="text/template" id="entry_template">
