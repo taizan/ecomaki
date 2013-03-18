@@ -451,7 +451,7 @@ CharacterView = EntryItemView.extend({
     if(this.isDefaultItem) {
       this.isDefaultItem = false;   
       $(this.el).unbind( 'click', this.onDefaultItemClick );
-
+      console.log('addto')
       this.model.addTo( this.parentView.model.characters );
     }
   },

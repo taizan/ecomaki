@@ -393,7 +393,7 @@ EntryView = ecomakiView.extend({
 
     var newCharacter = new EntryCharacter(
       {
-        id: 0 ,
+        character_image_id: 0 ,
         left: $(this.content).width() * 0.3 - 64,
         top: $(this.content).height() * 0.5 - 64,
         width: 128, height: 128 ,

@@ -214,7 +214,7 @@ ecomakiView = Backbone.View.extend({
             //console.log($(ev.toElement));
             if( !$(ev.toElement).hasClass('ui-tooltip-content')
                  && !$(ev.toElement).hasClass('ui-tooltip') ) {
-              $(hide_button,_self.el).hide();
+              $(hide_button,self.el).hide();
             }
         });
       $(hide_button,this.el).hide();
