@@ -290,7 +290,11 @@ var Chapter = Backbone.Model.extend(
 	    }
 	},
 	create_entry: function(attributes,option) {
-	    return this.entries.create(attributes,option);
+      if(option) option.wait = true;
+      else option ={wait:true}
+	    newEntry =  this.entries.create(attributes,option);
+      newEntry.isNewEntry = true; 
+      return newEntry;
 	},
 	destroy_entry: function(models) {
 	    models = _.isArray(models) ? models.slice() : [models];
