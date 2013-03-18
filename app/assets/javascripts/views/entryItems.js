@@ -7,6 +7,7 @@ EntryItemView = Backbone.View.extend ({
      
     this.parentView = args.parentView;
     this.isEditable = args.isEditable;
+    if(this.model.isDefaultItem) this.isDefaultItem = this.model.isDefaultItem;
     this.content = this.parentView.content;
      
      _.bindAll(this,
@@ -15,17 +16,15 @@ EntryItemView = Backbone.View.extend ({
         "onResize",
         "onDragStart",
         "onDragStop",
-        "appendTo",
-        "onAppend",
         "onRender",
-        "initButton",
-        "setRemoveButton",
-        "showOutLine",
 				"onDisplay",
-				"onPreDisplay"
+				"onPreDisplay",
+				//"onDefaultItemClick",
+        "onDefaultItemOver", 
+        "destroyView"
       );
    
-    //this.model.bind('change', this.render, this);
+    this.model.bind('destroy', this.destroyView, this);
 
     this.defaultInitialize.apply(this,arguments);
 
@@ -48,9 +47,9 @@ EntryItemView = Backbone.View.extend ({
   },
 
   render: function(){
-    console.log('render');
+    //console.log('render');
     
-    var z = this.model.get('z_index') != null ? this.model.get('z_index') : 0;  
+    var z = ( this.model.get('z_index') != null ) ? this.model.get('z_index') : 0;  
 
     $(this.el)
       .css({position: 'absolute', top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
@@ -58,13 +57,19 @@ EntryItemView = Backbone.View.extend ({
    
     this.onRender();
   },
-  
+ 
+
+  // DOM　に追加された時に呼ばれる
   appendTo: function(target){
+    var self = this;
     $(this.el).appendTo(target);
 
+    //initialize effecter object
     this.effecter = new Effecter(this.el,this.model,'option',this.className + this.model.get('id') );
     this.model.bind('change:option', this.effecter.resetEffect )
 
+    //initialize draggable 
+    //resizable is initialized at each item onAppend
     if(this.isEditable){ 
       $(this.el)
         .click(this.onClick)
@@ -81,7 +86,8 @@ EntryItemView = Backbone.View.extend ({
     this.setRemoveButton();
     this.initButton();
     $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
-    
+   
+
     this.render();
     //$(this.el).click();
   },
@@ -105,7 +111,6 @@ EntryItemView = Backbone.View.extend ({
       z ++;
       this.parentView.maxIndex++;
     //}
-    $(this.el).css({zIndex: z});
     $(this.el).css({zIndex: z});
     this.model.set('z_index', z);
     // donot save here because it triger render 
@@ -157,12 +162,26 @@ EntryItemView = Backbone.View.extend ({
     $('.item-remove',this.el).click(
       function(){
         //console.log(target);
-        self.destroyView();
         self.model.destroy();
       }
     );
   },
-  
+
+  onDefaultItemOver: function() {
+    var self = this;
+    $(this.el)
+      .mouseover( function(){
+        if(self.isDefaultItem) 
+          $(self.el).css({opacity: 1});
+        })
+      .mouseout( function() {
+        if(self.isDefaultItem) 
+          $(self.el).css({opacity: 0.5});
+        })
+      .css({opacity: 0.5})
+  },
+
+
   onDisplay: function(){
     this.effecter.runSelectedEffect();
   },
@@ -199,6 +218,7 @@ EntryItemView = Backbone.View.extend ({
 
   onRender: function(){},
 
+
 });
 
 
@@ -208,7 +228,7 @@ BalloonView = EntryItemView.extend({
 
   onInit: function(){
     _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton","setBalloonEditable",
-      'editStart','editEnd');
+      'editStart','editEnd',"onDefaultItemClick");
     //this.model.bind('sync', this.render, this);
 
     //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
@@ -223,14 +243,13 @@ BalloonView = EntryItemView.extend({
 
 		this.textMenu = new TextEditMenu(this.el, this.model);
 
+    if(this.isEditable){
+
     this.model
       .bind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
       .bind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
       .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
    
-
-    if(this.isEditable){
-		
       $(this.el)
         .resizable({
           alsoResize: $('.text',this.el),
@@ -245,8 +264,16 @@ BalloonView = EntryItemView.extend({
       this.setBalloonEditable();
       this.setBackgroundButton();
 
+    //If this view was Default item , call addTo once 
+    if(this.isDefaultItem){
+      $(this.el).bind('click', this.onDefaultItemClick );
+      this.onDefaultItemOver();
+    }
+
+
     }
     //this.fontSelecter.applyFont();
+    this.render();
   },
 
   setBalloonEditable: function(){
@@ -277,6 +304,20 @@ BalloonView = EntryItemView.extend({
 
     self.textMenu.changeSelecter(self.el);
     $('.ui-tooltip').hide();
+
+  },
+  
+  onDefaultItemClick: function() {
+
+    if(this.isDefaultItem) {
+      this.isDefaultItem = false;   
+      $(this.el).unbind('click', this.onDefaultItemClick );
+      
+      $('.text',this.el).html('');
+      // add this model to entry collecti
+      //this.model.defaultItemSave();
+      this.model.addTo( this.parentView.model.balloons );
+    }
   },
 
   editEnd: function(){
@@ -286,6 +327,8 @@ BalloonView = EntryItemView.extend({
     self.isEditing = false;
   },
 
+
+  // not work well 
   setFocus: function(){
     var node = $('.text',this.el)[0];
     var pos = 0;
@@ -314,7 +357,7 @@ BalloonView = EntryItemView.extend({
 
 
   saveText: function(txt){
-    txt = Config.prototype.escapeText($('.text',self.el).html());
+    txt = Config.prototype.escapeText($('.text',this.el).html());
     this.model.save('content',txt);
   },
   
@@ -346,7 +389,7 @@ CharacterView = EntryItemView.extend({
   className : "character",
   //pre append method
   onInit: function(){
-    _.bindAll(this,"selectCharacter","setCharacter");
+    _.bindAll(this,"selectCharacter","setCharacter", "onDefaultItemClick");
     $('<img class="character_image">').appendTo(this.el);
 
   },
@@ -361,7 +404,7 @@ CharacterView = EntryItemView.extend({
           aspectRatio: true,
           stop: this.onResize,
           autoHide: true,
-          "handles": "n, e, s, w, ne, se, sw, nw",
+          "handles": "n, e, s, w,this.onDefaultItemOver ne, se, sw, nw",
         })
 
         .click(this.selectCharacter)
@@ -371,6 +414,12 @@ CharacterView = EntryItemView.extend({
 
       //set UI on mouseovered
       this.showOutLine();
+    
+      //If this view was Default item , call addTo once 
+      if(this.isDefaultItem){
+        $(this.el).bind( 'click', this.onDefaultItemClick );
+        this.onDefaultItemOver();
+      }
 
     }
     
@@ -396,4 +445,16 @@ CharacterView = EntryItemView.extend({
     });
   },
 
+  onDefaultItemClick: function() {
+    // add this model to entry collection 
+    //this.model.defaultItemSave();
+    if(this.isDefaultItem) {
+      this.isDefaultItem = false;   
+      $(this.el).unbind( 'click', this.onDefaultItemClick );
+
+      this.model.addTo( this.parentView.model.characters );
+    }
+  },
+  
+    
 });
