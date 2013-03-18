@@ -80,10 +80,12 @@ body{
   height: 66px;
   z-index: 99999;
 }
+
 #tutorial_button {
   left: 0px;
   z-index: 1;
 }
+
 .tutorial_dialog {
   z-index: 99999;
 }
@@ -91,6 +93,7 @@ body{
 #preview_button{
   right: 80px;
 }
+
 #preview_button img {
   width: 30px;
   height: 30px;
@@ -122,7 +125,8 @@ body{
 
 .top_control{
   position: absolute;
-  right: 2px;
+  top: 5px;
+  right: 5px;
   z-index: 99;
 }
 
@@ -152,6 +156,31 @@ hr {
   background: gray;
 }
 
+.chapter .chapter_wrapper{
+  position:relative;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px silver dashed ;
+}
+
+.new_chapter_handle {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 16px;
+  cursor:pointer;
+  border: 1px silver dashed ;
+  color: gray;
+}
+
+.new_chapter_handle:hover{
+  background: #fed;
+  cursor:pointer;
+  color: black;
+}
+
+
 // entnryItem
 
 .balloon {
@@ -175,13 +204,13 @@ hr {
 }
 
 .sticky textarea{
-text-align: center;
-vertical-align: middle;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .balloon textarea{
-text-align: center;
-vertical-align: middle;
+  text-align: center;
+  vertical-align: middle;
 }
 
 
@@ -207,7 +236,11 @@ canvas {
   top: 0px;
 }
 
-.new_entry_handle{
+.new_entry_handle {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 16px;
   cursor:pointer;
   border: 1px silver dotted ;
   color: gray;
