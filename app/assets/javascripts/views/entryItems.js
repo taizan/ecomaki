@@ -94,18 +94,23 @@ EntryItemView = Backbone.View.extend ({
   },
 
   onResize: function(){
-    this.effecter.changeSelecter();
 
-    this.model.save({
-        'width' : $(this.el).width() ,
-        'height': $(this.el).height() ,
-        'top'   : $(this.el).offset().top - $(this.content).offset().top ,
-        'left'  : $(this.el).offset().left - $(this.content).offset().left 
-      });
+      var data = {
+          'width' : $(this.el).width() ,
+          'height': $(this.el).height() ,
+          'top'   : $(this.el).offset().top - $(this.content).offset().top ,
+          'left'  : $(this.el).offset().left - $(this.content).offset().left 
+        };
+
+    if(this.model.isDefaultItem){
+      this.model.set(data);
+    }else{
+      this.model.save(data);
+      this.effecter.changeSelecter();
+    }
   },
 
   onDragStart: function(){
-    this.effecter.changeSelecter();
 
     var z = this.parentView.maxIndex ;
     //if(this.model.get('z_index') < z) {
@@ -113,16 +118,28 @@ EntryItemView = Backbone.View.extend ({
       this.parentView.maxIndex++;
     //}
     $(this.el).css({zIndex: z});
-    this.model.set('z_index', z);
+    var data = {'z_index': z};
+
+    if(this.model.isDefaultItem){
+      this.model.set(data);
+    }else{
+      this.model.save(data);
+      this.effecter.changeSelecter();
+    }
     // donot save here because it triger render 
     //this.model.save();
   },
 
   onDragStop: function(){
-    this.model.save({
-        'top' : $(this.el).offset().top - $(this.content).offset().top ,
-        'left': $(this.el).offset().left - $(this.content).offset().left 
-    });
+    var data = {
+          'top' : $(this.el).offset().top - $(this.content).offset().top ,
+          'left': $(this.el).offset().left - $(this.content).offset().left
+        }
+    if(this.model.isDefaultItem){
+      this.model.set(data);
+    }else{
+      this.model.save(data);
+    }
     //console.log(this);
   },
 
@@ -365,7 +382,7 @@ BalloonView = EntryItemView.extend({
 
 
   saveText: function(txt){
-    txt = Config.prototype.escapeText($('.text',this.el).html());
+    var txt = Config.prototype.escapeText($('.text',this.el).html());
     this.model.save('content',txt);
   },
   
