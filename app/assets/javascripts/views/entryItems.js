@@ -7,7 +7,6 @@ EntryItemView = Backbone.View.extend ({
      
     this.parentView = args.parentView;
     this.isEditable = args.isEditable;
-    if(this.model.isDefaultItem) this.isDefaultItem = this.model.isDefaultItem;
     this.content = this.parentView.content;
      
      _.bindAll(this,
@@ -173,11 +172,11 @@ EntryItemView = Backbone.View.extend ({
     var self = this;
     $(this.el)
       .mouseover( function(){
-        if(self.isDefaultItem) 
+        if(self.model.isDefaultItem) 
           $(self.el).css({opacity: 1});
         })
       .mouseout( function() {
-        if(self.isDefaultItem) 
+        if(self.model.isDefaultItem) 
           $(self.el).css({opacity: 0.5});
         })
       .css({opacity: 0.5})
@@ -267,7 +266,7 @@ BalloonView = EntryItemView.extend({
       this.setBackgroundButton();
 
     //If this view was Default item , call addTo once 
-    if(this.isDefaultItem){
+    if(this.model.isDefaultItem){
       $(this.el).bind('click', this.onDefaultItemClick );
       this.onDefaultItemOver();
     }
@@ -318,8 +317,8 @@ BalloonView = EntryItemView.extend({
   
   onDefaultItemClick: function() {
 
-    if(this.isDefaultItem) {
-      this.isDefaultItem = false;   
+    if(this.model.isDefaultItem) {
+      this.model.isDefaultItem = false;   
       $(this.el).unbind('click', this.onDefaultItemClick );
       
       $('.text',this.el).html('');
@@ -429,7 +428,7 @@ CharacterView = EntryItemView.extend({
       this.showOutLine();
     
       //If this view was Default item , call addTo once 
-      if(this.isDefaultItem){
+      if(this.model.isDefaultItem){
         $(this.el).bind( 'click', this.onDefaultItemClick );
         this.onDefaultItemOver();
       }
@@ -461,8 +460,8 @@ CharacterView = EntryItemView.extend({
   onDefaultItemClick: function() {
     // add this model to entry collection 
     //this.model.defaultItemSave();
-    if(this.isDefaultItem) {
-      this.isDefaultItem = false;   
+    if(this.model.isDefaultItem) {
+      this.model.isDefaultItem = false;   
       $(this.el).unbind( 'click', this.onDefaultItemClick );
       console.log('addto')
       this.model.addTo( this.parentView.model.characters );
