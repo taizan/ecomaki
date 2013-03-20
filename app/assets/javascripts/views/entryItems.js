@@ -82,7 +82,20 @@ EntryItemView = Backbone.View.extend ({
     }
 
     this.onAppend();
-   
+
+    if(this.model.isDefaultItem){
+      $(this.el).bind('click', function(){
+        if(self.model.isDefaultItem) {
+          self.model.isDefaultItem = false;   
+          self.parentView.model.isNewEntry = false;
+          $(self.el).unbind( 'click', self.onDefaultItemClick );
+          self.onDefaultItemClick ();
+        }
+
+      });
+      this.onDefaultItemOver();
+    }
+
     // do post appedn method
     this.setRemoveButton();
     this.initButton();
@@ -236,6 +249,7 @@ EntryItemView = Backbone.View.extend ({
 
   onRender: function(){},
 
+  onDefaultIteClick: function(){}
 
 });
 
@@ -283,10 +297,6 @@ BalloonView = EntryItemView.extend({
       this.setBackgroundButton();
 
     //If this view was Default item , call addTo once 
-    if(this.model.isDefaultItem){
-      $(this.el).bind('click', this.onDefaultItemClick );
-      this.onDefaultItemOver();
-    }
 
 
     }
@@ -333,16 +343,10 @@ BalloonView = EntryItemView.extend({
   },
   
   onDefaultItemClick: function() {
-
-    if(this.model.isDefaultItem) {
-      this.model.isDefaultItem = false;   
-      $(this.el).unbind('click', this.onDefaultItemClick );
-      
-      $('.text',this.el).html('');
-      // add this model to entry collecti
-      //this.model.defaultItemSave();
-      this.model.addTo( this.parentView.model.balloons );
-    }
+    $('.text',this.el).html('');
+    // add this model to entry collecti
+    //this.model.defaultItemSave();
+    this.model.addTo( this.parentView.model.balloons );
   },
 
   editEnd: function(){
@@ -477,12 +481,7 @@ CharacterView = EntryItemView.extend({
   onDefaultItemClick: function() {
     // add this model to entry collection 
     //this.model.defaultItemSave();
-    if(this.model.isDefaultItem) {
-      this.model.isDefaultItem = false;   
-      $(this.el).unbind( 'click', this.onDefaultItemClick );
-      console.log('addto')
-      this.model.addTo( this.parentView.model.characters );
-    }
+    this.model.addTo( this.parentView.model.characters );
   },
   
     
