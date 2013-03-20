@@ -48,8 +48,10 @@ $(function() {
 			  selectTemplate(_novel,makeView );
       //>>>> make templates
         _novel.save({'status': 'draft'});
+       }
+       else{
+        makeView();
       }
-      //makeView();
     }
   });
 
