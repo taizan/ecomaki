@@ -3,8 +3,9 @@ var selectTemplate = (function(){
 	var PageTemplate = {};
 
 	PageTemplate["empty"] = {
-		"set": function(novelView){
-			novelView.model.chapters.create_after({},-1);
+		"set": function(novel,callback){
+			novel.chapters.create_after({},-1);
+      if(callback) callback();
 		},
 
 		"button": $('<label class="tempalte" id="empty">Free<br/>Style</label>')
@@ -21,16 +22,19 @@ var selectTemplate = (function(){
 	};
 	
 	PageTemplate["4-cell"] = {
-		"set": function(novelView){
+		"set": function(novel,callback){
 			var makeEntry = function(){
-				var chapterView = novelView.childViews[0];
+				var chapter = novel.chapters.at(0);
 				//console.log(chapterView);
 				for(var i = 0; i < 4; i++){
 					//接続が重いといくつかはリロードした時に消えるかも
-					chapterView.addEntryWith2Character();
+				  	chapter.create_entry({"width": 320 ,"height": 240});
 				}
+        if(callback) callback();
 			};
-			novelView.model.chapters.create_after({},-1, {'success': makeEntry});
+			//novel.chapters.create_after({},-1, {'wait':true,'success': makeEntry});
+			var newChapter = novel.chapters.create_after({},-1, {'success': makeEntry});
+      novel.initFlag = true;
 		},
 
 		"button": $('<label class="template" id="empty">4コマ</label>')
@@ -59,21 +63,21 @@ var selectTemplate = (function(){
 		});
 	
 	/*
-	var setPage = function(novelView, template){
+	var setPage = function(novel, template){
 		buttons.remove();
-		setPageByTemplate[template].set(novelView);
+		setPageByTemplate[template].set(novel);
 	};
 	*/
 	
-	return function(novelView){
+	return function(novel,callback){
 		// set UI
 		buttons.appendTo('body');
 
 		$.each(PageTemplate, function(key, obj){
 			buttons.append( obj.button.click( function(){
-				//setPage(novelView, key);
+				//setPage(novel, key);
 				buttons.remove();
-				obj.set(novelView);
+				obj.set(novel,callback);
 			} ) );
 		})
 	};

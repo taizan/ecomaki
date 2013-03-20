@@ -12,6 +12,8 @@ NovelView = ecomakiView.extend({
 
   onInit: function(args) {
     _.bindAll(this, "addChapter");
+    this.childModels = this.model.chapters.models;
+    
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
     //this.model.bind('sync',this.onSync);
@@ -23,10 +25,7 @@ NovelView = ecomakiView.extend({
     this.model.bind('change:description',this.render);
     this.model.bind('change:author_name',this.render);
     //this.model.bind('change',this.render);
-
-    this.childModels = this.model.chapters.models;
-    /*
-    */
+      
   },
 
   onRemove: function() {
@@ -36,7 +35,6 @@ NovelView = ecomakiView.extend({
     this.model.unbind('change:title',this.render);
     this.model.unbind('change:description',this.render);
     this.model.unbind('change:author_name',this.render);
-    
   },
 
   events: {
@@ -45,29 +43,26 @@ NovelView = ecomakiView.extend({
     'click': 'onViewClick',
   },
 
-
   checkStatus: function() {
-  
     // add chapter if status = initial
-    // or 
-    console.log(this.model.get('status'));
+    //console.log(this.get('status'));
     if(this.model.get('status') == 'initial'){
       //this.model.create_chapter();
       //var chapter =  this.model.chapters.create_after({},-1);
 			//setPageByTemplate["empty"].apply(this);
 			//setPageByTemplate["4-cell"].apply(this);
-			selectTemplate(this);
+      this.isLoaded = false;;
+			selectTemplate(this.model,this.load);
 //>>>>>>> make templates
       this.model.save({'status': 'draft'})
     }
-    
   },
   
 
-  onLoad: function(){
-      //reflesh child
 
-      this.checkStatus();
+  
+  onLoad: function(){
+     // this.checkStatus();
 
       this.addAll();	
 
@@ -88,7 +83,7 @@ NovelView = ecomakiView.extend({
       this.render();
   },
 
-  render: function() {
+ render: function() {
     console.log('render novel');
     console.log(this.isEditing);
     if( ! this.isEditing ){
@@ -118,12 +113,10 @@ NovelView = ecomakiView.extend({
     console.log("addChapter");
     var chapter =  this.model.chapters.create_after({},-1);
     //this.model.create_chapter();
-
   },
 
   changeMode: function(mode){
     $(this.el).empty();
-
   }
 
 });

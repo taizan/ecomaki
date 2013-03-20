@@ -11,6 +11,7 @@ EntryItemView = Backbone.View.extend ({
     this.content = this.parentView.content;
      
      _.bindAll(this,
+        "render",
         "onSync",
         "onClick",
         "onResize",
@@ -48,6 +49,7 @@ EntryItemView = Backbone.View.extend ({
 
   render: function(){
     //console.log('render');
+    //console.log(this);
     
     var z = ( this.model.get('z_index') != null ) ? this.model.get('z_index') : 0;  
 
@@ -276,6 +278,13 @@ BalloonView = EntryItemView.extend({
     this.render();
   },
 
+  onRemove: function(){
+    this.model
+      .unbind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
+      .unbind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
+      .unbind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
+  },
+
   setBalloonEditable: function(){
 		var self = this;
 
@@ -391,7 +400,11 @@ CharacterView = EntryItemView.extend({
   onInit: function(){
     _.bindAll(this,"selectCharacter","setCharacter", "onDefaultItemClick");
     $('<img class="character_image">').appendTo(this.el);
-
+    this.model.bind('change',this.render,this);
+  },
+  
+  onRemove: function(){
+    this.model.unbind('change',this.render);
   },
 
   //post append messod

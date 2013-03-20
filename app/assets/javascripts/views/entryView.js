@@ -363,13 +363,14 @@ EntryView = ecomakiView.extend({
 
   addDefaultBalloon: function(e){
     var self = this;
-
+    var w = $(this.content).width() * 0.2 + 64;
+    var h = $(this.content).height() * 0.2 + 16;
     var newBalloon = new EntryBalloon(
       {
         content: 'セリフの追加',
-        left: $(this.content).width() * 0.7 - 64,
-        top: $(this.content).height() * 0.5 - 32,
-        width: 128, height: 64 ,
+        left: $(this.content).width() * 0.7 - w/2,
+        top: $(this.content).height() * 0.5 - h,
+        width: w, height: h ,
         z_index: this.maxIndex+1,
       });
 
@@ -391,12 +392,15 @@ EntryView = ecomakiView.extend({
   addDefaultCharacter: function(e){
     var self = this;
 
+    var w = $(this.content).width() * 0.2 + 64;
+    var h = w;
+
     var newCharacter = new EntryCharacter(
       {
         character_image_id: 0 ,
-        left: $(this.content).width() * 0.3 - 64,
-        top: $(this.content).height() * 0.5 - 64,
-        width: 128, height: 128 ,
+        left: $(this.content).width() * 0.3 - w/2,
+        top: $(this.content).height() * 0.5 ,
+        width: w, height: h,
         z_index: this.maxIndex+1,
       });
 

@@ -31,13 +31,25 @@ $(function() {
   //
   //
   var novelEdit = {
-  
+ 
   initializeView : function(id,pass,isEditable){
+
+    var makeView = function(){
+      _novelView = new NovelView({model: _novel , isEditable: isEditable  });
+      _novelView.appendTo($('#content'));
+    }
+
     _novel = new Novel({id: id,password: pass});
     _novel.fetch({
     success: function(){
-      _novelView = new NovelView({model: _novel , isEditable: isEditable  });
-      _novelView.appendTo($('#content'));
+      // check status here 
+      // viewに実装したほうがいいか？　その場合view初期化時の処理と衝突
+      if(_novel.get('status') == 'initial'){
+			  selectTemplate(_novel,makeView );
+      //>>>> make templates
+        _novel.save({'status': 'draft'});
+      }
+      //makeView();
     }
   });
 

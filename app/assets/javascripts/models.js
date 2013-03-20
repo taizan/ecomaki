@@ -396,5 +396,7 @@ Novel = Backbone.Model.extend(
 	create_chapter: function(options) {
 	    this.chapters.create({novel_id: this.id}, options);
 	    return true;
-	}
+	},
+
+  
     });
