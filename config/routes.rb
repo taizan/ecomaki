@@ -91,6 +91,10 @@ Ecomaki::Application.routes.draw do
   # Maker mode
   match 'maker/:id/:password' => 'novels#maker', :via => :get
 
+  # Maker dup
+  match 'novels/:id/dup_as_maker' => 'novels#novel_dup_as_maker'
+  
+
   # Layout Data
   match 'layouts' => 'layouts#index', :via => :get
 end

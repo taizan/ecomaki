@@ -271,13 +271,13 @@ BalloonView = EntryItemView.extend({
 
 		this.textMenu = new TextEditMenu(this.el, this.model);
 
+    
     if(this.isEditable){
 
     this.model
       .bind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
       .bind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
-      .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont) 
-      .bind('sync',this.render);
+      .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
 
       $(this.el)
         .resizable({
@@ -296,6 +296,9 @@ BalloonView = EntryItemView.extend({
     //If this view was Default item , call addTo once 
 
 
+    }else{
+      // for sync preview 
+      this.model.bind('sync',this.render);
     }
     //this.fontSelecter.applyFont();
     this.render();
@@ -306,6 +309,8 @@ BalloonView = EntryItemView.extend({
       .unbind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
       .unbind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
       .unbind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
+    
+    this.model.unbind('sync',this.render);
   },
 
   setBalloonEditable: function(){
@@ -376,6 +381,7 @@ BalloonView = EntryItemView.extend({
   },
 
   onRender: function(){
+    console.log(this.isEditing);
     if( !this.isEditing){
     $('.text',this.el)
       .html( this.model.get('content') )
