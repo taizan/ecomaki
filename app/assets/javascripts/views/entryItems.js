@@ -19,7 +19,7 @@ EntryItemView = Backbone.View.extend ({
         "onRender",
 				"onDisplay",
 				"onPreDisplay",
-				//"onDefaultItemClick",
+				"onDefaultItemClick",
         "onDefaultItemOver", 
         "destroyView"
       );
@@ -32,7 +32,7 @@ EntryItemView = Backbone.View.extend ({
   },
 
   onSync: function(){
-    console.log('onsync');
+    //console.log('onsync');
   },
 
 
@@ -88,8 +88,9 @@ EntryItemView = Backbone.View.extend ({
         if(self.model.isDefaultItem) {
           self.parentView.model.isNewEntry = false;
           $(self.el).unbind( 'click', self.onDefaultItemClick );
-          self.onDefaultItemClick (function(){ 
-            self.model.isDefaultItem = false;});
+          self.onDefaultItemClick (
+              function(){ self.model.isDefaultItem = false;}
+            );
         }
 
       });
@@ -131,12 +132,9 @@ EntryItemView = Backbone.View.extend ({
       this.parentView.maxIndex++;
     //}
     $(this.el).css({zIndex: z});
-    var data = {'z_index': z};
+    this.model.set({'z_index': z});
 
-    if(this.model.isDefaultItem){
-      this.model.set(data);
-    }else{
-      this.model.save(data);
+    if(!this.model.isDefaultItem){
       this.effecter.changeSelecter();
     }
     // donot save here because it triger render 
@@ -144,14 +142,12 @@ EntryItemView = Backbone.View.extend ({
   },
 
   onDragStop: function(){
-    var data = {
+    this.model.set({
           'top' : $(this.el).offset().top - $(this.content).offset().top ,
           'left': $(this.el).offset().left - $(this.content).offset().left
-        }
-    if(this.model.isDefaultItem){
-      this.model.set(data);
-    }else{
-      this.model.save(data);
+        });
+    if(!this.model.isDefaultItem){
+      this.model.save();
     }
     //console.log(this);
   },
@@ -280,8 +276,9 @@ BalloonView = EntryItemView.extend({
     this.model
       .bind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
       .bind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
-      .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
-   
+      .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont) 
+      .bind('sync',this.render);
+
       $(this.el)
         .resizable({
           alsoResize: $('.text',this.el),
@@ -345,10 +342,10 @@ BalloonView = EntryItemView.extend({
   onDefaultItemClick: function(callback) {
     $('.text',this.el).html('');
     this.model.set('content',"");
+    $(this.el).css({opacity: 1});
     // add this model to entry collecti
     //this.model.defaultItemSave();
     this.model.addTo( this.parentView.model.balloons , callback);
-    console.log('onDefaultItemClick');
   },
 
   editEnd: function(){
@@ -379,16 +376,19 @@ BalloonView = EntryItemView.extend({
   },
 
   onRender: function(){
+    if( !this.isEditing){
     $('.text',this.el)
       .html( this.model.get('content') )
       .width(this.model.get('width')).height(this.model.get('height'));
     this.effecter.resetEffect(); 
     this.textMenu.applyFont();
+    }
   },
 
 
   saveText: function(txt){
     var self = this;
+    // to aviod call too many save method 
     if(!this.saving && !this.model.isDefaultItem){
       this.saving = true;
       var txt = Config.prototype.escapeText($('.text',this.el).html());
@@ -426,7 +426,7 @@ CharacterView = EntryItemView.extend({
   onInit: function(){
     _.bindAll(this,"selectCharacter","setCharacter", "onDefaultItemClick");
     $('<img class="character_image">').appendTo(this.el);
-    this.model.bind('change',this.render,this);
+    this.model.bind('sync',this.render,this);
   },
   
   onRemove: function(){
@@ -478,10 +478,11 @@ CharacterView = EntryItemView.extend({
     });
   },
 
-  onDefaultItemClick: function() {
+  onDefaultItemClick: function(callback) {
+    $(this.el).css({opacity: 1});
     // add this model to entry collection 
     //this.model.defaultItemSave();
-    this.model.addTo( this.parentView.model.characters );
+    this.model.addTo( this.parentView.model.characters ,callback);
   },
   
     

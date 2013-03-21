@@ -1,13 +1,9 @@
-<%= stylesheet_link_tag 'wColorPicker.1.2.min.css' %>
+<%= stylesheet_link_tag 'maker' %>
 <%= stylesheet_link_tag 'novel' %>
 <%= stylesheet_link_tag 'chapter' %>
 <%= stylesheet_link_tag 'entry' %>
 <%= stylesheet_link_tag 'entryItem' %>
 <%= stylesheet_link_tag 'editerItem' %>
-<%= stylesheet_link_tag 'picker' %>
-<%= stylesheet_link_tag 'toolMenu' %>
-<%= stylesheet_link_tag 'textEditTool' %>
-<%= stylesheet_link_tag 'wPaint' %>
 
 <%= javascript_include_tag 'novelMaker' %>
 
@@ -18,6 +14,12 @@
 <div class="novel_container" id="<%= @novel.id%>">
 
 
+  <!-- プレビューボタン -->
+  <button id="preview_button" class="btn" title="Preview">
+    <img src="/assets/novel/preview.png">
+    <p style="width:48px">Preview</p>
+  </button>
+
   <!-- 公開ボタン -->
   <a id="publish_button" class="btn btn-info" width="80px" href="/novel/<%= @novel.id %>" title="公開 publish">
     <img src="/assets/novel/publish.png">
@@ -26,11 +28,12 @@
 
 
   <!-- Main content container  -->
-  <div id="content" >
-  </div>
+  <div id="content" ></div>
+
+  <!-- Preview content container  -->
+  <div id="preview_content" ></div>
   
 </div>
 
-<%= render :partial => "novels/maker_template" %> 
-<%= render :partial => "novels/tool_template" %> 
+<%= render :partial => "novels/show_template" %> 
 
