@@ -60,7 +60,7 @@ ChapterView = ecomakiView.extend({
   onCheckStatus: function(){
       if( this.model.entries.length == 0 && this.parentView.model.initFlag !== true ){
         // need wait true option to make isNew entry option time 
-        console.log(this.parentView.model.initFlag);
+        //console.log(this.parentView.model.initFlag);
         var newEntry = this.model.create_entry({"width": 640 ,"height": 480});
         //this.model.entries.save();
       }
@@ -73,7 +73,6 @@ ChapterView = ecomakiView.extend({
     this.addAll();
     //$(this.el).width(600);
 
-      console.log(this.model.entries.length);
     if(this.isEditable){
       this.setEditable('.title','title');
       this.setEditable('.description','description');

@@ -123,7 +123,6 @@ EntryView = ecomakiView.extend({
     //console.log(this.itemList);
     // should be afeter adding views
     if( this.isEditable  && ( this.model.isNewEntry || this.itemNum == 0 ) ) {
-        console.log('adddef');
        this.addDefaultBalloon();
        this.addDefaultCharacter();
     }
@@ -263,23 +262,25 @@ EntryView = ecomakiView.extend({
     var self = this;
 	  	switch(event){
 		  	case "undo":
-		  		console.log( "Ctrl-Z is Pressed on", self);
+		  		//console.log( "Ctrl-Z is Pressed on", self);
+          self.model.save({canvas: $('.paint', self.el)[0].toDataURL('image/png')},{wait: true});
 					break;
 
 				case "redo":
-					console.log( "Shift-Ctrl-Z is Pressed on", self);
+					//console.log( "Shift-Ctrl-Z is Pressed on", self);
+          self.model.save({canvas: $('.paint', self.el)[0].toDataURL('image/png')},{wait: true});
 					break;
 
+
 				default:
-					console.log("keyctrl:", event, "|", self);
+					//console.log("keyctrl:", event, "|", self);
           if( $('.paint', self.el)[0] )
-            self.model.save({canvas: $('.paint', self.el)[0].toDataURL('image/png')},{wait: true});
 					break;
 			}
 	},
 
   onDraw: function(){
-     //this.model.save({canvas: $('.paint', this.el)[0].toDataURL('image/png')},{wait: true});
+     this.model.save({canvas: $('.paint', this.el)[0].toDataURL('image/png')},{wait: true});
   },
 
   onResize: function(){

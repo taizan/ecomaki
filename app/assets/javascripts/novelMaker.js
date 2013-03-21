@@ -28,7 +28,7 @@ $(function() {
     _novel = new Novel({id: id,password: pass});
     _novel.fetch({
       success: function(){
-        _novelView = new MakerNovelView({model: _novel , isEditable: isEditable , isPreView: false});
+        _novelView = new MakerNovelView({model: _novel });
         _novelView.appendTo($('#content'));
       }
      });

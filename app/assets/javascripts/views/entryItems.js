@@ -86,10 +86,10 @@ EntryItemView = Backbone.View.extend ({
     if(this.model.isDefaultItem){
       $(this.el).bind('click', function(){
         if(self.model.isDefaultItem) {
-          self.model.isDefaultItem = false;   
           self.parentView.model.isNewEntry = false;
           $(self.el).unbind( 'click', self.onDefaultItemClick );
-          self.onDefaultItemClick ();
+          self.onDefaultItemClick (function(){ 
+            self.model.isDefaultItem = false;});
         }
 
       });
@@ -342,11 +342,13 @@ BalloonView = EntryItemView.extend({
 
   },
   
-  onDefaultItemClick: function() {
+  onDefaultItemClick: function(callback) {
     $('.text',this.el).html('');
+    this.model.set('content',"");
     // add this model to entry collecti
     //this.model.defaultItemSave();
-    this.model.addTo( this.parentView.model.balloons );
+    this.model.addTo( this.parentView.model.balloons , callback);
+    console.log('onDefaultItemClick');
   },
 
   editEnd: function(){
@@ -386,8 +388,12 @@ BalloonView = EntryItemView.extend({
 
 
   saveText: function(txt){
-    var txt = Config.prototype.escapeText($('.text',this.el).html());
-    this.model.save('content',txt);
+    var self = this;
+    if(!this.saving && !this.model.isDefaultItem){
+      this.saving = true;
+      var txt = Config.prototype.escapeText($('.text',this.el).html());
+      this.model.save('content',txt,{success: function(){ self.saving = false;}});
+    }
   },
   
   saveBackground: function(id){
@@ -448,12 +454,6 @@ CharacterView = EntryItemView.extend({
       //set UI on mouseovered
       this.showOutLine();
     
-      //If this view was Default item , call addTo once 
-      if(this.model.isDefaultItem){
-        $(this.el).bind( 'click', this.onDefaultItemClick );
-        this.onDefaultItemOver();
-      }
-
     }
     
   },

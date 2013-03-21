@@ -21,10 +21,12 @@ var EntryBalloon = Backbone.Model.extend(
 	    }
 	},
 
-  addTo: function(collection) {
+  addTo: function(collection , callback ) {
+    var self = this;
     this.collection = collection;
     this.initialize();
-    var o = this.collection.add(this,{silent: true , success: this.save} );
+    var o = this.collection.add(this,{silent: true}); 
+    this.save({},{ success:function(){if(callback)callback()} } );
     return o;
   }
     });
@@ -52,10 +54,12 @@ var EntryCharacter = Backbone.Model.extend(
 	    }
 	},
   
-  addTo: function(collection) {
+  addTo: function(collection , callback) {
+    var self = this;
     this.collection = collection;
     this.initialize();
-    var o = this.collection.add(this,{silent: true , success: this.save} );
+    var o = this.collection.add(this,{silent: true}); 
+    this.save({},{ success:function(){if(callback)callback()} } );
     return o;
   }
     });
@@ -117,9 +121,8 @@ var Entry = Backbone.Model.extend(
 	    var balloons = arguments[0].entry_balloon;
 	    var characters = arguments[0].entry_character;
 	    
-	    if(this.collection) {
-		this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id()});		
-	    }
+      if(this.collection)
+		  this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id()});		
 
 	    this.id = arguments[0].id;
 	    
@@ -211,6 +214,7 @@ var EntryList = Backbone.Collection.extend(
 	    if (typeof attributes.order_number === "undefined") {
 		attributes.order_number = this.length;
 	    }
+      if(options)options.wait=true;else options = {wait:true}; 
 	    return Backbone.Collection.prototype.create.call(this, attributes, options);
 	},
 	comparator: function(entry) {
@@ -234,7 +238,8 @@ var EntryList = Backbone.Collection.extend(
 		this.models[i].set('order_number', i + 1);
 		this.models[i].save();
 	    }
-
+      // to avoid call add of binded to view before fetch model
+      if(options)options.wait=true;else options = {wait:true}; 
 	    return Backbone.Collection.prototype.create.call(this, attributes, options);
 	},
 	move_at: function(model, index) {
@@ -289,10 +294,10 @@ var Chapter = Backbone.Model.extend(
 		return base + '/' + this.id + '.json';
 	    }
 	},
-	create_entry: function(attributes,option) {
-      if(option) option.wait = true;
-      else option ={wait:true}
-	    newEntry =  this.entries.create(attributes,option);
+	create_entry: function(attributes,options) {
+      if(options) options.wait = true;
+      else options ={wait:true}
+	    newEntry =  this.entries.create(attributes,options);
       newEntry.isNewEntry = true; 
       return newEntry;
 	},
@@ -321,18 +326,20 @@ var ChapterList = Backbone.Collection.extend(
 	    if (typeof attr.order_number == 'undefined') {
 		attr.order_number = this.length;
 	    }
+      if(options)options.wait=true; else options = {wait:true}; 
 	    return Backbone.Collection.prototype.create.call(this, attr, options);
 	},
 	comparator: function(chapter) {
 	    return chapter.get('order_number');
 	},
+
 	create_after: function(attr, index, options) {
 	    attr.order_number = index + 1;
 	    for (var i = index + 1; i < this.models.length; i++) {
 		this.models[i].set('order_number', i + 1);
 		this.models[i].save();
 	    }
-
+      if(options)options.wait=true;else options = {wait:true}; 
 	    return Backbone.Collection.prototype.create.call(this, attr, options);
 	},
 	move_at: function(model, index) {
