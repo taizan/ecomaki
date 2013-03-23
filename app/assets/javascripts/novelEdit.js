@@ -64,7 +64,7 @@ $(function() {
 
   },
 
-  initializeTool : function(isEditable){
+  initializeTool : function(isEditable,id){
     $('#toolbox').show();
 
     Picker.prototype.initialize();
@@ -88,8 +88,14 @@ $(function() {
     
     // Publish button Click
     $('#publish_button').click(function(){ 
-        _novel.save({'status': 'publish'}); 
-        alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
+        _novel.save('status','publish',
+            { 
+              success: function(){
+                  alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
+                  document.location = '/novels'+id ;
+                }
+            }
+          ); 
       });
 
       novelEdit.setTutorial();
@@ -188,7 +194,7 @@ $(function() {
 
   // initialize view and tool 
   novelEdit.initializeView(id,pass,isEditable);
-  novelEdit.initializeTool(isEditable);
+  novelEdit.initializeTool(isEditable,id);
 
 
 });
