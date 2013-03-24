@@ -89,11 +89,12 @@ Ecomaki::Application.routes.draw do
   match 'edit/:id/:password' => 'novels#edit', :via => :get
 
   # Maker mode
-  match 'maker/:id/:password' => 'novels#maker', :via => :get
+  match 'maker/:id' => 'novels#maker', :via => :get
 
   # Maker dup
   match 'novels/:id/dup_as_maker' => 'novels#novel_dup_as_maker'
   
+  match 'novels/:id/dup_no_redirect' => 'novels#novel_dup_no_redirect'
 
   # Layout Data
   match 'layouts' => 'layouts#index', :via => :get

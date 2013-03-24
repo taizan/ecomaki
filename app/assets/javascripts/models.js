@@ -369,7 +369,7 @@ Novel = Backbone.Model.extend(
 	    this.chapters.novel = this;
 	    
 	    // Fetch the data from server.
-	    this.fetch();
+	    //this.fetch();
 	},
 	url: function() {
 	    if (this.has('password')) {

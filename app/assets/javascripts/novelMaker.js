@@ -31,7 +31,7 @@ $(function() {
 
   initializeView(id,pass,isEditable);
 
-  if(isEditable) initializeTool(isEditable);
+  if(isEditable) initializeTool(isEditable,id);
 
 
   function initializeView(id,pass,isEditable){
@@ -42,17 +42,15 @@ $(function() {
         _novelView.appendTo($('#content'));
       }
      });
-
-    $('#static_body').bind('mousedown',onStaticBodyClick);
   }
 
-  function initializeTool(isEditable){
+  function initializeTool(isEditable,id){
     _novelPreview = null;
     $('#preview_button').click(function(){
         console.log('preview');
         isEditable = isEditable ? false : true;
 			  $('#preview_button img').attr('src', '/assets/novel/' + (isEditable ? 'preview.png' : 'edit.png'));
-			  $('#preview_button p').text(isEditable ? 'Preview' : 'Edit');
+			  $('#preview_button span').text(isEditable ? 'Preview' : 'Edit');
 
         if(! _novelPreview) {
           _novelPreview = new NovelView({model: _novel , isEditable: false });
@@ -75,14 +73,39 @@ $(function() {
 
 
     $('#publish_button').click(function(){ 
-        _novel.save({'status': 'publish'}); 
-        alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
-      });
+      var chane = new CallbackChane();
+      var new_novel;
+      var url = "/novels/"+ id +"/dup_no_redirect.json"
+      jQuery.getJSON(
+          url,            // リクエストURLQerfvtki
+          null,
+          chane.next()
+        );
 
-  }
+      chane.push( function(arg){
+          console.log('make model');
+          new_novel = new Novel({id: arg[0].id,password: arg[0].password});
+          new_novel.fetch({success:chane.next()});
+        });
+           
+      chane.push( function(){
+          console.log('copy make');
+          _novelView.copyTo(new_novel , chane.next());
+        });
+         
+      chane.push( function(){
+          console.log('change status');
+          new_novel.save({'status': 'publish'},{success:chane.next()}); 
+        });
+           
+                    
+      chane.push( function(){
+          console.log('move page');
+          document.location = '/novels/'+ new_novel.id ;
+        });
 
-  function onStaticBodyClick(ev){
-    //console.log(ev);
-  }
+     });
+
+   }
 
 });
