@@ -188,8 +188,39 @@ var Entry = Backbone.Model.extend(
       delete attr.entry_character[i].created_at;
       delete attr.entry_character[i].updated_at;
     }
-    console.log(attr);
+    //console.log(attr);
     return attr; 
+  },
+
+  copy: function(){
+    //var chapter = this.collection.chapter;
+    //var currentIndex =  chapter.entries.indexOf(this);
+    var attr = this.dup();
+`
+    var entry = this.entries.create_after(
+        attr, 
+        this.get('order_number'),
+	// call trigger add in addItem end
+        { wait:true ,silent: true, success: this.addItem }
+      );
+    return entry;
+  },
+
+  addItem(){
+    var attr = this.attributes;
+    var self = this;
+
+    var listener = new CallbackListener( function(){
+        this.save();
+        this.trigger('add'); //call add here  
+      });
+   
+    if( attr.entry_balloon ) for(j = 0; j < attr._entry_balloon.length; j++ ){
+      this.balloons.create( attr._entry_balloon[j] , {success:listener.set()} );
+    }
+    if ( attr.entry_character ) for(j = 0; j < attr._entry_character.length; j++){
+      this.characters.create( attr._entry_character[j], {success:listener.set()} );
+    }
   }
 
 
@@ -229,6 +260,7 @@ var EntryList = Backbone.Collection.extend(
 		this.models[i].save();
 	    }
 	},
+
 	// Create model and insert it right after the index-th model.
 	// To insert to the top, set index to -1.
 	create_after: function(attributes, index, options) {
@@ -239,9 +271,10 @@ var EntryList = Backbone.Collection.extend(
 		this.models[i].save();
 	    }
       // to avoid call add of binded to view before fetch model
-      if(options)options.wait=true;else options = {wait:true}; 
+	if(options)options.wait=true;else options = {wait:true}; 
 	    return Backbone.Collection.prototype.create.call(this, attributes, options);
 	},
+
 	move_at: function(model, index) {
 	    // Ensure sorted
 	    //this.sort();
