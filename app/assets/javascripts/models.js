@@ -404,6 +404,9 @@ Novel = Backbone.Model.extend(
 	    this.chapters.create({novel_id: this.id}, options);
 	    return true;
 	},
-
+	
+	publish: function(callback) {
+	    this.save({'status','pblish'},{ wait: true , success: callback });
+	}
   
     });
