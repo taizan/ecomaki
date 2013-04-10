@@ -198,7 +198,6 @@ var Entry = Backbone.Model.extend({
     //var chapter = this.collection.chapter;
     //var currentIndex =  chapter.entries.indexOf(this);
     var attr = this.dup();
-`
     var entry = this.entries.create_after(
         attr, 
         this.get('order_number')
@@ -208,7 +207,7 @@ var Entry = Backbone.Model.extend({
     return entry;
   },
 
-  addItems(){
+  addItems: function(){
     var attr = this.attributes;
     var self = this;
 
@@ -244,7 +243,7 @@ var EntryList = Backbone.Collection.extend({
       attributes.order_number = this.length;
     }
     //if(options)options.wait=true;else options = {wait:true}; 
-    var entry = this._prepareModel(attr,options);
+    var entry = this._prepareModel(attributes,options);
     options = { wait:true, success: entry.addItems };
     return Backbone.Collection.prototype.create.call(this, attributes, options);
   },
@@ -258,7 +257,7 @@ var EntryList = Backbone.Collection.extend({
       this.models[i].set('order_number', i + 1);
       this.models[i].save();
     }
-    return this.create.(attributes, options);
+    return this.create(attributes, options);
   },
 
   comparator: function(entry) {
@@ -447,7 +446,7 @@ Novel = Backbone.Model.extend({
   },
   
   publish: function(callback) {
-    this.save({'status','pblish'},{ wait: true , success: callback });
+    this.save( {status:'publish'} , { wait: true , success: callback } );
   },
 
   dup_as_maker: function(srcModel , callback){
