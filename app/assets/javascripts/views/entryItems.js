@@ -13,6 +13,7 @@ EntryItemView = Backbone.View.extend ({
         "render",
         "onSync",
         "onClick",
+        "onSelect",
         "onResize",
         "onDragStart",
         "onDragStop",
@@ -20,7 +21,6 @@ EntryItemView = Backbone.View.extend ({
 				"onDisplay",
 				"onPreDisplay",
 				"onDefaultItemClick",
-        "onDefaultItemOver", 
         "destroyView"
       );
    
@@ -84,28 +84,36 @@ EntryItemView = Backbone.View.extend ({
     this.onAppend();
 
     if(this.model.isDefaultItem){
-      $(this.el).bind('click', function(){
-        if(self.model.isDefaultItem) {
+      var defaultItemClick = function(){
           self.parentView.model.isNewEntry = false;
-          $(self.el).unbind( 'click', self.onDefaultItemClick );
-          self.onDefaultItemClick (
-              function(){ self.model.isDefaultItem = false;}
-            );
-        }
+          $(this.el).removeClass('default_item');
+          self.onDefaultItemClick(function(){ self.model.isDefaultItem = false;});
+          $(self.el).unbind( 'click', defaultItemClick );
+        };
 
-      });
-      this.onDefaultItemOver();
+      $(this.el).bind('click', defaultItemClick);
+      $(this.el).addClass('default_item');
     }
 
     // do post appedn method
-    this.setRemoveButton();
-    this.initButton();
-    $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
-   
+
+    if(this.isEditable){ 
+      $(this.el).mousedown(this.onSelect);
+      this.setRemoveButton();
+      this.initButton();
+      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
+    }
 
     this.render();
     //$(this.el).click();
   },
+
+  onSelect: function(){
+    $('.target_on').removeClass('target_on').addClass('target_off');
+    $('.target_off',this.el).removeClass('target_off').addClass('target_on');
+    this.effecter.changeSelecter();
+  },
+
 
   onResize: function(){
 
@@ -120,7 +128,8 @@ EntryItemView = Backbone.View.extend ({
       this.model.set(data);
     }else{
       this.model.save(data);
-      this.effecter.changeSelecter();
+      //this.effecter.changeSelecter();
+      //this.onSelect();
     }
   },
 
@@ -135,7 +144,8 @@ EntryItemView = Backbone.View.extend ({
     this.model.set({'z_index': z});
 
     if(!this.model.isDefaultItem){
-      this.effecter.changeSelecter();
+      //this.effecter.changeSelecter();
+     // this.onSelect();
     }
     // donot save here because it triger render 
     //this.model.save();
@@ -171,41 +181,27 @@ EntryItemView = Backbone.View.extend ({
     $(this.el)
       .mouseover(function(){
         if(self.isEditable){
-          $('.item-button',self.el).show();
+          $('.item_button',self.el).show();
         }
       })
       .mouseout(function(){
-        $('.item-button',self.el).hide();
+        $('.item_button',self.el).hide();
       });
 
   },
 
   setRemoveButton: function(){
     var self = this;
-    $('<i class="icon-remove-sign item-button item-remove" title="削除" />')
+    $('<i class="icon-remove-sign item_button item_remove" title="削除" />')
       .appendTo(this.el)
       .hide();
 
-    $('.item-remove',this.el).click(
+    $('.item_remove',this.el).click(
       function(){
         //console.log(target);
         self.model.destroy();
       }
     );
-  },
-
-  onDefaultItemOver: function() {
-    var self = this;
-    $(this.el)
-      .mouseover( function(){
-        if(self.model.isDefaultItem) 
-          $(self.el).css({opacity: 1});
-        })
-      .mouseout( function() {
-        if(self.model.isDefaultItem) 
-          $(self.el).css({opacity: 0.5});
-        })
-      .css({opacity: 0.5})
   },
 
 
@@ -218,7 +214,8 @@ EntryItemView = Backbone.View.extend ({
   },
 
   onClick: function(){
-    this.effecter.changeSelecter();
+    //this.effecter.changeSelecter();
+    this.onSelect();
   },
 
   destroyView: function() {
@@ -245,7 +242,7 @@ EntryItemView = Backbone.View.extend ({
 
   onRender: function(){},
 
-  onDefaultIteClick: function(){}
+  onDefaultItemClick: function(){}
 
 });
 
@@ -260,8 +257,8 @@ BalloonView = EntryItemView.extend({
     //this.model.bind('sync', this.render, this);
 
     //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
-    $('<div class="text" ></div>').appendTo(this.el);
-
+    $('<div class="text" ></div><div class="target_off target_balloon"></div>').appendTo(this.el);
+    //$('<div class="text" ></div>').appendTo(this.el);
   },
 
   onAppend: function(){
@@ -292,10 +289,7 @@ BalloonView = EntryItemView.extend({
 
       this.setBalloonEditable();
       this.setBackgroundButton();
-
     //If this view was Default item , call addTo once 
-
-
     }else{
       // for sync preview 
       this.model.bind('sync',this.render);
@@ -335,7 +329,7 @@ BalloonView = EntryItemView.extend({
       self.el.removeAttribute('aria-disabled');
 
       $('.text',self.el).attr('contenteditable','true').focus();
-      this.setFocus();
+      // this.setFocus();
       self.isEditing = true;
     }
 
@@ -344,21 +338,21 @@ BalloonView = EntryItemView.extend({
 
   },
   
-  onDefaultItemClick: function(callback) {
-    $('.text',this.el).html('');
-    this.model.set('content',"");
-    $(this.el).css({opacity: 1});
-    // add this model to entry collecti
-    //this.model.defaultItemSave();
-    this.model.addTo( this.parentView.model.balloons , callback);
-  },
-
   editEnd: function(){
 		var self = this;
     $(self.el).draggable("option","disabled",false);
     $('.text',self.el).attr('contenteditable','false');
     self.isEditing = false;
   },
+
+  onDefaultItemClick: function(callback) {
+    $('.text',this.el).html('');
+    this.model.set('content',"");
+    // add this model to entry collecti
+    //this.model.defaultItemSave();
+    this.model.addTo( this.parentView.model.balloons , callback);
+  },
+
 
 
   // not work well 
@@ -409,11 +403,11 @@ BalloonView = EntryItemView.extend({
 
   setBackgroundButton: function(){
     var self = this;
-    $('<i class="icon-comment item-button item-background" title="吹き出しのタイプ" />')
+    $('<i class="icon-comment item_button item_background" title="吹き出しのタイプ" />')
       .appendTo(this.el)
       .hide();
 
-    $('.item-background',this.el).click(
+    $('.item_background',this.el).click(
       function(){
         //console.log(target);
         Picker.prototype.showBalloonList(self.saveBackground);
@@ -431,7 +425,7 @@ CharacterView = EntryItemView.extend({
   //pre append method
   onInit: function(){
     _.bindAll(this,"selectCharacter","setCharacter", "onDefaultItemClick");
-    $('<img class="character_image">').appendTo(this.el);
+    $('<img class="character_image target_off">').appendTo(this.el);
     this.model.bind('sync',this.render,this);
   },
   
@@ -449,7 +443,7 @@ CharacterView = EntryItemView.extend({
           aspectRatio: true,
           stop: this.onResize,
           autoHide: true,
-          "handles": "n, e, s, w,this.onDefaultItemOver ne, se, sw, nw",
+          "handles": "n, e, s, w, ne, se, sw, nw",
         })
 
         .click(this.selectCharacter)
@@ -459,7 +453,11 @@ CharacterView = EntryItemView.extend({
 
       //set UI on mouseovered
       this.showOutLine();
-    
+
+      var self =this;
+      $(this.el).mousedown(function(){
+          $('.text').blur();
+        });
     }
     
   },
@@ -485,6 +483,7 @@ CharacterView = EntryItemView.extend({
   },
 
   onDefaultItemClick: function(callback) {
+    console.log("on df clk",$(this.el));
     $(this.el).css({opacity: 1});
     // add this model to entry collection 
     //this.model.defaultItemSave();

@@ -249,13 +249,16 @@ EntryView = ecomakiView.extend({
   onCanvasClick: function(){
     //this.onViewClick({target: 'canvas'});
     this.isDrawDown = true;
+    //$('.target').hide();
+    $('.target_on').removeClass('target_on').addClass('target_off');
+    $('.paint',this.el).removeClass('target_off').addClass('target_on');
     this.effecter.changeSelecter();
     
     //this.onViewClick({target: 'canvas'})
     
     // trigger blur event
     $('#static_body').mousedown();
-    $('.text',this.el).blur();
+    $('.text').blur();
   },
 
   keyctrl: function(event){
@@ -376,16 +379,8 @@ EntryView = ecomakiView.extend({
       });
 
     newBalloon.isDefaultItem = true;
-    newBalloon.defaultItemSave = function() { 
-        self.model.balloons.addModel( newBalloon );
-        newBalloon.defaultItemSave = function(){};
-      };
 
-    var newBalloonView = new BalloonView( { model:newBalloon , parentView: this , isEditable: this.isEditable });
-    newBalloonView.appendTo( this.content);
-    this.itemNum ++;
-    this.itemList.push( newBalloonView);
-
+    var newBalloonView = this.addItemView( BalloonView , newBalloon , {} , {} );
 
     return newBalloon;
   },
@@ -406,15 +401,8 @@ EntryView = ecomakiView.extend({
       });
 
     newCharacter.isDefaultItem = true;
-    newCharacter.defaultItemSave = function() { 
-        self.model.characters.addModel(newCharacter );
-        newCharacter.defaultItemSave = function(){};
-      };
-
-    var newCharacterView = new CharacterView( { model:newCharacter , parentView: this , isEditable: this.isEditable });
-    newCharacterView.appendTo( this.content);
-    this.itemNum ++;
-    this.itemList.push(newCharacterView);
+    //make view of default Item
+    var newCharacterView = this.addItemView( CharacterView , newCharacter , {} , {} );
  
     return newCharacter;
   },
@@ -429,24 +417,15 @@ EntryView = ecomakiView.extend({
 
   copyEntry: function(e){
     // console.log("addEntry");
-    var chapter = this.parentView.model;
-    var currentIndex =  chapter.entries.indexOf(this.model);
-    
     this.model.save();
-
     var attributes = this.model.dup();
-
-    this.parentView.addEntryWithOrder(attributes , currentIndex);
+    var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number'));
   },
 
   addEntry: function(e){
-    // console.log("addEntry");
-    var chapter = this.parentView.model;
-    var currentIndex =  chapter.entries.indexOf(this.model);
-   
+    //console.log("addEntry", this.model.order_number);
     var attributes ={"canvas_index":1,"height":320,"width":480}  
-
-    var newEntry = this.parentView.addEntryWithOrder(attributes , currentIndex);
+    var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number'));
   },
 
   changeLayer: function(e){
