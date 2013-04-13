@@ -192,17 +192,19 @@ hr {
   cursor:pointer;
 }
 
-.target {
+.target_balloon {
   height: 100%;
   width: 100%;
-  border: 2px solid green;
   position: absolute;
   // offset to ajust balloon
   top: -2px;
   left: -2px;
   //default hide
-  display: none;
   z-index: -100;
+}
+
+.target_on {
+  border: 2px solid green;
 }
 
 .item_remove {

@@ -13,6 +13,7 @@ EntryItemView = Backbone.View.extend ({
         "render",
         "onSync",
         "onClick",
+        "onSelect",
         "onResize",
         "onDragStart",
         "onDragStop",
@@ -82,37 +83,37 @@ EntryItemView = Backbone.View.extend ({
 
     this.onAppend();
 
-    var defaultItemClick = function(){
-        self.parentView.model.isNewEntry = false;
-        $(this.el).removeClass('default_item');
-        self.onDefaultItemClick(function(){ self.model.isDefaultItem = false;});
-        $(self.el).unbind( 'click', defaultItemClick );
-      };
-
     if(this.model.isDefaultItem){
+      var defaultItemClick = function(){
+          self.parentView.model.isNewEntry = false;
+          $(this.el).removeClass('default_item');
+          self.onDefaultItemClick(function(){ self.model.isDefaultItem = false;});
+          $(self.el).unbind( 'click', defaultItemClick );
+        };
+
       $(this.el).bind('click', defaultItemClick);
       $(this.el).addClass('default_item');
-      //$(this.el).bind('click', function(){
-        //if(self.model.isDefaultItem) {
-          //self.parentView.model.isNewEntry = false;
-          //$(self.el).unbind( 'click', self.onDefaultItemClick );
-          //self.onDefaultItemClick (
-              //function(){ self.model.isDefaultItem = false;}
-            //);
-        //}
-      //});
-      //this.onDefaultItemOver();
     }
 
     // do post appedn method
-    this.setRemoveButton();
-    this.initButton();
-    $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
-   
+
+    if(this.isEditable){ 
+      $(this.el).mousedown(this.onSelect);
+      this.setRemoveButton();
+      this.initButton();
+      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
+    }
 
     this.render();
     //$(this.el).click();
   },
+
+  onSelect: function(){
+    $('.target_on').removeClass('target_on').addClass('target_off');
+    $('.target_off',this.el).removeClass('target_off').addClass('target_on');
+    this.effecter.changeSelecter();
+  },
+
 
   onResize: function(){
 
@@ -128,14 +129,8 @@ EntryItemView = Backbone.View.extend ({
     }else{
       this.model.save(data);
       //this.effecter.changeSelecter();
-      this.onSelect();
+      //this.onSelect();
     }
-  },
-
-  onSelect: function(){
-    $('.target').hide();
-    $('.target',this.el).show();
-    this.effecter.changeSelecter();
   },
 
   onDragStart: function(){
@@ -150,7 +145,7 @@ EntryItemView = Backbone.View.extend ({
 
     if(!this.model.isDefaultItem){
       //this.effecter.changeSelecter();
-      this.onSelect();
+     // this.onSelect();
     }
     // donot save here because it triger render 
     //this.model.save();
@@ -262,7 +257,7 @@ BalloonView = EntryItemView.extend({
     //this.model.bind('sync', this.render, this);
 
     //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
-    $('<div class="text" ></div><div class="target"></div>').appendTo(this.el);
+    $('<div class="text" ></div><div class="target_off target_balloon"></div>').appendTo(this.el);
     //$('<div class="text" ></div>').appendTo(this.el);
   },
 
@@ -430,7 +425,7 @@ CharacterView = EntryItemView.extend({
   //pre append method
   onInit: function(){
     _.bindAll(this,"selectCharacter","setCharacter", "onDefaultItemClick");
-    $('<img class="character_image"><div class="target"></div>').appendTo(this.el);
+    $('<img class="character_image target_off">').appendTo(this.el);
     this.model.bind('sync',this.render,this);
   },
   
@@ -458,7 +453,11 @@ CharacterView = EntryItemView.extend({
 
       //set UI on mouseovered
       this.showOutLine();
-    
+
+      var self =this;
+      $(this.el).mousedown(function(){
+          $('.text').blur();
+        });
     }
     
   },
