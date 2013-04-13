@@ -48,6 +48,7 @@ ChapterView = ecomakiView.extend({
     "keypress #inputform" : "onKeyPress",
     //'click': 'onViewClick',
     "click .add_chapter" : "addChapter",
+    "click .new_chapter_handle" : "addChapter",
     //"click .add_entry" : "addEntry",
     "click .add_one_char" : "addEntryWith1Character", 
     "click .add_two_char" : "addEntryWith2Character", 
@@ -183,30 +184,30 @@ ChapterView = ecomakiView.extend({
   addEntryWithOrder: function(attr, i){
     var _self = this;
     // move item attr for avoid auto initialize   
-    attr._entry_balloon = attr.entry_balloon;
-    attr._entry_character = attr.entry_character;
-    delete attr.entry_balloon;
-    delete attr.entry_character;
+//    attr._entry_balloon = attr.entry_balloon;
+ //   attr._entry_character = attr.entry_character;
+ //   delete attr.entry_balloon;
+ //   delete attr.entry_character;
 
-    var entry = this.model.entries.create_after(attr,i,
-        { wait:true,
-          success: function(){ _self.addItems(attr,entry); }
-      });
+    var entry = this.model.entries.create_after(attr,i);
+ //       { wait:true,
+ //         success: function(){ _self.addItems(attr,entry); }
+ //     });
     return entry;
   },
 
   addEntry: function(attr){
     var _self = this;
     // move item attr for avoid auto initialize   
-    attr._entry_balloon = attr.entry_balloon;
-    attr._entry_character = attr.entry_character;
-    delete attr.entry_balloon;
-    delete attr.entry_character;
+//    attr._entry_balloon = attr.entry_balloon;
+ //   attr._entry_character = attr.entry_character;
+ //   delete attr.entry_balloon;
+ //   delete attr.entry_character;
 
-    var entry = this.model.entries.create(attr,
-        { wait:true,
-          success: function(){ _self.addItems(attr,entry); }
-        });
+    var entry = this.model.entries.create(attr);
+   //     { wait:true,
+     //     success: function(){ _self.addItems(attr,entry); }
+     //   });
     return entry;
   },
 
