@@ -50,6 +50,7 @@ ChapterView = ecomakiView.extend({
     "click .add_chapter" : "addChapter",
     "click .new_chapter_handle" : "addChapter",
     //"click .add_entry" : "addEntry",
+    //"click .new_entry_handle" : "addEntry",
     "click .add_one_char" : "addEntryWith1Character", 
     "click .add_two_char" : "addEntryWith2Character", 
     "click .add_description" : "addEntryWithBalloon",
@@ -83,6 +84,9 @@ ChapterView = ecomakiView.extend({
           start: this.onSortStart,
           stop: this.onSortStop
         });
+      
+      //set click function to avoid conflict to entry item add handle in each entry
+      $('.chapter_wrapper',this.el).children('.new_entry_handle').click(this.addEntry);
     }else{
       $(".editer_item",this.el).hide();
     }
@@ -153,9 +157,6 @@ ChapterView = ecomakiView.extend({
      //         width :  scale *  img.width / window_size.y * 100 + '%' ,
      //         height :  scale *  img.height / window_size.x * 100 + '%' 
             });
-       
-       //console.log(scale);
-
       }
     );
   },
@@ -167,67 +168,36 @@ ChapterView = ecomakiView.extend({
     return this;
   },
 
-  addItems: function(attr, entry) {
-    var j = 0;
-    //console.log("addEntry Success");
-
-    if( attr._entry_balloon ) for(j = 0; j < attr._entry_balloon.length; j++ ){
-      entry.balloons.create(attr._entry_balloon[j]);
-    }
-    if ( attr._entry_character ) for(j = 0; j < attr._entry_character.length; j++){
-      entry.characters.create( attr._entry_character[j]);
-    }
-    entry.save();
-    entry.trigger('change');
-  },
 
   addEntryWithOrder: function(attr, i){
-    var _self = this;
-    // move item attr for avoid auto initialize   
-//    attr._entry_balloon = attr.entry_balloon;
- //   attr._entry_character = attr.entry_character;
- //   delete attr.entry_balloon;
- //   delete attr.entry_character;
-
     var entry = this.model.entries.create_after(attr,i);
- //       { wait:true,
- //         success: function(){ _self.addItems(attr,entry); }
- //     });
     return entry;
   },
 
-  addEntry: function(attr){
-    var _self = this;
-    // move item attr for avoid auto initialize   
-//    attr._entry_balloon = attr.entry_balloon;
- //   attr._entry_character = attr.entry_character;
- //   delete attr.entry_balloon;
- //   delete attr.entry_character;
 
-    var entry = this.model.entries.create(attr);
-   //     { wait:true,
-     //     success: function(){ _self.addItems(attr,entry); }
-     //   });
-    return entry;
+  addEntry: function(){
+    var attr ={"canvas_index":1,"height":320,"width":480};  
+    this.model.entries.create_after(attr,-1);
   },
 
   // add entry with no boder balloon
   addEntryWithBalloon: function(){
-    this.addEntry( EntryTemplate.prototype.getTemplate(0) );
+    this.model.entries.create( EntryTemplate.prototype.getTemplate(0) );
   },
 
   addEntryWith1Character: function(){
-    this.addEntry( EntryTemplate.prototype.getTemplate(1) );
+    this.model.entries.create( EntryTemplate.prototype.getTemplate(1) );
   },
 
   addEntryWith2Character: function(){
-    this.addEntry( EntryTemplate.prototype.getTemplate(2) );
+    this.model.entries.create( EntryTemplate.prototype.getTemplate(2) );
   },
 
   addChapter: function(e){
-    var novel = this.parentView.model;
-    var currentIndex = novel.chapters.indexOf(this.model);
-    novel.chapters.create_after({},currentIndex);
+    //var novel = this.parentView.model;
+    //var currentIndex = novel.chapters.indexOf(this.model);
+    //novel.chapters.create_after({},currentIndex);
+    this.model.collection.create_after({},this.model.get('order_number'));
   },
 
   removeChapter: function(e){
