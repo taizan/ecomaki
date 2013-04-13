@@ -3,6 +3,11 @@
   background: rgba(255,255,255,0.6);
 }
 
+.chapter {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 .title {
     font-size: 24px; 
@@ -10,27 +15,11 @@
     position: relative;
 }
 
-.title .text_help {
-    font-size: 16px; 
-    line-height: 1.5em;
-    //background: #eee;
-    font-color: #444;
-    margin: 1px;
-}
-
 
 .description {
     font-size: 12px;
     line-height: 1.5em;
     position: relative;
-}
-
-.description .text_help {
-    font-size: 12px; 
-    line-height: 1.5em;
-    //background: #ddd;
-    font-color: #333;
-    margin: 1px;
 }
 
 

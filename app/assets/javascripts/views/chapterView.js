@@ -24,12 +24,24 @@ ChapterView = ecomakiView.extend({
               "onMusicButton",
               "showBackground",
               "setBackground",
-              "setBgm");
+              "setBgm"
+              );
     this.model.entries.bind('add', this.addOne);
     this.model.entries.bind('refresh', this.addAll);
-    this.model.entries.bind('change', this.onChange);
+    //this.model.entries.bind('change', this.onChange);
+    //this.model.entries.bind('add', this.onSync); 
+    //this.model.bind('add', this.onSync); 
 
     this.childModels = this.model.entries.models;
+  },
+
+  onRemove: function() {
+    this.model.entries.unbind('add', this.addOne);
+    this.model.entries.unbind('refresh', this.addAll);
+  },
+
+  onChangeEntries: function() {
+     console.log(this.model.entries.length);
   },
 
   events: {
@@ -45,23 +57,58 @@ ChapterView = ecomakiView.extend({
     "click .remove_chapter" : "removeChapter",
   },
 
+  onCheckStatus: function(){
+      if( this.model.entries.length == 0 && this.parentView.model.initFlag !== true ){
+        // need wait true option to make isNew entry option time 
+        //console.log(this.parentView.model.initFlag);
+        var newEntry = this.model.create_entry({"width": 640 ,"height": 480});
+        //this.model.entries.save();
+      }
+
+  },
+
   onLoad: function(){
     var _self = this;
 
     this.addAll();
+    //$(this.el).width(600);
 
     if(this.isEditable){
-      $('.title',this.el).click( function(){ editableTextarea(this,_self.saveTitle); });
-      $('.description',this.el).click( function(){ editableTextarea(this,_self.saveDescription); });
-    
-      //$('.background_select',this.el).change( function(){ _self.setBackground( $(this).val() );} );
-      //this.initBackgroundList();
-      //$('.bgm_select',this.el).change( function(){ _self.bgmSelect( $(this).val() );} );
+      this.setEditable('.title','title');
+      this.setEditable('.description','description');
+
+      $('.entryList',this.el).sortable({
+          handle: '.hide_buttons',
+          start: this.onSortStart,
+          stop: this.onSortStop
+        });
     }else{
       $(".editer_item",this.el).hide();
     }
 
+    this.onCheckStatus();
+
     this.render();
+    return this;
+
+  },
+
+  render: function(){
+    // render all chapter if iseditable
+    if(this.isLoaded || this.isEditable){
+      //console.log("chapter render");
+      
+      if(!this.isEditing){
+        $('.title',this.el).html(this.model.get('title'));
+        $('.description',this.el).html(this.model.get('description'));
+      }
+
+      if(this.isDisplay) { 
+        this.showBackground();
+        //this.playMusicById(this.model.get('chapter_sound_id'));
+      }
+      
+    }
     return this;
   },
 
@@ -114,12 +161,8 @@ ChapterView = ecomakiView.extend({
 
   onDisplay: function(){
     //console.log('isDisplayed');
-    //console.log(this.model.get('order_number') % 2);
-
     this.showBackground();
-
     this.playMusicById(this.model.get('background_music_id')); 
-    //console.log( 'background_music_id' + this.model.get('background_music_id'));
     return this;
   },
 
@@ -188,38 +231,17 @@ ChapterView = ecomakiView.extend({
 
   removeChapter: function(e){
     if ( confirm("章全体を削除します。よろしいですか？ Are you sure to remove this chapter?") ){
-      $(this.el).remove();
+      
       this.model.destroy();
     }
   },
 
-  render: function(){
-    // render all chapter if iseditable
-    if(this.isLoaded || this.isEditable){
-      //console.log("chapter render");
-
-      $('.title .text',this.el).html(this.model.get('title'));
-      $('.description .text',this.el).html(this.model.get('description'));
-
-      if(this.isDisplay) { 
-        this.showBackground();
-        //this.playMusicById(this.model.get('chapter_sound_id'));
-      }
-
-      if(this.isEditable){
-        $('.entryList',this.el).sortable({
-          start: this.onSortStart,
-          stop: this.onSortStop
-        });
-      }
-    }
-    return this;
-  },
-
+  
   onSortStart: function(e,ui){
     //console.log('onsort');
     this.sortItemIndex =  $(ui.item).parent().children().index(ui.item);
-    //console.log(this.sortItemIndex);
+    // console.log(e.target);
+    $('.ui-sortable-helper',this.el).css( {'margin-left': '200px' } );
   },
 
   onSortStop: function(e,ui){

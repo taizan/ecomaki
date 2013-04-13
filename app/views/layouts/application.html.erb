@@ -11,8 +11,10 @@
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
 
+
   <title><%= (html_title = yield :html_title) ? html_title : '' %> #ecomaki</title>
 
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico" />
   <meta name="description" content="<%= (html_description = yield :html_description) ? html_description : 'online web comic tool.' %>">
   
   </head>
@@ -30,7 +32,13 @@
             <a class="brand" href="/"><font style="color:yellow">e</font>co<font style="color:lime">M</font>aki</a>
             <div class="nav-collapse collapse">
               <ul class="nav">
+                <li id="blog_link"><a href="/all">All</a></li>
+              </ul>
+              <ul class="nav">
                 <li id="about_link"><a href="/about">About</a></li>
+              </ul>
+              <ul class="nav">
+                <li id="about_link"><a href="/tutorial">Tutorial</a></li>
               </ul>
               <ul class="nav">
                 <li id="blog_link"><a href="http://blog.ecomaki.com/">Blog</a></li>

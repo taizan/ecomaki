@@ -1,7 +1,23 @@
 Ecomaki::Application.routes.draw do
   root :to => 'top#index'
+  match 'all' => 'top#all'
   match 'about' => 'top#about'
 
+  # Tutorial
+  match 'tutorial' => 'tutorial#index'
+  match 'tutorial/index' => 'tutorial#index'
+  match 'tutorial/node1' => 'tutorial#node1'
+  match 'tutorial/node2' => 'tutorial#node2'
+  match 'tutorial/node3' => 'tutorial#node3'
+  match 'tutorial/node4' => 'tutorial#node4'
+  match 'tutorial/node5' => 'tutorial#node5'
+  match 'tutorial/node6' => 'tutorial#node6'
+  match 'tutorial/node7' => 'tutorial#node7'
+  match 'tutorial/node8' => 'tutorial#node8'
+  match 'tutorial/node9' => 'tutorial#node9'
+  match 'tutorial/node10' => 'tutorial#node10'
+  match 'tutorial/node11' => 'tutorial#node11'
+	
   # Balloons
   match 'novels/:novel_id/chapters/:chapter_id/entries/:entry_id/balloons' => 'entry_balloons#index', :via => :get
   match 'novels/:novel_id/chapters/:chapter_id/entries/:entry_id/balloons/:id' => 'entry_balloons#show', :via => :get
@@ -71,6 +87,14 @@ Ecomaki::Application.routes.draw do
 
   # Edit mode
   match 'edit/:id/:password' => 'novels#edit', :via => :get
+
+  # Maker mode
+  match 'maker/:id' => 'novels#maker', :via => :get
+
+  # Maker dup
+  match 'novels/:id/dup_as_maker' => 'novels#novel_dup_as_maker'
+  
+  match 'novels/:id/dup_no_redirect' => 'novels#novel_dup_no_redirect'
 
   # Layout Data
   match 'layouts' => 'layouts#index', :via => :get

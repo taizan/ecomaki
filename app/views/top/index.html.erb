@@ -1,4 +1,9 @@
-<%= stylesheet_link_tag 'index' %>
+<%= stylesheet_link_tag 'index' %> 
+<%= stylesheet_link_tag 'novel' %>
+<%= stylesheet_link_tag 'chapter' %>
+<%= stylesheet_link_tag 'entry' %>
+<%= stylesheet_link_tag 'entryItem' %>
+
 <%= javascript_include_tag 'index' %>
 
 <% content_for :html_description, "web + マンガ ＋ アニメーション = 新しい創作のカタチ キャラクター,背景,BGMなどの要素をwebで共有。作品作りを手軽に" %>
@@ -24,26 +29,33 @@
     <% end %>
   </div>
 
-  <h1>List</h1>
 
   <div class=" novel_list">
+    <h1>New Content List</h1>
+    <script> entries = <%=raw @entries %> </script>
+    <% i = 0 %>
     <% @novels.each do |novel| %>
       <% if novel.status == 'publish' then %> 
         <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
-          <div class="span4 novel_list_item">
+          <div class="novel_list_item novel_list_item_<%= i %>" >
             <h2 class="novel_list_title">
-              <%= "#{novel.title}" %>
+              <%=raw "#{novel.title}" %>
             </h2>
             <p class="nove_list_description"> 
-              <%= "#{novel.description}" %>
+              <%=raw "#{novel.description}" %>
             </p>
-          </div >
+            <div class="entry_preview"></div>
+            <h2> >> 続きを読む！ </h2>
+          </div>
+          <% i = i +1 %>
         <% end %>
       <% end %>
     <% end %>
   </div>
   
 </div>
+
+<%= render :partial => "novels/show_template" %> 
 
 <script type="text/template" id="novel_form_template">
   <form class="init_form form-horizontal">
@@ -70,7 +82,7 @@
           <input type="checkbox"> I'm agree
         </label>
         
-        <button  type="submit" class="btn btn-primary">ok</button>
+        <button  type="submit" class="btn btn-primary submit_button">ok</button>
         <button  type="button" class="btn cancel_button">cancel</button>
       
       </div>

@@ -1,0 +1,33 @@
+<%= stylesheet_link_tag 'index' %> 
+
+<% content_for :html_description, "web + マンガ ＋ アニメーション = 新しい創作のカタチ キャラクター,背景,BGMなどの要素をwebで共有。作品作りを手軽に" %>
+
+<div id="top_menu">
+
+
+  <div id="featured_pane">
+    <% @layouts.each do |layout| %>
+      <%=raw "#{layout.html}" %>
+    <% end %>
+  </div>
+
+
+  <div class=" novel_list">
+    <h1>All Content List</h1>
+    <% @novels.each do |novel| %>
+      <% if novel.status == 'publish' then %> 
+        <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
+            <h2 class="novel_list_title">
+              <%= "#{novel.title}" %>
+            </h2>
+            <p class="nove_list_description"> 
+              <%= "#{novel.description}" %>
+            </p>
+            
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  
+</div>
+

@@ -56,7 +56,7 @@ body{
   background: #dee;
 }
 
-#author:hover {
+#author_name:hover {
   background: #eed;
 }
 
@@ -80,10 +80,12 @@ body{
   height: 66px;
   z-index: 99999;
 }
+
 #tutorial_button {
   left: 0px;
   z-index: 1;
 }
+
 .tutorial_dialog {
   z-index: 99999;
 }
@@ -91,6 +93,7 @@ body{
 #preview_button{
   right: 80px;
 }
+
 #preview_button img {
   width: 30px;
   height: 30px;
@@ -101,6 +104,16 @@ body{
   height:56px;
 }
 
+//novel
+
+.novel_buttons {
+  text-align: right;
+}
+
+#add_chapter{
+  //position: absolute;
+  right: 2px;
+}
 
 // chapter
 
@@ -112,13 +125,14 @@ body{
 
 .top_control{
   position: absolute;
-  right: 2px;
+  top: 5px;
+  right: 5px;
   z-index: 99;
 }
 
 .top_control .icon{
-  height: 60px;
-  width: 64px;
+  height: 44px;
+  width: 48px;
   cursor:pointer;
 }
 
@@ -128,9 +142,12 @@ body{
 }
 
 .bottom_control .icon{
-  //height: 48px;
-  //width: 48px;
   cursor:pointer;
+}
+
+.add_chapter {
+  height: 48px;
+  width: 48px;
 }
 
 hr {
@@ -139,21 +156,61 @@ hr {
   background: gray;
 }
 
+.chapter .chapter_wrapper{
+  position:relative;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px silver dashed ;
+}
+
+.new_chapter_handle {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 16px;
+  cursor:pointer;
+  border: 1px silver dashed ;
+  color: gray;
+}
+
+.new_chapter_handle:hover{
+  background: #fed;
+  cursor:pointer;
+  color: black;
+}
+
+
 // entnryItem
 
-.item {
+.balloon {
   cursor:pointer;
 }
 
-.item-button {
+.character {
+  cursor:pointer;
+}
+
+.item-remove {
   position: absolute;
-  left: 0px;
+  right: 0;
   top: 0px;
 }
 
+.item-background {
+  position: absolute;
+  left: 0px;
+  top: 0;
+}
+
 .sticky textarea{
-text-align: center;
-vertical-align: middle;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.balloon textarea{
+  text-align: center;
+  vertical-align: middle;
 }
 
 
@@ -165,15 +222,35 @@ canvas {
   cursor: crosshair;
 }
 
+//entry
+
+
+
 .entry .hide_buttons {
   background-color: #eef;
   position: absolute;
   //float: right;
+  //width: 40px;
   list-style:none;
   //  left: 800px;
   top: 0px;
 }
 
+.new_entry_handle {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 16px;
+  cursor:pointer;
+  border: 1px silver dotted ;
+  color: gray;
+}
+
+.new_entry_handle:hover{
+  background: #dfe;
+  cursor:pointer;
+  color: black;
+}
 
 .entry .hide_buttons button{
   height: 34px;
@@ -183,6 +260,9 @@ canvas {
 .entry .hide_buttons button img{
 }
 
+.entry .entry_handle {
+  cursor:n-resize;
+}
 
 // Tutorial Dialog
 

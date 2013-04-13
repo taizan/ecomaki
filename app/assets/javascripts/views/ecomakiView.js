@@ -1,6 +1,5 @@
 ecomakiView = Backbone.View.extend({
   isEditable: true,
-  isPreview: false,
 
   isDisplay: false,
   isDisplayed: false,
@@ -25,24 +24,23 @@ ecomakiView = Backbone.View.extend({
         "onAddChild",
 				"appendTo",
 				"load",
-				"saveTitle",
-				"saveDescription",
+        "setEditable",
 				"onScroll",
 				"onScrollEnd",
 				"onDisplay",
 				"onPreDisplay",
 				"onPostDisplay",
-				"hideButton"
+				"hideButton",
+        "destroyView"
 			);
 
-    var _self = this;
-
     this.isEditable = args.isEditable;
-    this.isPreview = args.isPreview;
 		this.parentView = args.parentView;
 
-    this.model.bind('change', this.render, this);
-    this.model.bind('destroy', this.render, this);
+    ///this.model.bind('change', this.render, this);
+    this.model.bind('sync',this.onSync,this);
+    this.model.bind('destroy',this.destroyView);
+    //this.model.bind('destroy', this.render, this);
 
 
     //not use because too heavy
@@ -51,8 +49,12 @@ ecomakiView = Backbone.View.extend({
 
   onInit: function(args){},
 
+  onSync: function(model,option){
+    //console.log(model,option);
+  },
 
   load: function(){
+    //this.isEditable = isEditable;
 		this.isLoaded = true;
     $(this.el).empty();
 		var template = _.template( $(this.tmplId).html() , this.model.attributes);
@@ -64,7 +66,6 @@ ecomakiView = Backbone.View.extend({
 
     //this.hideButton();
     this.onLoad();
-
 	},
 
   onLoad: function(){},
@@ -89,12 +90,12 @@ ecomakiView = Backbone.View.extend({
   },
 
 
-  addOne: function (item,t,options) {
-    //console.log(item);
-    var view = new (this.childViewType)({model: item , parentView: this ,isEditable: this.isEditable , isPreview: this.isPreview});
+  addOne: function ( model , t , options ) {
+    //console.log(model);
+    var view = new (this.childViewType)({ model: model , parentView: this ,isEditable: this.isEditable });
     //console.log(view);
     this.childViews.push(view);
-    $(this.elementList,this.el).insertAt(options.index,view.render().el);
+    $(this.elementList,this.el).insertAt(options.index,view.el);
     view.onAppend();
     this.onAddChild(view);
   },
@@ -102,7 +103,8 @@ ecomakiView = Backbone.View.extend({
   onAddChild: function(view){},
 
   addAll: function () {
-    $(this.elementList,this.el).empty();
+    //console.log('refresh');
+    $(this.elementList,this.el).unbind().empty();
     this.childViews = [];
     _(this.childModels).each(this.addOne);
 
@@ -113,15 +115,35 @@ ecomakiView = Backbone.View.extend({
   },
 
 
-  saveTitle: function(txt){
-    this.model.save('title',txt);
+  setEditable: function(target , attr){
+    var self=this;
+    $(target,self.el)
+      .bind('input', function(){
+        self.isEditing = true;
+        console.log("oninput");
+        var txt = Config.prototype.escapeText($(target,self.el).html());
+        self.model.save( attr, txt );
+        //self.model.save();
+      })
+      .bind('blur', function(){
+        self.isEditing = false;
+      });
   },
 
-  saveDescription: function(txt){
-    this.model.save('description',txt);
+
+  // set text to target DOM from model.attributes 
+  // if attr was empty , set def txet
+  setTextTo: function(attr, target , def){
+    var txt = this.model.get(attr);
+    if(txt == "" || txt == "<br>"|| txt === null || txt === undefined){
+      if(this.isEditable) { txt = def; } 
+      else {  txt = ''; }
+      $(target).html(txt);
+    }
+    else {
+      $(target).html(txt);
+    }
   },
-
-
 
   onScroll: function(){
     var window_height = config.getScreenSize().y;
@@ -171,18 +193,19 @@ ecomakiView = Backbone.View.extend({
 	
 	onScrollEnd: function(){},
 	
-	
+ 
+
   hideButton: function(){
     if(!this.isHideButton){
       this.isHideButton = true;
       var hide_button = '.hide_buttons';
       var button = '.buttons';
-      var _self = this;
+      var self = this;
       $(this.el)
         .mouseover(function(){
-          if(_self.isEditable){
+          if(self.isEditable){
      //       $(this).children(button).show();
-            $(hide_button,_self.el).show();
+            $(hide_button,self.el).show();
           }
         })
         .mouseleave(function(ev){
@@ -191,12 +214,30 @@ ecomakiView = Backbone.View.extend({
             //console.log($(ev.toElement));
             if( !$(ev.toElement).hasClass('ui-tooltip-content')
                  && !$(ev.toElement).hasClass('ui-tooltip') ) {
-              $(hide_button,_self.el).hide();
+              $(hide_button,self.el).hide();
             }
         });
       $(hide_button,this.el).hide();
     }
     return this;
   },
-	
+
+  destroyView: function() {
+
+    //COMPLETELY UNBIND THE VIEW
+    this.undelegateEvents();
+    
+    this.$el.removeData().unbind(); 
+
+    this.model.unbind('change',this.render);
+  
+    //Remove view from DOM
+    this.onRemove();
+    this.remove();  
+    Backbone.View.prototype.remove.call(this);
+   
+ },
+
+ onRemove: function() {},
+
 });

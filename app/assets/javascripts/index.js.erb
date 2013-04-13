@@ -1,0 +1,50 @@
+//= require underscore
+//= require backbone
+//= require jquery.form
+
+//= require ./models
+//= require ./views/ecomakiView
+//= require ./views/entryItems
+//= require ./views/entryView
+//= require ./views/chapterView
+//= require ./views/novelView
+//= require ./tools/textEditTool
+//= require ./tools/effecter
+
+
+$(function() {
+  // load template	
+  var template = _.template( $("#novel_form_template").html(),{});
+  
+  //append and setting
+  var form = $(template)
+    .appendTo('body')
+    .attr({"action": "/novel" , "method":"post" });
+  
+  $('.cancel_button',form).click( function(){ $(form).hide('drop','fast'); } );
+  // default hided
+  $(form).hide();
+  
+  $('#create_button').click( function(){
+      //$(form).show('drop','fast'); 
+      $(".submit_button",form).click();
+    } );
+
+  $(document).tooltip();
+  
+  //--
+  // init previews of novel
+  //obj = <%= @novels.to_json %>;
+  for (i = 0; i < entries.length; i++){
+    entry = new Entry(entries[i][0]);
+    entryView = new EntryView({'model':entry});
+    $(entryView.el).appendTo('.novel_list_item_'+ i +" .entry_preview");
+    //console.log('.novel_list_item_'+ i);
+    entryView.load();
+  }
+  //--
+
+});
+
+
+

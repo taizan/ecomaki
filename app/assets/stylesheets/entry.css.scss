@@ -11,18 +11,21 @@
 
 .entry {
   position: relative;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 60px;
 }
 
-
-.entry-content {
- background: url("/assets/entry/entry_background.png"); 
+.entry .entry_wrapper {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 22px;
 }
 
-
-.entry-content {
+.entry_content {
+  background: url("/assets/entry/entry_background.png"); 
   position: absolute;
   left: 0px;
   top: 0px;
@@ -33,4 +36,46 @@
   -webkit-border-radius: 2px; /* Safari,Chrome */
   border: 1px gray ridge;
   overflow: hidden;
+}
+
+.add_default_character_icon{
+  z-index: 999;
+  position: absolute;
+  width: 128px;
+  height: 128px;
+  top: 50%;
+  left: 30%;
+  margin-top: -64px;
+  margin-left: -64px;
+  background: url(/assets/novel/add_character.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.add_default_character_icon p{
+  display:table-cell; 
+  vertical-align: middle; 
+  width: 128px;
+  height: 128px;
+}
+
+.add_default_balloon_icon{
+  z-index: 999;
+  position: absolute;
+  width: 128px;
+  height: 128px;
+  top: 50%;
+  left: 70%;
+  margin-top: -64px;
+  margin-left: -64px;
+  background: url(/assets/novel/add_balloon.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.add_default_balloon_icon p{
+  display:table-cell; 
+  vertical-align: middle; 
+  width: 128px;
+  height: 128px;
 }

@@ -2,96 +2,96 @@
 
 <script type="text/template" id="novel_template">
   <div id="novel_header">
-    <div id="title"  title="題名; Novel Title;">
-      <h2 class="text_help  editer_item">T I T L E</h2>
-      <h2 class="text" ></h2>
-    </div>
-    <div id="description"  title="説明; description;"> 
-      <p class="text_help  editer_item">D E S C R I P T I O N</p>
-      <p class="text" ></p>
-    </div>
-    <div id="author"  title="作者; autho of novel" > 
-      <p class="text_help  editer_item">A U T H O R</p>
-      <p class="text" ></p>
-    </div>
+    <div id="title"  contenteditable = "true"  title="題名"></div>
+    <div id="description" contenteditable = "true" title="説明"></div>
+    <div id="author_name" contenteditable = "true"  title="作者" ></div>
   </div>
-  
-  <div class="buttons editer_item">
-    <button id="add_chapter" class="btn add_chapter" title="新しい章の作成; Create new chapter"> 
+  <!-- 
+  <div class="buttons novel_buttons editer_item">
+    <button id="add_chapter" class="btn add_chapter" title="新しい章の作成"> 
        <img src="/assets/novel/page_add_green.png">
     </button>
   </div>
+  -->
 
+  <div id="new_chapter_handle" class="new_chapter_handle editer_item" >新規ページ追加 </div> 
+
+  <br>
   <div class="chapterList"></div>
+  <br>
 
 </script>
 
 <script type="text/template" id="chapter_template">
-  <hr class="editer_item">
-
+  <!--<hr class="editer_item">-->
+  
+  <div class="chapter_wrapper">
   <div class="chapter_control top_control editer_item">
     <button class="background_icon icon">
-      <img src="/assets/novel/background_2.png" title="背景の選択; Select background "/>
+      <img src="/assets/novel/background_2.png" title="背景の選択"/>
     </button>
     <button class="music_icon icon">
-      <img  src="/assets/novel/Sound.png" title="BGMの選択; Select BGM"/>
+      <img  src="/assets/novel/Sound.png" title="BGMの選択"/>
     </button>
-    <button class="remove_chapter icon" title="この章全体の削除; Remove this chapter"> <img src="/assets/novel/remove.png" /></button>
+    <button class="remove_chapter icon" title="この章全体の削除"> <img src="/assets/novel/remove.png" /></button>
   </div>
 
   <div class="chapter_header">
-    <div class="title" title="章の題名。省略可能; Chapter title. It can be omitted">
-      <h2 class="text_help editer_item">PAGE  TITLE</h2>
-      <h2 class="text">chapter title</h2>
-    </div>
-    <div class="description" title="章の説明。省略可能; Chapter description. It can be omitted">
-      <p class="text_help editer_item">DESCRIPTION</p>
-      <p class="text">des</p>
-    </div>
+    <div class="title" contenteditable = "true" title="章の題名。省略可能"></div>
+    <div class="description" contenteditable = "true" title="章の説明。省略可能"></div>
   </div>
 
   <div class="entryList"></div>
   <br>
+
+  </div>
+ <!-- 
   <div class="buttons chapter_buttons editer_item">
-    <button class="btn add_entry add_one_char" title="コマの追加,キャラクター１人タイプ; Add new entry with a person">
+    <button class="btn add_entry add_one_char" title="コマの追加,キャラクター１人タイプ">
        <img src="/assets/novel/add_1_char_1_ball.png">
     </button>
-    <button class="btn add_entry add_two_char" title="コマの追加,キャラクター2人タイプ; Add new entry with two persons">
+    <button class="btn add_entry add_two_char" title="コマの追加,キャラクター2人タイプ">
        <img src="/assets/novel/add_2_char_2_ball.png">
     </button>
-    <button class="btn add_entry add_description" title="コマの追加,説明文タイプ; Add new entry with a description"> 
+    <button class="btn add_entry add_description" title="コマの追加,説明文タイプ"> 
        <img src="/assets/novel/add_description.png">
     </button>
   </div>
 
   <hr class="editer_item">
+
   <div class="chapter_control bottom_control editer_item">
     <button class="btn add_chapter icon" title="新しい章の追加; Add new chapter">
        <img src="/assets/novel/page_add_green.png">
     </button>
   </div>
-  
+  -->
+  <br>
+  <div class="new_chapter_handle editer_item" >新規ページ追加 </div> 
+  <br>
 </script>
 
 <script type="text/template" id="entry_template">
-  <div class="entry-content">
+  <div class="entry_wrapper">
+    <div class="entry_content"></div>
+
+    <div class="hide_buttons editer_item">
+      <li><i class="icon-move entry_handle" title="ドラッグしてコマのソート"/></li>
+      <li><button class="btn btn_remove" title="コマの削除"><i class="icon-remove-sign" /></button></li>
+      <li><button class="btn btn_balloon" title="セリフの追加">
+        <img src="/assets/novel/add_balloon.png">
+      </button></li>
+      <li><button class="btn btn_character" title="キャラクター画像の追加">
+        <img src="/assets/novel/add_character.png">
+      </button></li>
+      <li><button class="btn btn_layer" title="キャンバスを一番上/一番下のレイヤーに">
+        <img src="/assets/novel/pencil.png">
+      </button></li>
+      <li><button class="btn btn_entry" title="コマの複製"><i class="icon-arrow-down" /></button></li>
+    </div>
+    <div class="itemEffectSelecters"></div>
   </div>
-  <div class="hide_buttons editer_item">
-    <li><i class="icon-move" title="ドラッグしてコマのソート; Sort entry"/></li>
-    <li><button class="btn --btn-remove" title="コマの削除; Remove this entry"><i class="icon-remove-sign" /></button></li>
-    <li><button class="btn --btn-balloon" title="セリフの追加; Add Balloon">
-       <img src="/assets/novel/add_balloon.png">
-    </button></li>
-    <li><button class="btn --btn-picture" title="キャラクター、画像の追加; Add Character">
-       <img src="/assets/novel/add_character.png">
-    </button></li>
-    <li><button class="btn --btn-layer" title="キャンバスを一番上/一番下のレイヤーに; Change Canvas Layer">
-       <img src="/assets/novel/pencil.png">
-    </button></li>
-    <li><button class="btn --btn-entry" title="新しいコマの追加、空白; Add New Entry"><i class="icon-arrow-down" /></button></li>
-  </div>
-  <div class="itemEffectSelecters">
-  </div>
+    <div class="new_entry_handle editer_item" >新規コマ追加</div> 
 </script>
 
 <script type="text/template" id="balloon_template">

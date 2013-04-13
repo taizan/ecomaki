@@ -1,149 +1,215 @@
-//= require jquery.jStageAligner
 //position obj is there some nomal one?
 
 
-var EntryItem = function(item,view,isEditable){
-  this.parentView = view;
-  this.item = item;
-  this.isEditable = isEditable;
-  this.content = this.parentView.content;
-  
-  this.defaultInitialize.apply(this,arguments);
+EntryItemView = Backbone.View.extend ({
 
-  this.initialize.apply(this,arguments);
-
-};
-
-EntryItem.extend = function (protoProps, classProps) {
-  var child = config.inherits(this, protoProps, classProps);
-  child.extend = this.extend;
-  
-	return child;
-};
-
-EntryItem.prototype = {
-  // for over ride
-  initialize: function(){},
-
-  // for over ride
-  tmpl: '',
-
-  defaultInitialize: function(){
-    _.bindAll(this,
-        "onChange",
+  initialize: function(args){
+     
+    this.parentView = args.parentView;
+    this.isEditable = args.isEditable;
+    this.content = this.parentView.content;
+     
+     _.bindAll(this,
+        "render",
+        "onSync",
         "onClick",
         "onResize",
         "onDragStart",
         "onDragStop",
-        "appendTo",
-        "setButton",
-        "showOutLine",
-        "init",
+        "onRender",
 				"onDisplay",
-				"onPreDisplay"
+				"onPreDisplay",
+				"onDefaultItemClick",
+        "onDefaultItemOver", 
+        "destroyView"
       );
-    this.item.on('change',this.onChange);
-    this.$el = $(this.tmpl);
-    this.el = this.$el[0];
-    var z = this.item.get('z_index') != null ? this.item.get('z_index') : 0;  
+   
+    this.model.bind('destroy', this.destroyView, this);
 
-    this.$el
-      .css({position: 'absolute', top: this.item.get('top'), left: this.item.get('left'), zIndex: z })
-      .width(this.item.get('width')).height(this.item.get('height'));
+    this.defaultInitialize.apply(this,arguments);
+
+    this.onInit.apply(this,arguments);
+  },
+
+  onSync: function(){
+    //console.log('onsync');
+  },
+
+
+  defaultInitialize: function(){
+    //this.el = this.tmpl;
+    var z = this.model.get('z_index') != null ? this.model.get('z_index') : 0;  
+
+    $(this.el)
+      .css({position: 'absolute', top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
+      .width(this.model.get('width')).height(this.model.get('height'));
      
   },
 
-  onChange: function(){
-    //console.log('on item change');
-    //this.item.save();
-  },
+  render: function(){
+    //console.log('render');
+    //console.log(this);
+    
+    var z = ( this.model.get('z_index') != null ) ? this.model.get('z_index') : 0;  
 
+    $(this.el)
+      .css({position: 'absolute', top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
+      .width(this.model.get('width')).height(this.model.get('height'));
+   
+    this.onRender();
+  },
+ 
+
+  // DOM　に追加された時に呼ばれる
   appendTo: function(target){
-    this.$el.appendTo(target);
-    this.el = this.$el[0];
+    var self = this;
+    $(this.el).appendTo(target);
 
-    if(this.isEditable) $(this.el).click(this.onClick);
-    this.init();
+    //initialize effecter object
+    this.effecter = new Effecter(this.el,this.model,'option',this.className + this.model.get('id') );
+    this.model.bind('change:option', this.effecter.resetEffect )
+
+    //initialize draggable 
+    //resizable is initialized at each item onAppend
+    if(this.isEditable){ 
+      $(this.el)
+        .click(this.onClick)
+        .draggable({
+          //containment: "parent",
+          start: this.onDragStart,
+          stop: this.onDragStop
+        });
+    }
+
+    this.onAppend();
+
+    if(this.model.isDefaultItem){
+      $(this.el).bind('click', function(){
+        if(self.model.isDefaultItem) {
+          self.parentView.model.isNewEntry = false;
+          $(self.el).unbind( 'click', self.onDefaultItemClick );
+          self.onDefaultItemClick (
+              function(){ self.model.isDefaultItem = false;}
+            );
+        }
+
+      });
+      this.onDefaultItemOver();
+    }
+
+    // do post appedn method
+    this.setRemoveButton();
+    this.initButton();
+    $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
+   
+
+    this.render();
+    //$(this.el).click();
   },
-
-  init: function(){},
 
   onResize: function(){
-    this.effecter.changeSelecter();
 
-    this.item.set('width',$(this.el).width());
-    this.item.set('height' , $(this.el).height());
-    this.item.save();
+      var data = {
+          'width' : $(this.el).width() ,
+          'height': $(this.el).height() ,
+          'top'   : $(this.el).offset().top - $(this.content).offset().top ,
+          'left'  : $(this.el).offset().left - $(this.content).offset().left 
+        };
+
+    if(this.model.isDefaultItem){
+      this.model.set(data);
+    }else{
+      this.model.save(data);
+      this.effecter.changeSelecter();
+    }
   },
 
   onDragStart: function(){
-    this.effecter.changeSelecter();
 
     var z = this.parentView.maxIndex ;
-    //if(this.item.get('z_index') < z) {
+    //if(this.model.get('z_index') < z) {
       z ++;
       this.parentView.maxIndex++;
     //}
     $(this.el).css({zIndex: z});
-    $(this.target).css({zIndex: z});
-    this.item.set('z_index', z);
-    this.item.save();
+    this.model.set({'z_index': z});
+
+    if(!this.model.isDefaultItem){
+      this.effecter.changeSelecter();
+    }
+    // donot save here because it triger render 
+    //this.model.save();
   },
 
   onDragStop: function(){
-    this.item.set('top' , $(this.el).offset().top - $(this.content).offset().top );
-    this.item.set('left' , $(this.el).offset().left - $(this.content).offset().left );
-
-    this.item.save();
-    
-    console.log(this);
+    this.model.set({
+          'top' : $(this.el).offset().top - $(this.content).offset().top ,
+          'left': $(this.el).offset().left - $(this.content).offset().left
+        });
+    if(!this.model.isDefaultItem){
+      this.model.save();
+    }
+    //console.log(this);
   },
 
   showOutLine: function(){
-    var target = this.target; 
-    var _self = this;
-    $(target)
+    var self = this;
+    $(this.el)
       .mouseover(function(){
-        if(_self.isEditable){
-          $(target).css({ border: '1px solid gray'});
+        if(self.isEditable){
+          $(self.el).css({ border: '1px solid gray'});
         }
       })
       .mouseout(function(){
-        $(target).css({ border: 'none'});
+        $(self.el).css({ border: 'none'});
       });
   },
 
-  setButton: function(){
-    var target = this.target;
-    var _self = this;
-    var button = $('<i class="icon-remove-sign item-button item-remove" title="削除; remove" />');
-    button.appendTo(target);
-    button.hide();
+  initButton: function() {
+    var self = this;
 
-    $(target)
+    $(this.el)
       .mouseover(function(){
-        if(_self.isEditable){
-          button.show();
+        if(self.isEditable){
+          $('.item-button',self.el).show();
         }
       })
       .mouseout(function(){
-        button.hide();
+        $('.item-button',self.el).hide();
       });
 
-    var item = this.item;
+  },
 
-    $('.item-remove',target).click(
+  setRemoveButton: function(){
+    var self = this;
+    $('<i class="icon-remove-sign item-button item-remove" title="削除" />')
+      .appendTo(this.el)
+      .hide();
+
+    $('.item-remove',this.el).click(
       function(){
         //console.log(target);
-        $('.item',target).remove();
-        $(target).remove();
-        item.destroy();
+        self.model.destroy();
       }
     );
   },
-  
+
+  onDefaultItemOver: function() {
+    var self = this;
+    $(this.el)
+      .mouseover( function(){
+        if(self.model.isDefaultItem) 
+          $(self.el).css({opacity: 1});
+        })
+      .mouseout( function() {
+        if(self.model.isDefaultItem) 
+          $(self.el).css({opacity: 0.5});
+        })
+      .css({opacity: 0.5})
+  },
+
+
   onDisplay: function(){
-    console.log('ondisp')
     this.effecter.runSelectedEffect();
   },
 
@@ -155,140 +221,275 @@ EntryItem.prototype = {
     this.effecter.changeSelecter();
   },
 
-};
+  destroyView: function() {
+    //COMPLETELY UNBIND THE VIEW
+    this.undelegateEvents();
+    
+    this.$el.removeData().unbind(); 
 
-
-BalloonItem = EntryItem.extend({
-  tmpl : '<div class="item balloon item-resizable item-draggable sticky" ><div class="text"></div></div>',
-
-  initialize: function(){
-    _.bindAll(this,"saveText");
-    $('.text',this.el).html(this.item.get('content'));
+    this.model.unbind('change',this.render);
+  
+    //Remove view from DOM
+    this.onRemove();
+    this.remove();  
+    Backbone.View.prototype.remove.call(this);
+   
   },
 
-  init: function(){
-    //console.log(this.el);
-    this.target = $(this.el);
-    this.effecter = new Effecter(this.target,this.item,'option','balloon'+this.item.get('id') );
-    //this.fontSelecter = new FontSelecter(this.target,this.item);
-		this.textMenu = new TextEditMenu(this.target, this.item);
+  // for over ride
+  onInit: function(){},
 
-    this.$el.children().width(this.item.get('width')).height(this.item.get('height'));
+  onAppend: function(){},
 
-    if(this.isEditable){
+  onRemove: function() {},
 
-		
-      $(this.el).draggable({
-        containment: "parent",
-        start: this.onDragStart,
-        stop: this.onDragStop
-      });
+  onRender: function(){},
 
-      $(this.el).resizable({
-        alsoResize: $('.text',this.el),
-        containment: "parent",
-        stop: this.onResize ,
-        autoHide: true
-      });
-
-      //$(this.el).click(this.editText);
-      //$(this.el).click(this.fontSelecter.changeSelecter);
-			var self = this;
-      $(this.el).click((function(){
-          editableTextarea(self.el,self.saveText);
-          self.textMenu.changeSelecter(self.target)
-          $('.ui-tooltip').hide();
-        }));
-      
-      this.setButton();
-      $(this.el).attr({title:"クリックで編集、ドラッグで移動; Click to edit. Dragg to move."});
-      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
-    }
-    this.effecter.resetEffect(); 
-    //this.fontSelecter.applyFont();
-    this.textMenu.applyFont();
-  },
-
-
-  saveText: function(txt){
-    this.item.set('content',txt);
-    this.item.save();
-  },
+  onDefaultIteClick: function(){}
 
 });
 
 
-ImageItem = EntryItem.extend({
-  tmpl: '<div class="wrapper item item-resizable item-draggable"><img class="item_image"></div>',
-  //pre append method
-  initialize: function(){
-    _.bindAll(this,"selectImage","setImage","init");
-    $('img',this.el).attr('src', config.character_image_idtourl( this.item.get('character_image_id') ) );
+BalloonView = EntryItemView.extend({
+  //tmpl : '<div class=" balloon" ><div class="text"></div></div>',
+  className : "balloon",
+
+  onInit: function(){
+    _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton","setBalloonEditable",
+      'editStart','editEnd',"onDefaultItemClick");
+    //this.model.bind('sync', this.render, this);
+
+    //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
+    $('<div class="text" ></div>').appendTo(this.el);
+
   },
-  //post append messod
-  init: function(){
+
+  onAppend: function(){
+
+    //console.log(this.el);
+		var self = this;
+
+		this.textMenu = new TextEditMenu(this.el, this.model);
+
+    
     if(this.isEditable){
-      $(this.el).resizable({
-        //  containment: "parent parent" ,
-        aspectRatio: true,
-        stop: this.onResize,
-        autoHide: true,
-        "handles": "n, e, s, w, ne, se, sw, nw",
-      });
 
-      this.target = $(this.el);
-			this.effecter = new Effecter(this.target,this.item,'option' , 'image'+this.item.get('id'));
+    this.model
+      .bind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
+      .bind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
+      .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
 
-      $(this.el).draggable({
-        start: this.onDragStart,
-        stop: this.onDragStop
-      });
+      $(this.el)
+        .resizable({
+          alsoResize: $('.text',this.el),
+          containment: "parent",
+          stop: this.onResize ,
+          autoHide: true
+        })
+        // TEMP ? goto temp html?
+        .attr({title:"クリックで編集、ドラッグで移動"});
 
-      $(this.el).click(this.selectImage);
-      $(this.el).click(function(){
-        $('#toolbox .font_selecter').remove();
-      });
-      this.setButton();
-      this.showOutLine();
-      $(this.el).attr({title:"クリックで画像選択、ドラッグして移動; Click to select image.Dragg to move"});
-      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
+
+      this.setBalloonEditable();
+      this.setBackgroundButton();
+
+    //If this view was Default item , call addTo once 
+
 
     }else{
-      this.target = $(this.el);
-      this.effecter = new Effecter(this.target,this.item,'option');
+      // for sync preview 
+      this.model.bind('sync',this.render);
     }
+    //this.fontSelecter.applyFont();
+    this.render();
+  },
+
+  onRemove: function(){
+    this.model
+      .unbind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
+      .unbind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
+      .unbind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
+    
+    this.model.unbind('sync',this.render);
+  },
+
+  setBalloonEditable: function(){
+		var self = this;
+
+    $(this.el)
+      .bind('click', this.editStart);
+
+    $('.text',this.el)
+      .blur(this.editEnd)
+      .bind('input', this.saveText);
+
+  },
+
+  editStart: function(){
+    // disable draggable when focusing contenteditable
+    // and disable text render with isEditing flag
+		var self = this;
+
+    if ( ! $(self).is('.ui-draggable-dragging') && !self.isEditing ) {
+      $(self.el).draggable("option","disabled",true).removeClass('ui-state-disabled');
+      self.el.removeAttribute('aria-disabled');
+
+      $('.text',self.el).attr('contenteditable','true').focus();
+      this.setFocus();
+      self.isEditing = true;
+    }
+
+    self.textMenu.changeSelecter(self.el);
+    $('.ui-tooltip').hide();
+
+  },
+  
+  onDefaultItemClick: function(callback) {
+    $('.text',this.el).html('');
+    this.model.set('content',"");
+    $(this.el).css({opacity: 1});
+    // add this model to entry collecti
+    //this.model.defaultItemSave();
+    this.model.addTo( this.parentView.model.balloons , callback);
+  },
+
+  editEnd: function(){
+		var self = this;
+    $(self.el).draggable("option","disabled",false);
+    $('.text',self.el).attr('contenteditable','false');
+    self.isEditing = false;
+  },
+
+
+  // not work well 
+  setFocus: function(){
+    var node = $('.text',this.el)[0];
+    var pos = 0;
+    if(!node){
+      return false;
+    }else if(node.createTextRange){
+      var textRange = node.createTextRange();
+      textRange.collapse(true);
+      textRange.moveEnd(pos);
+      textRange.moveStart(pos);
+      textRange.select();
+      return true;
+    }else if(node.setSelectionRange){
+      node.setSelectionRange(pos,pos);
+      return true;
+    }
+  },
+
+  onRender: function(){
+    console.log(this.isEditing);
+    if( !this.isEditing){
+    $('.text',this.el)
+      .html( this.model.get('content') )
+      .width(this.model.get('width')).height(this.model.get('height'));
+    this.effecter.resetEffect(); 
+    this.textMenu.applyFont();
+    }
+  },
+
+
+  saveText: function(txt){
+    var self = this;
+    // to aviod call too many save method 
+    if(!this.saving && !this.model.isDefaultItem){
+      this.saving = true;
+      var txt = Config.prototype.escapeText($('.text',this.el).html());
+      this.model.save('content',txt,{success: function(){ self.saving = false;}});
+    }
+  },
+  
+  saveBackground: function(id){
+    this.model.save('entry_balloon_background_id',id);
+    //this.textMenu.applyFont();
+  },
+
+  setBackgroundButton: function(){
+    var self = this;
+    $('<i class="icon-comment item-button item-background" title="吹き出しのタイプ" />')
+      .appendTo(this.el)
+      .hide();
+
+    $('.item-background',this.el).click(
+      function(){
+        //console.log(target);
+        Picker.prototype.showBalloonList(self.saveBackground);
+      }
+    );
+  },
+
+
+});
+
+
+CharacterView = EntryItemView.extend({
+  //tmpl: '<div class="wrapper model model-resizable model-draggable"><img class="model_image"></div>',
+  className : "character",
+  //pre append method
+  onInit: function(){
+    _.bindAll(this,"selectCharacter","setCharacter", "onDefaultItemClick");
+    $('<img class="character_image">').appendTo(this.el);
+    this.model.bind('sync',this.render,this);
+  },
+  
+  onRemove: function(){
+    this.model.unbind('change',this.render);
+  },
+
+  //post append messod
+  onAppend: function(){
+    if(this.isEditable){
+
+      $(this.el)
+        .resizable({
+          //  containment: "parent parent" ,
+          aspectRatio: true,
+          stop: this.onResize,
+          autoHide: true,
+          "handles": "n, e, s, w,this.onDefaultItemOver ne, se, sw, nw",
+        })
+
+        .click(this.selectCharacter)
+      
+        .attr({title:"クリックで画像選択、ドラッグして移動"});
+      
+
+      //set UI on mouseovered
+      this.showOutLine();
+    
+    }
+    
+  },
+
+  onRender: function(){
+    $('img',this.el).attr('src', config.character_image_idtourl( this.model.get('character_image_id') ) );
     this.effecter.resetEffect(); 
   },
 
-  selectImage: function(ev){
+  selectCharacter: function(ev){
     //console.log('selectimage');
-    Picker.prototype.showCharacterList(this.setImage);
+    Picker.prototype.showCharacterList(this.setCharacter);
   },
+
 // use img to get size 
 // this not clear bu fast
-  setImage: function(id,img){
-    this.item.set('character_image_id' , id );
-    var targetImage = $('img',this.el).attr('src',config.character_image_idtourl(id));
-/*
-    var destHeight = this.content.offset().top + this.content.height() - $(this.el).offset().top;
-    if(destHeight < img.height ){
-      console.log('modefy height');
-      img.width =  img.width * destHeight / img.height;
-      img.height = destHeight;
-    }
-    var destWidth = this.content.offset().left + this.content.width() - $(this.el).offset().left;
-    if(destWidth < img.width ){
-      // this should just this jyunjyo
-      console.log('modefy height');
-      img.height =  img.height * destWidth / img.width;
-      img.width = destWidth;
-    }
+  setCharacter: function(id,img){
+    this.model.save({
+      'character_image_id' : id ,
+      'width' : img.width,
+      'height': img.height,
+    });
+  },
 
-*/
-    $(this.el).height(img.height).width(img.width);
-    this.item.set('width' , img.width);
-    this.item.set('height' , img.height);
-    this.item.save();
-  }
-
+  onDefaultItemClick: function(callback) {
+    $(this.el).css({opacity: 1});
+    // add this model to entry collection 
+    //this.model.defaultItemSave();
+    this.model.addTo( this.parentView.model.characters ,callback);
+  },
+  
+    
 });

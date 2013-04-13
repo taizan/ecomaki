@@ -125,6 +125,30 @@
   </aside>
 </script>
 
+<script type="text/template" id="balloon_picker_template">
+  <aside class = "well sidebar-nav picker picker_elem" id="balloon_picker" >
+
+    <ul class = "picker_list  picker_elem nav nav-list">
+      <li class="nav-header picker_elem">
+        <button class="btn picker_cancel_button" title="閉じる; close picker"><img src="/assets/novel/arrow_left.png" ></button>
+
+      </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/0.png" id = "0"> </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/1.png" id = "1"> </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/2.png" id = "2"> </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/3.png" id = "3"> </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/4.png" id = "4"> </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/5.png" id = "5"> </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/6.png" id = "6"> </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/7.png" id = "7"> </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/8.png" id = "8"> </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/9.png" id = "9"> </li>
+      <li> <img class="balloon_picker_item" src="/assets/balloon/10.png" id = "10"> </li>
+    </ul>
+  </aside>
+</script>
+
+
 <script type="text/template" id="picker_template">
   <!-- picker menu  -->
   <aside class = "well sidebar-nav" id="picker">
@@ -171,7 +195,7 @@
       <p class="list_header_description">description </p>
     </div>
     <div class='floatEnd'></div>
-    <button class="btn add_character_image_button" title="新規画像の追加; Upload New Image" ><img  src="/assets/novel/add.png"></button>
+    <button class="btn add_character_image_button add_character_image" title="新規画像の追加; Upload New Image" ><img class="add_character_image" src="/assets/novel/add.png"></button>
     <div class='floatEnd'></div>
     <div class="image_list" style="display:none">
     </div>
@@ -372,10 +396,10 @@
 
     <div  class="selecter_item TSize" title="Text Size">
       <div class="font_size_radio" title="Text Size">
-        <input type="radio" id="font_size_s" name="radio"  /><label value="10" for="font_size_s">S</label>
+        <input type="radio" id="font_size_s" name="radio"  /><label value="12" for="font_size_s">S</label>
         <input type="radio" id="font_size_m" name="radio" /><label value="16" for="font_size_m">M</label>
-        <input type="radio" id="font_size_L" name="radio" /><label value="32" for="font_size_L">L</label>
-        <input type="radio" id="font_size_XL" name="radio"  /><label value="48" for="font_size_XL">XL</label>
+        <input type="radio" id="font_size_L" name="radio" /><label value="28" for="font_size_L">L</label>
+        <input type="radio" id="font_size_XL" name="radio"  /><label value="45" for="font_size_XL">XL</label>
       </div>
     </div>
 

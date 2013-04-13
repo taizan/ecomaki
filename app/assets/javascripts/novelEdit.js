@@ -22,65 +22,65 @@
 
 
 $(function() {
-  
-  var id = $('.novel_container').attr('id');
-  
-  var isEditable = true;
-    
-  var urls = location.href.split('/');
-  var pass = urls.length > 5 ? urls[5] : null;  
-  //console.log(pass);
 
-  initializeView(id,pass,isEditable);
+  // function define 
+  //
+  // initializeView
+  //
+  // initializeTool
+  //
+  //
+  var novelEdit = {
+ 
+  initializeView : function(id,pass,isEditable){
 
-  if(isEditable) initializeTool(isEditable);
+    var makeView = function(){
+      _novelView = new NovelView({model: _novel , isEditable: isEditable  });
+      _novelView.appendTo($('#content'));
+    }
 
-
-  /*
-  window.onbeforeunload = function () {
-        if (document.title.indexOf("*") != -1) {
-                    return ("You have unsaved changes...");
-        }
-  }
-  window.onunload=function() {
-    alert();
-    return confirm('Are you sure you want to leave the current page?');
-    
-  }
-
-  $(window).unload( function () { alert("Bye now!"); } );
-  */
-                                
-  function initializeView(id,pass,isEditable){
     _novel = new Novel({id: id,password: pass});
-    _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreview: false});
-    _novelView.appendTo($('#content'));
+    _novel.fetch({
+    success: function(){
+      // check status here 
+      // viewに実装したほうがいいか？　その場合view初期化時の処理と衝突
+      if(_novel.get('status') == 'initial'){
+			  selectTemplate(_novel,makeView );
+      //>>>> make templates
+        _novel.save({'status': 'draft'});
+       }
+       else{
+        makeView();
+      }
+    }
+  });
 
     $('#toolbox').hide();
     $('#console').hide();  
     $('#side_menu').hide();
 
     $(document).tooltip();
-    $('#static_body').bind('mousedown',onStaticBodyClick);
-  }
+    $('#static_body').bind('mousedown',novelEdit.onStaticBodyClick);
 
-  function initializeTool(isEditable){
+  },
+
+  initializeTool : function(isEditable,id){
     $('#toolbox').show();
 
     Picker.prototype.initialize();
 
+    // Prever Button Click
     $('#preview_button').click(function(){
         isEditable = isEditable ? false : true;
 			  $('#preview_button img').attr('src', '/assets/novel/' + (isEditable ? 'preview.png' : 'edit.png'));
-			  $('#preview_button p').text(isEditable ? 'preview' : 'edit');
+			  $('#preview_button p').text(isEditable ? 'Preview' : 'Edit');
         $('#content').empty();
-        _novelView = new NovelView({model: _novel , isEditable: isEditable, isPreview: true});
+        _novelView.destroyView();
+        _novelView = new NovelView({model: _novel , isEditable: isEditable });
         _novelView.appendTo($('#content'));
         if(isEditable) {
-          $('#preview p').html('Preview');
           $('#toolbox').show();
         }else{
-          $('#preview p').html('Edit');
           $('#toolbox').hide();
           $('.tutorial_dialog').hide();
         }
@@ -88,15 +88,21 @@ $(function() {
     
     // Publish button Click
     $('#publish_button').click(function(){ 
-        _novel.save({'status': 'publish'}); 
-        alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
+        _novel.save('status','publish',
+            { 
+              success: function(){
+                  alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
+                  document.location = '/novels'+id ;
+                }
+            }
+          ); 
       });
 
-      setTutorial();
-  }
+      novelEdit.setTutorial();
+  },
 
   //チュートリアルセットアップ
-  function setTutorial(){
+  setTutorial : function(){
     var dialog_top = 40;
     if( config.getScreenSize().x < 1066) dialog_top = 70;
     console.log( config.getScreenSize().x);
@@ -147,13 +153,48 @@ $(function() {
       }
     });
     //console.log($('#tutorial_template').html());
-  }
+  },
 
-  function onStaticBodyClick(ev){
-    //console.log(ev);
+  onStaticBodyClick: function(ev){
+    //console.log(ev.target);
     TextEditMenu.prototype.onBlur(ev);
     TextEdit.prototype.onBlur(ev);
     Picker.prototype.onBlur(ev);
+  },
+
+  // dont work well
+  setOnUnload: function(){
+    window.onbeforeunload = function () {
+        if (document.title.indexOf("*") != -1) {
+                    return ("You have unsaved changes...");
+        }
+    }
+    window.onunload=function() {
+      alert();
+      return confirm('Are you sure you want to leave the current page?');  
+    }
+
+    $(window).unload( function () { alert("Bye now!"); } );
   }
+
+  };
+
+
+  // initialize of page
+
+  var isEditable = true;
+
+  // get id from page DOM
+  var id = $('.novel_container').attr('id');
+  
+  //get pass from url
+  var urls = location.href.split('/');
+  var pass = urls.length > 5 ? urls[5] : null;  
+  //console.log(pass);
+
+  // initialize view and tool 
+  novelEdit.initializeView(id,pass,isEditable);
+  novelEdit.initializeTool(isEditable,id);
+
 
 });
