@@ -77,7 +77,7 @@ body{
   font-size: 20;
   position: fixed;
   top:40px;
-  height: 66px;
+  height: 70px;
   z-index: 99999;
 }
 
@@ -91,7 +91,8 @@ body{
 }
 
 #preview_button{
-  right: 80px;
+  left: 80px;
+  width: 70px;
 }
 
 #preview_button img {
@@ -100,8 +101,8 @@ body{
 }
 
 #publish_button {
-  right: 0px;
-  height:56px;
+  left: 0px;
+  width: 70px;
 }
 
 //novel
@@ -191,28 +192,40 @@ hr {
   cursor:pointer;
 }
 
-.item-remove {
+.target {
+  height: 100%;
+  width: 100%;
+  border: 2px solid green;
+  position: absolute;
+  // offset to ajust balloon
+  top: -2px;
+  left: -2px;
+  //default hide
+  display: none;
+  z-index: -100;
+}
+
+.item_remove {
   position: absolute;
   right: 0;
   top: 0px;
 }
 
-.item-background {
+.item_background {
   position: absolute;
   left: 0px;
   top: 0;
 }
 
-.sticky textarea{
-  text-align: center;
-  vertical-align: middle;
+.default_item {
+  opacity: 0.5;
 }
 
-.balloon textarea{
-  text-align: center;
-  vertical-align: middle;
+.default_item:hover {
+  opacity: 1;
 }
 
+//entry
 
 canvas {
     z-index: 0;
@@ -221,10 +234,6 @@ canvas {
 .paint{
   cursor: crosshair;
 }
-
-//entry
-
-
 
 .entry .hide_buttons {
   background-color: #eef;
