@@ -98,7 +98,7 @@ $(function() {
           ); 
       });
 
-      novelEdit.setTutorial();
+      //novelEdit.setTutorial();
   },
 
   //チュートリアルセットアップ

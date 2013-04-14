@@ -69,41 +69,7 @@ body{
 }
 
 
-// for top menu button
 
-#tutorial_button 
-, #publish_button 
-, #preview_button{
-  font-size: 20;
-  position: fixed;
-  top:40px;
-  height: 70px;
-  z-index: 99999;
-}
-
-#tutorial_button {
-  left: 0px;
-  z-index: 1;
-}
-
-.tutorial_dialog {
-  z-index: 99999;
-}
-
-#preview_button{
-  left: 80px;
-  width: 70px;
-}
-
-#preview_button img {
-  width: 30px;
-  height: 30px;
-}
-
-#publish_button {
-  left: 0px;
-  width: 70px;
-}
 
 //novel
 

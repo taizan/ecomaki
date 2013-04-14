@@ -8,27 +8,33 @@ MakerNovelView = Backbone.View.extend({
   },
 
   initialize: function(){
+   
+    $(this.el)
+      .append(this.model.get('title'))
+      .append(this.model.get('description'))
+      .append(this.model.get('author_name'));
+
     for(var i = 0; i < this.model.chapters.length; i++){
       var chapter = this.model.chapters.at(i);
       for(var j = 0; j < chapter.entries.length; j++){
         var entry =  chapter.entries.at(j);
         var itemList = []; 
+
         for(var m = 0; m < entry.characters.length; m++){
           view = new imageView({model: entry.characters.at(m)});
           itemList.push(view);
-          //view.appendTo(this.el);
         }
         for(var n = 0; n < entry.balloons.length; n++){
           view = new textView({model: entry.balloons.at(n)});
           itemList.push(view);
         }
 
+        var entry = $('<div class="maker_entry"></div><br>');
         itemList.sort( function(a,b){ return a.model.get('left') - b.model.get('left') } );
         for(var k = 0 ; k < itemList.length; k++){
-          itemList[k].appendTo(this.el);
+          itemList[k].appendTo(entry);
         }
-
-        $('<br>').appendTo(this.el);
+        entry.appendTo(this.el);
       }
     }
   },

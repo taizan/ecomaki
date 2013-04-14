@@ -1,3 +1,4 @@
+<head>
 <%= stylesheet_link_tag 'wColorPicker.1.2.min.css' %>
 <%= stylesheet_link_tag 'novel' %>
 <%= stylesheet_link_tag 'chapter' %>
@@ -13,31 +14,49 @@
 
 <% content_for :html_title, @novel.title %>
 <% content_for :html_description, @novel.description %>
+</head>
+
 
 <img id="background_odd" class="background" src="/assets/0.png" />
 <img id="background_even" class="background" src="/assets/0.png" />
 
 <div class="novel_container" id="<%= @novel.id%>">
 
-  <!-- tutorial button -->
+  <!-- tutorial button 
   <button id="tutorial_button" class="btn" title="チュートリアル">
     <img src="/assets/novel/wakaba.png">
     <p>Tutorial</p>
   </button>
-
-  <!-- プレビューボタン -->
-  <button id="preview_button" class="btn" title="Preview">
-    <img src="/assets/novel/preview.png">
-    <p style="width:48px">Preview</p>
-  </button>
-
-  <!-- 公開ボタン -->
-  <a id="publish_button" class="btn btn-info" width="80px" href="/novel/<%= @novel.id %>" title="公開 publish">
-    <img src="/assets/novel/publish.png">
-    <p>PUBLISH</p>
-  </a>
+  -->
+  <div id="tool_box">
+<!-- 公開ボタン -->
+    <button id="publish_button" class="btn btn-info" width="80px" title="公開 publish">
+      <p>公開</p>
+      <img src="/assets/novel/publish.png">
+    </button>
 
 
+    <!-- プレビューボタン -->
+    <button id="preview_button" class="btn" title="Preview">
+      <p>プレビュー</p>
+      <img src="/assets/novel/preview.png">
+    </button>
+
+    <div id="tool_tabs">
+      <ul>
+        <li><a href="#paint_tab">ペイントツール</a></li>
+        <li><a href="#effecter_tab">アニメーション</a></li>
+        <li><a href="#help_tab">ヘルプ</a></li>
+      </ul>
+      <div id="paint_tab"></div>
+      <div id="effecter_tab"></div>
+      <div id="help_tab">
+    </div>
+
+  </div>
+
+  </div>
+  
   <aside id="side_menu" >
     <ul class = "well sidebar-nav" id = "chapterList">
     </ul>
