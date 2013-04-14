@@ -92,7 +92,7 @@ $(function() {
             { 
               success: function(){
                   alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
-                  document.location = '/novels'+id ;
+                  document.location = '/novels/'+id ;
                 }
             }
           ); 
