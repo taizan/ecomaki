@@ -110,12 +110,14 @@ Effecter.prototype = {
       $('.effectTypes option[value="'+options[1]+'"]',this.selecter).prop('selected',true); 
       $('.durations',this.selecter).val(options[2]); 
     }
-    _self = this;
-    $('.functionTypes',this.selecter).change( _self.setEffect );
-    $('.effectTypes',this.selecter).change( _self.setEffect );
-    //$(this.selecter).find('.easeTypes').change( _self.setEffect );
-    $('.durations',this.selecter).change( _self.setEffect );  
+    
+    $('.functionTypes',this.selecter).change( this.setEffect );
+    $('.effectTypes',this.selecter).change( this.setEffect );
+    //$(this.selecter).find('.easeTypes').change( this.setEffect );
+    $('.durations',this.selecter).change( this.setEffect );  
 
+    $('.run_button',this.selecter).click(this.runSelectedEffect);
+    $('.reset_button',this.selecter).click(this.resetEffect);
     return this.selecter;
   },
 
