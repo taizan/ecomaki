@@ -16,15 +16,10 @@ NovelView = ecomakiView.extend({
     
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
-    //this.model.bind('sync',this.onSync);
-    //this.model.bind('fetch',this.onSync);
-    //this.model.bind('add',this.onSync);
-    //this.model.bind('refresh',this.onSync);
-    //this.model.bind('change:status',this.onChangeStatus);
+
     this.model.bind('change:title',this.render);
     this.model.bind('change:description',this.render);
     this.model.bind('change:author_name',this.render);
-    //this.model.bind('change',this.render);
       
   },
 

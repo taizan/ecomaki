@@ -432,7 +432,7 @@ var debug = {};
 					if( name.length > 0 && name != "Shape") menuContent.append($('<div class="_wPaint_icon' + ' _wPaint_' + name + ($.fn.wPaint.defaultSettings.mode == name ? ' active' : '') + '" title="'+ name + '"></div>'));
 			});
 
-     MainMenu.prototype.menu = $('#toolbox').append(menuContent);
+     MainMenu.prototype.menu = $('#paint_tab').append(menuContent);
 
 			//@@@stroke|fill collor
 			$("._wPaint_fillColorPicker").wColorPicker({

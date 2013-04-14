@@ -251,7 +251,7 @@ EntryView = ecomakiView.extend({
     this.isDrawDown = true;
     //$('.target').hide();
     $('.target_on').removeClass('target_on').addClass('target_off');
-    $('.paint',this.el).removeClass('target_off').addClass('target_on');
+    $(this.content).removeClass('target_off').addClass('target_on');
     this.effecter.changeSelecter();
     
     //this.onViewClick({target: 'canvas'})
@@ -419,13 +419,13 @@ EntryView = ecomakiView.extend({
     // console.log("addEntry");
     this.model.save();
     var attributes = this.model.dup();
-    var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number'));
+    var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number')-1);
   },
 
   addEntry: function(e){
     //console.log("addEntry", this.model.order_number);
     var attributes ={"canvas_index":1,"height":320,"width":480}  
-    var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number'));
+    var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number')-1);
   },
 
   changeLayer: function(e){

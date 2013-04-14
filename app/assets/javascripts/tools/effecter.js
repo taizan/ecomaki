@@ -17,9 +17,9 @@ function Effecter(target,item,key,name){
 Effecter.prototype = {
 	changeSelecter: function(){
       //console.log('on item click');
-      $('#toolbox .effect_selecter').remove();
-      this.appendEffectSelecterTo($('#toolbox'));
-      $('#toolbox .selecter_item').effect('highlight','slow');
+      $('#effecter_tab .effect_selecter').remove();
+      this.appendEffectSelecterTo($('#effecter_tab'));
+      //$('#toolbox .selecter_item').effect('highlight','slow');
   },
 
 	runSelectedEffect: function(){
