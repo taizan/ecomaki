@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+
+
+<html>
+  <script type="text/javascript"> if (!window.console) console = {log: function() {}}; </script>
+  <head>
+    <meta charset="UTF-8">
+    <%= stylesheet_link_tag 'layout' %>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+
+
+  <title><%= (html_title = yield :html_title) ? html_title : '' %> #ecomaki</title>
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico" />
+  <meta name="description" content="<%= (html_description = yield :html_description) ? html_description : 'online web comic tool.' %>">
+  
+  </head>
+  <body>
+    <div id='static_body' >
+    <%= yield %>
+    </div>
+  </body>
+
+</html>
+
+
+
