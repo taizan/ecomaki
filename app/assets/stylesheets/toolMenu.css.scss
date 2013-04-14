@@ -1,0 +1,119 @@
+#tool_box{
+  position:fixed;
+  left:0;
+  top:0px;
+  //top:40px;
+  //bottom: 0px;
+  width:800px;
+  z-index: 99999;
+}
+
+
+// for top menu button
+
+#tutorial_button 
+, #publish_button 
+, #preview_button{
+  font-size: 20;
+  position: absolute;
+  height: 80px;
+  width: 100px;
+  z-index: 99999;
+  font-size: 18px;
+}
+
+#tutorial_button {
+  z-index: 1;
+}
+
+.tutorial_dialog {
+  z-index: 99999;
+}
+
+#publish_button {
+  left: 0px;
+}
+
+#preview_button{
+  left: 100px;
+}
+
+#preview_button img,
+#publish_button img
+{
+  width: 30px;
+  height: 30px;
+}
+
+//for tool tabs
+
+#tool_tabs{
+  position: rerative;
+  padding:1px; 
+  height:76px;
+  left:200px;
+  //top: 40px;
+	//background: url('/assets/paint/tool_tabs/base/dark_gray.png')  ;
+	background: #fff;
+  z-index:99999;
+}
+
+#tool_tabs .ui-tabs-nav  {
+  padding: 0;
+}
+#tool_tabs .ui-tabs-nav li a {
+  padding: .2em 1em;
+}
+
+#tool_tabs .ui-tabs-panel {
+  padding: .3em 1.4em;
+}
+
+.itemEffectSelecters { position: absolute; }
+
+
+#tool_tabs .selecter_item{
+  width: 110px;
+  float: left;
+  margin: 2px;
+  //clear: left;
+}
+#tool_tabs .selecter_button{
+  width: 60px;
+  float: left;
+  margin: 2px;
+  //clear: left;
+}
+
+._tool_menu .floatEnd{
+  clear: left
+}
+
+._tool_options{float:left;padding: 2px;}
+
+#tool_tabs .ui-widget-header {
+	//background: transparent;
+	//border: none;
+}
+
+#tool_tabs .ui-tabs-nav li.ui-tabs-selected a{
+	background-color: #00FF00;
+	border: none;
+	padding: none;
+}
+
+#tool_tabs .ui-state-default{
+	//border: none;
+}
+
+#tool_tabs .ui-state-hover{
+	background-color: transparent;
+	/*background: rgba(0,0,0,0);*/
+}
+
+#tool_tabs .ui-state-active{
+}
+
+#tool_tabs .ui-tabs-panel {
+	//border: none;
+}
