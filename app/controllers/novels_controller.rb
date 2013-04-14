@@ -52,7 +52,8 @@ class NovelsController < ApplicationController
     respond_to do |format|
       format.html { 
         if has_valid_password
-          render
+          #render
+          render :layout => 'simple'
         else
           flash[:error] = "The required URL is invalid."
           redirect_to :action => "show", :id => params[:id]
