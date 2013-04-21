@@ -70,7 +70,7 @@ ChapterView = ecomakiView.extend({
   },
 
   onLoad: function(){
-    var _self = this;
+    var self = this;
 
     this.addAll();
     //$(this.el).width(600);
@@ -126,14 +126,14 @@ ChapterView = ecomakiView.extend({
     var window_size = config.getScreenSize();
     var src = config.background_idtourl(this.model.get('background_image_id'));
     img.src = src;
-    var _self = this;
+    var self = this;
 
     $(img).load(
       function(){
         // 
         var $current_bg;
 
-    if( (_self.model.get('order_number') % 2) == 1) {
+    if( (self.model.get('order_number') % 2) == 1) {
       $current_bg = $('#background_odd')
         .attr("src",src).stop(true,true).hide().fadeIn('slow')
       $('#background_even').stop(true,true).fadeOut('slow');
@@ -176,8 +176,13 @@ ChapterView = ecomakiView.extend({
 
 
   addEntry: function(){
+    var self = this;
     var attr ={"canvas_index":1,"height":320,"width":480};  
-    this.model.entries.create_after(attr,-1);
+    //call trigger of onadd calllback 
+    this.model.entries.create_after(attr,0,{callback:function(){ 
+        $(self.el).trigger('onAdd'); 
+        $('.new_entry_handle',self.el).trigger('onAdd'); 
+      }});
   },
 
   // add entry with no boder balloon

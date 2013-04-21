@@ -244,8 +244,13 @@ var EntryList = Backbone.Collection.extend({
       attributes.order_number = this.length;
     }
     //if(options)options.wait=true;else options = {wait:true}; 
-    var entry = this._prepareModel(attr,options);
-    options = { wait:true, success: entry.addItems };
+    var entry = this._prepareModel(attributes,options);
+    var onCreate = function(){
+      //console.log("options",options);  
+      entry.addItems();
+      if(options.callback)options.callback();
+    }
+    options = $.extend(options , { wait:true, success: onCreate });
     return Backbone.Collection.prototype.create.call(this, attributes, options);
   },
 
@@ -253,8 +258,8 @@ var EntryList = Backbone.Collection.extend({
   // To insert to the top, set index to -1.
   create_after: function(attributes, index, options) {
     // Assume all the order_number is correct.
-    attributes.order_number = index + 1;
-    for (var i = index + 1; i < this.models.length; i++) {
+    attributes.order_number = index ;
+    for (var i = index ; i < this.models.length; i++) {
       this.models[i].set('order_number', i + 1);
       this.models[i].save();
     }
@@ -331,8 +336,7 @@ var Chapter = Backbone.Model.extend({
   },
 
   create_entry: function(attributes,options) {
-    if(options) options.wait = true;
-    else options ={wait:true}
+    options = $.extend(options,{wait:true});
      
     newEntry =  this.entries.create(attributes,options);
     newEntry.isNewEntry = true; 
@@ -365,8 +369,8 @@ var ChapterList = Backbone.Collection.extend({
     if (typeof attr.order_number == 'undefined') {
       attr.order_number = this.length;
     }
-    if(options)options.wait=true; else options = {wait:true}; 
-      return Backbone.Collection.prototype.create.call(this, attr, options);
+    options = $.extend(options,{wait:true});
+    return Backbone.Collection.prototype.create.call(this, attr, options);
   },
 
   comparator: function(chapter) {
@@ -374,12 +378,12 @@ var ChapterList = Backbone.Collection.extend({
   },
 
   create_after: function(attr, index, options) {
-    attr.order_number = index + 1;
-    for (var i = index + 1; i < this.models.length; i++) {
+    attr.order_number = index ;
+    for (var i = index ; i < this.models.length; i++) {
       this.models[i].set('order_number', i + 1);
       this.models[i].save();
     }
-    if(options)options.wait=true;else options = {wait:true}; 
+    options = $.extend(options,{wait:true});
     return Backbone.Collection.prototype.create.call(this, attr, options);
   },
 

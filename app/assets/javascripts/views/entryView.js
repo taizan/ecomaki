@@ -425,7 +425,14 @@ EntryView = ecomakiView.extend({
   addEntry: function(e){
     //console.log("addEntry", this.model.order_number);
     var attributes ={"canvas_index":1,"height":320,"width":480}  
-    var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number')-1);
+    var newEntry = this.model.collection.create_after(
+        attributes ,
+        this.model.get('order_number') ,  
+        function(){
+          $(self.el).trigger('onAdd');
+          $('.new_entry_handle',self.el).trigger('onAdd');
+        }
+      );
   },
 
   changeLayer: function(e){

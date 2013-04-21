@@ -17,7 +17,7 @@
   font-size: 20;
   position: absolute;
   height: 80px;
-  width: 100px;
+  //width: 100px;
   z-index: 99999;
   font-size: 18px;
 }
@@ -32,10 +32,12 @@
 
 #publish_button {
   left: 0px;
+  width: 120px;
 }
 
 #preview_button{
-  left: 100px;
+  left: 120px;
+  width: 90px;
 }
 
 #preview_button img,
@@ -51,7 +53,7 @@
   position: rerative;
   padding:1px; 
   height:76px;
-  left:200px;
+  left:210px;
   //top: 40px;
 	//background: url('/assets/paint/tool_tabs/base/dark_gray.png')  ;
 	background: #fff;

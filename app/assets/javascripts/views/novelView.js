@@ -106,7 +106,7 @@ NovelView = ecomakiView.extend({
 
   addChapter: function(e){
     console.log("addChapter");
-    var chapter =  this.model.chapters.create_after({},-1);
+    var chapter =  this.model.chapters.create_after({},0);
     //this.model.create_chapter();
   },
 
