@@ -1,6 +1,7 @@
 //= require underscore
 //= require backbone
 //= require jquery.form
+//= require jquery.balloon.min
 //= require wColorPicker.1.2.min
 //
 //= require ./models
@@ -18,6 +19,7 @@
 //= require ./tools/effecter
 //= require ./tools/console
 //= require ./tools/wPaint
+//= require ./tools/tutorial
 
 
 
@@ -37,6 +39,8 @@ $(function() {
     var makeView = function(){
       _novelView = new NovelView({model: _novel , isEditable: isEditable  });
       _novelView.appendTo($('#content'));
+      var tutorialBalloon = new TutorialBalloon();
+      tutorialBalloon.next();
     }
 
     _novel = new Novel({id: id,password: pass});
@@ -97,7 +101,6 @@ $(function() {
             }
           ); 
       });
-
       //novelEdit.setTutorial();
   },
 
@@ -195,6 +198,5 @@ $(function() {
   // initialize view and tool 
   novelEdit.initializeView(id,pass,isEditable);
   novelEdit.initializeTool(isEditable,id);
-
 
 });

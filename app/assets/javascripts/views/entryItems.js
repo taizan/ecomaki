@@ -74,11 +74,7 @@ EntryItemView = Backbone.View.extend ({
     if(this.isEditable){ 
       $(this.el)
         .click(this.onClick)
-        .draggable({
-          //containment: "parent",
-          start: this.onDragStart,
-          stop: this.onDragStop
-        });
+        .draggable({ start: this.onDragStart, stop: this.onDragStopc });
     }
 
     this.onAppend();
@@ -86,12 +82,14 @@ EntryItemView = Backbone.View.extend ({
     if(this.model.isDefaultItem){
       var defaultItemClick = function(){
           self.parentView.model.isNewEntry = false;
-          $(this.el).removeClass('default_item');
-          self.onDefaultItemClick(function(){ self.model.isDefaultItem = false;});
+          $(self.el).removeClass('default_item');
+          self.onDefaultItemClick(function(){
+              self.model.isDefaultItem = false;
+            });
           $(self.el).unbind( 'click', defaultItemClick );
         };
 
-      $(this.el).bind('click', defaultItemClick);
+      $(this.el).click(defaultItemClick);
       $(this.el).addClass('default_item');
     }
 
@@ -101,7 +99,7 @@ EntryItemView = Backbone.View.extend ({
       $(this.el).mousedown(this.onSelect);
       this.setRemoveButton();
       this.initButton();
-      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ; Drag to resize"});
+      $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ"});
     }
 
     this.render();
@@ -166,13 +164,11 @@ EntryItemView = Backbone.View.extend ({
     var self = this;
     $(this.el)
       .mouseover(function(){
-        if(self.isEditable){
           $(self.el).css({ border: '1px solid gray'});
-        }
-      })
+        })
       .mouseout(function(){
-        $(self.el).css({ border: 'none'});
-      });
+          $(self.el).css({ border: 'none'});
+        });
   },
 
   initButton: function() {
@@ -180,28 +176,21 @@ EntryItemView = Backbone.View.extend ({
 
     $(this.el)
       .mouseover(function(){
-        if(self.isEditable){
-          $('.item_button',self.el).show();
-        }
-      })
+          if(self.isEditable){ $('.item_button',self.el).show(); }
+        })
       .mouseout(function(){
-        $('.item_button',self.el).hide();
-      });
+          $('.item_button',self.el).hide();
+        });
 
   },
 
   setRemoveButton: function(){
     var self = this;
     $('<i class="icon-remove-sign item_button item_remove" title="削除" />')
-      .appendTo(this.el)
-      .hide();
+      .appendTo(this.el).hide();
 
-    $('.item_remove',this.el).click(
-      function(){
-        //console.log(target);
-        self.model.destroy();
-      }
-    );
+    $('.item_remove',this.el)
+      .click( function(){ self.model.destroy(); });
   },
 
 
@@ -340,6 +329,8 @@ BalloonView = EntryItemView.extend({
   
   editEnd: function(){
 		var self = this;
+    //for trigger tutorial event or some blur event
+    $(this.el).blur();
     $(self.el).draggable("option","disabled",false);
     $('.text',self.el).attr('contenteditable','false');
     self.isEditing = false;
