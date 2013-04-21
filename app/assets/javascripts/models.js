@@ -258,7 +258,7 @@ var EntryList = Backbone.Collection.extend({
   create_after: function(attributes, index, options) {
     // Assume all the order_number is correct.
     attributes.order_number = index ;
-    for (var i = index  i < this.models.length; i++) {
+    for (var i = index ; i < this.models.length; i++) {
       this.models[i].set('order_number', i + 1);
       this.models[i].save();
     }
