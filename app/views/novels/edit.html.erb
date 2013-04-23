@@ -10,7 +10,7 @@
 <%= stylesheet_link_tag 'textEditTool' %>
 <%= stylesheet_link_tag 'wPaint' %>
 
-<%= javascript_include_tag 'novelEdit' %>
+<%= javascript_include_tag 'novelEdit' , :defer=>"defer" %>
 
 <% content_for :html_title, @novel.title %>
 <% content_for :html_description, @novel.description %>

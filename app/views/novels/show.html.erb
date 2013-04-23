@@ -5,7 +5,7 @@
 <%= stylesheet_link_tag 'entry' %>
 <%= stylesheet_link_tag 'entryItem' %>
 
-<%= javascript_include_tag 'novelShow' %>
+<%= javascript_include_tag 'novelShow' , :defer=>"defer" %>
 
 <% content_for :html_title, @novel.title %>
 <% content_for :html_description, @novel.description %>
