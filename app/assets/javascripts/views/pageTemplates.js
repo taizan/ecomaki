@@ -4,7 +4,7 @@ var selectTemplate = (function(){
 
 	PageTemplate["empty"] = {
 		"set": function(novel,callback){
-			novel.chapters.create_after({},-1);
+			novel.chapters.create({});
       if(callback) callback();
 		},
 
@@ -33,7 +33,7 @@ var selectTemplate = (function(){
         if(callback) callback();
 			};
 			//novel.chapters.create_after({},-1, {'wait':true,'success': makeEntry});
-			var newChapter = novel.chapters.create_after({},-1, {'success': makeEntry});
+			var newChapter = novel.chapters.create({}, {'success': makeEntry});
       novel.initFlag = true;
 		},
 
