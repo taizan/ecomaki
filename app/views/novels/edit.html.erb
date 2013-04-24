@@ -1,4 +1,4 @@
-<head>
+<div class="edit_head">
 <%= stylesheet_link_tag 'wColorPicker.1.2.min.css' %>
 <%= stylesheet_link_tag 'novel' %>
 <%= stylesheet_link_tag 'chapter' %>
@@ -14,7 +14,7 @@
 
 <% content_for :html_title, @novel.title %>
 <% content_for :html_description, @novel.description %>
-</head>
+</div>
 
 <body>
 
@@ -78,6 +78,6 @@
 
 <%= render :partial => "novels/edit_template" %> 
 <%= render :partial => "novels/tool_template" %> 
-<%= render :partial => "novels/tutorial" %> 
+<!-- <%= render :partial => "novels/tutorial" %> -->
 
 </body>
