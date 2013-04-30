@@ -244,10 +244,12 @@ var EntryList = Backbone.Collection.extend({
     }
     //if(options)options.wait=true;else options = {wait:true}; 
     var entry = this._prepareModel(attributes,options);
+    var self = this;
     var onCreate = function(){
       //console.log("options",options);  
       entry.addItems();
       if(options.callback)options.callback();
+      self.save();
     }
     options = $.extend(options , { wait:true, success: onCreate });
     return Backbone.Collection.prototype.create.call(this, attributes, options);
@@ -257,10 +259,9 @@ var EntryList = Backbone.Collection.extend({
   // To insert to the top, set index to -1.
   create_after: function(attributes, index, options) {
     // Assume all the order_number is correct.
-    attributes.order_number = index ;
-    for (var i = index ; i < this.models.length; i++) {
+    attributes.order_number = index+1 ;
+    for (var i = index+1 ; i < this.models.length; i++) {
       this.models[i].set('order_number', i + 1);
-      this.models[i].save();
     }
     return this.create(attributes, options);
   },
