@@ -179,7 +179,7 @@ ChapterView = ecomakiView.extend({
     var self = this;
     var attr ={"canvas_index":1,"height":320,"width":480};  
     //call trigger of onadd calllback 
-    this.model.entries.create_after(attr,0,{callback:function(){ 
+    this.model.entries.create_after(attr,-1,{callback:function(){ 
         $(self.el).trigger('onAdd'); 
         $('.new_entry_handle',self.el).trigger('onAdd'); 
       }});

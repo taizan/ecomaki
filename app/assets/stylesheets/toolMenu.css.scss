@@ -1,11 +1,12 @@
 #tool_box{
   position:fixed;
-  left:0;
+  //left:0;
   top:0px;
   //top:40px;
   //bottom: 0px;
-  width:800px;
+  width:804px;
   z-index: 99999;
+  background: black;
 }
 
 
@@ -31,12 +32,12 @@
 }
 
 #publish_button {
-  left: 0px;
+  left: 5px;
   width: 120px;
 }
 
 #preview_button{
-  left: 120px;
+  left: 130px;
   width: 90px;
 }
 
@@ -53,7 +54,7 @@
   position: rerative;
   padding:1px; 
   height:76px;
-  left:210px;
+  left:220px;
   //top: 40px;
 	//background: url('/assets/paint/tool_tabs/base/dark_gray.png')  ;
 	background: #fff;

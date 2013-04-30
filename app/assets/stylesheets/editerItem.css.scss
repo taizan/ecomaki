@@ -3,61 +3,34 @@ body{
 }
 
 
-#title textarea {
-    font-size: 24px; 
-    line-height: 1.5em;
-}
-
-
-#descriotion textarea {
-    font-size: 12px;
-    line-height: 1.5em;
-}
-
-
-#author {
+#author_name {
     cursor:pointer;
 }
 
-.author textarea {
-    font-size: 24px; 
-    line-height: 1.5em;
-    text-align:center;
-    z-index: 99;
-}
 
 #title , .title{
     cursor:pointer;
 }
 
-.title textarea {
-    font-size: 24px; 
-    line-height: 1.5em;
-    text-align:center;
-    z-index: 99;
-}
 
 #description , .description {
     cursor:pointer;
 }
 
-.descriotion textarea {
-    font-size: 12px;
-    line-height: 1.5em;
-    text-align:center;
-    z-index: 99;
-}
 
 #title:hover {
-  background: #ede;
+  background: #eee;
+  color:black;
 }
 
 #description:hover {
-  background: #dee;
+  background: #eee;
+  color:black;
 }
 
 #author_name:hover {
-  background: #eed;
+  background: #eee;
+  color:black;
 }
 
 .title:hover {

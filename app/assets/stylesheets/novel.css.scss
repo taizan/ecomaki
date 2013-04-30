@@ -7,10 +7,12 @@ body{
 }
 
 .novel_container {
-    margin-left: auto;
-    margin-right: auto;
-    
-    text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1024px;
+  text-align: center;
+  position: relative;
+  border: 1px solid black;
 }
 
 
@@ -41,42 +43,37 @@ body{
 }
 
 #novel_header {
-  margin-top: 30px;
+  //margin-top: 30px;
   margin-bottom: 30px;
-  background: rgba(245,245,245,0.75);
+  background: rgba(10,5,2,0.85);
 }
 
 #title {
-    font-size: 32px; 
-    line-height: 1.5em;
-    position: relative;
+  color: #fff;
+  font-size: 32px; 
+  line-height: 2em;
+  position: relative;
 }
 
 #description {
-    font-size: 12px;
-    line-height: 1.5em;
-    position: relative;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5em;
+  position: relative;
 }
 
-#author {
-    font-size: 24px; 
-    line-height: 1.5em;
-    position: relative;
-}
-
-#author .text_help {
-    font-size: 16px; 
-    line-height: 1.5em;
-    font-color: #444;
-    margin: 1px;
+#author_name {
+  color: #fff;
+  font-size: 24px; 
+  line-height: 2em;
+  position: relative;
+  margin-right: 40px;
+  text-align: right;
 }
 
 #entrylist {
 	   position: relative;
 }
-
-
-
 
 #sideMenu {
     position: fixed;
@@ -86,7 +83,6 @@ body{
     //height: 500px;
     z-index: 5;
 }
-
 
 //Side Button
 
