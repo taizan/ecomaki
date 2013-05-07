@@ -1,7 +1,9 @@
 Ecomaki::Application.routes.draw do
-  root :to => 'top#index'
-  match 'all' => 'top#all'
-  match 'about' => 'top#about'
+  scope '(:locale)' do
+    root :to => 'top#index'
+    match 'all' => 'top#all'
+    match 'about' => 'top#about'
+  end
 
   # Tutorial
   match 'tutorial' => 'tutorial#index'
