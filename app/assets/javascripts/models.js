@@ -251,6 +251,7 @@ var EntryList = Backbone.Collection.extend({
     var onCreate = function(entry){  
       //console.log(arguments);
       entry.addItems();
+      self.save();
       //if(options.callback)options.callback();
       //entry.save();
     }
