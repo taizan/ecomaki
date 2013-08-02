@@ -212,9 +212,12 @@ var Entry = Backbone.Model.extend({
     var self = this;
 
     if( this.balloons ) for(j = 0; j < this.balloons.length; j++ ){
+      console.log(this.id);
+      this.balloons.at(j).set("entry_id",this.id);
       this.balloons.at(j).save();
     }
     if ( this.characters ) for(j = 0; j < this.characters.length; j++){
+      this.characters.at(j).set("entry_id",this.id);
       this.characters.at(j).save();
     }
   }
@@ -243,13 +246,13 @@ var EntryList = Backbone.Collection.extend({
       attributes.order_number = this.length;
     }
     //if(options)options.wait=true;else options = {wait:true}; 
-    var entry = this._prepareModel(attributes,options);
+    //var entry = this._prepareModel(attributes,options);
     var self = this;
-    var onCreate = function(){
-      //console.log("options",options);  
+    var onCreate = function(entry){  
+      //console.log(arguments);
       entry.addItems();
-      if(options.callback)options.callback();
-      self.save();
+      //if(options.callback)options.callback();
+      //entry.save();
     }
     options = $.extend(options , { wait:true, success: onCreate });
     return Backbone.Collection.prototype.create.call(this, attributes, options);
