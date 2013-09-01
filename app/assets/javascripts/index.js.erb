@@ -25,6 +25,10 @@ $(function() {
   // default hided
   $(form).hide();
   
+  $('#start_button').click( function(){
+      $(".submit_button",form).click();
+    } );
+  
   $('#create_button').click( function(){
       //$(form).show('drop','fast'); 
       $(".submit_button",form).click();

@@ -77,9 +77,23 @@
   background-position: 0 256px;
 }
 
+#start_button{
+  width: 240px;
+  height: 50px;
+  font-size: 24px;
+
+  margin-top: 20px;
+}
+
+#start_button img{
+  width: 32px;
+  height: 32px;
+}
+
 #top_hedder{
-  margin-left: 80px;
+  //margin-left: 80px;
   margin-bottom: 100px;
+  text-align: center;
 }
 
 
@@ -109,6 +123,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
 .novel_list_description{
   max-height: 40px;
   text-overflow: ellipsis;
