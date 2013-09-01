@@ -35,7 +35,6 @@ $(function() {
   var novelEdit = {
  
   initializeView : function(id,pass,isEditable){
-
     var makeView = function(){
       _novelView = new NovelView({model: _novel , isEditable: isEditable  });
       _novelView.appendTo($('#content'));

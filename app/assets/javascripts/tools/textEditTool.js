@@ -11,14 +11,16 @@ function TextEditMenu(target,item){
 
 TextEditMenu.prototype = {
   
+  //private var
   isAppended: false,
   isInitialized: false,
-  
+ 
+  //DOM seed
 	bar: $('<div id="textMenu"></div>').appendTo($('body')),
 
+  //change target of Menu
   changeSelecter: function(target){
     //console.log('on text click');
-		//console.log($('#textMenu .text_menu'));
       
     TextEditMenu.prototype.target = this.target;
     TextEditMenu.prototype.item = this.item;
@@ -87,7 +89,10 @@ TextEditMenu.prototype = {
     $('.borderRadiuses',selecter).change( function(){
         TextEditMenu.prototype.item.save({'border_radius': $('.borderRadiuses input')[0].checked ? 20 : 0});
       });
-
+    $(".OkButton",selecter).click( function(){ 
+        TextEditMenu.prototype.finish();
+      });
+    
     TextEditMenu.prototype.isAppended = true;
   },
 	

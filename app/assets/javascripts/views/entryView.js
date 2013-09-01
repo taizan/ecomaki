@@ -420,6 +420,7 @@ EntryView = ecomakiView.extend({
     this.model.save();
     var attributes = this.model.dup();
     var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number')-1);
+    //newEntry.save();
   },
 
   addEntry: function(e){

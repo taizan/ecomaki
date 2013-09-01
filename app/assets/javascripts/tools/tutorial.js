@@ -78,6 +78,7 @@ TutorialBalloon = function(){
     }
     self.current++;
     var i = self.current;
+    console.log(i);
     if(i < self.list.length){
       self.currentItem = $($(self.list[i].target)[0])
         .showBalloon(self.list[i].param)
