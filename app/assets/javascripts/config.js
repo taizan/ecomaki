@@ -47,7 +47,7 @@ jQuery.fn.insertAt = function(index, element) {
 
 function Config()
 {
-
+  this.root = ""; 
 };
 
 var ctor = function(){};
@@ -98,7 +98,7 @@ Config.prototype.inherits = function(parent, protoProps, staticProps) {
 };
 
 Config.prototype.character_image_idtourl = function(id) {
-    return '/characters/images/' + id;
+    return this.root + '/characters/images/' + id;
 };
 
 Config.prototype.character_image_urltoid =  function(url) {
@@ -109,8 +109,8 @@ Config.prototype.character_image_urltoid =  function(url) {
 };
 
 Config.prototype.background_idtourl = function(id) {
-    if(id != null){ return '/background_images/images/' + id ;}
-    else{return '/background_images/images/0';}
+    if(id != null){ return this.root + '/background_images/images/' + id ;}
+    else{return this.root + '/background_images/images/0';}
 };
 
 Config.prototype.background_urltoid =  function(url) {
@@ -124,7 +124,7 @@ Config.prototype.musics = [null, 'dream', 'flower', 'orange'];
 
 Config.prototype.music_idtourl = function(id) {
     //return "https://dl.dropbox.com/u/8270034/sketch/bgm/" + Config.prototype.musics[music_id] + ".mp3";
-    if(id != null){ return '/background_musics/musics/' + id + '.mp3';}
+    if(id != null){ return this.root + '/background_musics/musics/' + id + '.mp3';}
     else{return 'null';}
 };
 

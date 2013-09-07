@@ -38,7 +38,7 @@ ecomakiView = Backbone.View.extend({
 		this.parentView = args.parentView;
 
     ///this.model.bind('change', this.render, this);
-    this.model.bind('sync',this.onSync,this);
+    //this.model.bind('sync',this.onSync,this);
     this.model.bind('destroy',this.destroyView);
     //this.model.bind('destroy', this.render, this);
 
@@ -48,10 +48,6 @@ ecomakiView = Backbone.View.extend({
   },
 
   onInit: function(args){},
-
-  onSync: function(model,option){
-    //console.log(model,option);
-  },
 
   load: function(){
     //this.isEditable = isEditable;
@@ -70,15 +66,6 @@ ecomakiView = Backbone.View.extend({
 
   onLoad: function(){},
 
-
-  onViewClick: function(ev){
-    //console.log(ev.target);
-    //console.log('click view');
-    //TextEditMenu.prototype.finish();
-    //TextEdit.prototype.onBlur(ev);
-    //Picker.prototype.onBlur(ev);
-    //ev.stopPropagation();
-  },
 
   appendTo: function(target){
     $(this.el).appendTo(target);
@@ -209,8 +196,6 @@ ecomakiView = Backbone.View.extend({
           }
         })
         .mouseleave(function(ev){
-        //  $(this).children(button).hide();
-            //console.log($(ev.toElement).hasClass('ui-tooltip-content'));
             //console.log($(ev.toElement));
             if( !$(ev.toElement).hasClass('ui-tooltip-content')
                  && !$(ev.toElement).hasClass('ui-tooltip') ) {

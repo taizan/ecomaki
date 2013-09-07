@@ -17,38 +17,24 @@ NovelView = ecomakiView.extend({
     this.model.chapters.bind('add', this.addOne);
     this.model.chapters.bind('refresh', this.addAll);
 
-    this.model.bind('change:title',this.render);
-    this.model.bind('change:description',this.render);
-    this.model.bind('change:author_name',this.render);
-      
   },
 
   onRemove: function() {
     this.model.chapters.unbind('add', this.addOne);
     this.model.chapters.unbind('refresh', this.addAll);
     //this.model.unbind('change:status',this.onChangeStatus);
-    this.model.unbind('change:title',this.render);
-    this.model.unbind('change:description',this.render);
-    this.model.unbind('change:author_name',this.render);
   },
 
   events: {
     "click #add_chapter" : "addChapter",
     "click #new_chapter_handle" : "addChapter",
-    'click': 'onViewClick',
+//    'click': 'onViewClick',
   },
 
   checkStatus: function() {
-    // add chapter if status = initial
-    //console.log(this.get('status'));
     if(this.model.get('status') == 'initial'){
-      //this.model.create_chapter();
-      //var chapter =  this.model.chapters.create_after({},-1);
-			//setPageByTemplate["empty"].apply(this);
-			//setPageByTemplate["4-cell"].apply(this);
       this.isLoaded = false;;
 			selectTemplate(this.model,this.load);
-//>>>>>>> make templates
       this.model.save({'status': 'draft'})
     }
   },
@@ -71,7 +57,6 @@ NovelView = ecomakiView.extend({
 		    $(".editer_item", this.el).hide();
 	    }
        
-      // call onScroll root here
       //$(window).scroll(this.onScroll);
       
       // do not work not loaded

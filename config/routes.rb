@@ -98,4 +98,7 @@ Ecomaki::Application.routes.draw do
 
   # Layout Data
   match 'layouts' => 'layouts#index', :via => :get
+
+  # extern
+  get "extern/show_temp"
 end

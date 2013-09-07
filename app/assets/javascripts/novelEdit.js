@@ -43,21 +43,22 @@ $(function() {
     }
 
     _novel = new Novel({id: id,password: pass});
+   
     _novel.fetch({
-    success: function(){
-      // check status here 
-      // viewに実装したほうがいいか？　その場合view初期化時の処理と衝突
-      if(_novel.get('status') == 'initial'){
+      success: function(){
+        // check status here 
+        // viewに実装したほうがいいか？　その場合view初期化時の処理と衝突
+        if(_novel.get('status') == 'initial'){
 			  selectTemplate(_novel,makeView );
-      //>>>> make templates
-        _novel.save({'status': 'draft'});
-       }
-       else{
-        makeView();
+        //>>>> make templates
+          _novel.save({'status': 'draft'});
+        }
+        else{
+          makeView();
+        }
       }
-    }
-  });
-
+    });
+  
     $('#toolbox').hide();
     $('#console').hide();  
     $('#side_menu').hide();
@@ -185,6 +186,7 @@ $(function() {
   // initialize of page
 
   var isEditable = true;
+ 
 
   // get id from page DOM
   var id = $('.novel_container').attr('id');
@@ -197,5 +199,9 @@ $(function() {
   // initialize view and tool 
   novelEdit.initializeView(id,pass,isEditable);
   novelEdit.initializeTool(isEditable,id);
+
+  $("#output_html").text(
+    '<script src="'+location.origin+'/assets/novelShow.js"></script>'
+    +'<div class="novel_container" id="'+id+'" root="'+ location.origin +'" ><div id="content"></div></div>')
 
 });

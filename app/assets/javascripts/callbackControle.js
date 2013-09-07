@@ -36,9 +36,9 @@ CallbackChane.prototype = {
     var args = arguments;
     return function() { 
       if(self.tasks[self.pos]){
-        self.pos++;
-        self.tasks[self.pos - 1](arguments);
         console.log( self.pos , self.tasks[self.pos]  )
+        self.tasks[self.pos ](args);
+        self.pos++;
       }
     }
   },

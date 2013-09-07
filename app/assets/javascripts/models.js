@@ -1,7 +1,12 @@
 var EntryBalloon = Backbone.Model.extend({
   initialize: function() {
     if(this.collection){
-    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id, entry_id: this.collection.entry_id()});
+      this.set({
+          novel_id: this.collection.novel_id, 
+          chapter_id: this.collection.chapter_id, 
+          entry_id: this.collection.entry_id()}
+        );
+      this.root = this.collection.root;
     }
   },
 
@@ -9,9 +14,9 @@ var EntryBalloon = Backbone.Model.extend({
     var novel = this.collection.entry.collection.chapter.collection.novel;
     var base;
     if (novel.has('password')) {
-      base = '/edit/' + this.get('novel_id') + '/' + novel.get('password') + '/chapters/' + this.get('chapter_id') + '/entries/' + this.get('entry_id') + '/balloons';
+      base = this.root + '/edit/' + this.get('novel_id') + '/' + novel.get('password') + '/chapters/' + this.get('chapter_id') + '/entries/' + this.get('entry_id') + '/balloons';
     } else {
-      base = '/novels/' + this.get('novel_id') + '/chapters/' + this.get('chapter_id') + '/entries/' + this.get('entry_id') + '/balloons';
+      base = this.root +'/novels/' + this.get('novel_id') + '/chapters/' + this.get('chapter_id') + '/entries/' + this.get('entry_id') + '/balloons';
     }
 
     if (this.isNew()) {
@@ -35,16 +40,21 @@ var EntryBalloon = Backbone.Model.extend({
 var EntryCharacter = Backbone.Model.extend({
   initialize: function() {
     if(this.collection){
-      this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id, entry_id: this.collection.entry_id()});
+      this.set({
+          novel_id: this.collection.novel_id, 
+          chapter_id: this.collection.chapter_id, 
+          entry_id: this.collection.entry_id()}
+        );
+      this.root = this.collection.root;
     }
   },
   url: function() {
     var novel = this.collection.entry.collection.chapter.collection.novel;
     var base;
     if (novel.has('password')) {
-      base = '/edit/' + this.get('novel_id') + '/' + novel.get('password') + '/chapters/' + this.get('chapter_id') + '/entries/' + this.get('entry_id') + '/characters';
+      base = this.root + '/edit/' + this.get('novel_id') + '/' + novel.get('password') + '/chapters/' + this.get('chapter_id') + '/entries/' + this.get('entry_id') + '/characters';
     } else {
-      base = '/novels/' + this.get('novel_id') + '/chapters/' + this.get('chapter_id') + '/entries/' + this.get('entry_id') + '/characters';
+      base = this.root + '/novels/' + this.get('novel_id') + '/chapters/' + this.get('chapter_id') + '/entries/' + this.get('entry_id') + '/characters';
     }
 
     if (this.isNew()) {
@@ -67,12 +77,13 @@ var EntryCharacter = Backbone.Model.extend({
 
 var EntryBalloonList = Backbone.Collection.extend({
   model: EntryBalloon,
+
   url: function() {
     var novel = this.entry.collection.chapter.collection.novel;
     if (novel.has('password')) {
-      return '/edit/' + this.novel_id + '/' + novel.get('password') + '/chapters/' + this.chapter_id + '/entries/' + this.entry_id() + '/balloons';
+      return this.root + '/edit/' + this.novel_id + '/' + novel.get('password') + '/chapters/' + this.chapter_id + '/entries/' + this.entry_id() + '/balloons';
     } else {
-      return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.entry_id() + "/balloons";
+      return this.root + "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.entry_id() + "/balloons";
     }
   },
 
@@ -82,6 +93,7 @@ var EntryBalloonList = Backbone.Collection.extend({
   
   addModel: function(model) {
     model.collection = this;
+    model.root = this;
     model.initialize();
     //add to collection but not call add event to prevent add view
     var o = this.add(model,{silent: true} );
@@ -96,9 +108,9 @@ var EntryCharacterList = Backbone.Collection.extend({
   url: function() {
     var novel = this.entry.collection.chapter.collection.novel;
     if (novel.has('password')) {
-      return '/edit/' + this.novel_id + '/' + novel.get('password') + '/chapters/' + this.chapter_id + '/entries/' + this.entry_id() + '/characters';
+      return this.root + '/edit/' + this.novel_id + '/' + novel.get('password') + '/chapters/' + this.chapter_id + '/entries/' + this.entry_id() + '/characters';
     } else {
-      return "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.entry_id() + "/characters";
+      return this.root + "/novel/" + this.novel_id + "/chapters/" + this.chapter_id + "/entries/" + this.entry_id() + "/characters";
     }
   },
 
@@ -108,6 +120,7 @@ var EntryCharacterList = Backbone.Collection.extend({
 
   addModel: function(model) {
     model.collection = this;
+    model.root = this.root;
     model.initialize();
     var o = this.add(model,{silent: true} );
     model.save();
@@ -118,20 +131,23 @@ var EntryCharacterList = Backbone.Collection.extend({
 var Entry = Backbone.Model.extend({
   entryBalloonList: EntryBalloonList,
   entryCharacterList: EntryCharacterList,
-  initialize: function() {
-    var balloons = arguments[0].entry_balloon;
-    var characters = arguments[0].entry_character;
-      
-    if(this.collection)
-    this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id()});    
 
-    this.id = arguments[0].id;
+  initialize: function(arg) {
+    var balloons = arg.entry_balloon;
+    var characters = arg.entry_character;
+      
+    if(this.collection){ // using nocollection entry at index page
+      this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id()});    
+      this.root = this.collection.root;
+    }
+    this.id = arg.id;
       
     // Create balloons.
     this.balloons = new this.entryBalloonList();
     this.balloons.novel_id = this.get('novel_id');
     this.balloons.chapter_id = this.get('chapter_id');
     this.balloons.entry = this;
+    this.balloons.root = this.root;
     if (balloons && balloons.length > 0) {
       this.balloons.add(balloons);
     }
@@ -141,6 +157,7 @@ var Entry = Backbone.Model.extend({
     this.characters.novel_id = this.get('novel_id');
     this.characters.chapter_id = this.get('chapter_id');
     this.characters.entry = this;
+    this.characters.root = this.root;
     if (characters && characters.length > 0) {
       this.characters.add(characters);
     }
@@ -150,9 +167,9 @@ var Entry = Backbone.Model.extend({
     if(this.collection)var novel = this.collection.chapter.collection.novel;
     var base = '';
     if (novel && novel.has('password')) {
-      base = '/edit/' + this.get('novel_id') + '/' + novel.get('password') + '/chapters/' + this.get('chapter_id') + '/entries';
+      base = this.root + '/edit/' + this.get('novel_id') + '/' + novel.get('password') + '/chapters/' + this.get('chapter_id') + '/entries';
     } else {
-      base = '/novels/' + this.get('novel_id') + '/chapters/' + this.get('chapter_id') + '/entries';
+      base = this.root + '/novels/' + this.get('novel_id') + '/chapters/' + this.get('chapter_id') + '/entries';
     }
 
     if (this.isNew()) {
@@ -231,9 +248,9 @@ var EntryList = Backbone.Collection.extend({
   url: function() {
     var novel = this.chapter.collection.novel;
     if (novel && novel.has('password')) {
-      return '/edit/' + this.novel_id + '/' + novel.get('password') + '/chapters/' + this.chapter_id() + '/entries';
+      return this.root + '/edit/' + this.novel_id + '/' + novel.get('password') + '/chapters/' + this.chapter_id() + '/entries';
     } else {
-      return "/novels/" + this.novel_id + "/chapters/" + this.chapter_id() + "/entries";    
+      return this.root + "/novels/" + this.novel_id + "/chapters/" + this.chapter_id() + "/entries";    
     }
   },
 
@@ -245,15 +262,12 @@ var EntryList = Backbone.Collection.extend({
     if (typeof attributes.order_number === "undefined") {
       attributes.order_number = this.length;
     }
-    //if(options)options.wait=true;else options = {wait:true}; 
-    //var entry = this._prepareModel(attributes,options);
     var self = this;
     var onCreate = function(entry){  
       //console.log(arguments);
       entry.addItems();
       self.save();
       if(options.callback)options.callback();
-      //entry.save();
     }
     options = $.extend(options , { wait:true, success: onCreate });
     return Backbone.Collection.prototype.create.call(this, attributes, options);
@@ -309,13 +323,16 @@ var EntryList = Backbone.Collection.extend({
 
 var Chapter = Backbone.Model.extend({
   entrylist: EntryList,
+
   initialize: function() {
     this.set({novel_id: this.collection.novel_id});
-      
+    this.root = this.collection.root;
+
     // entries
     this.entries = new this.entrylist();
     this.entries.novel_id = this.get('novel_id');
     this.entries.chapter = this;
+    this.entries.root = this.root;
 
     // If new entry object is given, add it.
     if (arguments[0].hasOwnProperty('entry')) {
@@ -327,9 +344,9 @@ var Chapter = Backbone.Model.extend({
     var novel = this.collection.novel;
     var base = '';
     if (novel.has('password')) {
-      base = '/edit/' + this.get('novel_id') + '/' + novel.get('password') + '/chapters';
+      base = this.root + '/edit/' + this.get('novel_id') + '/' + novel.get('password') + '/chapters';
     } else {
-      base = '/novels/' + this.get('novel_id') + '/chapters';
+      base = this.root + '/novels/' + this.get('novel_id') + '/chapters';
     }
 
     if (this.isNew()) {
@@ -363,9 +380,9 @@ var ChapterList = Backbone.Collection.extend({
   model: Chapter,
   url: function() {
     if (this.novel.has('password')) {
-      return "/edit/" + this.novel_id + '/' + this.novel.get('password') + "/chapters";
+      return this.root + "/edit/" + this.novel_id + '/' + this.novel.get('password') + "/chapters";
     } else {
-      return "/novels/" + this.novel_id + "/chapters";
+      return this.root + "/novels/" + this.novel_id + "/chapters";
     }
   },
 
@@ -410,20 +427,28 @@ var ChapterList = Backbone.Collection.extend({
 
 Novel = Backbone.Model.extend({
   chapterlist: ChapterList,
-  initialize: function() {
+  initialize: function(arg) {
+    if(arg.root){
+      this.root = arg.root;
+    }else{
+      this.root = "";
+    }
+    
     // Create chapters.
     this.chapters = new this.chapterlist();
     this.chapters.novel_id = this.id;
     this.chapters.novel = this;
-      
+    this.chapters.root = this.root;
+   
+
     // Fetch the data from server.
     //this.fetch();
   },
   url: function() {
     if (this.has('password')) {
-      return '/edit/' + this.id + '/' + this.get('password') + '.json';
+      return this.root + '/edit/' + this.id + '/' + this.get('password') + '.json';
     } else {
-      return '/novels/' + this.id + '.json';
+      return this.root + '/novels/' + this.id + '.json';
     }
   },
 
@@ -461,7 +486,7 @@ Novel = Backbone.Model.extend({
   dup_as_maker: function(srcModel , callback){
     var newNovel;
     var self = this;
-    var url = "/novels/"+ this.id +"/dup_no_redirect.json"
+    var url = this.root + "/novels/"+ this.id +"/dup_no_redirect.json"
     var chane = new CallbackChane();
 
     jQuery.getJSON(

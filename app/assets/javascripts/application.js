@@ -10,10 +10,11 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require jquery_ujs
-//= require underscore
-//= require config
-//= require bootstrap.min
-//= require jquery-ui-1.9.1.custom.min
-//= require jquery.iframe-transport
+//=require jquery
+//=require jquery_ujs
+//=require underscore
+//=require config
+//=require bootstrap.min
+//=require jquery-ui-1.9.1.custom.min
+//=require jquery.iframe-transport
+;
