@@ -201,7 +201,7 @@ $(function() {
   novelEdit.initializeTool(isEditable,id);
 
   $("#output_html").text(
-    '<script src="'+location.origin+'/assets/novelShow.js"></script>'
+    '<script src="'+location.origin+'/assets/exShow.js"></script>'
     +'<div class="novel_container" id="'+id+'" root="'+ location.origin +'" ><div id="content"></div></div>')
 
 });
