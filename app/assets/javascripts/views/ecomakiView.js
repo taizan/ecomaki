@@ -165,7 +165,7 @@ ecomakiView = Backbone.View.extend({
       this.isDisplay = false;
     }
 
-    if( height <= window_height + scroll + offset ){
+    if(  $(this.el).offset().top - window_height + $(this.el).height() < scroll ){
       this.onScrollEnd();
     } 
 

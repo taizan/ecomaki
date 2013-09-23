@@ -1,0 +1,30 @@
+
+.balloon {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 20px;         /* CSS3 */
+   -moz-border-radius: 20px;    /* Firefox */
+   -webkit-border-radius: 20px; /* Safari,Chrome */
+
+   border: 1px black solid;
+   //box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+
+.balloon .text{
+  display: table-cell;
+  vertical-align: middle;
+
+}
+
+.item_image{
+	height: 100%;
+	width: 100%;
+}
+
+.balloon textarea{
+  text-align: center;
+  vertical-align: middle;
+}
+
+
