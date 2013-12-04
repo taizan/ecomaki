@@ -329,6 +329,7 @@ BalloonView = EntryItemView.extend({
   
   editEnd: function(){
 		var self = this;
+    this.saveText();
     //for trigger tutorial event or some blur event
     $(this.el).blur();
     $(self.el).draggable("option","disabled",false);
