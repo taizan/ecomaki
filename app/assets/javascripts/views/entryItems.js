@@ -74,7 +74,7 @@ EntryItemView = Backbone.View.extend ({
     if(this.isEditable){ 
       $(this.el)
         .click(this.onClick)
-        .draggable({ start: this.onDragStart, stop: this.onDragStopc });
+        .draggable({ start: this.onDragStart, stop: this.onDragStop });
     }
 
     this.onAppend();
