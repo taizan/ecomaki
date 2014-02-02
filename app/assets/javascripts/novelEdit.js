@@ -84,9 +84,11 @@ $(function() {
         _novelView.appendTo($('#content'));
         if(isEditable) {
           $('#toolbox').show();
+          $('.editer_item').show();
         }else{
           $('#toolbox').hide();
           $('.tutorial_dialog').hide();
+          $('.editer_item').hide();
         }
       });
     

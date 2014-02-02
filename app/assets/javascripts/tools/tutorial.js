@@ -2,6 +2,8 @@
 
 TutorialBalloon = function(){
   this.current = -1;
+  
+  $.balloon.defaults.classname = "editer_item";
 
   this.list = [
     {

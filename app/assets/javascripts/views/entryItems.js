@@ -122,6 +122,9 @@ EntryItemView = Backbone.View.extend ({
           'left'  : $(this.el).offset().left - $(this.content).offset().left 
         };
 
+    $(".text",this.el)
+      .width(  $(this.el).width()  )
+      .height( $(this.el).height() );
     if(this.model.isDefaultItem){
       this.model.set(data);
     }else{
@@ -367,13 +370,13 @@ BalloonView = EntryItemView.extend({
   },
 
   onRender: function(){
-    console.log(this.isEditing);
+    //console.log(this.isEditing);
     if( !this.isEditing){
-    $('.text',this.el)
-      .html( this.model.get('content') )
-      .width(this.model.get('width')).height(this.model.get('height'));
-    this.effecter.resetEffect(); 
-    this.textMenu.applyFont();
+      $('.text',this.el)
+        .html( this.model.get('content') )
+        .width(this.model.get('width')).height(this.model.get('height'));
+      this.effecter.resetEffect(); 
+      this.textMenu.applyFont();
     }
   },
 
