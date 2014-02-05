@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121127121311) do
+ActiveRecord::Schema.define(:version => 20140205173257) do
 
   create_table "authors", :force => true do |t|
     t.string   "name"
@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(:version => 20121127121311) do
     t.string   "title"
     t.string   "description"
     t.integer  "order_number"
+    t.string   "option"
+    t.integer  "layout_type"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end
@@ -100,16 +102,16 @@ ActiveRecord::Schema.define(:version => 20121127121311) do
     t.integer  "chapter_id"
     t.integer  "width"
     t.integer  "height"
+    t.integer  "order_number"
+    t.integer  "canvas_index"
+    t.integer  "background_image_id"
     t.integer  "margin_top"
     t.integer  "margin_left"
     t.integer  "margin_bottom"
     t.integer  "margin_right"
     t.string   "option"
-    t.integer  "order_number"
-    t.integer  "canvas_index"
-    t.integer  "background_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "entry_balloons", :force => true do |t|
@@ -144,7 +146,7 @@ ActiveRecord::Schema.define(:version => 20121127121311) do
     t.integer  "height"
     t.integer  "angle"
     t.integer  "z_index"
-    t.integer  "clip_top"
+    t.integer  "refrect"
     t.integer  "clip_left"
     t.integer  "clip_bottom"
     t.integer  "clip_right"
@@ -184,10 +186,11 @@ ActiveRecord::Schema.define(:version => 20121127121311) do
     t.string   "author_name"
     t.string   "status"
     t.string   "password"
-    t.string   "background_music"
+    t.integer  "background_music_id"
+    t.integer  "background_image_id"
     t.string   "option"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "tags", :force => true do |t|

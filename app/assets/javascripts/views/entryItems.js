@@ -419,7 +419,8 @@ CharacterView = EntryItemView.extend({
   className : "character",
   //pre append method
   onInit: function(){
-    _.bindAll(this,"selectCharacter","setCharacter", "onDefaultItemClick");
+    _.bindAll(this,
+      "selectCharacter","setCharacter", "onDefaultItemClick","setRefrectButton");
     $('<img class="character_image target_off">').appendTo(this.el);
     this.model.bind('sync',this.render,this);
   },
@@ -446,6 +447,7 @@ CharacterView = EntryItemView.extend({
         .attr({title:"クリックで画像選択、ドラッグして移動"});
       
 
+      this.setRefrectButton();
       //set UI on mouseovered
       this.showOutLine();
 
@@ -459,12 +461,20 @@ CharacterView = EntryItemView.extend({
 
   onRender: function(){
     $('img',this.el).attr('src', config.character_image_idtourl( this.model.get('character_image_id') ) );
+    if( this.model.get("refrect") == 1 ){
+      $('img',this.el).addClass("refrect");
+    }else{
+      $('img',this.el).removeClass("refrect");
+    }
+
     this.effecter.resetEffect(); 
   },
 
   selectCharacter: function(ev){
-    //console.log('selectimage');
-    Picker.prototype.showCharacterList(this.setCharacter);
+    console.log(ev.target.tagName);
+    if ( ev.target.tagName != "I" ){ //not show picker at icon click
+      Picker.prototype.showCharacterList(this.setCharacter);
+    }
   },
 
 // use img to get size 
@@ -476,6 +486,25 @@ CharacterView = EntryItemView.extend({
       'height': img.height,
     });
   },
+
+  setRefrectButton: function(){
+    var self = this;
+    $('<i class="icon-resize-horizontal item_button item_refrect" title="左右反転" />')
+      .appendTo(this.el)
+      .hide();
+
+    $('.item_refrect',this.el).click(
+      function(){
+        //console.log(target);
+        if ( self.model.get("refrect") == 1 ) {
+          self.model.save("refrect",0);
+        } else {
+          self.model.save("refrect",1);
+        }
+      }
+    );
+  },
+
 
   onDefaultItemClick: function(callback) {
     console.log("on df clk",$(this.el));

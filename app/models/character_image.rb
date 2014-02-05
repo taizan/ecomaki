@@ -5,8 +5,8 @@ class CharacterImage < ActiveRecord::Base
   belongs_to :character
   has_many :entry_character
 
-  before_save :read_image
-  after_save :save_image
+  #before_save :read_image
+  #after_save :save_image
 
   def read_image
     # Read content_type
@@ -23,6 +23,16 @@ class CharacterImage < ActiveRecord::Base
   def save_image
     File.open(image_path, 'wb') do |file|
       file.write(@image.read)
+    end
+  end
+
+  def set_png_type
+    self.content_type = "image/png"
+  end
+  def save_image_data
+  
+    File.open(image_path, 'wb') do |file|
+      file.write(@image)
     end
   end
 

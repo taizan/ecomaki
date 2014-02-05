@@ -12,6 +12,7 @@ EntryView = ecomakiView.extend({
         "addItemView",
         "addBalloonView",
         "addCharacterView",
+        "onSelect",
         "onClick",
         "canvasRender",
         "onCanvasClick",
@@ -207,9 +208,15 @@ EntryView = ecomakiView.extend({
 
     "click .add_default_balloon_icon": "addDefaultBalloon",
     "click .add_default_character_icon": "addDefaultCharacter",
-    "click .new_entry_handle": "addEntry"
+    "click .new_entry_handle": "addEntry",
+
+    "mouseover" : "onSelect"
   },
   
+  onSelect: function(){
+    EntryView.prototype.selected = this;
+  },
+
   onDisplay: function(){
     // do something when entry displayed
     //console.log('disp entry');

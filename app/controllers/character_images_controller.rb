@@ -30,19 +30,42 @@ class CharacterImagesController < ApplicationController
     end
 
     image = params[:image]
-    content_type = image.content_type.chomp
+    dataURL = params[:imageURL]
 
-    if ['image/jpeg', 'image/png', 'image/gif'].include?(content_type)
-      character_image = CharacterImage.new(
-        :image => image,
-        :character_id => character_id,
-        :author => params[:author],
-        :description => params[:description])
-      character_image.save
-
-      render :json => character_image
+    if image.nil? and  dataURL.nil?
+      render :text => "The uploaded type has unallowed content type 2", :status => 500
     else
-      render :text => "The uploaded type has unallowed content type", :status => 500
+      if dataURL.nil?
+      
+        content_type = image.content_type.chomp
+        if ['image/jpeg', 'image/png', 'image/gif'].include?(content_type)
+          character_image = CharacterImage.new(
+            :image => image,
+            :character_id => character_id,
+            :author => params[:author],
+            :description => params[:description])
+          character_image.read_image
+          character_image.save
+          character_image.save_image
+      
+          render :json => character_image
+        else
+          render :text => "The uploaded type has unallowed content type 1", :status => 500
+        end
+      else
+        image_data = Base64.decode64(dataURL['data:image/png;base64,'.length .. -1])
+    
+        character_image = CharacterImage.new(
+          :image => image_data,
+          :character_id => character_id,
+          :author => params[:author],
+          :description => params[:description])
+        character_image.set_png_type
+        character_image.save
+        character_image.save_image_data
+
+        render :json => character_image
+      end
     end
   end
 
