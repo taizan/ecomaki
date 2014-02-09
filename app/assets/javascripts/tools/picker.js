@@ -54,16 +54,17 @@ Picker.prototype = {
       var reader = new FileReader();
       reader.onload =function(event){
         var imgURL = event.target.result;
+
         $.ajax({
           type: "POST",
           url: "/characters/images", 
           data: ({imageURL : imgURL , character_id : 0 , author: "", description: ""}),
           cache: false,
           success: function(result){
-              console.log( result.id );
+              console.log( result );
               console.log( EntryView.prototype.selected );
               //target.addCharacter(  ); 
-              EntryView.prototype.selected.addCharacter( result.id );
+              EntryView.prototype.selected.addCharacter( result.id , result.width , result.height );
             }
         });
       };

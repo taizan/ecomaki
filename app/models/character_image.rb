@@ -28,12 +28,20 @@ class CharacterImage < ActiveRecord::Base
 
   def set_png_type
     self.content_type = "image/png"
+
   end
+
   def save_image_data
   
     File.open(image_path, 'wb') do |file|
       file.write(@image)
     end
+
+    require 'rubygems'
+    require 'RMagick'
+    img = Magick::Image::read(image_path).first
+    self.width = img.columns
+    self.height = img.rows
   end
 
   def image

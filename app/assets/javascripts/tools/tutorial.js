@@ -3,7 +3,7 @@
 TutorialBalloon = function(){
   this.current = -1;
   
-  $.balloon.defaults.classname = "editer_item";
+  $.balloon.defaults.classname = "tutorial_balloon";
 
   this.list = [
     {
@@ -75,7 +75,7 @@ TutorialBalloon = function(){
   this.next = function(){
     //現在のバルーンを消して、コールバックを解除
     if(self.currentItem){
-      self.currentItem.hideBalloon();
+      $(".tutorial_balloon").remove();
       self.currentItem.off(self.list[self.current].action,self.next); 
     }
     self.current++;
