@@ -374,7 +374,7 @@ BalloonView = EntryItemView.extend({
     //console.log(this.isEditing);
     if( !this.isEditing){
       $('.text',this.el)
-        .html( this.model.get('content') )
+        .html( this.model.get('content').split('\n').join('<br>') )
         .width(this.model.get('width')).height(this.model.get('height'));
       this.effecter.resetEffect(); 
       this.textMenu.applyFont();
@@ -388,9 +388,17 @@ BalloonView = EntryItemView.extend({
     // to aviod call too many save method 
     if(!this.saving && !this.model.isDefaultItem){
       this.saving = true;
-      var txt = Config.prototype.escapeText($('.text',this.el).text());
-      $('.text',this.el).text(txt);
-      this.model.save('content',txt,{success: function(){ self.saving = false;}});
+      //var txt = Config.prototype.escapeText($('.text',this.el).text());
+      var html = $('.text',this.el).html();
+      html = html.split('<br>').join('\n');
+      //console.log(html);
+      var txt = Config.prototype.escapeText( html ); 
+      //console.log(txt);
+       $('.text',this.el).html( txt);
+      this.model.save( 
+          'content',txt.split('<br>').join('\n'),
+          {success: function(){ self.saving = false;}}
+        );
     }
   },
   
