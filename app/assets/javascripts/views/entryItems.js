@@ -286,8 +286,6 @@ BalloonView = EntryItemView.extend({
       // for sync preview 
       this.model.bind('sync',this.render);
     }
-    //this.fontSelecter.applyFont();
-    this.render();
   },
 
   onRemove: function(){
@@ -306,8 +304,8 @@ BalloonView = EntryItemView.extend({
       .bind('click', this.editStart);
 
     $('.text',this.el)
-      .blur(this.editEnd)
-      .bind('input', this.saveText);
+      .blur(this.editEnd);
+      //.bind('input', this.saveText);
 
   },
 
@@ -331,13 +329,15 @@ BalloonView = EntryItemView.extend({
   },
   
   editEnd: function(){
-		var self = this;
-    this.saveText();
-    //for trigger tutorial event or some blur event
-    $(this.el).blur();
-    $(self.el).draggable("option","disabled",false);
-    $('.text',self.el).attr('contenteditable','false');
-    self.isEditing = false;
+    if( this.isEditing == true){
+		  var self = this;
+      this.saveText();
+      //for trigger tutorial event or some blur event
+      $(this.el).blur();
+      $(self.el).draggable("option","disabled",false);
+      $('.text',self.el).attr('contenteditable','false');
+      self.isEditing = false;
+    }
   },
 
   onDefaultItemClick: function(callback) {
@@ -383,6 +383,7 @@ BalloonView = EntryItemView.extend({
 
   saveText: function(txt){
     var self = this;
+    console.log("set text");
     // to aviod call too many save method 
     if(!this.saving && !this.model.isDefaultItem){
       this.saving = true;
