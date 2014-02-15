@@ -44,7 +44,7 @@ class CharacterImagesController < ApplicationController
             :character_id => character_id,
             :author => params[:author],
             :description => params[:description])
-          character_image.read_image
+          character_image.set_type
           character_image.save
           character_image.save_image
       

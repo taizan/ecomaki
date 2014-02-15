@@ -24,7 +24,9 @@ class CharactersController < ApplicationController
           :character_id => character.id,
           :author => params[:author],
           :description => params[:description])
+        character_image.set_type
         character_image.save
+        character_image.save_image
       end
     end
 
