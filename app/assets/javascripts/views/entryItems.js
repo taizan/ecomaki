@@ -328,7 +328,8 @@ BalloonView = EntryItemView.extend({
 
   },
   
-  editEnd: function(){
+  editEnd: function( ev ){
+    console.log(ev);
     if( this.isEditing == true){
 		  var self = this;
       this.saveText();
@@ -387,7 +388,8 @@ BalloonView = EntryItemView.extend({
     // to aviod call too many save method 
     if(!this.saving && !this.model.isDefaultItem){
       this.saving = true;
-      var txt = Config.prototype.escapeText($('.text',this.el).html());
+      var txt = Config.prototype.escapeText($('.text',this.el).text());
+      $('.text',this.el).text(txt);
       this.model.save('content',txt,{success: function(){ self.saving = false;}});
     }
   },
