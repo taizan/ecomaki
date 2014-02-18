@@ -64,8 +64,8 @@ NovelView = ecomakiView.extend({
   },
 
  render: function() {
-    console.log('render novel');
-    console.log(this.isEditing);
+    //console.log('render novel');
+    //console.log(this.isEditing);
     if( ! this.isEditing ){
       this.setTextTo('title','#title','無題');
       this.setTextTo('description','#description','説明書き');

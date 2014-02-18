@@ -9,10 +9,13 @@ MakerNovelView = Backbone.View.extend({
 
   initialize: function(){
    
-    $(this.el)
-      .append(this.model.get('title'))
-      .append(this.model.get('description'))
-      .append(this.model.get('author_name'));
+    //$(this.el)
+    //  .append(this.model.get('title'))
+    //  .append(this.model.get('description'))
+    //  .append(this.model.get('author_name'));
+    titleView = new textView({model: this.model , attrName: 'title' });
+    $(this.el).append("Title:");
+    titleView.appendTo(this.el);
 
     for(var i = 0; i < this.model.chapters.length; i++){
       var chapter = this.model.chapters.at(i);
@@ -25,7 +28,7 @@ MakerNovelView = Backbone.View.extend({
           itemList.push(view);
         }
         for(var n = 0; n < entry.balloons.length; n++){
-          view = new textView({model: entry.balloons.at(n)});
+          view = new textView({model: entry.balloons.at(n) , attrName: 'content' });
           itemList.push(view);
         }
 
@@ -48,7 +51,10 @@ MakerNovelView = Backbone.View.extend({
 
     // ake  callbakc listener class to wait all callback is called
     var listener = new CallbackListener( callback );
+    copy_model = model;
     console.log(model);
+
+    model.save( 'title' , this.model.get('title') ,{  success: listener.set() });
     //model.save( this.model.attributes , { success: listener.set() } );
 
     for(var i = 0; i < this.model.chapters.length; i++){
@@ -82,28 +88,59 @@ MakerNovelView = Backbone.View.extend({
 textView = Backbone.View.extend ({
   tagName: "textarea",
   className: 'maker_text',
+  isEditing: false,
 
-  initialize: function() {
-    _.bindAll(this,'saveText','render');
+  initialize: function( option ) {
+    _.bindAll(this,'saveText','editStart','render');
+    this.attrName = option.attrName;
   },
   
   appendTo: function(target) {
     $(this.el)
       .appendTo(target)
-      .bind('input',this.saveText);
+      .bind('input',this.editStart)
+      .blur(this.saveText);
     this.render();
+  },
+  
+  editStart: function(){
+    console.log(this.isEditing);
+    if ( this.isEditing  == false){
+      this.isEditing = true;
+    }
   },
 
   saveText: function() {
-    var txt = Config.prototype.escapeText( $(this.el).val() );
-    console.log(txt);
-    this.model.set({content:txt});
+    if( this.isEditing  == true ){
+      var txt = Config.prototype.escapeTextarea( $(this.el) );
+      console.log(txt);
+      //もっといい書き方があるはず
+      if ( this.attrName == "content" ) this.model.set({content:txt});
+      if ( this.attrName == "title" ) this.model.set({title:txt});
+      this.isEditing = false;
+    }
   },
  
 
   render: function() {
-    $(this.el).html(this.model.get('content'));
+    $(this.el).html(this.model.get( this.attrName));
   },
+
+
+  resizeTextarea: function() {
+    // textareaの値を取得
+    var textarea_val = this.el.val();
+    
+    // 改行文字の取得
+    var match_str = textarea_val.match(/\n/g);
+    // 行数の設定
+    if (match_str) {
+      textarea_obj.attr("rows", match_str.length + 2);
+    } else {
+    // 最低2行確保
+      textarea_obj.attr("rows", "2");
+    }
+  }, 
 
 });
 

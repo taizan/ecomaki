@@ -108,12 +108,15 @@ ecomakiView = Backbone.View.extend({
       .bind('input', function(){
         self.isEditing = true;
         console.log("oninput");
-        var txt = Config.prototype.escapeText($(target,self.el).html());
-        self.model.save( attr, txt );
         //self.model.save();
       })
       .bind('blur', function(){
-        self.isEditing = false;
+        if(self.isEditing){
+          console.log("onsave");
+          var txt = Config.prototype.escapeText($(target,self.el));
+          self.model.save( attr, txt );
+          self.isEditing = false;
+        }
       });
   },
 
@@ -125,10 +128,10 @@ ecomakiView = Backbone.View.extend({
     if(txt == "" || txt == "<br>"|| txt === null || txt === undefined){
       if(this.isEditable) { txt = def; } 
       else {  txt = ''; }
-      $(target).html(txt);
+      $(target).html(txt.split('\n').join('<br>'));
     }
     else {
-      $(target).html(txt);
+      $(target).html(txt.split('\n').join('<br>'));
     }
   },
 

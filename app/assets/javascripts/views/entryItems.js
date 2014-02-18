@@ -389,14 +389,14 @@ BalloonView = EntryItemView.extend({
     if(!this.saving && !this.model.isDefaultItem){
       this.saving = true;
       //var txt = Config.prototype.escapeText($('.text',this.el).text());
-      var html = $('.text',this.el).html();
-      html = html.split('<br>').join('\n');
+      //var html = $('.text',this.el).html();
+      //html = html.split('<br>').join('\n');
       //console.log(html);
-      var txt = Config.prototype.escapeText( html ); 
+      var txt = Config.prototype.escapeText( $('.text',this.el) ); 
       //console.log(txt);
-       $('.text',this.el).html( txt);
+      // $('.text',this.el).html( txt);
       this.model.save( 
-          'content',txt.split('<br>').join('\n'),
+          'content',txt,
           {success: function(){ self.saving = false;}}
         );
     }

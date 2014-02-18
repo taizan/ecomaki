@@ -167,11 +167,22 @@ Config.prototype.rgba2string = function(rgba){
 	return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
 };
 
-Config.prototype.escapeText = function(txt){
-  var $d = $('<div></div>');
-  $d.text(txt);
-  return $d.text().split('\n').join('<br>');
+Config.prototype.escapeText = function( $el ){
+  var html = $el.html();
+  var $d = $("<div></div>");
+  html = html.split('<br>').join('\n')
+  $d.html(html);
+  $el.html( $d.text().split('\n').join('<br>')  )
+  return $d.text();
 };
 
+Config.prototype.escapeTextarea = function( $el ){
+  var html = $el.val();
+  var $d = $("<div></div>");
+  html = html.split('<br>').join('\n')
+  $d.html(html);
+  $el.val( $d.text()  )
+  return $d.text();
+};
 Config.Shapes = {};
 

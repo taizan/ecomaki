@@ -143,9 +143,7 @@ EntryView = ecomakiView.extend({
     
       this.canvasRender();
      
-      //this.defaultIconRender();
     }
-
     return this;
   },
 
@@ -187,13 +185,13 @@ EntryView = ecomakiView.extend({
   addItemView: function( viewClass , model , t , options ){
      // console.log('load entry item');
 
-     this.maxIndex = this.model.get('canvas_index') != null  ? this.model.get('canvas_index') : 0;
+    this.maxIndex = this.model.get('canvas_index') != null  ? this.model.get('canvas_index') : 0;
 
-     var itemView = new viewClass( { model:model , parentView: this , isEditable: this.isEditable });
-     itemView.appendTo( this.content);
-     this.itemNum ++;
-     this.itemList.push(itemView);
-     this.maxIndex = ( model.get('z_index') > this.maxIndex ) ?   model.get('z_index') : this.maxIndex;
+    var itemView = new viewClass( { model:model , parentView: this , isEditable: this.isEditable });
+    itemView.appendTo( this.content);
+    this.itemNum ++;
+    this.itemList.push(itemView);
+    this.maxIndex = ( model.get('z_index') > this.maxIndex ) ?   model.get('z_index') : this.maxIndex;
   },
 
   
@@ -332,7 +330,8 @@ EntryView = ecomakiView.extend({
     this.maxIndex++;
 
     //temp
-    this.model.save();
+    //this.model.save();
+    console.log("add balloon");
 
     $('.btn_layer',this.el).removeClass('btn-primary');
 
@@ -386,6 +385,8 @@ EntryView = ecomakiView.extend({
       });
 
     newBalloon.isDefaultItem = true;
+
+    console.log("add def balloon");
 
     var newBalloonView = this.addItemView( BalloonView , newBalloon , {} , {} );
 

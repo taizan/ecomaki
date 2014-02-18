@@ -55,6 +55,8 @@ $(function() {
         if(! _novelPreview) {
           _novelPreview = new NovelView({model: _novel , isEditable: false });
           _novelPreview.appendTo($('#preview_content'));
+        }else{
+          _novelPreview.render();
         }
 
         if(isEditable) {
@@ -76,18 +78,16 @@ $(function() {
       var chane = new CallbackChane();
       var new_novel;
       var url = "/novels/"+ id +"/dup_no_redirect.json"
-      jQuery.getJSON(
-          url,            // リクエストURLQerfvtki
-          null,
-          chane.next()
-        );
+      console.log(url);
 
+/*
       chane.push( function(arg){
+          console.log(arg);
           console.log('make model');
-          new_novel = new Novel({id: arg[0].id,password: arg[0].password});
+          new_novel = new Novel({id: arg.id , password: arg.password});
           new_novel.fetch({success:chane.next()});
         });
-           
+*/           
       chane.push( function(){
           console.log('copy make');
           _novelView.copyTo(new_novel , chane.next());
@@ -103,6 +103,18 @@ $(function() {
           console.log('move page');
           document.location = '/novels/'+ new_novel.id ;
         });
+
+      jQuery.getJSON(
+          url,            // リクエストURL
+          //chane.next()
+          function(arg){ 
+            //console.log(arg);
+            console.log('make model');
+            new_novel = new Novel({id: arg.id , password: arg.password});
+            new_novel.fetch({success:chane.next()});
+          }
+          
+        );
 
      });
 
