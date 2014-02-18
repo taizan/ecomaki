@@ -56,7 +56,7 @@ $(function() {
           _novelPreview = new NovelView({model: _novel , isEditable: false });
           _novelPreview.appendTo($('#preview_content'));
         }else{
-          _novelPreview.render();
+          _novelPreview.renderAll();
         }
 
         if(isEditable) {

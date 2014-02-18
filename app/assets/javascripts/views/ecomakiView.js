@@ -19,6 +19,7 @@ ecomakiView = Backbone.View.extend({
 				"onLoad",
 				"onAppend",
 				"render",
+				"renderAll",
 				"addOne",
 				"addAll",
         "onAddChild",
@@ -99,6 +100,17 @@ ecomakiView = Backbone.View.extend({
 	
   onChange: function(){
     //console.log("onchange");
+  },
+
+  renderAll : function(){
+    this.render();
+    for(i =0; i < this.childViews.length; i++ ){
+      if( this.childViews[i].renderAll ){
+        this.childViews[i].renderAll();
+      } else {
+        this.childViews[i].render();
+      }
+    }
   },
 
 

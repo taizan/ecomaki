@@ -191,6 +191,7 @@ EntryView = ecomakiView.extend({
     itemView.appendTo( this.content);
     this.itemNum ++;
     this.itemList.push(itemView);
+    this.childViews.push(itemView);
     this.maxIndex = ( model.get('z_index') > this.maxIndex ) ?   model.get('z_index') : this.maxIndex;
   },
 
