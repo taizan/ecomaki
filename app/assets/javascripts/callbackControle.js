@@ -33,8 +33,8 @@ CallbackChane = function(){
 CallbackChane.prototype = {
   next: function(){
     var self = this;
-    var args = arguments;
-    return function() { 
+    //var args = arguments;
+    return function( args ) { 
       if(self.tasks[self.pos]){
         console.log( self.pos , self.tasks[self.pos]  )
         self.tasks[self.pos ](args);

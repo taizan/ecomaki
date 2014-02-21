@@ -80,14 +80,14 @@ $(function() {
       var url = "/novels/"+ id +"/dup_no_redirect.json"
       console.log(url);
 
-/*
+
       chane.push( function(arg){
           console.log(arg);
           console.log('make model');
           new_novel = new Novel({id: arg.id , password: arg.password});
           new_novel.fetch({success:chane.next()});
         });
-*/           
+           
       chane.push( function(){
           console.log('copy make');
           _novelView.copyTo(new_novel , chane.next());
@@ -106,13 +106,13 @@ $(function() {
 
       jQuery.getJSON(
           url,            // リクエストURL
-          //chane.next()
-          function(arg){ 
+          chane.next()
+          //function(arg){ 
             //console.log(arg);
-            console.log('make model');
-            new_novel = new Novel({id: arg.id , password: arg.password});
-            new_novel.fetch({success:chane.next()});
-          }
+          //  console.log('make model');
+          //  new_novel = new Novel({id: arg.id , password: arg.password});
+          //  new_novel.fetch({success:chane.next()});
+          //}
           
         );
 
