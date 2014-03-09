@@ -1,7 +1,10 @@
 class Entry < ActiveRecord::Base
   attr_accessor :canvas
   attr_accessor :original_id
-  attr_accessible :chapter_id, :width, :height,:margin_top,:margin_left,:margin_bottom, :margin_right,:order_number, :canvas, :canvas_index, :option
+  attr_accessible :chapter_id, :width, :height,:order_number, :canvas, :canvas_index, :option
+  attr_accessible :margin_top,:margin_left,:margin_bottom, :margin_right
+  attr_accessible :character_id 
+  serialize :character_id
 
   belongs_to :chapter
 

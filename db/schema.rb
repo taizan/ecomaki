@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140205173257) do
+ActiveRecord::Schema.define(:version => 20140309131755) do
 
   create_table "authors", :force => true do |t|
     t.string   "name"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(:version => 20140205173257) do
     t.string   "option"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.text     "character_ids"
   end
 
   create_table "entry_balloons", :force => true do |t|
@@ -148,7 +149,7 @@ ActiveRecord::Schema.define(:version => 20140205173257) do
     t.integer  "z_index"
     t.integer  "refrect"
     t.integer  "clip_left"
-    t.integer  "clip_bottom"
+    t.integer  "character_id"
     t.integer  "clip_right"
     t.string   "option"
     t.datetime "created_at",         :null => false
@@ -191,6 +192,7 @@ ActiveRecord::Schema.define(:version => 20140205173257) do
     t.string   "option"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.text     "character_ids"
   end
 
   create_table "tags", :force => true do |t|
