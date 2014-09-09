@@ -283,10 +283,10 @@ Picker.prototype = {
 
   setCharacterImageItem: function( character_id, id, text, url ){
     var item = $('<div id="pick_character_image_item_'+id+'" class="picker_image_item" ><img src="' + url + '"></div>').attr('title',text);
-    //item.appendTo($(list_id)).tooltip();
-    if(! $('.list_header_button img','#character_item_'+character_id ).attr('src') ){
+    var list_id = '#character_item_'+character_id;
+    if(! $('.list_header_button img',list_id ).attr('src') ){
       //console.log($(list_id));
-      $('.list_header_button img','#character_item_'+character_id ).attr('src',url);
+      $('.list_header_button img',list_id ).attr('src',url);
     }
     
     function addImageItem(){
@@ -294,7 +294,7 @@ Picker.prototype = {
       if($("#pick_character_image_item_"+id ).length == 0 ){
       //console.log($('pick_item'+id));
        //item.appendTo($('.image_list',list_id));
-        $('.image_list','#character_item_'+character_id ).prepend(item);
+        $('.image_list',list_id ).prepend(item);
         item.click(function(){
           if(Picker.prototype.selectedCallback){
             //set img elem for use img tag information.

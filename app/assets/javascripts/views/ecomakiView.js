@@ -31,6 +31,7 @@ ecomakiView = Backbone.View.extend({
 				"onDisplay",
 				"onPreDisplay",
 				"onPostDisplay",
+        "setCharacterId",
 				"hideButton",
         "destroyView"
 			);
@@ -144,6 +145,23 @@ ecomakiView = Backbone.View.extend({
     }
     else {
       $(target).html(txt.split('\n').join('<br>'));
+    }
+  },
+
+  setCharacterId: function(id){
+    var idList =  this.model.get("character_ids");
+    if( idList ){
+      var addFlag = true;
+      for( var i =0; i< idList.length; i++ ){
+        if(idList[i] == id) addFlag = false;
+      }
+      if( addFlag ) {
+        idList.push(parseInt(id));
+        this.model.save();
+      }
+    }
+    if( this.parentView ){
+      this.parentView.setCharacterId(id);
     }
   },
 

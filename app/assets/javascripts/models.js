@@ -133,15 +133,19 @@ var Entry = Backbone.Model.extend({
   entryCharacterList: EntryCharacterList,
 
   initialize: function(arg) {
-    var balloons = arg.entry_balloon;
-    var characters = arg.entry_character;
-      
+     
+    //空の場合、配列として初期化しておく
+    if( !this.get("character_ids") ){
+      this.set("characters",new Array());
+    }
+
     if(this.collection){ // using nocollection entry at index page
       this.set({novel_id: this.collection.novel_id, chapter_id: this.collection.chapter_id()});    
       this.root = this.collection.root;
     }
     this.id = arg.id;
       
+    var balloons = arg.entry_balloon;
     // Create balloons.
     this.balloons = new this.entryBalloonList();
     this.balloons.novel_id = this.get('novel_id');
@@ -152,6 +156,7 @@ var Entry = Backbone.Model.extend({
       this.balloons.add(balloons);
     }
       
+    var characters = arg.entry_character;
     // Create characters.
     this.characters = new this.entryCharacterList();
     this.characters.novel_id = this.get('novel_id');
@@ -427,7 +432,12 @@ var ChapterList = Backbone.Collection.extend({
 
 Novel = Backbone.Model.extend({
   chapterlist: ChapterList,
+
   initialize: function(arg) {
+    //空の場合、配列として初期化しておく
+    if( !this.get("character_ids") ){
+      this.set("characters",new Array());
+    }
     if(arg.root){
       this.root = arg.root;
     }else{

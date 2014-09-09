@@ -493,11 +493,11 @@ CharacterView = EntryItemView.extend({
   setCharacter: function(image_id,img,character_id){
     this.model.save({
       'character_image_id' : image_id ,
-      'character_id' : character_id ,
+      'character_id' : parseInt(character_id) ,
       'width' : img.width,
       'height': img.height,
     });
-    
+    this.parentView.setCharacterId(character_id); 
   },
 
   setRefrectButton: function(){
