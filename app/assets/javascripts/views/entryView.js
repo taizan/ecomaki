@@ -28,6 +28,7 @@ EntryView = ecomakiView.extend({
         "addDefaultCharacter",
         "destroyEntry",
         "addEntry",
+        "addEntryFromTemplate",
         "changeLayer"
       );
 
@@ -207,7 +208,8 @@ EntryView = ecomakiView.extend({
 
     "click .add_default_balloon_icon": "addDefaultBalloon",
     "click .add_default_character_icon": "addDefaultCharacter",
-    "click .new_entry_handle": "addEntry",
+    //"click .new_entry_handle": "addEntry",
+    "click .new_entry_handle": "addEntryFromTemplate",
 
     "mouseover" : "onSelect"
   },
@@ -432,8 +434,14 @@ EntryView = ecomakiView.extend({
     //newEntry.save();
   },
 
+  addEntryFromTemplate: function(e){
+    var type = (this.model.get('order_number'))%4;    
+    var attributes =  EntryTemplate.prototype.getTemplate(type);
+    var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number'));
+  },
+
   addEntry: function(e){
-    //console.log("addEntry", this.model.order_number);
+    console.log("addEntry", this.model.order_number);
     var attributes ={"canvas_index":1,"height":320,"width":480}  
     var newEntry = this.model.collection.create_after(
         attributes ,

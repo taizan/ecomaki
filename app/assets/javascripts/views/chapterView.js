@@ -12,9 +12,10 @@ ChapterView = ecomakiView.extend({
   _.bindAll(this,
               "addEntry",
               "addEntryWithOrder",
-              "addEntryWith1Character",
-              "addEntryWith2Character",
-              "addEntryWithBalloon",
+              "addEntryFromTemplate",
+              //"addEntryWith1Character",
+              //"addEntryWith2Character",
+              //"addEntryWithBalloon",
               "onLoad",
               "onSortStart",
               "onSortStop",
@@ -49,11 +50,12 @@ ChapterView = ecomakiView.extend({
     //'click': 'onViewClick',
     "click .add_chapter" : "addChapter",
     "click .new_chapter_handle" : "addChapter",
-    //"click .add_entry" : "addEntry",
+    "click .first_new_entry_handle" : "addEntryFromTemplate",
     //"click .new_entry_handle" : "addEntry",
-    "click .add_one_char" : "addEntryWith1Character", 
-    "click .add_two_char" : "addEntryWith2Character", 
-    "click .add_description" : "addEntryWithBalloon",
+    //"click .new_entry_handle" : "addEntryFromTemplate",
+    //"click .add_one_char" : "addEntryWith1Character", 
+    //"click .add_two_char" : "addEntryWith2Character", 
+    //"click .add_description" : "addEntryWithBalloon",
     "click .background_icon" : "onBackgroundButton",
     "click .music_icon" : "onMusicButton",
     "click .remove_chapter" : "removeChapter",
@@ -86,7 +88,7 @@ ChapterView = ecomakiView.extend({
         });
       
       //set click function to avoid conflict to entry item add handle in each entry
-      $('.chapter_wrapper',this.el).children('.new_entry_handle').click(this.addEntry);
+      //$('.chapter_wrapper',this.el).children('.new_entry_handle').click(this.addEntry);
     }else{
       $(".editer_item",this.el).hide();
     }
@@ -186,6 +188,15 @@ ChapterView = ecomakiView.extend({
   },
 
   // add entry with no boder balloon
+  addEntryFromTemplate: function(){
+    console.log("from tmp");
+    //四コマのウチの何コマ目をてんぷれにするか
+    var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
+    this.model.entries.create( EntryTemplate.prototype.getTemplate(type) );
+  },
+
+/*
+  // add entry with no boder balloon
   addEntryWithBalloon: function(){
     this.model.entries.create( EntryTemplate.prototype.getTemplate(0) );
   },
@@ -197,7 +208,7 @@ ChapterView = ecomakiView.extend({
   addEntryWith2Character: function(){
     this.model.entries.create( EntryTemplate.prototype.getTemplate(2) );
   },
-
+*/
   addChapter: function(e){
     //var novel = this.parentView.model;
     //var currentIndex = novel.chapters.indexOf(this.model);

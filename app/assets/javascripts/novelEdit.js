@@ -72,8 +72,9 @@ $(function() {
     $('#toolbox').show();
 
     Picker.prototype.initialize();
+    EntryTemplate.prototype.initialize();
 
-    // Prever Button Click
+    // Preveiw Button Click
     $('#preview_button').click(function(){
         isEditable = isEditable ? false : true;
 			  $('#preview_button img').attr('src', '/assets/novel/' + (isEditable ? 'preview.png' : 'edit.png'));

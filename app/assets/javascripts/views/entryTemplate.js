@@ -4,12 +4,19 @@ EntryTemplate.prototype =
 {
   // get template from novel 1
 
-  novel: new Novel({id: 1}),
+  //fetchしてコールバックをとる必要あり
+  novel: new Novel({id: 315}),
+
+  initialize : function(callback){
+    var option = {};
+    if(callback) option = {success:callback};
+    EntryTemplate.prototype.novel.fetch(option); 
+  },
 
   getTemplate : function(i){
     
     var chapter = EntryTemplate.prototype.novel.chapters.at(i);
-    console.log(chapter);
+    console.log(i);
     if( chapter.entries.length > 0 ){
       var j = Math.floor((Math.random() * chapter.entries.length));
       return chapter.entries.at(j).dup();
