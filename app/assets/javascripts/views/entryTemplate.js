@@ -5,7 +5,7 @@ EntryTemplate.prototype =
   // get template from novel 1
 
   //fetchしてコールバックをとる必要あり
-  novel: new Novel({id: 0}),
+  novel: new Novel({id: 1}),
 
   initialize : function(callback){
     var option = {};
