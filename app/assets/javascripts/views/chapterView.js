@@ -192,7 +192,7 @@ ChapterView = ecomakiView.extend({
     console.log("from tmp");
     //四コマのウチの何コマ目をてんぷれにするか
     var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
-    this.model.entries.create( EntryTemplate.prototype.getTemplate(type) );
+    this.model.entries.create_after( EntryTemplate.prototype.getTemplate(type) , -1);
   },
 
 /*

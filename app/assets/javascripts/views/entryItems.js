@@ -1,5 +1,85 @@
 //position obj is there some nomal one?
 
+//=require jquery.ui.rotatable
+
+_BalloonView = Backbone.View.extend ({
+
+  //className : "balloon",
+
+  initialize: function(args){
+    this.parentView = args.parentView;
+    this.isEditable = args.isEditable;
+    this.content = this.parentView.content;
+  
+    _.bindAll(this,
+      "render",
+      "onEdit",
+      "appendTo",
+          //"onClick",
+      //"onSelect",
+      //"onResize",
+      //"onDragStart",
+      //"onDragStop",
+      //"onRender",
+      "onDisplay",
+      "onPreDisplay"
+      //"onDefaultItemClick"
+      //"destroyView"
+      );
+  },
+  
+  onEdit: function(data){
+    //console.log(data);
+    //console.log(this.model);
+    this.model.set(data);
+    this.model.save();
+    //console.log(this.model.isDefaultItem);
+    //this.model.save();
+  },
+  
+  render: function(){
+    //$(this.el).editable("render",{data:this.model.attributes , isEditable:this.isEditable})
+    $(this.el).editable("render",{data:this.model.attributes , isEditable:this.isEditable})
+    
+  },
+  
+  appendTo: function(target){
+      var self = this;
+      if( this.model.isDefaultItem ) return;
+      $(this.el).appendTo(target);
+    
+      $(this.el).editable({
+        onEdit: this.onEdit,
+        onRemove:  function(){ self.model.destroy(); },
+        data:this.model,
+        className:"balloon"
+      });
+
+      //initialize effecter object
+      this.effecter = new Effecter(this.el,this.model,'option', "balloon"+ this.model.get('id') );
+      console.log(this.effecter);
+      this.model.bind('change:option', this.effecter.resetEffect );
+
+      this.onAppend();
+      this.render();
+    },
+  
+  onDisplay: function(){
+      console.log(this);
+      this.effecter.runSelectedEffect();
+    },
+
+  onPreDisplay: function(){
+    this.effecter.resetEffect(); 
+  },
+  
+  onSelect: function(){
+      this.effecter.changeSelecter();
+  },
+  
+  onAppend: function(){},
+});
+
 
 EntryItemView = Backbone.View.extend ({
 
@@ -15,6 +95,7 @@ EntryItemView = Backbone.View.extend ({
         "onClick",
         "onSelect",
         "onResize",
+        "onRotate",
         "onDragStart",
         "onDragStop",
         "onRender",
@@ -40,8 +121,12 @@ EntryItemView = Backbone.View.extend ({
     //this.el = this.tmpl;
     var z = this.model.get('z_index') != null ? this.model.get('z_index') : 0;  
 
+    var rotation = this.model.get('rotation');
+    rotation = (rotation == null)? 0 : rotation;
+    $(this.el).rotate( rotation );
+    
     $(this.el)
-      .css({position: 'absolute', top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
+      .css({ top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
       .width(this.model.get('width')).height(this.model.get('height'));
      
   },
@@ -50,12 +135,8 @@ EntryItemView = Backbone.View.extend ({
     //console.log('render');
     //console.log(this);
     
-    var z = ( this.model.get('z_index') != null ) ? this.model.get('z_index') : 0;  
-
-    $(this.el)
-      .css({position: 'absolute', top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
-      .width(this.model.get('width')).height(this.model.get('height'));
-   
+    this.defaultInitialize();
+    
     this.onRender();
   },
  
@@ -72,9 +153,47 @@ EntryItemView = Backbone.View.extend ({
     //initialize draggable 
     //resizable is initialized at each item onAppend
     if(this.isEditable){ 
+
+      var angle = this.model.get('rotation');
+      if( !angle ) angle = 0;
+      $(this.el).rotatable({
+          angle:angle/180*Math.PI,
+          stop: this.onRotate,
+          handle: $('<i class="icon_rotate icon-repeat item_button"/>')
+          //rotateIconClass:  "icon-repeat item_button",
+      });
       $(this.el)
         .click(this.onClick)
-        .draggable({ start: this.onDragStart, stop: this.onDragStop });
+        .draggable({
+          drag: function ( event, ui ) {
+            //resize bug fix ui drag `enter code here`
+            __dx = ui.position.left - ui.originalPosition.left;
+            __dy = ui.position.top - ui.originalPosition.top;
+            //ui.position.left = ui.originalPosition.left + ( __dx/__scale);
+            //ui.position.top = ui.originalPosition.top + ( __dy/__scale );
+            ui.position.left = ui.originalPosition.left + ( __dx);
+            ui.position.top = ui.originalPosition.top + ( __dy );
+            //
+            ui.position.left += __recoupLeft;
+            ui.position.top += __recoupTop;
+            
+         },
+        start: function ( event, ui ) {
+          $( this ).css( 'cursor', 'pointer' );
+          //resize bug fix ui drag
+          var left = parseInt( $( this ).css( 'left' ), 10 );
+          left = isNaN( left ) ? 0 : left;
+          var top = parseInt( $( this ).css( 'top' ), 10 );
+          top = isNaN( top ) ? 0 : top;
+          __recoupLeft = left - ui.position.left;
+          __recoupTop = top - ui.position.top;
+
+          self.onDragStart(event,ui);
+        },
+
+        stop: this.onDragStop
+      });        
+        //start: this.onDragStart, stop: this.onDragStop });
     }
 
     this.onAppend();
@@ -93,13 +212,14 @@ EntryItemView = Backbone.View.extend ({
       $(this.el).addClass('default_item');
     }
 
-    // do post appedn method
+    // do post append method
 
     if(this.isEditable){ 
       $(this.el).mousedown(this.onSelect);
       this.setRemoveButton();
-      this.initButton();
       $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ"});
+      //console.log(this.$el);
+      this.initButton();
     }
 
     this.render();
@@ -112,6 +232,18 @@ EntryItemView = Backbone.View.extend ({
     this.effecter.changeSelecter();
   },
 
+
+  onRotate: function( ){
+    var data = {
+      'rotation' : $(this.el).rotate()
+    }
+    if(this.model.isDefaultItem){
+      this.model.set(data);
+    }else{
+      this.model.save(data);
+    }
+    console.log(this.model);
+  },
 
   onResize: function(){
 
@@ -141,7 +273,6 @@ EntryItemView = Backbone.View.extend ({
       z ++;
       this.parentView.maxIndex++;
     //}
-    $(this.el).css({zIndex: z});
     this.model.set({'z_index': z});
 
     if(!this.model.isDefaultItem){
@@ -150,16 +281,26 @@ EntryItemView = Backbone.View.extend ({
     }
     // donot save here because it triger render 
     //this.model.save();
+    //console.log(this.model);
   },
 
   onDragStop: function(){
+    var temp_deg_0 = $($(this.el)[0]).rotate();
+    console.log( temp_deg_0 );
+    //$(this.el).css({position:"absolute"});
+
+    $(this.el).rotate(0);
     this.model.set({
           'top' : $(this.el).offset().top - $(this.content).offset().top ,
           'left': $(this.el).offset().left - $(this.content).offset().left
         });
+    $(this.el).rotate(temp_deg_0);
+
     if(!this.model.isDefaultItem){
       this.model.save();
     }
+    //$(this.el).css({position:"relative"});
+    //console.log(this.model);
     //console.log(this);
   },
 
@@ -185,6 +326,7 @@ EntryItemView = Backbone.View.extend ({
           $('.item_button',self.el).hide();
         });
 
+    $('.item_button',self.el).hide();
   },
 
   setRemoveButton: function(){
@@ -329,7 +471,7 @@ BalloonView = EntryItemView.extend({
   },
   
   editEnd: function( ev ){
-    console.log(ev);
+    //console.log(ev);
     if( this.isEditing == true){
 		  var self = this;
       this.saveText();
@@ -452,11 +594,8 @@ CharacterView = EntryItemView.extend({
           autoHide: true,
           "handles": "n, e, s, w, ne, se, sw, nw",
         })
-
         .click(this.selectCharacter)
-      
         .attr({title:"クリックで画像選択、ドラッグして移動"});
-      
 
       this.setRefrectButton();
       //set UI on mouseovered

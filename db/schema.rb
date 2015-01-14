@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140309131755) do
+ActiveRecord::Schema.define(:version => 20141118150057) do
 
   create_table "authors", :force => true do |t|
     t.string   "name"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(:version => 20140309131755) do
     t.string   "option"
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
+    t.integer  "rotation"
   end
 
   create_table "entry_characters", :force => true do |t|
@@ -145,7 +146,7 @@ ActiveRecord::Schema.define(:version => 20140309131755) do
     t.integer  "left"
     t.integer  "width"
     t.integer  "height"
-    t.integer  "angle"
+    t.integer  "rotation"
     t.integer  "z_index"
     t.integer  "refrect"
     t.integer  "clip_left"

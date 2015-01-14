@@ -54,7 +54,7 @@ var ctor = function(){};
 
 
 Config.prototype.swapImage = function(){
-  $(".img_swap").live('click', function() {
+  $(".img_swap").on('click', function() {
     if ( !$(this).hasClass("on") ) {
       this.src = this.src.replace("_off","_on");
     } else {
@@ -67,10 +67,10 @@ Config.prototype.swapImage = function(){
 
 Config.prototype.overImage = function(){
   $('.img_over')
-    .live("mouseover",function(){
+    .on("mouseover",function(){
         this.src = this.src.replace("_off","_on");
       })
-    .live("mouseleave",function(){
+    .on("mouseleave",function(){
         this.src = this.src.replace("_on","_off");
       });
 };

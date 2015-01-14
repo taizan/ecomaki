@@ -166,6 +166,40 @@ hr {
   opacity: 1;
 }
 
+.ui-editable-icon {
+  position: absolute;
+  cursor:pointer;
+}
+
+.icon_remove {
+  right: 0;
+  top: 0px;
+}
+
+.icon_rotate {
+  left:50%;
+  top: -10px;
+}
+
+.ui-rotatable-handle {
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    background: black;
+    //left: 2px;
+    //bottom: 2px;
+}
+
+.icon_reflect {
+  bottom:-10px;
+  left:50%;
+  margin-left:-5px;
+}
+
+.ui-editable-selected {
+  border: 2px #bde9ba dotted;
+}
+
 //entry
 
 canvas {
