@@ -63,7 +63,7 @@ EntryView = ecomakiView.extend({
       $('.entry_wrapper',this.el).width( this.model_width + 2* button_offset );
     }
 
-    if( $(this.parentView.parentView.el).width )
+    //if( $(this.parentView.parentView.el).width )
 
     // to make center as content center add button_offset other hand 
     $(this.el)
