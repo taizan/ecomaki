@@ -177,8 +177,10 @@ hr {
 }
 
 .icon_rotate {
-  left:50%;
-  top: -10px;
+  position:absolute;
+  left:55%;
+  top: 0px;
+  margin:0px;
 }
 
 .ui-rotatable-handle {
@@ -190,10 +192,11 @@ hr {
     //bottom: 2px;
 }
 
-.icon_reflect {
-  bottom:-10px;
-  left:50%;
-  margin-left:-5px;
+.item_refrect {
+  position:absolute;
+  top:0px;
+  left:40%;
+  margin:0px;
 }
 
 .ui-editable-selected {
@@ -228,6 +231,7 @@ canvas {
   cursor:pointer;
   border: 1px silver dotted ;
   color: gray;
+  bottom: 10px;
 }
 
 .new_entry_handle:hover{

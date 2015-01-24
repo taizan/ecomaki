@@ -13,6 +13,7 @@ ChapterView = ecomakiView.extend({
               "addEntry",
               "addEntryWithOrder",
               "addEntryFromTemplate",
+              "addEntryToTemplate",
               //"addEntryWith1Character",
               //"addEntryWith2Character",
               //"addEntryWithBalloon",
@@ -189,12 +190,19 @@ ChapterView = ecomakiView.extend({
 
   // add entry with no boder balloon
   addEntryFromTemplate: function(){
-    console.log("from tmp");
+    //console.log("from tmp");
     //四コマのウチの何コマ目をてんぷれにするか
     var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
     this.model.entries.create_after( EntryTemplate.prototype.getTemplate(type) , -1);
   },
 
+  addEntryToTemplate: function(){
+    //四コマのウチの何コマ目をてんぷれにするか
+    for( var i =0; i < this.model.entries.length; i++){
+      attr = this.model.entries.at(i).dup();
+      EntryTemplate.prototype.addToTemplate( attr ,i);
+    }
+  },
 /*
   // add entry with no boder balloon
   addEntryWithBalloon: function(){

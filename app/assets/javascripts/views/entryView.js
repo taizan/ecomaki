@@ -47,20 +47,29 @@ EntryView = ecomakiView.extend({
     // init height width
     this.model_width = this.model.get('width');
     this.model_height = this.model.get('height');
-    var button_offset = 40;
+    var button_offset = 20;
 
     $('.entry_wrapper',this.el)
-      .width( this.model_width + 2* button_offset )
-      .height( this.model_height );
-    $(this.content)
       .width( this.model_width )
       .height( this.model_height )
-      .css({'left':'40px'});
+      .css({'margin-left': -this.model_width/2 + 'px' , 'left':'50%'});
+
+    $(this.content)
+      .width( this.model_width )
+      .height( this.model_height );
+
+    if(this.editable) {
+      $(this.content).css({'left': button_offset+'px'});
+      $('.entry_wrapper',this.el).width( this.model_width + 2* button_offset );
+    }
+
+    if( $(this.parentView.parentView.el).width )
+
     // to make center as content center add button_offset other hand 
     $(this.el)
     //  .width( this.content.width() + 2* button_offset )
       .height( this.content.height() );
-    $('.hide_buttons',this.el).css( { left: this.content.width() + button_offset} );
+    $('.hide_buttons',this.el).css( { left: this.content.width() } );
   },
 
   onLoad: function(){
@@ -98,7 +107,7 @@ EntryView = ecomakiView.extend({
           stop: this.onResize,
           maxHeight: 480,
           minHeight: 120,
-          maxWidth: 1024,
+          maxWidth: 440,
           minWidth: 240,
           grid: [40,40],
           autoHide: true,
@@ -317,9 +326,9 @@ EntryView = ecomakiView.extend({
 
   addBalloon: function( str , w , h , l , t ){
     //console.log("addBalloon");
-    if(typeof str === 'undefined') str = 'クリックして編集';
-    if(typeof w === 'undefined') w = 100;
-    if(typeof h === 'undefined') h = 50;
+    if(typeof str === 'undefined') str = 'ダブルクリックして編集';
+    if(typeof w === 'undefined') w = 150;
+    if(typeof h === 'undefined') h = 80;
     if(typeof l === 'undefined') l = Math.random() * (this.model.get('width') - w); 
     if(typeof t === 'undefined') t = Math.random() * (this.model.get('height') - h);
 
@@ -328,7 +337,8 @@ EntryView = ecomakiView.extend({
         left: l,top: t, width: w, height: h ,
         z_index: this.maxIndex+1,
         content: str,
-        border: ''
+        border: '',
+        "font_size":16
       });
     this.maxIndex++;
 
@@ -385,6 +395,7 @@ EntryView = ecomakiView.extend({
         top: $(this.content).height() * 0.5 - h,
         width: w, height: h ,
         z_index: this.maxIndex+1,
+        "font_size":16,
       });
 
     newBalloon.isDefaultItem = true;
@@ -439,6 +450,7 @@ EntryView = ecomakiView.extend({
     var attributes =  EntryTemplate.prototype.getTemplate(type);
     var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number'));
   },
+
 
   addEntry: function(e){
     console.log("addEntry", this.model.order_number);

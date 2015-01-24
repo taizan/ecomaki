@@ -187,7 +187,7 @@ EntryItemView = Backbone.View.extend ({
           top = isNaN( top ) ? 0 : top;
           __recoupLeft = left - ui.position.left;
           __recoupTop = top - ui.position.top;
-
+          //console.log(self);
           self.onDragStart(event,ui);
         },
 
@@ -267,13 +267,14 @@ EntryItemView = Backbone.View.extend ({
   },
 
   onDragStart: function(){
-
     var z = this.parentView.maxIndex ;
     //if(this.model.get('z_index') < z) {
       z ++;
       this.parentView.maxIndex++;
     //}
+    console.log(z);
     this.model.set({'z_index': z});
+    $(this.el).css({'zIndex':z});
 
     if(!this.model.isDefaultItem){
       //this.effecter.changeSelecter();
@@ -396,19 +397,16 @@ BalloonView = EntryItemView.extend({
   },
 
   onAppend: function(){
-
-    //console.log(this.el);
 		var self = this;
 
 		this.textMenu = new TextEditMenu(this.el, this.model);
 
-    
     if(this.isEditable){
 
-    this.model
-      .bind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
-      .bind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
-      .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
+      this.model
+        .bind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
+        .bind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
+        .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
 
       $(this.el)
         .resizable({
@@ -443,7 +441,7 @@ BalloonView = EntryItemView.extend({
 		var self = this;
 
     $(this.el)
-      .bind('click', this.editStart);
+      .bind('dblclick', this.editStart);
 
     $('.text',this.el)
       .blur(this.editEnd);
@@ -489,6 +487,7 @@ BalloonView = EntryItemView.extend({
     // add this model to entry collecti
     //this.model.defaultItemSave();
     this.model.addTo( this.parentView.model.balloons , callback);
+    this.editStart();
   },
 
 
@@ -594,7 +593,7 @@ CharacterView = EntryItemView.extend({
           autoHide: true,
           "handles": "n, e, s, w, ne, se, sw, nw",
         })
-        .click(this.selectCharacter)
+        .dblclick(this.selectCharacter)
         .attr({title:"クリックで画像選択、ドラッグして移動"});
 
       this.setRefrectButton();
@@ -621,10 +620,12 @@ CharacterView = EntryItemView.extend({
   },
 
   selectCharacter: function(ev){
-    console.log(ev.target.tagName);
-    if ( ev.target.tagName != "I" ){ //not show picker at icon click
-      Picker.prototype.showCharacterList(this.setCharacter);
-    }
+    //console.log(ev.target.tagName);
+    
+    //not show picker at icon click
+    if( ev ) if ( ev.target.tagName == "I" ) return;
+
+    Picker.prototype.showCharacterList(this.setCharacter);
   },
 
 // use img to get size 
@@ -664,6 +665,7 @@ CharacterView = EntryItemView.extend({
     // add this model to entry collection 
     //this.model.defaultItemSave();
     this.model.addTo( this.parentView.model.characters ,callback);
+    this.selectCharacter();
   },
   
     
