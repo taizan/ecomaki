@@ -416,7 +416,7 @@ BalloonView = EntryItemView.extend({
           autoHide: true
         })
         // TEMP ? goto temp html?
-        .attr({title:"クリックで編集、ドラッグで移動"});
+        .attr({title:"ダブルクリックで編集、ドラッグで移動"});
 
 
       this.setBalloonEditable();
@@ -594,7 +594,7 @@ CharacterView = EntryItemView.extend({
           "handles": "n, e, s, w, ne, se, sw, nw",
         })
         .dblclick(this.selectCharacter)
-        .attr({title:"クリックで画像選択、ドラッグして移動"});
+        .attr({title:"ダブルクリックで画像選択、ドラッグして移動"});
 
       this.setRefrectButton();
       //set UI on mouseovered
