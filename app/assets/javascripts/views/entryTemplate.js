@@ -27,8 +27,7 @@ EntryTemplate.prototype =
 
   // テンプレートで操作する必要あり 
   addToTemplate : function( novel , novelId  ){
-    if( novel ) novel = _novel;
-    if( novelId ) novelId = _novel.id;
+    if( !novel ) novel = _novel;
 
     var targetNovle = new Novel({id : novelId}); 
 
