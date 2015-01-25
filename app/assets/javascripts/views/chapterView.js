@@ -178,15 +178,11 @@ ChapterView = ecomakiView.extend({
     return entry;
   },
 
-
   addEntry: function(){
     var self = this;
     var attr ={"canvas_index":1,"height":320,"width":480};  
     //call trigger of onadd calllback 
-    this.model.entries.create_after(attr,-1,{callback:function(){ 
-        $(self.el).trigger('onAdd'); 
-        $('.new_entry_handle',self.el).trigger('onAdd'); 
-      }});
+    this.model.entries.create_after(attr,-1,this.onAddOption());
   },
 
   // add entry with no boder balloon
@@ -194,12 +190,20 @@ ChapterView = ecomakiView.extend({
     //console.log("from tmp");
     //四コマのウチの何コマ目をてんぷれにするか
     var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
-    this.model.entries.create_after( EntryTemplate.prototype.getTemplate(type) , -1);
+    this.model.entries.create_after( 
+        EntryTemplate.prototype.getTemplate(type) ,
+        -1 , 
+        this.onAddOption()
+      );
   },
 
   addEntryFromTemplateAfter: function(){
     var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
-    this.model.entries.create_after( EntryTemplate.prototype.getTemplate(type) ,  this.model.entries.length-1 );
+    this.model.entries.create_after( 
+        EntryTemplate.prototype.getTemplate(type) , 
+        this.model.entries.length-1 ,
+        this.onAddOption() 
+      );
   },
 
   addEntryToTemplate: function(){

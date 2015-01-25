@@ -441,14 +441,21 @@ EntryView = ecomakiView.extend({
     // console.log("addEntry");
     this.model.save();
     var attributes = this.model.dup();
-    var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number')-1);
+    this.model.collection.create_after(
+        attributes ,
+        this.model.get('order_number') ,
+        this.onAddOption() );
     //newEntry.save();
   },
 
   addEntryFromTemplate: function(e){
     var type = (this.model.get('order_number'))%4;    
     var attributes =  EntryTemplate.prototype.getTemplate(type);
-    var newEntry = this.model.collection.create_after(attributes ,this.model.get('order_number'));
+    this.model.collection.create_after(
+        attributes ,
+        this.model.get('order_number') ,
+        this.onAddOption() );
+
   },
 
 
@@ -458,10 +465,7 @@ EntryView = ecomakiView.extend({
     var newEntry = this.model.collection.create_after(
         attributes ,
         this.model.get('order_number') ,  
-        function(){
-          $(self.el).trigger('onAdd');
-          $('.new_entry_handle',self.el).trigger('onAdd');
-        }
+        this.onAddOption()
       );
   },
 

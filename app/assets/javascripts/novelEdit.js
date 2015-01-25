@@ -38,8 +38,8 @@ $(function() {
     var makeView = function(){
       _novelView = new NovelView({model: _novel , isEditable: isEditable  });
       _novelView.appendTo($('#content'));
-      //var tutorialBalloon = new TutorialBalloon();
-      //tutorialBalloon.next();
+      var tutorialBalloon = new TutorialBalloon();
+      tutorialBalloon.next();
     }
 
     _novel = new Novel({id: id,password: pass});

@@ -101,4 +101,6 @@ Ecomaki::Application.routes.draw do
 
   # extern
   get "extern/show_temp"
+
+  match 'img' => 'assets/img'
 end

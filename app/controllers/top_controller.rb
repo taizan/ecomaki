@@ -6,7 +6,7 @@ class TopController < ApplicationController
     
     @novels.each {|novel|
       options = {:include => [:entry_balloon, :entry_character]}
-      entry = Entry.joins(:chapter).where("novel_id = ?", novel.id).order("chapters.order_number, entries.order_number").limit(1)
+      entry = Entry.joins(:chapter).where("novel_id = ?", novel.id).order("chapters.order_number, entries.order_number").limit(4)
       entries << entry.to_json(options)
     }
     @entries = "[#{entries.join(",")}]"

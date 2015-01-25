@@ -218,6 +218,7 @@ Picker.prototype = {
                 //console.log(e.target);
                 if( $(e.target).hasClass('add_character_image') === false ){
                   $('.image_list','#character_item_'+id).toggle();
+                  $('.add_character_image_button','#character_item_'+id).toggle();
                 }
               })
             .imagesLoaded( function(){  $('.image_list',header).masonry({ itemSelecter: '.picker_image_item'}); });
@@ -225,7 +226,7 @@ Picker.prototype = {
 	        $('.list_header_name',header).html( name );
 	        $('.list_header_description',header).html( description );
 
-          // init form add button
+         // init form add button
           $('.add_character_image_button','#character_item_'+id).click(function(){
               Picker.prototype.appendForm("/characters/images","image",id); 
               $('.image_list','#character_item_'+id).show();
@@ -284,6 +285,7 @@ Picker.prototype = {
   setCharacterImageItem: function( character_id, id, text, url ){
     var item = $('<div id="pick_character_image_item_'+id+'" class="picker_image_item" ><img src="' + url + '"></div>').attr('title',text);
     var list_id = '#character_item_'+character_id;
+
     if(! $('.list_header_button img',list_id ).attr('src') ){
       //console.log($(list_id));
       $('.list_header_button img',list_id ).attr('src',url);

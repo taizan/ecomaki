@@ -109,8 +109,16 @@
 
     <ul class = "picker_list nav nav-list picker_elem">
       <li class="nav-header picker_elem">
-        <button id="add_character_button" class="btn picker_elem" title="キャラクターの追加; New Character"><img src='/assets/novel/add_character_big.png'></buttton>
-        <button class="btn picker_cancel_button" title="閉じる; close picker"><img src="/assets/novel/arrow_left.png" ></button>
+        <button id="add_character_button" 
+            class="btn picker_elem" 
+            title="キャラクターの追加">
+          <img src='/assets/novel/add_character_big.png'>
+          新しいキャラ
+        </buttton>
+        <button class="btn picker_cancel_button" title="閉じる" style="float:right">
+          <img src="/assets/novel/arrow_left.png" style="height:20px">
+          閉じる 
+        </button>
       </li>
     </ul>
 
@@ -212,7 +220,9 @@
       <p class="list_header_description">description </p>
     </div>
     <div class='floatEnd'></div>
-    <button class="btn add_character_image_button add_character_image" title="新規画像の追加; Upload New Image" ><img class="add_character_image" src="/assets/novel/add.png"></button>
+    <button class="btn add_character_image_button add_character_image" title="新規画像の追加" >
+      <img class="add_character_image" src="/assets/novel/add.png">
+    </button>
     <div class='floatEnd'></div>
     <div class="image_list" style="display:none">
     </div>

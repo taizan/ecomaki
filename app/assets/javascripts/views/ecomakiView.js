@@ -33,6 +33,7 @@ ecomakiView = Backbone.View.extend({
 				"onPostDisplay",
         "setCharacterId",
 				"hideButton",
+        "onAddOption",
         "destroyView"
 			);
 
@@ -255,6 +256,17 @@ ecomakiView = Backbone.View.extend({
     Backbone.View.prototype.remove.call(this);
    
  },
+
+
+  onAddOption: function(){
+    var self = this;
+    return {
+      callback:function(){
+        $(self.el).trigger('onAdd');
+        $('.new_entry_handle',self.el).trigger('onAdd');
+      }
+    }
+  },
 
  onRemove: function() {},
 

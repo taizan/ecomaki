@@ -25,7 +25,7 @@
   position:relative;
   margin-right:auto;
   margin-left:auto;
-  width:1024px;
+  width:480px;
 }
 
 //Logo
@@ -39,13 +39,13 @@
 }
 
 #logo{
-  width: 600px;
-  top: 100px;
-  left: 20px;
-  //margin-top:auto;
-  //margin-bottom:auto;
-  position:absolute;
-  //position: relative;
+  width: 480px;
+  //top: 50px;
+  //left: 20px;
+  margin-left:auto;
+  margin-right:auto;
+  //position:absolute;
+  position: relative;
 }
 
 #side_logo{
@@ -111,14 +111,21 @@
 }
 
 .novel_list_item{
-  border: 1px solid gray;
-  gargin: 2px;
+  border: 3px solid gray;
+//  gargin: 2px;
 //  max-height: 100px; 
-  max-width: 900px; 
+  width: 480px; 
+  margin-right:auto;
+  margin-left:auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 40px;
   overflow: hidden;
 }
 
 .novel_list_title{
+  color: white;
+  background: #333333;
   max-height: 60px;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -131,7 +138,7 @@
 }
 
 .novel_list_item:hover{
-  background: #CCFFCC;
+  background: #CCddee;
 }
 
 .novel_list_item h2 , .novel_list_item p{
