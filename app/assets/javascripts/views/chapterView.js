@@ -13,6 +13,7 @@ ChapterView = ecomakiView.extend({
               "addEntry",
               "addEntryWithOrder",
               "addEntryFromTemplate",
+              "addEntryFromTemplateAfter",
               "addEntryToTemplate",
               //"addEntryWith1Character",
               //"addEntryWith2Character",
@@ -194,6 +195,11 @@ ChapterView = ecomakiView.extend({
     //四コマのウチの何コマ目をてんぷれにするか
     var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
     this.model.entries.create_after( EntryTemplate.prototype.getTemplate(type) , -1);
+  },
+
+  addEntryFromTemplateAfter: function(){
+    var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
+    this.model.entries.create_after( EntryTemplate.prototype.getTemplate(type) ,  this.model.entries.length-1 );
   },
 
   addEntryToTemplate: function(){

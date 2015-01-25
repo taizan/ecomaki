@@ -376,7 +376,12 @@ var Chapter = Backbone.Model.extend({
       models[i].destroy();
     }
     return true;
-  }
+  },
+
+  create_entry_from_template: function(){
+    var type = this.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
+    this.entries.create_after( EntryTemplate.prototype.getTemplate(type) ,  this.entries.length-1 );
+  },
 
 });
 
@@ -412,6 +417,7 @@ var ChapterList = Backbone.Collection.extend({
     options = $.extend(options,{wait:true});
     return Backbone.Collection.prototype.create.call(this, attr, options);
   },
+  
 
   move_at: function(model, index) {
     var cur_index = this.models.indexOf(model);
