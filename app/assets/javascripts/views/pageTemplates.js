@@ -28,7 +28,7 @@ var selectTemplate = (function(){
 				//console.log(chapterView);
 				for(var i = 0; i < 4; i++){
 					//接続が重いといくつかはリロードした時に消えるかも
-				  	chapter.create_entry_from_template(i);
+				  	chapter.entries.create_entry_from_template(i);
 				}
         if(callback) callback();
 			};

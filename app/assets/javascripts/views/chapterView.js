@@ -190,20 +190,24 @@ ChapterView = ecomakiView.extend({
     //console.log("from tmp");
     //四コマのウチの何コマ目をてんぷれにするか
     var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
-    this.model.entries.create_after( 
-        EntryTemplate.prototype.getTemplate(type) ,
-        -1 , 
-        this.onAddOption()
-      );
+
+    this.model.entries.create_entry_from_template( type , -1 , this.onAddOption() );
+
   },
 
   addEntryFromTemplateAfter: function(){
     var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
-    this.model.entries.create_after( 
-        EntryTemplate.prototype.getTemplate(type) , 
-        this.model.entries.length-1 ,
-        this.onAddOption() 
-      );
+
+    this.model.entries.create_entry_from_template( 
+        type , this.model.entries.length-1 , this.onAddOption());
+
+    //EntryTemplate.prototype.getTemplate(type , function(attr){
+    //    self.model.collection.create_after(
+    //      attr ,
+    //      self.model.entries.length-1 ,
+    //      self.onAddOption() 
+    //    );
+    //  });
   },
 
   addEntryToTemplate: function(){

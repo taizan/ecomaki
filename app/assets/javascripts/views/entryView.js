@@ -453,11 +453,9 @@ EntryView = ecomakiView.extend({
 
   addEntryFromTemplate: function(e){
     var type = (this.model.get('order_number'))%4;    
-    var attributes =  EntryTemplate.prototype.getTemplate(type);
-    this.model.collection.create_after(
-        attributes ,
-        this.model.get('order_number') ,
-        this.onAddOption() );
+
+    this.model.collection.create_entry_from_template( 
+        type , this.model.get('order_number') , this.onAddOption() );
 
   },
 

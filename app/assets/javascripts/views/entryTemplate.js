@@ -15,16 +15,20 @@ EntryTemplate.prototype =
     EntryTemplate.prototype.novel.fetch(option); 
   },
 
-  getTemplate : function(i){
+  getTemplate : function(i , callback){
     
     var chapter = EntryTemplate.prototype.novel.chapters.at(i);
     console.log(i);
     if( chapter.entries.length > 0 ){
       var j = Math.floor((Math.random() * chapter.entries.length));
-      return chapter.entries.at(j).dup();
+      //成功してからコールバックにデータを渡す。
+      chapter.entries.at(j).fetch( {success: function(){
+        callback( chapter.entries.at(j).dup() );
+      }} );
+    }else{
+      console.log("template load error");
+      callback( EntryTemplate.prototype.templateList[i][0] );
     }
-
-    return EntryTemplate.prototype.templateList[i][0];
   },
 
   // テンプレートで操作する必要あり 
@@ -70,6 +74,9 @@ EntryTemplate.prototype =
     ],
 
     // description temp
+    [
+      {"canvas_index":1,"height":320,"width":640}  
+    ],
     [
       {"canvas_index":1,"height":320,"width":640}  
     ]

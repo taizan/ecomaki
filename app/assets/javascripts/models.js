@@ -289,6 +289,15 @@ var EntryList = Backbone.Collection.extend({
     return this.create(attributes, options);
   },
 
+
+  create_entry_from_template: function( type , pos  , option){
+    if( !pos ) pos = this.length;
+    var self = this;
+    EntryTemplate.prototype.getTemplate(type , function(data){
+      self.create_after( data , pos , option);
+    });
+  },
+
   comparator: function(entry) {
     return entry.get("order_number");
   },
@@ -364,13 +373,13 @@ var Chapter = Backbone.Model.extend({
   create_entry: function(attributes,options) {
     options = $.extend(options,{wait:true});
      
-    newEntry =  this.entries.create(attributes,options);
+    var newEntry =  this.entries.create(attributes,options);
     newEntry.isNewEntry = true; 
     return newEntry;
   },
 
   destroy_entry: function(models) {
-    models = _.isArray(models) ? models.slice() : [models];
+    var models = _.isArray(models) ? models.slice() : [models];
     for (var i=0; i<models.length; i++) {
       // the model will be removed from the collection automatically.
       models[i].destroy();
@@ -378,10 +387,6 @@ var Chapter = Backbone.Model.extend({
     return true;
   },
 
-  create_entry_from_template: function( type ){
-    //var type = ( this.entries.length ) % 4;
-    this.entries.create_after( EntryTemplate.prototype.getTemplate(type) ,  this.entries.length );
-  },
 
 });
 
