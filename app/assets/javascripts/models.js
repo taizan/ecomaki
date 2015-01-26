@@ -378,8 +378,8 @@ var Chapter = Backbone.Model.extend({
     return true;
   },
 
-  create_entry_from_template: function(){
-    var type = ( this.entries.length ) % 4;
+  create_entry_from_template: function( type ){
+    //var type = ( this.entries.length ) % 4;
     this.entries.create_after( EntryTemplate.prototype.getTemplate(type) ,  this.entries.length );
   },
 
