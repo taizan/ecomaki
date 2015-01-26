@@ -21,8 +21,6 @@ class EntriesController < ApplicationController
   end
 
   def show
-    #entry_id = params[:id]
-    
 
     options = {
        :include => [:entry_balloon, :entry_character],
@@ -31,15 +29,17 @@ class EntriesController < ApplicationController
     }
          
 
-    #entry = Entry
-    #  .joins({:chapter => :novel})
-    #  .includes(:entry_character, :entry_balloon)
-    #  .select("entries.id, chapter_id, novel_id, entries.height, entries.width, entries.margin_top, entries.margin_left, entries.margin_bottom, entries.margin_right")
-     # .find(entry_id)
+    entry_id = params[:id]
+    entry = Entry
+      .joins({:chapter => :novel})
+      .includes(:entry_character, :entry_balloon)
+      .select("entries.id, chapter_id, novel_id, entries.height, entries.width, entries.margin_top, entries.margin_left, entries.margin_bottom, entries.margin_right")
+      .find(entry_id)
+
 
     respond_to {|format|
-      format.json { render :json => @entry.to_json(options) }
-      #format.json { render :json => entry }
+      #format.json { render :json => @entry.to_json(options) }
+      format.json { render :json => entry }
     }
   end
 
