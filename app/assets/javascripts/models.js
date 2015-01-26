@@ -552,3 +552,12 @@ Novel = Backbone.Model.extend({
   },
 
 });
+
+//Novel のキャッシュ用。　テンプレートのキャッシュなど
+NovelLib = Novel.extend({
+  url: function() {
+    return this.root + '/caches/' + this.id ;
+  },
+});
+
+

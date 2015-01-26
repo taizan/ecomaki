@@ -2,7 +2,7 @@ class NovelsController < ApplicationController
   before_filter :require_novel, :only => [:show, :update, :edit , :maker]
 
   def show
-   options = {
+    options = {
       :except => [:password],
       :include => [
         :author,
@@ -18,6 +18,27 @@ class NovelsController < ApplicationController
       format.json { render :json => @novel.to_json(options) }
       format.xml { render :xml => @novel.to_xml(options) }
     end
+  end
+
+  def cache
+    options = {
+      :except => [:password],
+      :include => [
+        :author,
+        :chapter => {
+          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
+        },
+      ]
+    }
+    cache_key = "novel"+params[:id];
+    cache_expire = 1.year
+     
+    obj = Rails.cache.fetch(cache_key, expires_in: cache_expire) do
+      @novel = Novel.find(params[:id]) or redirect_to root_path
+      @novel.to_json(options)
+    end
+
+    render :json => obj
   end
 
   def update
