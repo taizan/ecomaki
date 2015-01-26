@@ -291,7 +291,6 @@ var EntryList = Backbone.Collection.extend({
 
 
   create_entry_from_template: function( type , pos  , option){
-    if( !pos ) pos = this.length ;
     var self = this;
     EntryTemplate.prototype.getTemplate(type , function(data){
       self.create_after( data , pos , option);

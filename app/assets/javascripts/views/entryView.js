@@ -454,8 +454,9 @@ EntryView = ecomakiView.extend({
   addEntryFromTemplate: function(e){
     var type = (this.model.get('order_number'))%4;    
 
+    console.log( this.model.get('order_number'));
     this.model.collection.create_entry_from_template( 
-        type , this.model.get('order_number')-1 , this.onAddOption() );
+        type , this.model.get('order_number') , this.onAddOption() );
 
   },
 
@@ -465,7 +466,7 @@ EntryView = ecomakiView.extend({
     var attributes ={"canvas_index":1,"height":320,"width":480}  
     var newEntry = this.model.collection.create_after(
         attributes ,
-        this.model.get('order_number')-1 ,  
+        this.model.get('order_number') ,  
         this.onAddOption()
       );
   },

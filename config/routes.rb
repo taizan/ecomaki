@@ -50,7 +50,8 @@ Ecomaki::Application.routes.draw do
   # Novels
   # Clone mode
   match 'novels/:id/dup' => 'novels#novel_dup', :via => :post
-  match 'caches/:id' => 'novels#cache', :via => :get 
+  match 'caches/:id' => 'novels#get_cache', :via => :get 
+  match 'caches/:id' => 'novels#up_cache', :via => :post
 
   match 'novels' => 'novels#index', :via => :get
   match 'novel/:id' => 'novels#show', :via => :get # Old

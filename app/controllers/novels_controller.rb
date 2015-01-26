@@ -20,7 +20,28 @@ class NovelsController < ApplicationController
     end
   end
 
-  def cache
+  def get_cache
+    cache_key = "novel"+params[:id];
+    cache_expire = 1.year
+     
+    obj = Rails.cache.fetch(cache_key, expires_in: cache_expire) do
+      get_show_novel();
+    end
+
+    render :json => obj
+  end
+
+  def up_cache
+    cache_key = "novel"+params[:id];
+    cache_expire = 1.year
+     
+    obj = get_show_novel();
+    Rails.cache.write(cache_key, obj, expires_in: cache_expire)
+
+    render :json => obj
+  end
+  
+  def get_show_novel
     options = {
       :except => [:password],
       :include => [
@@ -30,15 +51,9 @@ class NovelsController < ApplicationController
         },
       ]
     }
-    cache_key = "novel"+params[:id];
-    cache_expire = 1.year
      
-    obj = Rails.cache.fetch(cache_key, expires_in: cache_expire) do
-      @novel = Novel.find(params[:id]) or redirect_to root_path
-      @novel.to_json(options)
-    end
-
-    render :json => obj
+    @novel = Novel.find(params[:id]) or redirect_to root_path
+    return @novel.to_json(options)
   end
 
   def update
@@ -55,6 +70,8 @@ class NovelsController < ApplicationController
       end
     end
   end
+
+    
 
   def edit
     has_valid_password = (@novel.password == params[:password])
