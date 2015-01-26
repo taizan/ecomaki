@@ -111,7 +111,9 @@
 }
 
 .novel_list_item{
-  border: 3px solid gray;
+  border: 2px solid silver;
+  display: block;
+
 //  gargin: 2px;
 //  max-height: 100px; 
   width: 480px; 
@@ -119,7 +121,6 @@
   margin-left:auto;
   margin-top: 25px;
   margin-bottom: 25px;
-  font-size: 40px;
   overflow: hidden;
 }
 

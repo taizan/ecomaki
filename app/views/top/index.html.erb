@@ -40,10 +40,10 @@
         <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
           <div class="novel_list_item novel_list_item_<%= i %>" >
             <h2 class="novel_list_title">
-              <%=raw "#{novel.title}" %>
+              <%= truncate( novel.title, length: 14 ) %>
             </h2>
             <p class="nove_list_description"> 
-              <%=raw "#{novel.description}" %>
+              <%= truncate( novel.description, length:30 ) %>
             </p>
             <div class="entry_preview"></div>
           </div>
