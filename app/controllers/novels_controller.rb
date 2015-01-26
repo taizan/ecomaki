@@ -2,7 +2,7 @@ class NovelsController < ApplicationController
   before_filter :require_novel, :only => [:show, :update, :edit , :maker]
 
   def show
-    options = {
+   options = {
       :except => [:password],
       :include => [
         :author,
