@@ -13,9 +13,9 @@ var selectTemplate = (function(){
 				'position': 'absolute',
 				'left': $(window).width()/2-180,
 				'top': $(window).height()/2-60,
-				'width': '120px',
-				'height': '120px',
-				'font-size': '20pt',
+				'width': '200px',
+				'height': '100px',
+				'font-size': '24pt',
 				'background': '#FFFFFF'
 			})
 			.button()
@@ -42,9 +42,9 @@ var selectTemplate = (function(){
 				'position': 'absolute',
 				'left': $(window).width()/2+30,
 				'top': $(window).height()/2-60,
-				'width': '120px',
-				'height': '120px',
-				'font-size': '20pt',
+				'width': '200px',
+				'height': '100px',
+				'font-size': '24pt',
 				'background': '#FFFFFF'
 			})
 			.button()

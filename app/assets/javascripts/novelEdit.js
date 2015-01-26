@@ -49,11 +49,16 @@ $(function() {
         // check status here 
         // viewに実装したほうがいいか？　その場合view初期化時の処理と衝突
         if(_novel.get('status') == 'initial'){
-			  selectTemplate(_novel,makeView );
-        //>>>> make templates
+          //テンプレートから初期化する場合には先に読み込む
+          EntryTemplate.prototype.initialize(function(){
+            //テンプレートの選択はテンプレートの初期化の後とする
+			      selectTemplate(_novel,makeView );
+          });
+          //>>>> make templates
           _novel.save({'status': 'draft'});
         }
         else{
+          EntryTemplate.prototype.initialize();
           makeView();
         }
       }
@@ -72,7 +77,6 @@ $(function() {
     $('#toolbox').show();
 
     Picker.prototype.initialize();
-    EntryTemplate.prototype.initialize();
 
     // Preveiw Button Click
     $('#preview_button').click(function(){
