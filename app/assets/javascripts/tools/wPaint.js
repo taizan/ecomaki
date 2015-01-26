@@ -285,6 +285,9 @@ var debug = {};
 				//console.log(this);
 				e.preventDefault();
 				e.stopPropagation();
+
+        if ( !$canvas.hasClass("enable") ) return;
+        console.log( $canvas );
 				//$canvas.EditMenu('snapshot').EditMenu('edit');
 				storeCanvas(this);
 				$this.draw = true;

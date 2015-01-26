@@ -97,6 +97,7 @@ EntryView = ecomakiView.extend({
 				EditMenuCallback: self.keyctrl
       });
 
+
       this.content.mouseleave(function(){
           //_self.canvasFlag= true;
           self.canvasRender();
@@ -170,8 +171,10 @@ EntryView = ecomakiView.extend({
             this.content.data('_wPaint_canvas').setImage( canvasUrl );
             $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
 
+            //一番上のレイヤーにあるときは描画モード
             if( this.model.get('canvas_index') == this.maxIndex ) {
               $('.btn_layer',this.el).addClass('btn-primary');
+              $('canvas',this.el).addClass('enable');
             }
           }
         }
@@ -477,12 +480,14 @@ EntryView = ecomakiView.extend({
     $('.btn_layer',this.el).toggleClass('btn-primary');
     if( $('.btn_layer',this.el).hasClass('btn-primary')){
       canvas.zIndex( this.maxIndex + 1 ); 
+      canvas.addClass("enable");
       this.maxIndex ++;
       this.model.set('canvas_index',canvas.zIndex());
       this.model.save();
     }
     else{ 
       canvas.zIndex(0);
+      canvas.removeClass("enable");
       this.model.set('canvas_index',canvas.zIndex());
       this.model.save();
     }

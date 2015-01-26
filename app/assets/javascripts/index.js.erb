@@ -40,15 +40,18 @@ $(function() {
   // init previews of novel
   //obj = <%= @novels.to_json %>;
 
-  var samlpeLength = 4;
+  var sampleLength = 4;
   for (var i = 0; i < entries.length; i++){
-    for (var j = 0; j < samlpeLength; j++){
+    for (var j = 0; j < sampleLength; j++){
       if( !entries[i][j] ) continue;
       var entry = new Entry(entries[i][j]);
       var entryView = new EntryView({'model':entry});
       $(entryView.el).appendTo('.novel_list_item_'+ i +" .entry_preview");
       //console.log('.novel_list_item_'+ i);
       entryView.load();
+    }
+    if ( entries[i].length > sampleLength ){
+      $( "<h3>続きを読む</h3>" ).appendTo('.novel_list_item_'+ i +" .entry_preview");
     }
   }
   //--
