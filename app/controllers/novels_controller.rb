@@ -1,5 +1,7 @@
 class NovelsController < ApplicationController
   before_filter :require_novel, :only => [:show, :update, :edit , :maker]
+  #top用キャッシュの更新 updateの度に走らなくても良いか
+  after_filter :update_cache_background, :only => [:update]
 
   def show
     options = {
@@ -23,7 +25,7 @@ class NovelsController < ApplicationController
   def get_cache
     cache_key = "novel"+params[:id];
     cache_expire = 1.year
-     
+    Novel.class 
     obj = Rails.cache.fetch(cache_key, expires_in: cache_expire) do
       get_show_novel();
     end
@@ -34,7 +36,6 @@ class NovelsController < ApplicationController
   def up_cache
     cache_key = "novel"+params[:id];
     cache_expire = 1.year
-     
     obj = get_show_novel();
     Rails.cache.write(cache_key, obj, expires_in: cache_expire)
 
@@ -178,6 +179,13 @@ class NovelsController < ApplicationController
     # Generate random string
     charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     password = Array.new(16) { charset[rand(charset.size)] }.join
+  end
+
+
+  def update_cache_background
+    Thread.new do
+      update_cache
+    end
   end
 
 end
