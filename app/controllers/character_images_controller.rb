@@ -1,14 +1,19 @@
 class CharacterImagesController < ApplicationController
   def index
+    CharacterImage.class
     character_id = params[:character_id]
     images = nil
+    
     if character_id
       images = CharacterImage.where("character_id = ?", character_id)
     else
-      images = CharacterImage.all
+      images = Rails.cache.fetch( "images_all", expires_in: 1.day) do
+        images = CharacterImage.all;
+      end
     end
     respond_to do |format|
       format.xml { render :xml => images }
+      #format.json { render :json => images.group_by(&:character_id) }
       format.json { render :json => images }
     end
   end
@@ -66,6 +71,11 @@ class CharacterImagesController < ApplicationController
 
         render :json => character_image
       end
+    end
+
+    #image list のcache更新
+    Thread.new do
+      update_image_cache
     end
   end
 

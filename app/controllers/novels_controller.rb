@@ -1,7 +1,7 @@
 class NovelsController < ApplicationController
   before_filter :require_novel, :only => [:show, :update, :edit , :maker]
   #top用キャッシュの更新 updateの度に走らなくても良いか
-  after_filter :update_cache_background, :only => [:update]
+  after_filter :update_caches_background, :only => [:update]
 
   def show
     options = {
@@ -70,6 +70,7 @@ class NovelsController < ApplicationController
         format.json { render :status => 401 }
       end
     end
+    update_caches_background
   end
 
     
@@ -181,10 +182,9 @@ class NovelsController < ApplicationController
     password = Array.new(16) { charset[rand(charset.size)] }.join
   end
 
-
-  def update_cache_background
+  def update_caches_background
     Thread.new do
-      update_cache
+      update_caches
     end
   end
 

@@ -6,9 +6,9 @@ class TopController < ApplicationController
 
     #キャッシュを作る
     @novels = Rails.cache.fetch( "novels_new_list", expires_in: cache_expire) do
+      # Get the latest 10 novels.
       Novel.order("created_at DESC").where("status = ?", "publish").limit(10)
     end
-    # Get the latest 10 novels.
     
     @entries = Rails.cache.fetch( "entries_new_list", expires_in: cache_expire) do
       entries = []
@@ -45,4 +45,8 @@ class TopController < ApplicationController
   def about
   end
 
+
+  def update_all_caches
+     update_caches
+  end
 end

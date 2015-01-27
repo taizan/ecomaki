@@ -3,6 +3,7 @@ class CharactersController < ApplicationController
     characters = Character.all
     respond_to do |format|
       format.xml { render :xml => characters }
+      format.json { render :json => characters }
     end
   end
 
