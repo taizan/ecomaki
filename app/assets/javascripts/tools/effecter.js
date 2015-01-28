@@ -96,6 +96,8 @@ Effecter.prototype = {
         case "effect" :
           $(this.target).show();
           break;
+        default:
+          $(this.target).show();
       }
     }
   },

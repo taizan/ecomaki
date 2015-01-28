@@ -183,7 +183,7 @@ hr {
   z-index:99;
   right: -5px;
   top: -5px;
-  background-color: red;
+  background-color: rgba(255,64,64,0.5);
 }
 
 .icon_rotate {
@@ -192,7 +192,7 @@ hr {
   left:55%;
   top: -5px;
   margin:0px;
-  background-color: white;
+  background-color: rgba(255,255,255,0.5);
 }
 
 .item_refrect {
@@ -201,7 +201,7 @@ hr {
   top:-5px;
   left:40%;
   margin:0px;
-  background-color: white;
+  background-color: rgba(255,255,255,0.5);
 }
 
 .ui-editable-selected {

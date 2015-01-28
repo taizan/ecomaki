@@ -13,7 +13,14 @@ MakerNovelView = Backbone.View.extend({
     //  .append(this.model.get('title'))
     //  .append(this.model.get('description'))
     //  .append(this.model.get('author_name'));
+    
+  },
+
+  appendTo: function(target) {
+    $(this.el).appendTo(target);
+
     titleView = new textView({model: this.model , attrName: 'title' });
+
     $(this.el).append("Title:");
     titleView.appendTo(this.el);
 
@@ -22,6 +29,8 @@ MakerNovelView = Backbone.View.extend({
       for(var j = 0; j < chapter.entries.length; j++){
         var entry =  chapter.entries.at(j);
         var itemList = []; 
+        var offset = 10;
+        var entryWidth = 0;
 
         for(var m = 0; m < entry.characters.length; m++){
           view = new imageView({model: entry.characters.at(m)});
@@ -29,22 +38,22 @@ MakerNovelView = Backbone.View.extend({
         }
         for(var n = 0; n < entry.balloons.length; n++){
           view = new textView({model: entry.balloons.at(n) , attrName: 'content' });
+          $(view.el).addClass("maker_balloon");
           itemList.push(view);
         }
 
-        var entry = $('<div class="maker_entry"></div>');
+        var entry = $('<div class="maker_entry"></div>').appendTo(this.el);
+
         itemList.sort( function(a,b){ return a.model.get('left') - b.model.get('left') } );
         for(var k = 0 ; k < itemList.length; k++){
-          itemList[k].appendTo(entry);
+          itemList[k].appendTo( entry );
+          console.log($(itemList[k].el).width());
+          entryWidth += $(itemList[k].el).width() + offset;
         }
-        entry.appendTo(this.el);
-        $(this.el).append("<br/>");
+        $(entry).width(entryWidth);
+        $(this.el).append("<hr/>");
       }
     }
-  },
-
-  appendTo: function(target) {
-    $(this.el).appendTo(target);
   },
 
   // copy attrs to target model and save it
@@ -126,7 +135,7 @@ textView = Backbone.View.extend ({
   render: function() {
     $(this.el).html(this.model.get( this.attrName));
     console.log( this.attrName + ":"+ this.model.get( this.attrName) );
-    console.log( this.el );
+    console.log( $(this.el).width() );
   },
 
 
@@ -148,7 +157,7 @@ textView = Backbone.View.extend ({
 });
 
 imageView = Backbone.View.extend ({
-  tagName: "img",
+  tagName: "div",
   className: "maker_character",
 
   initialize: function() {
@@ -156,13 +165,14 @@ imageView = Backbone.View.extend ({
   },
 
   appendTo: function(target) {
-    $(this.el)
-      .appendTo(target);
+    $(this.el).appendTo(target);
+    $(this.el).append($("<img>"));
     this.render();
   },
 
   render: function() {
-    $(this.el).attr('src', config.character_image_idtourl( this.model.get('character_image_id') ) );
+    var url = config.character_image_idtourl( this.model.get('character_image_id') );
+    $("img" ,this.el).attr('src', url );
   },
 
 
