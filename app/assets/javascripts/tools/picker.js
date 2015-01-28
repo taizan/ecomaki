@@ -178,10 +178,48 @@ Picker.prototype = {
     );
   },
 
+  setCharacterImageItem: function( character_id, id, text, url , isAll){
+    var item = $('<div id="pick_character_image_item_'+id+'" class="picker_image_item" ><img ></div>').attr('title',text);
+    $( "img" ,item).data("src" , url );
+    var list_id = '#character_item_'+character_id;
+
+    if(! $('.list_header_button img',list_id ).attr('src') ){
+      //console.log($(list_id));
+      $('.list_header_button img',list_id ).attr('src',url);
+    }else{
+      // アイコンの設定のみ
+      if(!isAll) return;
+    }
+    
+    function addImageItem(){
+      // hide and show
+      if($("#pick_character_image_item_"+id ).length == 0 ){
+        $('.image_list',list_id ).prepend(item);
+        item.click(function(){
+          if(Picker.prototype.selectedCallback){
+            //set img elem for use img tag information.
+            Picker.prototype.selectedCallback( id , $('img',item)[0] ,character_id);
+            Picker.prototype.finish();
+          }
+        });
+      }
+    }
+    
+    if( $(list_id).attr('display') != 'none'){
+      addImageItem();   
+    }
+
+    $(list_id).click(function(){
+      addImageItem();   
+      //console.log($('pick_item'+id));
+    });
+  },
+
 
   appendCharacterJson: function(){
 
-    var loadImage = function(){
+    //キャラ画像の配置
+    var loadImage = function( isAll ){
       $.ajax({
         url: "/characters/images.json",
         dataType: "json",
@@ -189,13 +227,16 @@ Picker.prototype = {
           for( var i=0; i<data.length; i++){
             var item = data[i];
             var text = item.name +', '+ item.description +', by '+ item.author;
+      
             Picker.prototype.setCharacterImageItem(
-              item.character_id , item.id , text , config.character_image_idtourl( item.id ) );
+              item.character_id , item.id , text , config.character_image_idtourl( item.id ) , isAll );
           }
           console.log(data);
         }
       });
     };
+
+    //キャラタブの初期化
     $.ajax({
       url: "/characters.json",
       dataType: "json",
@@ -218,8 +259,13 @@ Picker.prototype = {
                 console.log(e);
                 if( $(e.target).hasClass('add_character_image') === false ){
                   $( '.image_list','#character_item_' + id ).toggle();
-                  console.log( $( '.image_list','#character_item_' + id ) );
+                  //console.log( $( '.image_list','#character_item_' + id ) );
                   $( '.add_character_image_button','#character_item_' + id ).toggle();
+
+                  //画像をロード
+                  $( ".picker_image_item img" , '#character_item_' + id ).each(function(){
+                    $(this).attr("src" ,$(this).data("src"));
+                  });
                 }
               });
            })(id);
@@ -235,7 +281,9 @@ Picker.prototype = {
 
         }
      
-        loadImage();
+        //loadImage(false);
+        //画像をセット
+        loadImage(true);
       }
     });
     
@@ -282,41 +330,6 @@ Picker.prototype = {
 
   },
 
-
-  setCharacterImageItem: function( character_id, id, text, url ){
-    var item = $('<div id="pick_character_image_item_'+id+'" class="picker_image_item" ><img src="' + url + '"></div>').attr('title',text);
-    var list_id = '#character_item_'+character_id;
-
-    if(! $('.list_header_button img',list_id ).attr('src') ){
-      //console.log($(list_id));
-      $('.list_header_button img',list_id ).attr('src',url);
-    }
-    
-    function addImageItem(){
-      // hide and show
-      if($("#pick_character_image_item_"+id ).length == 0 ){
-      //console.log($('pick_item'+id));
-       //item.appendTo($('.image_list',list_id));
-        $('.image_list',list_id ).prepend(item);
-        item.click(function(){
-          if(Picker.prototype.selectedCallback){
-            //set img elem for use img tag information.
-            Picker.prototype.selectedCallback( id , $('img',item)[0] ,character_id);
-            Picker.prototype.finish();
-          }
-        });
-      }
-    }
-    
-    if( $(list_id).attr('display') != 'none'){
-      addImageItem();   
-    }
-
-    $(list_id).click(function(){
-      addImageItem();   
-      //console.log($('pick_item'+id));
-    });
-  },
 
   setCallback: function(func) {
     Picker.prototype.selectedCallback = func;
