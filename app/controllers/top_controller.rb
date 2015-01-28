@@ -30,7 +30,7 @@ class TopController < ApplicationController
 
   def all
     cache_expire = 1.day
-    Novels.class
+    Novel.class
     Layout.class
 
     @novels = Rails.cache.fetch( "novelss_all", expires_in: cache_expire) do
