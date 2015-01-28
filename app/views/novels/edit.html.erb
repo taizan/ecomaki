@@ -32,13 +32,13 @@
     <div class="tool_wrapper">
 <!-- 公開ボタン -->
       <button id="publish_button" class="btn btn-primary" width="80px" title="公開 publish">
-        <p>PUBLISH</p>
+        <p>公開</p>
         <img src="/assets/novel/publish.png">
       </button>
 
       <!-- プレビューボタン -->
       <button id="preview_button" class="btn" title="Preview">
-        <p>PreView</p>
+        <p>プレビュー</p>
         <img src="/assets/novel/preview.png">
       </button>
 
@@ -82,6 +82,6 @@
 <%= render :partial => "novels/tool_template" %> 
 <!-- <%= render :partial => "novels/tutorial" %> -->
 
-  <textarea id="output_html"></textarea>
+  <span id="output_html" style="display:none"></textarea>
 
 </body>

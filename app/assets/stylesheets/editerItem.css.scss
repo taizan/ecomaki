@@ -42,6 +42,16 @@ body{
 }
 
 
+//page template
+
+.template_button{
+  position: absolute;
+  width:  180px;
+  height: 100px;
+  font-size: 24pt;
+  background: #FFFFFF;
+}
+
 
 
 //novel
@@ -146,11 +156,7 @@ hr {
   border: 2px dotted lime;
 }
 
-.item_remove {
-  position: absolute;
-  right: 0;
-  top: 0px;
-}
+
 
 .item_background {
   position: absolute;
@@ -171,32 +177,31 @@ hr {
   cursor:pointer;
 }
 
-.icon_remove {
-  right: 0;
-  top: 0px;
+
+.item_remove {
+  position: absolute;
+  z-index:99;
+  right: -5px;
+  top: -5px;
+  background-color: red;
 }
 
 .icon_rotate {
   position:absolute;
+  z-index:99;
   left:55%;
-  top: 0px;
+  top: -5px;
   margin:0px;
-}
-
-.ui-rotatable-handle {
-    height: 16px;
-    width: 16px;
-    cursor: pointer;
-    background: black;
-    //left: 2px;
-    //bottom: 2px;
+  background-color: white;
 }
 
 .item_refrect {
   position:absolute;
-  top:0px;
+  z-index:99;
+  top:-5px;
   left:40%;
   margin:0px;
+  background-color: white;
 }
 
 .ui-editable-selected {

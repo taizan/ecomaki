@@ -8,15 +8,10 @@ var selectTemplate = (function(){
       if(callback) callback();
 		},
 
-		"button": $('<label class="tempalte" id="empty">Free<br/>Style</label>')
+		"button": $('<label class="template_button" id="empty">Free<br/>Style</label>')
 			.css({
-				'position': 'absolute',
 				'left': $(window).width()/2-180,
 				'top': $(window).height()/2-60,
-				'width': '180px',
-				'height': '100px',
-				'font-size': '24pt',
-				'background': '#FFFFFF'
 			})
 			.button()
 	};
@@ -37,15 +32,10 @@ var selectTemplate = (function(){
       novel.initFlag = true;
 		},
 
-		"button": $('<label class="template" id="empty">4コマ</label>')
+		"button": $('<label class="template_button" id="empty">4コマ</label>')
 			.css({
-				'position': 'absolute',
 				'left': $(window).width()/2+30,
 				'top': $(window).height()/2-60,
-				'width': '180px',
-				'height': '100px',
-				'font-size': '24pt',
-				'background': '#FFFFFF'
 			})
 			.button()
 	};

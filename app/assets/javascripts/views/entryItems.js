@@ -159,7 +159,7 @@ EntryItemView = Backbone.View.extend ({
       $(this.el).rotatable({
           angle:angle/180*Math.PI,
           stop: this.onRotate,
-          handle: $('<i class="icon_rotate icon-repeat item_button"/>')
+          handle: $('<i class="icon_rotate icon-repeat item_button title="ドラッグして回転"/>')
           //rotateIconClass:  "icon-repeat item_button",
       });
       $(this.el)
@@ -393,7 +393,6 @@ BalloonView = EntryItemView.extend({
 
     //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
     $('<div class="text" ></div><div class="target_off target_balloon"></div>').appendTo(this.el);
-    //$('<div class="text" ></div>').appendTo(this.el);
   },
 
   onAppend: function(){

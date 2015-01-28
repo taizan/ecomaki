@@ -32,12 +32,13 @@ MakerNovelView = Backbone.View.extend({
           itemList.push(view);
         }
 
-        var entry = $('<div class="maker_entry"></div><br>');
+        var entry = $('<div class="maker_entry"></div>');
         itemList.sort( function(a,b){ return a.model.get('left') - b.model.get('left') } );
         for(var k = 0 ; k < itemList.length; k++){
           itemList[k].appendTo(entry);
         }
         entry.appendTo(this.el);
+        $(this.el).append("<br/>");
       }
     }
   },
@@ -124,6 +125,8 @@ textView = Backbone.View.extend ({
 
   render: function() {
     $(this.el).html(this.model.get( this.attrName));
+    console.log( this.attrName + ":"+ this.model.get( this.attrName) );
+    console.log( this.el );
   },
 
 
