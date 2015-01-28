@@ -34,6 +34,12 @@ class CharactersController < ApplicationController
     respond_to do |format|
       format.xml { render :xml => character }
     end
+
+    #image list のcache更新
+    Thread.new do
+      update_image_cache
+    end
+
   end
 
   def show

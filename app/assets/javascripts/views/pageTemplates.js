@@ -13,7 +13,7 @@ var selectTemplate = (function(){
 				'position': 'absolute',
 				'left': $(window).width()/2-180,
 				'top': $(window).height()/2-60,
-				'width': '200px',
+				'width': '180px',
 				'height': '100px',
 				'font-size': '24pt',
 				'background': '#FFFFFF'
@@ -42,7 +42,7 @@ var selectTemplate = (function(){
 				'position': 'absolute',
 				'left': $(window).width()/2+30,
 				'top': $(window).height()/2-60,
-				'width': '200px',
+				'width': '180px',
 				'height': '100px',
 				'font-size': '24pt',
 				'background': '#FFFFFF'

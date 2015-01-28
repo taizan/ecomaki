@@ -99,9 +99,9 @@ Picker.prototype = {
           $(form).remove();
           if(confirm('Uploaded')) {
           if(action == "/characters" )  
-            Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
+            Picker.prototype.loadXml("/characters.xml" , Picker.prototype.appendCharacterJson );
           if(action == "/characters/images" )  
-            Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
+            Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.appendCharacterJson );
           if(action == "/background_images" )
             Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
           if(action == "/background_musics" )
@@ -178,70 +178,71 @@ Picker.prototype = {
     );
   },
 
-  parseCharacterImageXml: function(xml,status){
-    if(status!='success')return;
 
-    $(xml).find('character-image').each(
-      function(){
-        var id           = $(this).find('id').text();
-        var name         = $(this).find('name').text();
-        var character_id = $(this).find('character-id').text();
-        var author       = $(this).find('author').text();
-        var description  = $(this).find('description').text();
-        //var height = $(this).find('height').text();
-        //var width = $(this).find('width').text();
+  appendCharacterJson: function(){
 
-        var text = name +', '+ description +', by '+ author;
-
-        Picker.prototype.setCharacterImageItem(character_id,id,text,config.character_image_idtourl(id));
-      }
-    );
-  },
-
-  parseCharacterXml: function(xml,status){
-    if(status!='success')return;
-
-    $(xml).find('character').each(
-      function(){
-        var id          = $(this).find('id').text();
-        var name        = $(this).find('name').text();
-        var author      = $(this).find('author').text();
-        var description = $(this).find('description').text();
-        var text = name +', '+ description +', by '+ author;
-
-        if( $('#character_item_'+id).length == 0 ){
-          //init header 
-          var header =  $($('#picker_item_template').html())
-            .attr({ 'id':'character_item_'+id ,'title': text })
-            .appendTo('#character_picker .picker_list')
-            .click(function( e ){ 
-                //console.log(e.target);
-                if( $(e.target).hasClass('add_character_image') === false ){
-                  $('.image_list','#character_item_'+id).toggle();
-                  $('.add_character_image_button','#character_item_'+id).toggle();
-                }
-              })
-            .imagesLoaded( function(){  $('.image_list',header).masonry({ itemSelecter: '.picker_image_item'}); });
+    var loadImage = function(){
+      $.ajax({
+        url: "/characters/images.json",
+        dataType: "json",
+        success: function(data){
+          for( var i=0; i<data.length; i++){
+            var item = data[i];
+            var text = item.name +', '+ item.description +', by '+ item.author;
+            Picker.prototype.setCharacterImageItem(
+              item.character_id , item.id , text , config.character_image_idtourl( item.id ) );
+          }
+          console.log(data);
+        }
+      });
+    };
+    $.ajax({
+      url: "/characters.json",
+      dataType: "json",
+      success: function(data){
+        //console.log(data);
+        for( var i=0; i<data.length; i++){
+          var item = data[i];
+          var id = item.id;
+          //var charId = item.character_id;
+          var text = item.name +', '+ item.description +', by '+ item.author;
           
-	        $('.list_header_name',header).html( name );
-	        $('.list_header_description',header).html( description );
+          if( $( '#character_item_'+ id).length >0 ) continue; 
+          var header =  $($('#picker_item_template').html())
+            .attr({ 'id':'character_item_'+ id ,'title': text })
+            .appendTo('#character_picker .picker_list')
+            .imagesLoaded( function(){  $('.image_list',header).masonry({ itemSelecter: '.picker_image_item'}); });
+
+          (function(id){ //click時のidの値を保持する
+            header.click(function( e ){ 
+                console.log(e);
+                if( $(e.target).hasClass('add_character_image') === false ){
+                  $( '.image_list','#character_item_' + id ).toggle();
+                  console.log( $( '.image_list','#character_item_' + id ) );
+                  $( '.add_character_image_button','#character_item_' + id ).toggle();
+                }
+              });
+           })(id);
+          
+	        $('.list_header_name',header).html( item.name );
+	        $('.list_header_description',header).html( item.description );
 
          // init form add button
           $('.add_character_image_button','#character_item_'+id).click(function(){
-              Picker.prototype.appendForm("/characters/images","image",id); 
-              $('.image_list','#character_item_'+id).show();
+              Picker.prototype.appendForm("/characters/images","image",item.id); 
+              $('.image_list','#character_item_'+id ).show();
             });
-          
+
         }
-        //console.log($('#character_item_'+id ));
-      });
-    Picker.prototype.onCharacterXmlParseEnded();
+     
+        loadImage();
+      }
+    });
+    
+
   },
 
-  onCharacterXmlParseEnded: function(){
-    // call next function 
-    Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
-  },
+
 
   setMusicItem: function(list_id,id,text,name){
     // escape text 
@@ -323,7 +324,8 @@ Picker.prototype = {
 
   showCharacterList: function(callback){
     if( !Picker.prototype.isCharacterListAppended){
-      Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
+      //Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
+      Picker.prototype.appendCharacterJson();
     //  Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
       Picker.prototype.isCharacterListAppended = true;
     }

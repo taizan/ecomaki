@@ -32,6 +32,21 @@ $(function() {
   // initializeTool
   //
   //
+  
+  window.onbeforeunload = function (e) {
+  //window.onunload = function (e) {
+    var message = "再編集するにはこのページのURLを保存してください";
+    e = e || window.event;
+ 
+    // For IE and Firefox
+    if (e) {
+      e.returnValue = message;
+    } 
+    // For Safari
+    return message;
+  };
+
+
   var novelEdit = {
  
   initializeView : function(id,pass,isEditable){
@@ -172,23 +187,8 @@ $(function() {
     Picker.prototype.onBlur(ev);
   },
 
-  // dont work well
-  setOnUnload: function(){
-    window.onbeforeunload = function () {
-        if (document.title.indexOf("*") != -1) {
-                    return ("You have unsaved changes...");
-        }
-    }
-    window.onunload=function() {
-      alert();
-      return confirm('Are you sure you want to leave the current page?');  
-    }
-
-    $(window).unload( function () { alert("Bye now!"); } );
-  }
 
   };
-
 
   // initialize of page
 

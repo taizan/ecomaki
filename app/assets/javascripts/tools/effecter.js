@@ -41,6 +41,9 @@ Effecter.prototype = {
     } else if ( selectedEffect === "size" ) {
       options = { to: { width: 200, height: 60 } };
     } 
+
+    console.log(this.target);
+
     //prevent overrapping of effect    
     if(this.isRunnable){
       switch(selectedFunction){
