@@ -1,20 +1,5 @@
 <div class="tool_template">
 
-<script type="text/template" id="tool_tab_template">
-  <div id="tool_tabs">
-    <ul>
-      <li><a href="#paint_tab">ペイントツール</a></li>
-      <li><a href="#effecter_tab">アニメーション</a></li>
-      <li><a href="#help_tab">ヘルプ</a></li>
-    </ul>
-    <div id="paint_tab">
-    </div>
-    <div id="effecter_tab">
-    </div>
-    <div id="help_tab">
-    </div>
-  </div>
-</script>
 
 <script type="text/template" id="form_template">
   <table>
@@ -115,8 +100,7 @@
           <img src='/assets/novel/add_character_big.png'>
           新しいキャラ
         </buttton>
-        <button class="btn picker_cancel_button" title="閉じる" style="float:right">
-          <img src="/assets/novel/arrow_left.png" style="height:20px">
+        <button class="btn picker_cancel_button btn-danger" title="閉じる" style="float:right">
           閉じる 
         </button>
       </li>
@@ -124,6 +108,22 @@
 
   </aside>
 </script>
+
+<script type="text/template" id="help_template">
+  <aside class = "well sidebar-navpicker " id="help_pane" >
+
+    <button class="btn help_cancel_button btn-danger" title="閉じる" style="float:right">
+      閉じる 
+    </button>
+    <br/>
+    <div class="help_content"></div>
+    <br/>
+    <br/>
+    <br/>
+  </aside>
+</script>
+
+
 
 <script type="text/template" id="background_picker_template">
   <aside class = "well sidebar-nav picker picker_elem" id="background_picker" >

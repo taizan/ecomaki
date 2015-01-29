@@ -123,12 +123,42 @@ $(function() {
             }
           ); 
       });
-      //novelEdit.setTutorial();
+
+      novelEdit.setTutorial();
   },
 
   //チュートリアルセットアップ
   setTutorial : function(){
-    var dialog_top = 40;
+
+  var tutorial = $($('#tutorial_template').html())
+    .appendTo('body');
+
+    $("#help_tab_button").click(function(){
+    
+      if( $("#help_pane").length == 0 ){
+        $($('#help_template').html())
+          .appendTo('body')
+        $.ajax({
+          type: 'GET',
+          url: '/tutorial/new_index.html',
+          dataType: 'html',
+          success: function (data) {
+                console.log($(".content",data));
+                $(".content",data).appendTo('.help_content');
+                $('#help_template')
+                  .height( window.innerHeight );
+                $(".help_cancel_button").click( function(){
+                  $("#help_pane").hide();
+                });
+              },
+          });
+      }else{
+         $("#help_pane").show();
+      }
+      $("#paint_tab_button").click();
+    });
+
+/*    var dialog_top = 40;
     if( config.getScreenSize().x < 1066) dialog_top = 70;
     console.log( config.getScreenSize().x);
     var tutorial = $($('#tutorial_template').html())
@@ -178,6 +208,7 @@ $(function() {
       }
     });
     //console.log($('#tutorial_template').html());
+*/
   },
 
   onStaticBodyClick: function(ev){
@@ -185,6 +216,11 @@ $(function() {
     TextEditMenu.prototype.onBlur(ev);
     TextEdit.prototype.onBlur(ev);
     Picker.prototype.onBlur(ev);
+
+    if( !$(ev.target).is('#help_pane') ){
+      $("#help_pane").hide();
+    }
+
   },
 
 

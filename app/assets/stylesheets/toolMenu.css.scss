@@ -4,13 +4,39 @@
   top:0px;
   //top:40px;
   //bottom: 0px;
-  width:804px;
+  width:640px;
   z-index: 99999;
   background: black;
 }
 
 
 // for top menu button
+
+#help_tab_button {
+  position:absolute;
+  top:3px;
+  right:15px;
+}
+
+#help_pane {
+  position: fixed;
+  top:0px;
+  right:0px;
+  max-width: 400px;
+  width: 80%;
+  height: 100%;
+  //overflow: scroll;
+  z-index: 999999;
+  padding: 10px;
+}
+
+#help_pane .help_content {
+  position: relative;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  clear:both;
+}
 
 #tutorial_button 
 , #publish_button 

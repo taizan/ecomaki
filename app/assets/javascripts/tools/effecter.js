@@ -3,6 +3,9 @@ function Effecter(target,item,key,name){
 	this.item = item;
 	this.key = key;
   this.name = name;
+  this.isRunnable = true;
+  this.resetFlag = false;
+
 	_.bindAll(this,
         "changeSelecter",
         "runSelectedEffect",
@@ -31,10 +34,8 @@ Effecter.prototype = {
     //this.runEffect(this.model.get('option'));
 	},
 	
-  isRunnable: true,
 
   runEffect: function(selectedFunction , selectedEffect , speed , options){
-    var options = {};
     // some effects have required parameters
     if ( selectedEffect === "scale" ) {
       options = { percent: 0 };
@@ -46,6 +47,8 @@ Effecter.prototype = {
 
     //prevent overrapping of effect    
     if(this.isRunnable){
+      this.isRunnable = false;
+
       switch(selectedFunction){
         case "show" :
           if(selectedEffect == 'none'){
@@ -69,17 +72,21 @@ Effecter.prototype = {
           }
           break;
       }
-      this.isRunnable = false;
     }
   },
 
   effectCallback: function(){
     this.isRunnable = true;
+    if(this.resetFlag) resetEffect();
   },
 
   resetEffect: function(){
-    //console.log("reset effect");
-    //$(this.target).stop();
+    
+    if( !this.isRunnable ){ 
+      this.resetFrag = true;
+      return; 
+    }
+
     var option = this.item.get(this.key);
     if(option != null){
       var options = option.split(',');
@@ -100,6 +107,10 @@ Effecter.prototype = {
           $(this.target).show();
       }
     }
+    
+    //flagを外す
+    this.resetFrag = false;
+
   },
   
   appendEffectSelecterTo: function(target){    

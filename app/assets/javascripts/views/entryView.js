@@ -192,7 +192,12 @@ EntryView = ecomakiView.extend({
   }, 
 
   addCharacterView: function( model , t , options ){
-    this.addItemView( CharacterView , model , t , options );
+    var view = this.addItemView( CharacterView , model , t , options );
+
+    if( model.get("character_image_id") < 0 ){
+       view.selectCharacter();
+    }
+
   },
 
   addItemView: function( viewClass , model , t , options ){
@@ -206,6 +211,8 @@ EntryView = ecomakiView.extend({
     this.itemList.push(itemView);
     this.childViews.push(itemView);
     this.maxIndex = ( model.get('z_index') > this.maxIndex ) ?   model.get('z_index') : this.maxIndex;
+
+    return itemView;
   },
 
   
@@ -345,24 +352,21 @@ EntryView = ecomakiView.extend({
       });
     this.maxIndex++;
 
-    //temp
-    //this.model.save();
     console.log("add balloon");
 
-    $('.btn_layer',this.el).removeClass('btn-primary');
+    //exit paint mode
+    if( $('.btn_layer',this.el).hasClass('btn-primary') ) this.changeLayer();
 
     return newBalloon;
   },
 
   addCharacter: function( id , w , h , l , t){
     //console.log("addCharacter");
-    //var image = new ImageItem( this._self , src ,{});
-    //image.appendTo( this.content);
-    if(typeof id === 'undefined') id = 0;
-    if(typeof w === 'undefined') w = 100;
-    if(typeof h === 'undefined') h = 100;
+    if(typeof id === 'undefined') id = -1; // -1なら選択が開く
+    if(typeof w === 'undefined') w = 100+Math.random()*100;
+    if(typeof h === 'undefined') h = w;
     if(typeof l === 'undefined') l = Math.random() * (this.model.get('width') - w); 
-    if(typeof t === 'undefined') t = Math.random() * (this.model.get('height') - h);
+    if(typeof t === 'undefined') t = this.model.get('height') - h;
 
 
     var newCharacter = this.model.characters.create(
@@ -374,7 +378,8 @@ EntryView = ecomakiView.extend({
     this.maxIndex++;
     this.model.save();
 
-    $('.btn_layer',this.el).removeClass('btn-primary');
+    if( $('.btn_layer',this.el).hasClass('btn-primary') )
+        this.chageLayer();
 
     return newCharacter;
   },
@@ -471,25 +476,24 @@ EntryView = ecomakiView.extend({
       );
   },
 
-  changeLayer: function(e){
+  changeLayer: function(){
     //console.log("changeLayer");
     var canvas = $('canvas',this.el);
     //var index = 5;
 
     $('.btn_layer',this.el).toggleClass('btn-primary');
+
     if( $('.btn_layer',this.el).hasClass('btn-primary')){
       canvas.zIndex( this.maxIndex + 1 ); 
       canvas.addClass("enable");
       this.maxIndex ++;
-      this.model.set('canvas_index',canvas.zIndex());
-      this.model.save();
     }
     else{ 
       canvas.zIndex(0);
       canvas.removeClass("enable");
-      this.model.set('canvas_index',canvas.zIndex());
-      this.model.save();
     }
+    this.model.set('canvas_index',canvas.zIndex());
+    this.model.save();
      // console.log(canvas);
   }
 });
