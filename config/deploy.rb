@@ -2,7 +2,7 @@ require 'bundler/capistrano'
 
 set :stages, %w(production staging)
 set :default_stage, "staging"
-set :rails_env, %w(production staging)
+set :rails_env, :production
 require 'capistrano/ext/multistage'
 
 set :application, "ecomaki"
