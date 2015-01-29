@@ -95,13 +95,22 @@ Picker.prototype = {
           $('.submit_button',form).prop('disabled',true);
         },
 
-        success: function() { 
+        success: function( data ) { 
+          console.log(data);
           $(form).remove();
           if(confirm('Uploaded')) {
           if(action == "/characters" )  
             Picker.prototype.loadXml("/characters.xml" , Picker.prototype.appendCharacterJson );
-          if(action == "/characters/images" )  
-            Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.appendCharacterJson );
+          
+          if(action == "/characters/images" ) { 
+             var text = data.description +', by '+ data.author;
+
+             var imageItem= Picker.prototype.setCharacterImageItem(
+                           data.character_id , data.id , text , config.character_image_idtourl( data.id ) , true );
+            //Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.appendCharacterJson );
+            //表示する。 
+            $("img",imageItem).attr("src" ,$("img",imageItem).data("src"));
+          } 
           if(action == "/background_images" )
             Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
           if(action == "/background_musics" )
@@ -213,6 +222,9 @@ Picker.prototype = {
       addImageItem();   
       //console.log($('pick_item'+id));
     });
+
+
+    return item;
   },
 
 
@@ -226,7 +238,7 @@ Picker.prototype = {
         success: function(data){
           for( var i=0; i<data.length; i++){
             var item = data[i];
-            var text = item.name +', '+ item.description +', by '+ item.author;
+            var text = item.description +', by '+ item.author;
       
             Picker.prototype.setCharacterImageItem(
               item.character_id , item.id , text , config.character_image_idtourl( item.id ) , isAll );
@@ -268,17 +280,19 @@ Picker.prototype = {
                   });
                 }
               });
+
+            // init form add button
+            $('.add_character_image_button','#character_item_'+id).click(function(){
+              Picker.prototype.appendForm("/characters/images","image",id); 
+              $('.image_list','#character_item_'+id ).show();
+            });
+
            })(id);
           
 	        $('.list_header_name',header).html( item.name );
 	        $('.list_header_description',header).html( item.description );
 
-         // init form add button
-          $('.add_character_image_button','#character_item_'+id).click(function(){
-              Picker.prototype.appendForm("/characters/images","image",item.id); 
-              $('.image_list','#character_item_'+id ).show();
-            });
-
+         
         }
      
         //loadImage(false);
