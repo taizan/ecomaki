@@ -8,6 +8,7 @@ Ecomaki::Application.routes.draw do
   # Tutorial
   match 'tutorial' => 'tutorial#index'
   match 'tutorial/index' => 'tutorial#index'
+  match 'tutorial/new_index' => 'tutorial#new_index'
   match 'tutorial/node1' => 'tutorial#node1'
   match 'tutorial/node2' => 'tutorial#node2'
   match 'tutorial/node3' => 'tutorial#node3'
