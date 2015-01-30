@@ -1,4 +1,5 @@
 $(function(){// H2~H4タグから目次を自動生成
+
   var idcount = 1;
   var toc = '';
   var currentlevel = 0;
@@ -29,16 +30,22 @@ $(function(){// H2~H4タグから目次を自動生成
     currentlevel--;
   }
   $("#toc").html(toc);
-});
 
-//スムーズスクロール
-$(document).ready(function() {
-  $('a[href^="#"]').click(function(event) {// #で始まるアンカー
-  var id = $(this).attr("href");// 移動先を取得
+  //スムーズスクロール
+  setScrollSmooth = function( $body ){
+    $('a[href^="#"]',$body).click(function(event) {// #で始まるアンカー
+    var id = $(this).attr("href");// 移動先を取得
         var offset = 60;
         var target = $(id).offset().top - offset;
-        $('html, body').animate({scrollTop:target}, 400);// スクロールの速度（ミリ秒）
+        $body.animate({scrollTop:target}, 400);// スクロールの速度（ミリ秒）
         event.preventDefault();
         return false;
-    });
+      });
+  }
+  
+  //for tutorial index
+  
+  if( $(".help_content").length > 0 ) 
+    setScrollSmooth( $("html, body") );
+
 });
