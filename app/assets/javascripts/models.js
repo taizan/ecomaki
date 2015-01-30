@@ -1,4 +1,19 @@
-var EntryBalloon = Backbone.Model.extend({
+var BaseModel = Backbone.Model.extend({
+  fetch: function (options) {
+    options.cache = false;
+    return Backbone.Model.prototype.fetch.call(this, options);
+  }
+});
+
+var BaseCollection = Backbone.Collection.extend({
+  fetch: function (options) {
+    options.cache = false;
+    return Backbone.Collection.prototype.fetch.call(this, options);
+  }
+});
+
+
+var EntryBalloon = BaseModel.extend({
   initialize: function() {
     if(this.collection){
       this.set({
@@ -37,7 +52,7 @@ var EntryBalloon = Backbone.Model.extend({
 
 });
 
-var EntryCharacter = Backbone.Model.extend({
+var EntryCharacter = BaseModel.extend({
   initialize: function() {
     if(this.collection){
       this.set({
@@ -75,7 +90,7 @@ var EntryCharacter = Backbone.Model.extend({
 
 });
 
-var EntryBalloonList = Backbone.Collection.extend({
+var EntryBalloonList = BaseCollection.extend({
   model: EntryBalloon,
 
   url: function() {
@@ -103,7 +118,7 @@ var EntryBalloonList = Backbone.Collection.extend({
 
 });
 
-var EntryCharacterList = Backbone.Collection.extend({
+var EntryCharacterList = BaseCollection.extend({
   model: EntryCharacter,
   url: function() {
     var novel = this.entry.collection.chapter.collection.novel;
@@ -128,7 +143,7 @@ var EntryCharacterList = Backbone.Collection.extend({
   }
 });
 
-var Entry = Backbone.Model.extend({
+var Entry = BaseModel.extend({
   entryBalloonList: EntryBalloonList,
   entryCharacterList: EntryCharacterList,
 
@@ -248,7 +263,7 @@ var Entry = Backbone.Model.extend({
     });
 
 
-var EntryList = Backbone.Collection.extend({
+var EntryList = BaseCollection.extend({
   model: Entry,
   url: function() {
     var novel = this.chapter.collection.novel;
@@ -334,7 +349,7 @@ var EntryList = Backbone.Collection.extend({
 
 });
 
-var Chapter = Backbone.Model.extend({
+var Chapter = BaseModel.extend({
   entrylist: EntryList,
 
   initialize: function() {
@@ -390,7 +405,7 @@ var Chapter = Backbone.Model.extend({
 });
 
 
-var ChapterList = Backbone.Collection.extend({
+var ChapterList = BaseCollection.extend({
   model: Chapter,
   url: function() {
     if (this.novel.has('password')) {
@@ -440,7 +455,7 @@ var ChapterList = Backbone.Collection.extend({
 });
 
 
-Novel = Backbone.Model.extend({
+Novel = BaseModel.extend({
   chapterlist: ChapterList,
 
   initialize: function(arg) {
