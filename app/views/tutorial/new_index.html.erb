@@ -1,5 +1,4 @@
-<div class="help_content" 
-  style="font-size:18px; line-height:1.8; width:480px; margin:auto">
+<div id="tutorial_page" style="font-size:18px; line-height:1.8; width:480px; margin:auto">
 <div class="article content" >
 
 <%= javascript_include_tag 'htag2index' , :defer=>"defer" %>
@@ -19,6 +18,12 @@ ol.chapter {
 ol.chapter li {
   list-style:circle;
 }
+
+.article img{
+  margin:auto;
+  align:center;
+}
+
 -->
 </style>
 
@@ -211,28 +216,39 @@ show,hideの場合、初期状態を設定する必要がありますので、�
 <br/>
 <br/>
 
-<p id="upload_image"> </p>
+<p id="upload_image"> </p><!-- tag to jump-->
 <h2 >画像のアップロード</h2>
 <h3>新しいキャラクターと画像をアップロード</h3>
 キャラクター選択画面の一番上の、新しいキャラクター追加ボタンを押すと入力フォームが表示されます。
 <br/>
+<img src="/assets/explain/upload_char.png">
+<br/>
 アップロードする画像と、作者、キャラクターの名前、簡単な説明を入力してください。
 <br/>
+<img src="/assets/explain/upload_form.png">
+<br/>
+
 <h3>キャラクターの新しい画像をアップロード</h3>
 既にメニューにあるキャラクターに新しい画像を追加する場合は、
 <br/>
 キャラクターを選択し、右上にあるプラスのボタンを押すと入力フォームが表示されます。
 <br/>
-アップロードする画像と、作者、簡単な説明を入力してください。
+アップロードフォームにファイルと、作者、簡単な説明を入力してください。
 <br/>
+<img src="/assets/explain/upload_image.png">
 
-
+<br/>
+<br/>
 
 
 <h2>プレビューと公開</h2>
-プレビューで問題がない事を確認したら、公開ボタンを押して公開しましょう。
+プレビューで問題がない事を確認したら、タイトルをつけて公開ボタンを押して公開しましょう。
 <br/>
-<img src="/assets/explain/first.png">
+<img src="/assets/explain/publish.png">
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 
 

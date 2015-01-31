@@ -45,7 +45,7 @@ $(function(){// H2~H4タグから目次を自動生成
   
   //for tutorial index
   
-  if( $(".help_content").length > 0 ) 
+  if( $("#tutorial_page").length > 0 ) 
     setScrollSmooth( $("html, body") );
 
 });
