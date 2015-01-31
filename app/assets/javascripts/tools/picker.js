@@ -139,7 +139,7 @@ Picker.prototype = {
     }
     if( action =="/characters") {
       $("#form_label_name" , form ).html("キャラクター名(必須)");
-      $("#input_name", form).val("キャラクター名");
+      $("#input_name", form).attr( "placeholder","キャラクター名");
     }
 
     //for send type of file default image
