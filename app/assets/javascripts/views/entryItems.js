@@ -388,11 +388,17 @@ BalloonView = EntryItemView.extend({
 
   onInit: function(){
     _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton","setBalloonEditable",
-      'editStart','editEnd',"onDefaultItemClick");
+      'getDefauttText','editStart','editEnd',"onDefaultItemClick");
     //this.model.bind('sync', this.render, this);
 
     //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
     $('<div class="text" ></div><div class="target_off target_balloon"></div>').appendTo(this.el);
+  },
+
+  defaultText: "ダブルクリックして編集",
+
+  getDefauttText : function(){
+    return this.defaultText;
   },
 
   onAppend: function(){
@@ -452,6 +458,12 @@ BalloonView = EntryItemView.extend({
     // disable draggable when focusing contenteditable
     // and disable text render with isEditing flag
 		var self = this;
+
+    //if text was Deafault , reset it
+    if( this.model.get('content') == this.defaultText ){
+      $('.text',this.el).html('');
+      this.model.set('content',"");
+    }
 
     if ( ! $(self).is('.ui-draggable-dragging') && !self.isEditing ) {
       $(self.el).draggable("option","disabled",true).removeClass('ui-state-disabled');
@@ -513,9 +525,13 @@ BalloonView = EntryItemView.extend({
   onRender: function(){
     //console.log(this.isEditing);
     if( !this.isEditing){
+      var text =  this.model.get('content');
+      if( text ) text.split('\n').join('<br>');
       $('.text',this.el)
-        .html( this.model.get('content').split('\n').join('<br>') )
-        .width(this.model.get('width')).height(this.model.get('height'));
+        .html( text )
+        .width(this.model.get('width'))
+        .height(this.model.get('height'));
+
       this.effecter.resetEffect(); 
       this.textMenu.applyFont();
     }

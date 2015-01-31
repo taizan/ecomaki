@@ -59,9 +59,9 @@
   <form class="upload_form form-horizontal"  method="post" enctype="multipart/form-data">
     
     <div class="control-group">
-      <label class="control-label" for="inputName"> キャラクター名(必須):</label>
+      <label id="form_label_name"  class="control-label" for="inputName"> 名称(必須):</label>
       <div class="controls">
-        <input type="text" id="input_name" placeholder="キャラクター名" name="name">
+        <input type="text" id="input_name" placeholder="名称" name="name">
       </div>
     
       <label class="control-label" for="inputDescription">説明:</label>
@@ -86,6 +86,9 @@
 
   </form>
 </script>
+
+
+
 
 <script type="text/template" id="character_picker_template">
   <aside class = "well sidebar-navpicker picker picker_elem " id="character_picker" >

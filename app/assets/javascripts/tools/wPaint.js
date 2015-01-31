@@ -287,7 +287,7 @@ var debug = {};
 				e.stopPropagation();
 
         if ( !$canvas.hasClass("enable") ) return;
-        console.log( $canvas );
+        //console.log( $canvas );
 				//$canvas.EditMenu('snapshot').EditMenu('edit');
 				storeCanvas(this);
 				$this.draw = true;

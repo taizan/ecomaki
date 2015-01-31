@@ -196,6 +196,7 @@ EntryView = ecomakiView.extend({
 
     if( model.get("character_image_id") < 0 ){
        view.selectCharacter();
+       model.save("character_image_id" , 1);
     }
 
   },
@@ -336,26 +337,26 @@ EntryView = ecomakiView.extend({
 
   addBalloon: function( str , w , h , l , t ){
     //console.log("addBalloon");
-    if(typeof str === 'undefined') str = 'ダブルクリックして編集';
-    if(typeof w === 'undefined') w = 150;
-    if(typeof h === 'undefined') h = 80;
+    //if(typeof str === 'undefined') str = BalloonView.prototype.getDefaultBalloon();//"ダブルクリックして編集";
+    if(typeof str === 'undefined') str = BalloonView.prototype.defaultText;
+    if(typeof w === 'undefined') w = 170;
+    if(typeof h === 'undefined') h = 70;
     if(typeof l === 'undefined') l = Math.random() * (this.model.get('width') - w); 
     if(typeof t === 'undefined') t = Math.random() * (this.model.get('height') - h);
 
-    var newBalloon = this.model.balloons.create(
-      {
+    var newBalloon = this.model.balloons.create({
         left: l,top: t, width: w, height: h ,
         z_index: this.maxIndex+1,
         content: str,
         border: '',
         "font_size":16
       });
+
     this.maxIndex++;
 
-    console.log("add balloon");
-
     //exit paint mode
-    if( $('.btn_layer',this.el).hasClass('btn-primary') ) this.changeLayer();
+    if( $('.btn_layer',this.el).hasClass('btn-primary') ) 
+      this.changeLayer();
 
     return newBalloon;
   },
@@ -369,8 +370,7 @@ EntryView = ecomakiView.extend({
     if(typeof t === 'undefined') t = this.model.get('height') - h;
 
 
-    var newCharacter = this.model.characters.create(
-      {
+    var newCharacter = this.model.characters.create({
         left: l,top: t, width: w, height: h,
         z_index: this.maxIndex+1,
         character_image_id: id

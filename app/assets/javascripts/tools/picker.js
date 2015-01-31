@@ -92,7 +92,14 @@ Picker.prototype = {
       .attr({"action": action , "method":"post","enctype":"multipart/form-data"  })
       .ajaxForm({
         beforeSubmit: function() {
+          // キャラクターのアップロードで名前が無い
+          if(  action == "/characters"  &&  $("#input_name").val() == "" ) {
+            alert("名称を入力してください");
+            return false;
+          }
+          
           $('.submit_button',form).prop('disabled',true);
+          return true;
         },
 
         success: function( data ) { 
@@ -126,7 +133,14 @@ Picker.prototype = {
         }
         });
     //for character image upload
-    if(action =="/characters/images" ) $('<input type="text" id="input_character_id" name="character_id" style="display : none">').appendTo(form).val(id);
+    if(action =="/characters/images" ) { 
+      $('<input type="text" id="input_character_id" name="character_id" style="display : none">')
+        .appendTo(form).val(id);
+    }
+    if( action =="/characters") {
+      $("#form_label_name" , form ).html("キャラクター名(必須)");
+      $("#input_name", form).val("キャラクター名");
+    }
 
     //for send type of file default image
     $('#input_file',form).attr('name',type);
