@@ -27,6 +27,8 @@ Config.Shapes["Pencil"] = {
 			$this.vertices = [];
 			console.log($this.ctxTemp);
 
+      // for eraser mode calcel 
+			$this.ctx.globalCompositeOperation = 'source-over';
 		},
 		
 		"drawMove": function(e, $this)
