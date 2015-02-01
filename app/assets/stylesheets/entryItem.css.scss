@@ -30,6 +30,15 @@
   vertical-align: middle;
 }
 
+.balloon .vtext{
+  margin:auto;
+  writing-mode: tb-rl; /* IE独自仕様 */
+  writing-mode: vertical-rl;
+  -moz-writing-mode: vertical-rl;
+  -o-writing-mode: vertical-rl;
+  -webkit-writing-mode: vertical-rl;
+}
+
 .character img{
 	height: 100%;
 	width: 100%;

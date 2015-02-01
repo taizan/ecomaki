@@ -379,7 +379,7 @@ EntryView = ecomakiView.extend({
     this.model.save();
 
     if( $('.btn_layer',this.el).hasClass('btn-primary') )
-        this.chageLayer();
+        this.changeLayer();
 
     return newCharacter;
   },
