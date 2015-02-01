@@ -526,7 +526,7 @@ BalloonView = EntryItemView.extend({
     //console.log(this.isEditing);
     if( !this.isEditing){
       var text =  this.model.get('content');
-      if( text ) text.split('\n').join('<br>');
+      if( text ) text = text.split('\n').join('<br>');
       $('.text',this.el)
         .html( text )
         .width(this.model.get('width'))

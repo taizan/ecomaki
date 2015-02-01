@@ -26,6 +26,7 @@ Config.Shapes["Pencil"] = {
 			$this.bpoint = [e.pageX, e.pageY];
 			$this.vertices = [];
 			console.log($this.ctxTemp);
+
 		},
 		
 		"drawMove": function(e, $this)

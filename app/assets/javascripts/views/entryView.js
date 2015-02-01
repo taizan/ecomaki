@@ -196,7 +196,7 @@ EntryView = ecomakiView.extend({
 
     if( model.get("character_image_id") < 0 ){
        view.selectCharacter();
-       model.save("character_image_id" , 1);
+       //model.save("character_image_id" , 1);
     }
 
   },
