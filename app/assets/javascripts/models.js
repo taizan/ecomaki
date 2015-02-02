@@ -248,19 +248,33 @@ var Entry = BaseModel.extend({
     var attr = this.attributes;
     var self = this;
 
-    if( this.balloons ) for(j = 0; j < this.balloons.length; j++ ){
+    if( this.balloons ) for( var j = 0; j < this.balloons.length; j++ ){
       console.log(this.id);
       this.balloons.at(j).set("entry_id",this.id);
       this.balloons.at(j).save();
     }
-    if ( this.characters ) for(j = 0; j < this.characters.length; j++){
+    if ( this.characters ) for( var j = 0; j < this.characters.length; j++){
       this.characters.at(j).set("entry_id",this.id);
       this.characters.at(j).save();
     }
-  }
+  },
 
+  //destroy child also
+  destroy: function(options){
+   var length = this.balloons.length;
+   if( this.balloons ) for( var j = 0; j < length; j++ ){
+      this.balloons.at(0).destroy();
+   }
+   var length = this.characters.length;
+   if ( this.characters ) for( var j = 0; j < length; j++){
+      this.characters.at(0).destroy();
+   }
 
-    });
+   return Backbone.Model.prototype.destroy.call(this, options);
+ }
+
+});
+
 
 
 var EntryList = BaseCollection.extend({
@@ -298,7 +312,8 @@ var EntryList = BaseCollection.extend({
   create_after: function(attributes, index, options) {
     // Assume all the order_number is correct.
     attributes.order_number = index+1 ;
-    for (var i = index+1 ; i < this.models.length; i++) {
+    var length =  this.models.length;
+    for (var i = index+1 ; i < length; i++) {
       this.models[i].set('order_number', i + 1);
     }
     return this.create(attributes, options);
@@ -386,7 +401,7 @@ var Chapter = BaseModel.extend({
 
   create_entry: function(attributes,options) {
     options = $.extend(options,{wait:true});
-     
+
     var newEntry =  this.entries.create(attributes,options);
     newEntry.isNewEntry = true; 
     return newEntry;
@@ -400,6 +415,16 @@ var Chapter = BaseModel.extend({
     }
     return true;
   },
+
+               //destroy child also
+  destroy: function(options){
+    var length = this.entries.length;
+    if( this.entries ) for( var j = 0; j < length; j++ ){
+      this.entries.at(0).destroy();
+    }
+    return Backbone.Model.prototype.destroy.call(this, options);
+  }
+
 
 
 });
@@ -564,6 +589,16 @@ Novel = BaseModel.extend({
       }
     }
   },
+
+//destroy child also
+  destroy: function(options){
+    var length = this.chapters.length;
+    if( this.chapters ) for( var j = 0; j < length; j++ ){
+      this.chapters.at(0).destroy();
+    }
+    return Backbone.Model.prototype.destroy.call(this, options);
+  }
+
 
 });
 

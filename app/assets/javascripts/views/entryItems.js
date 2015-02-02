@@ -102,6 +102,7 @@ EntryItemView = Backbone.View.extend ({
 				"onDisplay",
 				"onPreDisplay",
 				"onDefaultItemClick",
+        "isIn",
         "destroyView"
       );
    
@@ -198,6 +199,7 @@ EntryItemView = Backbone.View.extend ({
 
     this.onAppend();
 
+    // default item func
     if(this.model.isDefaultItem){
       var defaultItemClick = function(){
           self.parentView.model.isNewEntry = false;
@@ -210,6 +212,13 @@ EntryItemView = Backbone.View.extend ({
 
       $(this.el).click(defaultItemClick);
       $(this.el).addClass('default_item');
+    }
+
+
+    if( !this.isIn() ){
+      console.log("delete");
+      this.model.destroy();
+      return;
     }
 
     // do post append method
@@ -268,18 +277,11 @@ EntryItemView = Backbone.View.extend ({
 
   onDragStart: function(){
     var z = this.parentView.maxIndex ;
-    //if(this.model.get('z_index') < z) {
-      z ++;
-      this.parentView.maxIndex++;
-    //}
-    console.log(z);
+    this.parentView.maxIndex++;
+
     this.model.set({'z_index': z});
     $(this.el).css({'zIndex':z});
 
-    if(!this.model.isDefaultItem){
-      //this.effecter.changeSelecter();
-     // this.onSelect();
-    }
     // donot save here because it triger render 
     //this.model.save();
     //console.log(this.model);
@@ -287,8 +289,6 @@ EntryItemView = Backbone.View.extend ({
 
   onDragStop: function(){
     var temp_deg_0 = $($(this.el)[0]).rotate();
-    console.log( temp_deg_0 );
-    //$(this.el).css({position:"absolute"});
 
     $(this.el).rotate(0);
     this.model.set({
@@ -297,12 +297,65 @@ EntryItemView = Backbone.View.extend ({
         });
     $(this.el).rotate(temp_deg_0);
 
+
+    //console.log(this.isIn());
+    if( !this.isIn() ){
+      console.log("delete");
+      this.model.destroy();
+      return;
+    }
+
     if(!this.model.isDefaultItem){
       this.model.save();
     }
-    //$(this.el).css({position:"relative"});
-    //console.log(this.model);
-    //console.log(this);
+  },
+
+  isIn: function(){
+     //oonsole.log(temp_deg_0);
+    var temp_deg_0 = $($(this.el)[0]).rotate();
+    var rad = temp_deg_0 * (Math.PI / 180); 
+    var entry = this.parentView.model;
+    var p = [];
+    var top   = this.model.get("top");
+    var left  = this.model.get("left");
+    var h = this.model.get("height");
+    var w = this.model.get("width");
+
+    p[0] = { x: left+w/2 -w/2*Math.cos(rad)+h/2*Math.sin(rad)  , y:top+h/2 -w/2*Math.sin(rad)-h/2*Math.cos(rad) };
+    p[1] = { x: left+w/2 +w/2*Math.cos(rad)-h/2*Math.sin(rad)  , y:top+h/2 +w/2*Math.sin(rad)+h/2*Math.cos(rad) };
+    p[2] = { x: left+w/2 -w/2*Math.cos(rad)-h/2*Math.sin(rad)  , y:top+h/2 -w/2*Math.sin(rad)+h/2*Math.cos(rad) };
+    p[3] = { x: left+w/2 +w/2*Math.cos(rad)+h/2*Math.sin(rad)  , y:top+h/2 +w/2*Math.sin(rad)-h/2*Math.cos(rad) };
+   
+    //console.log(p);
+
+    var isIn = false;
+    for( var i =0; i < 4 ; i++) if( p[i].x > 0 ) {
+      isIn = true;
+      break;
+    }
+    if( !isIn ) return false;
+    isIn = false;
+
+    for( var i =0; i < 4 ; i++) if( p[i].x < entry.get("width") ) {
+      isIn = true;
+      break;
+    }
+    if( !isIn ) return false;
+    isIn = false;
+
+    for( var i =0; i < 4 ; i++) if( p[i].y > 0 ) {
+      isIn = true;
+      break;
+    }
+    if( !isIn ) return false;
+    isIn = false;
+
+    for( var i =0; i < 4 ; i++) if( p[i].y < entry.get("height") ) {
+      isIn = true;
+      break;
+    }
+
+    return isIn; 
   },
 
   showOutLine: function(){
