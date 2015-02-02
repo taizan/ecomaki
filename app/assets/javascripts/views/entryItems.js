@@ -215,12 +215,6 @@ EntryItemView = Backbone.View.extend ({
     }
 
 
-    if( !this.isIn() ){
-      console.log("delete");
-      this.model.destroy();
-      return;
-    }
-
     // do post append method
 
     if(this.isEditable){ 
