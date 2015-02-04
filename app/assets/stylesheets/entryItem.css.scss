@@ -1,3 +1,4 @@
+//=require taketori
 
 .character{
   position: absolute;
@@ -21,17 +22,22 @@
   //width:100%;
   //height:100%;
   text-align: center;
-  display: table-cell;
-  vertical-align: middle;
+  //display: table-cell;
+  //vertical-align: middle;
 }
 
-.balloon .text{
+.balloon .htext{
+  width:100%;
+  height:100%;
   display: table-cell;
   vertical-align: middle;
 }
 
 .balloon .vtext{
-  margin:auto;
+  //width:100%;
+  height:100%;
+  margin-left:auto;
+  margin-right:auto;
   writing-mode: tb-rl; /* IE独自仕様 */
   writing-mode: vertical-rl;
   -moz-writing-mode: vertical-rl;

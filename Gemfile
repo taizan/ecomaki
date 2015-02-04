@@ -6,6 +6,8 @@ gem 'jquery-rails'
 gem 'rmagick'
 gem 'amoeba', "~> 1.2.1"
 
+gem 'twitter-auth'
+
 gem 'piwik_analytics','~> 1.0.1'
 
 gem 'capistrano'

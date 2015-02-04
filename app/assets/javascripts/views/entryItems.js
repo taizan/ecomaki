@@ -1,6 +1,7 @@
 //position obj is there some nomal one?
 
 //=require jquery.ui.rotatable
+//=require taketori
 
 _BalloonView = Backbone.View.extend ({
 
@@ -439,7 +440,7 @@ BalloonView = EntryItemView.extend({
     //this.model.bind('sync', this.render, this);
 
     //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
-    $('<div class="text" ></div><div class="target_off target_balloon"></div>').appendTo(this.el);
+    $('<div class="text htext" ></div><div class="target_off target_balloon"></div>').appendTo(this.el);
   },
 
   defaultText: "ダブルクリックして編集",
@@ -574,13 +575,16 @@ BalloonView = EntryItemView.extend({
     if( !this.isEditing){
       var text =  this.model.get('content');
       if( text ) text = text.split('\n').join('<br>');
-      $('.text',this.el)
-        .html( text )
-        .width(this.model.get('width'))
+      $('.text',this.el).html( text )
         .height(this.model.get('height'));
-
+ 
       this.effecter.resetEffect(); 
       this.textMenu.applyFont();
+
+      //vtextの場合widthを指定しない
+      //$('.htext',this.el)
+      //  .width(this.model.get('width'));
+
     }
   },
 
@@ -591,13 +595,12 @@ BalloonView = EntryItemView.extend({
     // to aviod call too many save method 
     if(!this.saving && !this.model.isDefaultItem){
       this.saving = true;
-      //var txt = Config.prototype.escapeText($('.text',this.el).text());
-      //var html = $('.text',this.el).html();
-      //html = html.split('<br>').join('\n');
-      //console.log(html);
-      var txt = Config.prototype.escapeText( $('.text',this.el) ); 
-      //console.log(txt);
-      // $('.text',this.el).html( txt);
+
+      //for div of vtext
+      var txt = $('.text',this.el).html().split("<div>").join("<br>");
+      $('.text',this.el).html( txt );
+
+      txt = Config.prototype.escapeText( $('.text',this.el) ); 
       this.model.save( 
           'content',txt,
           {success: function(){ self.saving = false;}}

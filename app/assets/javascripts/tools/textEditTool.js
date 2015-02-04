@@ -55,10 +55,7 @@ TextEditMenu.prototype = {
     // initiarize selecter menu
     $('.font_size_radio').buttonset();
     $('.borderRadiuses', selecter).buttonset();
-		//$('.borderRadiuses', selecter).ImageSelect({width:20, height:20, dropdwonWidth:20, backgroundColor:'transparent'});
-		//$('.borderTypes', selecter).ImageSelect({height:'20px'});
 		$('.borderTypes', selecter).ImageSelect({height:20});
-		//$('.fontBackgroundColors', selecter).ImageSelect({height:'16px'});
 		$('.fontBackgroundColors', selecter).ImageSelect({height:16});
 
     
@@ -89,6 +86,12 @@ TextEditMenu.prototype = {
     $('.borderRadiuses',selecter).change( function(){
         TextEditMenu.prototype.item.save({'border_radius': $('.borderRadiuses input')[0].checked ? 20 : 0});
       });
+
+    $(".vhButton",selecter).change( function(){ 
+        TextEditMenu.prototype.item.save({'font_style': $('.vhButton input')[0].checked ? "virtical" : "horizontal"});
+      });
+    
+
     $(".OkButton",selecter).click( function(){ 
         TextEditMenu.prototype.finish();
       });
@@ -103,10 +106,6 @@ TextEditMenu.prototype = {
 
 		//console.log(item.get('border_style'));
     TextEditMenu.prototype.isInitialized = false;
-
-		//if(this.item.get('font_color'))
-      //$('.fontColors option[value="'+this.item.get('font_color')+'"]',this.selecter).prop('selected',true);
-			//console.warn(this.item.get('font_color'));
 
 		if(item.get('font_family')) 
       $('.fontFamilyTypes option[value="'+item.get('font_family')+'"]',selecter).prop('selected',true);
@@ -145,13 +144,13 @@ TextEditMenu.prototype = {
 		$('select[name="border"]').val( value )
 		$('#jq_imageselect_border .jqis_header img').attr('src', $el.text());
 
-		value = item.get('background_color') || "white";
+		var value = item.get('background_color') || "white";
 		var bg = $('.fontBackgroundColors', selecter);
 		$el = $('option[value="' + value + '"]', bg);
 		$('select[name="fontBackgroundColor"]').val( value )
 		$('#jq_imageselect_fontBackgroundColor .jqis_header img').attr('src', $el.text());
 
-		value = item.get('border_radius');
+		var value = item.get('border_radius');
 		if(value == null){
 			value = 30;
 		}
@@ -161,20 +160,22 @@ TextEditMenu.prototype = {
 		}else{
 			$('.borderRadiuses input').attr("checked", false);
 			$('.borderRadiuses label').removeClass("ui-state-active");
-		}
+    }
+
+    if( item.get('font_style' ) == "virtical" ){
+			$('.vhButton input').attr("checked", true);
+    }
 		
     TextEditMenu.prototype.isInitialized = true;
 
-		//console.log( $('#jq_imageselect_border .jqis_header img').attr('src') );
-		//console.log("===============================================");
   },
 
 	
 	applyFont: function(){
     var item = this.item;
     var target = this.target;
-	  //console.log('app font');	
 		var border = '';
+
 		border += item.get('border_width') ? item.get('border_width'): 1;
 		border += 'px ';
 		border += item.get('border_color') ? item.get('border_color')+' ': 'black ';
@@ -195,6 +196,18 @@ TextEditMenu.prototype = {
 		if(!family) {family = "Arial,'ＭＳ Ｐゴシック',sans-serif" ;}
 		else { family += ", Arial,'ＭＳ Ｐゴシック',sans-serif"; }
 		
+		var style = item.get('font_style');
+    if(style =="virtical"){
+      $(".text" , target).removeClass("htext");
+      $(".text" , target).addClass("vtext");
+      $('.vtext',item.el).width( 'auto' );
+    }else{
+      $(".text" , target).removeClass("vtext");
+      $(".text" , target).addClass("htext");
+      //htextの場合widthを指定
+      $('.htext',item.el).width( item.get('width'));
+    }
+
 		var borderRadius = item.get('border_radius');
 		if(!borderRadius){ boderRadius = 20; }
     borderRadius += 'px';
@@ -203,16 +216,21 @@ TextEditMenu.prototype = {
 		var backgroundColor = item.get('background_color');
 		if(!backgroundColor){ backgroundColor = 'white'; }
 
-    var background ;
-		var backgroundId = item.get('entry_balloon_background_id');
-		if( backgroundId && backgroundId != "0"){ 
-      background = "url('/assets/balloon/"+ backgroundId + ".png')"; 
-      console.log(background);
-      $(target).css({
+
+    $(target).css({
 			  'color': color,
 			  'font-size': size,
         'line-height': size,
-			  'font-family': family,
+			  'font-family': family
+		  });	
+
+
+		var backgroundId = item.get('entry_balloon_background_id');
+		if( backgroundId && backgroundId != "0"){ 
+      var background ;
+      background = "url('/assets/balloon/"+ backgroundId + ".png')"; 
+      console.log(background);
+      $(target).css({
 		  	'border': 'none',
 		  	'background': background ,
         'background-repeat': 'no-repeat',
@@ -220,12 +238,7 @@ TextEditMenu.prototype = {
 		  });
 
     } else {
-		
       $(target).css({
-			  'color': color,
-			  'font-size': size,
-        'line-height': size,
-			  'font-family': family,
 		  	'border': border,
 	  	  'border-radius': borderRadius,         /* CSS3 */
         '-moz-border-radius': borderRadius,    /* Firefox */
