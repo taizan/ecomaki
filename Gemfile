@@ -11,7 +11,7 @@ gem 'twitter'
 
 gem 'piwik_analytics','~> 1.0.1'
 
-gem 'capistrano'
+gem 'capistrano', '2.13.5'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
