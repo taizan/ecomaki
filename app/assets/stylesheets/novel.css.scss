@@ -15,6 +15,9 @@ body{
   //border: 1px solid black;
 }
 
+.novel{
+  background: white; 
+}
 
 .ecomaki_background {
   /* Set rules to fill background */
@@ -32,7 +35,8 @@ body{
   //margin-top: -400px; 
   //top: 0;
   //left: 0;
-  z-index: -1;
+  //z-index: -1;
+  z-index: 0;
 }
 
 #ecomaki_content{

@@ -91,8 +91,11 @@ ChapterView = ecomakiView.extend({
       
       //set click function to avoid conflict to entry item add handle in each entry
       //$('.chapter_wrapper',this.el).children('.new_entry_handle').click(this.addEntry);
+      
+      $(".chapter_wrapper",this.el).addClass("chapter_border");
     }else{
       $(".editer_item",this.el).hide();
+      $(".chapter_wrapper",this.el).removeClass("chapter_border");
     }
 
     this.onCheckStatus();

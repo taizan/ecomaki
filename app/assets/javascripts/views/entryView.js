@@ -291,21 +291,26 @@ EntryView = ecomakiView.extend({
 
   keyctrl: function(event){
     var self = this;
+    var save_image = function(){ 
+      self.model.save({canvas: $('.paint', self.el)[0].toDataURL('image/png')},{wait: true});
+    }; 
 	  	switch(event){
 		  	case "undo":
-		  		//console.log( "Ctrl-Z is Pressed on", self);
-          self.model.save({canvas: $('.paint', self.el)[0].toDataURL('image/png')},{wait: true});
+          save_image();
 					break;
-
 				case "redo":
-					//console.log( "Shift-Ctrl-Z is Pressed on", self);
-          self.model.save({canvas: $('.paint', self.el)[0].toDataURL('image/png')},{wait: true});
+          save_image();
 					break;
-
+				case "paste":
+          save_image();
+					break;
+				case "cut":
+          save_image();
+					break;
 
 				default:
 					//console.log("keyctrl:", event, "|", self);
-          if( $('.paint', self.el)[0] )
+          //if( $('.paint', self.el)[0] )
 					break;
 			}
 	},

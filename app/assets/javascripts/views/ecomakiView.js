@@ -119,6 +119,7 @@ ecomakiView = Backbone.View.extend({
   setEditable: function(target , attr){
     var self=this;
     $(target,self.el)
+      .attr("contenteditable","true")
       .bind('input', function(){
         self.isEditing = true;
         console.log("oninput");
