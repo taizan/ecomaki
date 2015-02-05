@@ -5,6 +5,11 @@ class TweetController < ApplicationController
   config_accessor :consumer_key, :consumer_secret, :access_token, :access_token_secret
 
 
+  def info
+    data =  self.consumer_key #+"\n"+ self.consumer_secret +"\n"+ self.access_token +"\n"+ self.access_token_secret
+    render :text => data
+  end
+
   def post
     save_image
 
