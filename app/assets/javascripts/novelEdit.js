@@ -130,6 +130,12 @@ $(function() {
     $('#publish_button').click(function(){ 
         isEditable = false;
         setPreview(true);
+
+        var onSuccess = function(){
+          alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
+          document.location = '/novels/'+id ;
+        }
+
         html2canvas( $(".novel")[0] , 
             { 
               onrendered: function(canvas) {
@@ -142,14 +148,10 @@ $(function() {
                     url: '/tweet',
                     data: 'id='+id+'&text='+text+'&imageURL='+imgData
                   });
+
+                _novel.save('status','publish', { success: onSuccess } ); 
              }
           });
-
-        var onSuccess = function(){
-          alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
-          document.location = '/novels/'+id ;
-        }
-        _novel.save('status','publish', { success: onSuccess } ); 
       });
 
       novelEdit.setTutorial();
