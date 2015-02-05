@@ -3,6 +3,7 @@
 //= require jquery.form
 //= require jquery.balloon.min
 //= require wColorPicker.1.2.min
+//= require html2canvas
 //
 //= require ./models
 //= require ./views/ecomakiView
@@ -93,35 +94,62 @@ $(function() {
 
     Picker.prototype.initialize();
 
-    // Preveiw Button Click
-    $('#preview_button').click(function(){
-        isEditable = isEditable ? false : true;
-			  $('#preview_button img').attr('src', '/assets/novel/' + (isEditable ? 'preview.png' : 'edit.png'));
-			  $('#preview_button p').text(isEditable ? 'Preview' : 'Edit');
+    var setPreview = function( isPreView ){
+        //change button
+			  $('#preview_button img')
+          .attr('src', '/assets/novel/' + ( !isPreView ? 'preview.png' : 'edit.png'));
+			  $('#preview_button p')
+          .text( !isPreView ? 'プレビュー' : '編集');
+        
+        //setup view
         $('#content').empty();
         _novelView.destroyView();
-        _novelView = new NovelView({model: _novel , isEditable: isEditable });
+        _novelView = new NovelView({model: _novel , isEditable: !isPreView });
         _novelView.appendTo($('#content'));
-        if(isEditable) {
+        _novelView.onScrollEnd()
+        if( !isPreView) {
           $('#toolbox').show();
           $('.editer_item').show();
         }else{
           $('#toolbox').hide();
           $('.tutorial_dialog').hide();
           $('.editer_item').hide();
+          $('.tutorial_balloon').hide();
         }
+    }
+
+    // Preveiw Button Click
+    $('#preview_button').click(function(){
+        isEditable = isEditable ? false : true;
+        
+        setPreview(isEditable);
+
       });
     
     // Publish button Click
     $('#publish_button').click(function(){ 
-        _novel.save('status','publish',
+        isEditable = false;
+        setPreview(true);
+        html2canvas( $(".novel")[0] , 
             { 
-              success: function(){
-                  alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
-                  document.location = '/novels/'+id ;
-                }
-            }
-          ); 
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL().replace(/^.*,/, '');
+                //$('<img src="'+"data:image/png;base64,"+imgData+'">').appendTo("body");
+                var id = _novel.get("id");
+                var text = _novel.get("title") + " #ecomaki " + window.location.origin+"/novel/"+id;
+                $.ajax( {
+                    type: 'POST',
+                    url: '/tweet',
+                    data: 'id='+id+'&text='+text+'&imageURL='+imgData
+                  });
+             }
+          });
+
+        var onSuccess = function(){
+          alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
+          document.location = '/novels/'+id ;
+        }
+        _novel.save('status','publish', { success: onSuccess } ); 
       });
 
       novelEdit.setTutorial();
@@ -130,8 +158,8 @@ $(function() {
   //チュートリアルセットアップ
   setTutorial : function(){
 
-  var tutorial = $($('#tutorial_template').html())
-    .appendTo('body');
+    var tutorial = $($('#tutorial_template').html())
+      .appendTo('body');
 
     $("#help_tab_button").click(function(){
     

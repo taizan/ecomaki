@@ -5,6 +5,8 @@ Ecomaki::Application.routes.draw do
 
   match 'update' => 'top#update_all_caches'
 
+  match 'tweet' => 'tweet#post'
+
   # Tutorial
   match 'tutorial' => 'tutorial#index'
   match 'tutorial/index' => 'tutorial#index'

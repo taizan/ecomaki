@@ -7,6 +7,7 @@ gem 'rmagick'
 gem 'amoeba', "~> 1.2.1"
 
 gem 'twitter-auth'
+gem 'twitter'
 
 gem 'piwik_analytics','~> 1.0.1'
 
