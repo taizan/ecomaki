@@ -200,12 +200,12 @@ TextEditMenu.prototype = {
     if(style =="virtical"){
       $(".text" , target).removeClass("htext");
       $(".text" , target).addClass("vtext");
-      $('.vtext',item.el).width( 'auto' );
+      $('.vtext', target).width( 'auto' );
     }else{
       $(".text" , target).removeClass("vtext");
       $(".text" , target).addClass("htext");
       //htextの場合widthを指定
-      $('.htext',item.el).width( item.get('width'));
+      $('.htext', target).width( item.get('width'));
     }
 
 		var borderRadius = item.get('border_radius');
