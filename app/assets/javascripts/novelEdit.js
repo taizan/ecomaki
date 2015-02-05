@@ -3,7 +3,7 @@
 //= require jquery.form
 //= require jquery.balloon.min
 //= require wColorPicker.1.2.min
-//= require html2canvas
+//= require html2canvas.min
 //
 //= require ./models
 //= require ./views/ecomakiView
