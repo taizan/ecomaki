@@ -58,3 +58,13 @@ namespace :deploy do
     run "cd #{current_path}; rake db:fixtures:load RAILS_ENV=#{rails_env}"
   end
 end
+
+
+namespace :deploy do
+  desc "up api key"
+  task :up_api_key, :roles => :app do
+     run "cp #{previous_release}/config/initializers/init_twitter_api.rb #{current_path}/config/initializers/init_twitter_api.rb"
+  end
+
+  after :finishing, 'deploy:up api key'
+end
