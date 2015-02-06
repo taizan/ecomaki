@@ -1,8 +1,9 @@
 //= require ./imageselect
 
-function TextEditMenu(target,item){
-  this.target = target;	
-  this.item = item;
+function TextEditMenu(view){
+  this.view = view;
+  this.target = view.el;	
+  this.item = view.model;
   _.bindAll(this,
       'changeSelecter',
 			'appendTextEditMenuTo',
@@ -200,13 +201,12 @@ TextEditMenu.prototype = {
     if(style =="virtical"){
       $(".text" , target).removeClass("htext");
       $(".text" , target).addClass("vtext");
-      $('.vtext', target).width( 'auto' );
     }else{
       $(".text" , target).removeClass("vtext");
       $(".text" , target).addClass("htext");
-      //htextの場合widthを指定
-      $('.htext', target).width( item.get('width'));
     }
+
+    this.view.onResize();
 
 		var borderRadius = item.get('border_radius');
 		if(!borderRadius){ boderRadius = 20; }

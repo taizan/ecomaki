@@ -96,6 +96,7 @@ EntryItemView = Backbone.View.extend ({
         "onClick",
         "onSelect",
         "onResize",
+        "onResizeBase",
         "onRotate",
         "onDragStart",
         "onDragStop",
@@ -249,8 +250,9 @@ EntryItemView = Backbone.View.extend ({
     console.log(this.model);
   },
 
-  onResize: function(){
+  onResize: function(){},
 
+  onResizeBase: function(){
       var data = {
           'width' : $(this.el).width() ,
           'height': $(this.el).height() ,
@@ -258,16 +260,13 @@ EntryItemView = Backbone.View.extend ({
           'left'  : $(this.el).offset().left - $(this.content).offset().left 
         };
 
-    $(".text",this.el)
-      .width(  $(this.el).width()  )
-      .height( $(this.el).height() );
     if(this.model.isDefaultItem){
       this.model.set(data);
     }else{
       this.model.save(data);
-      //this.effecter.changeSelecter();
-      //this.onSelect();
     }
+
+    this.onResize();
   },
 
   onDragStart: function(){
@@ -435,11 +434,17 @@ BalloonView = EntryItemView.extend({
   className : "balloon",
 
   onInit: function(){
-    _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton","setBalloonEditable",
-      'getDefauttText','editStart','editEnd',"onDefaultItemClick");
-    //this.model.bind('sync', this.render, this);
+    _.bindAll(this,
+      "saveText", 
+      "saveBackground" , 
+      "setBackgroundButton",
+      "setBalloonEditable",
+      'getDefauttText',
+      'editStart',
+      'editEnd',
+      'onResize',
+      "onDefaultItemClick");
 
-    //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
     $('<div class="text htext" ></div><div class="target_off target_balloon"></div>').appendTo(this.el);
   },
 
@@ -452,7 +457,7 @@ BalloonView = EntryItemView.extend({
   onAppend: function(){
 		var self = this;
 
-		this.textMenu = new TextEditMenu(this.el, this.model);
+		this.textMenu = new TextEditMenu(this);
 
     if(this.isEditable){
 
@@ -465,7 +470,7 @@ BalloonView = EntryItemView.extend({
         .resizable({
           alsoResize: $('.text',this.el),
           containment: "parent",
-          stop: this.onResize ,
+          stop: this.onResizeBase ,
           autoHide: true
         })
         // TEMP ? goto temp html?
@@ -489,6 +494,28 @@ BalloonView = EntryItemView.extend({
     
     this.model.unbind('sync',this.render);
   },
+
+  onResize:function(){
+
+    var $text = $(".text",this.el);
+
+    $(".htext",this.el)
+      .width(  $(this.el).width() );
+    $('.vtext', this.el ).width( 'auto' );
+
+    $text
+      .height( $(this.el).height() );
+    /*  
+    $text
+      .css({
+      "left" : "50%",
+      "top" : "50%",
+      "margin-left": "-"+$text.width()/2+"px",
+      "margin-top": "-"+$text.height()/2+"px",
+    });
+    */
+  },
+
 
   setBalloonEditable: function(){
 		var self = this;
@@ -537,6 +564,8 @@ BalloonView = EntryItemView.extend({
       $(self.el).draggable("option","disabled",false);
       $('.text',self.el).attr('contenteditable','false');
       self.isEditing = false;
+     
+      self.onResize();
     }
   },
 
@@ -597,8 +626,10 @@ BalloonView = EntryItemView.extend({
       this.saving = true;
 
       //for div of vtext
-      var txt = $('.text',this.el).html().split("<div>").join("<br>");
-      $('.text',this.el).html( txt );
+      var txt = $('.text',this.el).html()
+          .split("<div><br></div>").join("<br>")
+          .split("<div>").join("<br>");
+      //$('.text',this.el).html( txt );
 
       txt = Config.prototype.escapeText( $('.text',this.el) ); 
       this.model.save( 
@@ -654,7 +685,7 @@ CharacterView = EntryItemView.extend({
         .resizable({
           //  containment: "parent parent" ,
           aspectRatio: true,
-          stop: this.onResize,
+          stop: this.onResizeBase,
           autoHide: true,
           "handles": "n, e, s, w, ne, se, sw, nw",
         })
