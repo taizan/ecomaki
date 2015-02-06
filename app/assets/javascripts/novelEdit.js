@@ -122,7 +122,7 @@ $(function() {
     $('#preview_button').click(function(){
         isEditable = isEditable ? false : true;
         
-        setPreview(isEditable);
+        setPreview(!isEditable);
 
       });
     
@@ -140,7 +140,7 @@ $(function() {
             { 
               onrendered: function(canvas) {
                 var imgData = canvas.toDataURL().replace(/^.*,/, '');
-                //$('<img src="'+"data:image/png;base64,"+imgData+'">').appendTo("body");
+
                 var id = _novel.get("id");
                 var text = _novel.get("title") + " #ecomaki " + window.location.origin+"/novel/"+id;
                 $.ajax( {

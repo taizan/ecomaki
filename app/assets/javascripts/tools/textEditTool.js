@@ -163,9 +163,9 @@ TextEditMenu.prototype = {
 			$('.borderRadiuses label').removeClass("ui-state-active");
     }
 
-    if( item.get('font_style' ) == "virtical" ){
-			$('.vhButton input').attr("checked", true);
-    }
+    var isVirtical = ( item.get('font_style' ) == "virtical" );
+		$('.vhButton input').attr("checked", isVirtical);
+   
 		
     TextEditMenu.prototype.isInitialized = true;
 
