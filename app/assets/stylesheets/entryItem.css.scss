@@ -18,12 +18,9 @@
 }
 
 
-.ui-editable .text{
-  //width:100%;
-  //height:100%;
+.balloon .text{
   text-align: center;
-  //display: table-cell;
-  //vertical-align: middle;
+  line-height: 1.5;
 }
 
 .balloon .htext{
@@ -38,6 +35,7 @@
   height:100%;
   margin-left:auto;
   margin-right:auto;
+
   writing-mode: tb-rl; /* IE独自仕様 */
   writing-mode: vertical-rl;
   -moz-writing-mode: vertical-rl;
