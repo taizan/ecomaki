@@ -60,11 +60,11 @@ namespace :deploy do
 end
 
 
+after "deploy:update_code", 'deploy:up_api_key'
 namespace :deploy do
   desc "up api key"
   task :up_api_key, :roles => :app do
-     run "cp #{previous_release}/config/initializers/init_twitter_api.rb #{current_path}/config/initializers/init_twitter_api.rb"
+     run "cp #{deploy_to}/shared/config/initializers/init_twitter_api.rb #{release_path}/config/initializers/init_twitter_api.rb"
   end
 
-  after :finishing, 'deploy:up api key'
 end
