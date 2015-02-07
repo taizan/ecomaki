@@ -71,6 +71,8 @@ Effecter.prototype = {
             $(this.target).effect( selectedEffect, options, speed, this.effectCallback );
           }
           break;
+        default:
+          this.isRunnable = true;
       }
     }
   },
