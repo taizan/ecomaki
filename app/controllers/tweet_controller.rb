@@ -39,7 +39,7 @@ class TweetController < ApplicationController
   end
 
   def capture
-    command = 'curl http://localhost:2000/?url=taizan.ecomaki.com/novels/nolayout/' + params[:id] + ' > '
+    command = 'curl http://localhost:2000/?url='+request.host+'/novels/nolayout/' + params[:id] + ' > '
     system( command + image_path.to_s )
   end
 
