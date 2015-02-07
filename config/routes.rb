@@ -62,6 +62,7 @@ Ecomaki::Application.routes.draw do
   match 'novels' => 'novels#index', :via => :get
   match 'novel/:id' => 'novels#show', :via => :get # Old
   match 'novels/:id' => 'novels#show', :via => :get
+  match 'novels/nolayout/:id' => 'novels#nolayout', :via => :get
   match 'novel' => 'novels#create', :via => :post # Old
   match 'novels' => 'novels#create', :via => :post 
   match 'edit/:id/:password' => 'novels#edit', :via => :get

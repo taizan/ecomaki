@@ -1,24 +1,18 @@
 class NovelsController < ApplicationController
-  before_filter :require_novel, :only => [:show, :update, :edit , :maker]
+  before_filter :require_novel, :only => [:update, :edit , :maker]
   #top用キャッシュの更新 updateの度に走らなくても良いか
   after_filter :update_caches_background, :only => [:update]
 
+  def nolayout
+    get_show_novel()
+    render :layout => 'capture'
+  end
+
   def show
-    options = {
-      :except => [:password],
-      :include => [
-        :author,
-        :chapter => {
-          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
-          #:include => [:entry => {:include => [:entry_balloon, :entry_character] }]
-          #:include => [:entry]
-        },
-      ]
-    }
+    json_obj = get_show_novel();
     respond_to do |format|
       format.html { }
-      format.json { render :json => @novel.to_json(options) }
-      format.xml { render :xml => @novel.to_xml(options) }
+      format.json { render :json => json_obj }
     end
   end
 
@@ -27,16 +21,16 @@ class NovelsController < ApplicationController
     cache_expire = 1.year
     Novel.class 
     obj = Rails.cache.fetch(cache_key, expires_in: cache_expire) do
-      get_show_novel();
+      get_show_novel()
     end
 
     render :json => obj
   end
 
   def up_cache
-    cache_key = "novel"+params[:id];
+    cache_key = "novel"+params[:id]
     cache_expire = 1.year
-    obj = get_show_novel();
+    obj = get_show_novel()
     Rails.cache.write(cache_key, obj, expires_in: cache_expire)
 
     render :json => obj

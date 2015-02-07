@@ -129,7 +129,7 @@ $(function() {
     // Publish button Click
     $('#publish_button').click(function(){ 
         isEditable = false;
-        setPreview(true);
+        //setPreview(true);
 
         var onSuccess = function(){
           alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
@@ -140,7 +140,7 @@ $(function() {
             { 
               onrendered: function(canvas) {
                 var imgData = canvas.toDataURL().replace(/^.*,/, '');
-
+                $('<img>').appendTo("body").attr("src",imgData);
                 var id = _novel.get("id");
                 var text = _novel.get("title") + " #ecomaki " + window.location.origin+"/novel/"+id;
                 $.ajax( {

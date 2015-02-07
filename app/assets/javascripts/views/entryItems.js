@@ -629,7 +629,7 @@ BalloonView = EntryItemView.extend({
       var txt = $('.text',this.el).html()
           .split("<div><br></div>").join("<br>")
           .split("<div>").join("<br>");
-      //$('.text',this.el).html( txt );
+      $('.text',this.el).html( txt );
 
       txt = Config.prototype.escapeText( $('.text',this.el) ); 
       this.model.save( 

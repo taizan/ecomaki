@@ -33,12 +33,6 @@ $(function(d,s,id) {
           }
       }); 
     });
-    //chain.push(function(data){
-      //console.log(data);
-      //$("extern",data).appendTo('body'); 
-      //var nx = chain.next();
-      //nx();
-    //});
   }
   //var urls = location.href.split('/');
 
@@ -51,11 +45,10 @@ $(function(d,s,id) {
       if(_novel.get('status') == "publish"){
         _novelView = new NovelView({model: _novel , isEditable: false , isPreView: false });
         _novelView.appendTo($('#content'));
-       }
-       else{
+      } else{
         alert('公開されていません。');
         _novel = null;
-       }
+      }
   });
 
   var nx = chain.next();
@@ -63,7 +56,5 @@ $(function(d,s,id) {
 
   $(document).tooltip();
   
-  //$('#social_template').appendTo('body');
-
 });
 
