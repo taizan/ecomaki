@@ -131,11 +131,25 @@ $(function() {
         isEditable = false;
         //setPreview(true);
 
-        var onSuccess = function(){
-          alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
-          document.location = '/novels/'+id ;
-        }
+        var id = _novel.get("id");
+        var text = _novel.get("title") + " #ecomaki " + window.location.origin+"/novel/"+id;
 
+        var onSuccess = function(){
+          $.ajax( {
+               type: 'POST',
+               url: '/tweet',
+               data: 'id='+id+'&text='+text,
+               success: function(){
+                  document.location = '/novels/'+id ;
+                  alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
+               }
+          });
+        }
+       
+        _novel.save('status','publish', { success: onSuccess } ); 
+
+
+       /*
         html2canvas( $(".novel")[0] , 
             { 
               onrendered: function(canvas) {
@@ -152,6 +166,7 @@ $(function() {
                 _novel.save('status','publish', { success: onSuccess } ); 
              }
           });
+         */
       });
 
       novelEdit.setTutorial();

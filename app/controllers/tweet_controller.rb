@@ -11,13 +11,17 @@ class TweetController < ApplicationController
   end
 
   def post
-    save_image
+    #save_image
+    Thread.new do
+      capture
 
-    client = get_twitter_client
+      client = get_twitter_client
 
-    tweet = params[:text];
-    res = update(client, tweet , image_path)
-    render :json => res
+      tweet = params[:text];
+      res = update(client, tweet , image_path)
+    end
+
+    render :text => "ok"
   end
 
   private
@@ -32,7 +36,11 @@ class TweetController < ApplicationController
         file.write( image_data )
       end
     end
+  end
 
+  def capture
+    command = 'curl http://localhost:2000/?url=taizan.ecomaki.com/novels/nolayout/' + params[:id] + ' > '
+    system( command + image_path.to_s )
   end
 
   def get_twitter_client 
