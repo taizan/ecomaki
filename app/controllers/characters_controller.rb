@@ -1,10 +1,16 @@
 class CharactersController < ApplicationController
   def index
-    characters = Character.all
+    characters = Character.all(:order => 'updated_at DESC')
     respond_to do |format|
       format.xml { render :xml => characters }
       format.json { render :json => characters }
     end
+  end
+
+  def touch
+    character = Character.find(params[:id])
+    character.touch
+    render :json => character
   end
 
   def create

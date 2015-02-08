@@ -2,9 +2,7 @@
 //= require jquery.masonry.min 
 //= require jquery.imagesLoaded 
 //
-function Picker( ){
-
-}
+function Picker( ){}
 
 Picker.prototype = {
 
@@ -107,12 +105,13 @@ Picker.prototype = {
           $(form).remove();
           if(confirm('Uploaded')) {
           if(action == "/characters" )  
-            Picker.prototype.loadXml("/characters.xml" , Picker.prototype.appendCharacterJson );
+            //Picker.prototype.loadXml("/characters.xml" , Picker.prototype.appendCharacterJson );
+            Picker.prototype.appendCharacterJson ( true );
           
           if(action == "/characters/images" ) { 
-             var text = data.description +', by '+ data.author;
+            var text = data.description +', by '+ data.author;
 
-             var imageItem= Picker.prototype.setCharacterImageItem(
+            var imageItem= Picker.prototype.setCharacterImageItem(
                            data.character_id , data.id , text , config.character_image_idtourl( data.id ) , true );
             //Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.appendCharacterJson );
             //表示する。 
@@ -223,6 +222,8 @@ Picker.prototype = {
             //set img elem for use img tag information.
             Picker.prototype.selectedCallback( id , $('img',item)[0] ,character_id);
             Picker.prototype.finish();
+
+            $.ajax({ url: "/characters/touch/"+character_id });
           }
         });
       }
@@ -237,12 +238,11 @@ Picker.prototype = {
       //console.log($('pick_item'+id));
     });
 
-
     return item;
   },
 
 
-  appendCharacterJson: function(){
+  appendCharacterJson: function( isUpdate ){
 
     //キャラ画像の配置
     var loadImage = function( isAll ){
@@ -277,8 +277,13 @@ Picker.prototype = {
           if( $( '#character_item_'+ id).length >0 ) continue; 
           var header =  $($('#picker_item_template').html())
             .attr({ 'id':'character_item_'+ id ,'title': text })
-            .appendTo('#character_picker .picker_list')
             .imagesLoaded( function(){  $('.image_list',header).masonry({ itemSelecter: '.picker_image_item'}); });
+
+          if( isUpdate ){
+            $('#character_picker .nav-header').after(header);
+          }else{
+            header.appendTo('#character_picker .picker_list');
+          }
 
           (function(id){ //click時のidの値を保持する
             header.click(function( e ){ 
@@ -305,7 +310,6 @@ Picker.prototype = {
           
 	        $('.list_header_name',header).html( item.name );
 	        $('.list_header_description',header).html( item.description );
-
          
         }
      

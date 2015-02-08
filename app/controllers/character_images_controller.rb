@@ -32,6 +32,10 @@ class CharacterImagesController < ApplicationController
         :author => params[:author])
       character.save
       character_id = character.id
+    else
+      #updated at の更新
+      character = Character.find( character_id )
+      character.touch
     end
 
     image = params[:image]
