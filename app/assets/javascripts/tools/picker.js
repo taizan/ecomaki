@@ -223,6 +223,7 @@ Picker.prototype = {
             Picker.prototype.selectedCallback( id , $('img',item)[0] ,character_id);
             Picker.prototype.finish();
 
+            // updete chara by  touch 
             $.ajax({ url: "/characters/touch/"+character_id });
           }
         });
