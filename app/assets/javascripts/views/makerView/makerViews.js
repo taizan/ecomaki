@@ -4,17 +4,9 @@ MakerNovelView = Backbone.View.extend({
   
   className: 'maker_novel',	
 
-  events: {
-  },
+  events: {},
 
-  initialize: function(){
-   
-    //$(this.el)
-    //  .append(this.model.get('title'))
-    //  .append(this.model.get('description'))
-    //  .append(this.model.get('author_name'));
-    
-  },
+  initialize: function(){},
 
   appendTo: function(target) {
     $(this.el).appendTo(target);
@@ -81,8 +73,17 @@ MakerNovelView = Backbone.View.extend({
         }
 
         for(var n = 0; n < entry.balloons.length; n++){
+          var balloon = entry.balloons.at(n);
           model.chapters.at(i).entries.at(j).balloons.at(n)
-            .save('content' , entry.balloons.at(n).get('content') ,{ success: listener.set() });
+            .save( { 
+                  content:   balloon.get('content'),
+                  font_size: balloon.get('font_size'),
+                  width:     balloon.get('width'),
+                  height:    balloon.get('height'),
+                },
+              
+                { success: listener.set() }
+              );
         }
 
       }
@@ -98,11 +99,19 @@ MakerNovelView = Backbone.View.extend({
 textView = Backbone.View.extend ({
   tagName: "textarea",
   className: 'maker_text',
-  isEditing: false,
 
   initialize: function( option ) {
     _.bindAll(this,'saveText','editStart','render');
     this.attrName = option.attrName;
+    this.isEditing= false,
+    this.countOrigin = this.countText( this.model.get("content") );
+    this.countOrigin.fontSize = this.model.get("font_size");
+    this.countOrigin.width  = this.model.get("width") ;
+    this.countOrigin.widthOffset  = this.model.get("width") - this.countOrigin.fontSize * this.countOrigin.row;
+    this.countOrigin.height = this.model.get("height");
+    this.countOrigin.heightOffset = this.model.get("height")  - this.countOrigin.fontSize * 1.5 * this.countOrigin.col;
+
+    console.log( this.countOrigin.fontSize +" "+ this.countOrigin.row + " " + this.countOrigin.col);
   },
   
   appendTo: function(target) {
@@ -114,7 +123,6 @@ textView = Backbone.View.extend ({
   },
   
   editStart: function(){
-    console.log(this.isEditing);
     if ( this.isEditing  == false){
       this.isEditing = true;
     }
@@ -123,12 +131,41 @@ textView = Backbone.View.extend ({
   saveText: function() {
     if( this.isEditing  == true ){
       var txt = Config.prototype.escapeTextarea( $(this.el) );
-      console.log(txt);
       //もっといい書き方があるはず
-      if ( this.attrName == "content" ) this.model.set({content:txt});
       if ( this.attrName == "title" ) this.model.set({title:txt});
+
+      if ( this.attrName == "content" ) {
+        this.model.set({content:txt});
+        var count = this.countText( txt );
+        var r_x = count.row / this.countOrigin.row;
+        var r_y = count.col / this.countOrigin.col;
+        var r_max = r_x > r_y ? r_x : r_y;
+        var r = Math.sqrt(r_max);
+        var r1 = r/1.1;
+        var r2 = r*1.1;
+        this.model.set({
+          font_size : this.countOrigin.fontSize / r1,
+          width :  this.countOrigin.widthOffset  + (this.countOrigin.width  - this.countOrigin.widthOffset) * (r_x / r2 ), 
+          height : this.countOrigin.heightOffset + (this.countOrigin.height - this.countOrigin.heightOffset) * (r_y / r2 ) 
+        });
+
+        console.log( this.countOrigin.heightOffset +" : " + r_x  +" : " + r_y);        
+      }
       this.isEditing = false;
     }
+  },
+
+  countText: function(text){
+    var out = { col:1 , row:1 };
+    if( text ){
+      var list = text.split("\n");
+      out.col = list.length;
+      for( var i=0; i< list.length; i++ ){
+        if ( out.row < list[i].length )
+          out.row = list[i].length;
+      }
+    }
+    return out;
   },
  
 
