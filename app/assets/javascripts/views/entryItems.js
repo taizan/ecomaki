@@ -1,7 +1,6 @@
 //position obj is there some nomal one?
 
 //=require jquery.ui.rotatable
-//=require taketori
 
 _BalloonView = Backbone.View.extend ({
 

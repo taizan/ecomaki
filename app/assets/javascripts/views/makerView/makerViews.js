@@ -80,6 +80,8 @@ MakerNovelView = Backbone.View.extend({
                   font_size: balloon.get('font_size'),
                   width:     balloon.get('width'),
                   height:    balloon.get('height'),
+                  top:    balloon.get('top'),
+                  left:    balloon.get('left'),
                 },
               
                 { success: listener.set() }
@@ -143,13 +145,17 @@ textView = Backbone.View.extend ({
         var r = Math.sqrt(r_max);
         var r1 = r/1.1;
         var r2 = r*1.1;
-        this.model.set({
-          font_size : this.countOrigin.fontSize / r1,
-          width :  this.countOrigin.widthOffset  + (this.countOrigin.width  - this.countOrigin.widthOffset) * (r_x / r2 ), 
-          height : this.countOrigin.heightOffset + (this.countOrigin.height - this.countOrigin.heightOffset) * (r_y / r2 ) 
-        });
 
-        console.log( this.countOrigin.heightOffset +" : " + r_x  +" : " + r_y);        
+        var w =  this.countOrigin.widthOffset  + (this.countOrigin.width  - this.countOrigin.widthOffset) * (r_x / r2 );
+        var h =  this.countOrigin.heightOffset + (this.countOrigin.height - this.countOrigin.heightOffset) * (r_y / r2 );
+        var top  = this.model.get("top")  -  (this.countOrigin.height - h )/2;
+        var left = this.model.get("left") -  (this.countOrigin.width - w )/2;
+
+        this.model.set({
+          font_size : this.countOrigin.fontSize / r1, 
+          top : top, left : left, 
+          width : w, height : h 
+        });
       }
       this.isEditing = false;
     }

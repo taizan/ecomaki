@@ -40,7 +40,6 @@ NovelView = ecomakiView.extend({
   },
   
 
-
   
   onLoad: function(){
      // this.checkStatus();
@@ -57,14 +56,12 @@ NovelView = ecomakiView.extend({
 		    $(".editer_item", this.el).hide();
 	    }
        
-      //$(window).scroll(this.onScroll);
-      
       // do not work not loaded
       this.render();
   },
 
  render: function() {
-    //console.log('render novel');
+    console.log('render novel');
     //console.log(this.isEditing);
     if( ! this.isEditing ){
       this.setTextTo('title','#title','無題');

@@ -41,10 +41,7 @@ ecomakiView = Backbone.View.extend({
 		this.parentView = args.parentView;
 
     ///this.model.bind('change', this.render, this);
-    //this.model.bind('sync',this.onSync,this);
     this.model.bind('destroy',this.destroyView);
-    //this.model.bind('destroy', this.render, this);
-
 
     //not use because too heavy
     this.onInit(args);

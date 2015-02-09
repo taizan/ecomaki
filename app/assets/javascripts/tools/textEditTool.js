@@ -3,7 +3,7 @@
 function TextEditMenu(view){
   this.view = view;
   this.target = view.el;	
-  this.item = view.model;
+  this.model = view.model;
   _.bindAll(this,
       'changeSelecter',
 			'appendTextEditMenuTo',
@@ -24,7 +24,7 @@ TextEditMenu.prototype = {
     //console.log('on text click');
       
     TextEditMenu.prototype.target = this.target;
-    TextEditMenu.prototype.item = this.item;
+    TextEditMenu.prototype.model = this.model;
 
     if(!TextEditMenu.prototype.isAppended){
       TextEditMenu.prototype.appendTextEditMenuTo();
@@ -63,33 +63,33 @@ TextEditMenu.prototype = {
     //initiarize onChange methods
 
     $('.font_size_radio',selecter).change( function(){
-        TextEditMenu.prototype.item.save({'font_size'  : $('.font_size_radio',selecter).find('label[aria-pressed=true]').attr('value') });
+        TextEditMenu.prototype.model.save({'font_size'  : $('.font_size_radio',selecter).find('label[aria-pressed=true]').attr('value') });
       });
     //$('.font_size_radio',selecter).click( setFont );
     $('.fontStyleTypes',selecter).change( function(){
-        TextEditMenu.prototype.item.save({'font_style' : $('.fontStyleTypes',selecter).val() });
+        TextEditMenu.prototype.model.save({'font_style' : $('.fontStyleTypes',selecter).val() });
       });
 		$('.fontFamilyTypes',selecter).change( function(){
-        TextEditMenu.prototype.item.save({'font_family': $('.fontFamilyTypes',selecter).val() });
+        TextEditMenu.prototype.model.save({'font_family': $('.fontFamilyTypes',selecter).val() });
       });
 		$('.fontBackgroundColors',selecter).change(function() {
-        TextEditMenu.prototype.item.save({'background_color': $('.fontBackgroundColors',selecter).val() });
+        TextEditMenu.prototype.model.save({'background_color': $('.fontBackgroundColors',selecter).val() });
       });
     $('.borderTypes',selecter).change( function() {
         var borderWidth = 1;
         if( $('.borderTypes',selecter).val() == "double") borderWidth = 3;
         if( $('.borderTypes',selecter).val() == "dotted") borderWidth = 2;
-        TextEditMenu.prototype.item.save({
+        TextEditMenu.prototype.model.save({
             'border_style': $('.borderTypes',selecter).val(),
             'border_width': borderWidth
           });
       });
     $('.borderRadiuses',selecter).change( function(){
-        TextEditMenu.prototype.item.save({'border_radius': $('.borderRadiuses input')[0].checked ? 20 : 0});
+        TextEditMenu.prototype.model.save({'border_radius': $('.borderRadiuses input')[0].checked ? 20 : 0});
       });
 
     $(".vhButton",selecter).change( function(){ 
-        TextEditMenu.prototype.item.save({'font_style': $('.vhButton input')[0].checked ? "virtical" : "horizontal"});
+        TextEditMenu.prototype.model.save({'font_style': $('.vhButton input')[0].checked ? "virtical" : "horizontal"});
       });
     
 
@@ -102,21 +102,21 @@ TextEditMenu.prototype = {
 	
   applyTarget: function(){ 
 		//console.log("=======applyTarget=======================================");
-    var item = TextEditMenu.prototype.item;
+    var model = TextEditMenu.prototype.model;
     var selecter = TextEditMenu.prototype.selecter;
 
-		//console.log(item.get('border_style'));
+		//console.log(model.get('border_style'));
     TextEditMenu.prototype.isInitialized = false;
 
-		if(item.get('font_family')) 
-      $('.fontFamilyTypes option[value="'+item.get('font_family')+'"]',selecter).prop('selected',true);
+		if(model.get('font_family')) 
+      $('.fontFamilyTypes option[value="'+model.get('font_family')+'"]',selecter).prop('selected',true);
   
 		$('.font_size_radio input',selecter).attr('checked', false)
-    if(item.get('font_size') <= 12 ){
+    if(model.get('font_size') <= 12 ){
 			$('.font_size_radio input#font_size_s',selecter).attr('checked', true)
-		}else if(item.get('font_size') <= 16 ){
+		}else if(model.get('font_size') <= 16 ){
 			$('.font_size_radio input#font_size_m',selecter).attr('checked', true)
-		}else if(item.get('font_size') <= 28 ){
+		}else if(model.get('font_size') <= 28 ){
 			$('.font_size_radio input#font_size_L',selecter).attr('checked', true)
 		}
 		$('.font_size_radio',selecter).buttonset('refresh')
@@ -125,33 +125,33 @@ TextEditMenu.prototype = {
 
 		$('.fontColors').wColorPicker({
 			mode:'click',
-      initColor: item.get('font_color') || '#000000',
+      initColor: model.get('font_color') || '#000000',
       buttonSize    : 20,  
       effect: 'none',
 			onSelect: function(color){
         if(TextEditMenu.prototype.isInitialized){
-				  item.set('font_color', color);
-    		  item.save();
+				  model.set('font_color', color);
+    		  model.save();
 			  }
       }
 		});
     
     $('._wColorPicker_paletteHolder').width(240).height(197);
 
-		var value = item.get('border_style') || "solid";
+		var value = model.get('border_style') || "solid";
 		//console.log( value );
 		var btype = $('.borderTypes', selecter);
 		var $el = $('option[value="' + value + '"]', btype);
 		$('select[name="border"]').val( value )
 		$('#jq_imageselect_border .jqis_header img').attr('src', $el.text());
 
-		var value = item.get('background_color') || "white";
+		var value = model.get('background_color') || "white";
 		var bg = $('.fontBackgroundColors', selecter);
 		$el = $('option[value="' + value + '"]', bg);
 		$('select[name="fontBackgroundColor"]').val( value )
 		$('#jq_imageselect_fontBackgroundColor .jqis_header img').attr('src', $el.text());
 
-		var value = item.get('border_radius');
+		var value = model.get('border_radius');
 		if(value == null){
 			value = 30;
 		}
@@ -163,7 +163,7 @@ TextEditMenu.prototype = {
 			$('.borderRadiuses label').removeClass("ui-state-active");
     }
 
-    var isVirtical = ( item.get('font_style' ) == "virtical" );
+    var isVirtical = ( model.get('font_style' ) == "virtical" );
 		$('.vhButton input').attr("checked", isVirtical);
    
 		
@@ -173,19 +173,19 @@ TextEditMenu.prototype = {
 
 	
 	applyFont: function(){
-    var item = this.item;
+    var model = this.model;
     var target = this.target;
 		var border = '';
 
-		border += item.get('border_width') ? item.get('border_width'): 1;
+		border += model.get('border_width') ? model.get('border_width'): 1;
 		border += 'px ';
-		border += item.get('border_color') ? item.get('border_color')+' ': 'black ';
-		border += item.get('border_style') ? item.get('border_style') : 'solid';
+		border += model.get('border_color') ? model.get('border_color')+' ': 'black ';
+		border += model.get('border_style') ? model.get('border_style') : 'solid';
 				
-		var color = item.get('font_color')!=null ? item.get('font_color'): 'balck';
+		var color = model.get('font_color')!=null ? model.get('font_color'): 'black';
     //console.log(color);
 		
-		var size = item.get('font_size');
+		var size = model.get('font_size');
 		if(!size) size = 10;
 		else if (size > 80) size = 80;
 		else if (size < 8 ) size = 8;
@@ -193,11 +193,11 @@ TextEditMenu.prototype = {
 		//console.log( 'font_size = ' + size );
 		//console.log(size);
 
-		var family = item.get('font_family');
+		var family = model.get('font_family');
 		if(!family) {family = "Arial,'ＭＳ Ｐゴシック',sans-serif" ;}
 		else { family += ", Arial,'ＭＳ Ｐゴシック',sans-serif"; }
 		
-		var style = item.get('font_style');
+		var style = model.get('font_style');
     if(style =="virtical"){
       $(".text" , target).removeClass("htext");
       $(".text" , target).addClass("vtext");
@@ -208,12 +208,12 @@ TextEditMenu.prototype = {
 
     this.view.onResize();
 
-		var borderRadius = item.get('border_radius');
+		var borderRadius = model.get('border_radius');
 		if(!borderRadius){ boderRadius = 20; }
     borderRadius += 'px';
     //console.log(borderRadius);
     
-		var backgroundColor = item.get('background_color');
+		var backgroundColor = model.get('background_color');
 		if(!backgroundColor){ backgroundColor = 'white'; }
 
 
@@ -225,7 +225,7 @@ TextEditMenu.prototype = {
 		  });	
 
 
-		var backgroundId = item.get('entry_balloon_background_id');
+		var backgroundId = model.get('entry_balloon_background_id');
 		if( backgroundId && backgroundId != "0"){ 
       var background ;
       background = "url('/assets/balloon/"+ backgroundId + ".png')"; 
@@ -253,7 +253,7 @@ TextEditMenu.prototype = {
   },
 
   onBlur: function(ev){
-    // if target was selected item , not blur
+    // if target was selected model , not blur
     if( ev.target != $('.text',this.target)[0] )TextEditMenu.prototype.finish();
   }
 
