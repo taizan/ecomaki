@@ -112,11 +112,13 @@ TextEditMenu.prototype = {
       $('.fontFamilyTypes option[value="'+model.get('font_family')+'"]',selecter).prop('selected',true);
   
 		$('.font_size_radio input',selecter).attr('checked', false)
-    if(model.get('font_size') <= 12 ){
+    var size = model.get('font_size');
+    //if (  )
+    if( size <= 12 ){
 			$('.font_size_radio input#font_size_s',selecter).attr('checked', true)
-		}else if(model.get('font_size') <= 16 ){
+		}else if( size <= 16 ){
 			$('.font_size_radio input#font_size_m',selecter).attr('checked', true)
-		}else if(model.get('font_size') <= 28 ){
+		}else if( size <= 28 ){
 			$('.font_size_radio input#font_size_L',selecter).attr('checked', true)
 		}
 		$('.font_size_radio',selecter).buttonset('refresh')
@@ -186,10 +188,11 @@ TextEditMenu.prototype = {
     //console.log(color);
 		
 		var size = model.get('font_size');
-		if(!size) size = 10;
+		if(!size) size = 12;
 		else if (size > 80) size = 80;
 		else if (size < 8 ) size = 8;
-    size += 'px';
+    size =  size * 100 /14 + "%";
+    //size += 'px';
 		//console.log( 'font_size = ' + size );
 		//console.log(size);
 
