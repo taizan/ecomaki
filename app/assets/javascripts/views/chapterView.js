@@ -10,6 +10,7 @@ ChapterView = ecomakiView.extend({
   onInit: function(args){
 
   _.bindAll(this,
+              "atFirstChapter",
               "addEntry",
               "addEntryWithOrder",
               "addEntryFromTemplate",
@@ -45,6 +46,11 @@ ChapterView = ecomakiView.extend({
 
   onChangeEntries: function() {
      console.log(this.model.entries.length);
+  },
+
+  atFirstChapter: function(){
+    this.isDisplay = true;
+    this.onDisplay();
   },
 
   events: {
@@ -125,6 +131,7 @@ ChapterView = ecomakiView.extend({
   },
 
   onAddChild: function(view){
+    //console.log("entry load");
     view.load();
   },
 

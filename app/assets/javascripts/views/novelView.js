@@ -72,8 +72,14 @@ NovelView = ecomakiView.extend({
 
   onAddChild: function(view){
     // run onScrollEnd method of this if it was scroll end
-    if(this.isEditable){ view.load();}
-    else{ this.onScroll(); }
+    console.log("add chapter");
+    if(this.isEditable){ 
+      view.load();
+    }
+    if( this.childViews.length == 1 ){
+      view.atFirstChapter();
+      this.onScrollEnd();
+    }
   },
 
 	onScrollEnd: function(){
