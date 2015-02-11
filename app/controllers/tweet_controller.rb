@@ -11,7 +11,6 @@ class TweetController < ApplicationController
   end
 
   def post
-    Thread.new do
     capture
 
     client = get_twitter_client
@@ -30,8 +29,6 @@ class TweetController < ApplicationController
       cap_image.url = url
     end
     cap_image.save
-
-    end
 
   end
 

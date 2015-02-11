@@ -1,5 +1,6 @@
 //= require underscore
 //= require backbone
+
 //= require ./models
 //= require ./views/ecomakiView
 //= require ./views/entryItems
