@@ -4,11 +4,13 @@
 //=require ./entryItem
 
 .share_buttons{
-//  background-color: #888;
-    margin-left: auto;
-    margin-right: auto;
-    position:relative;
-    text-align: center;
+  background-color: #fff;
+  margin-left: auto;
+  margin-right: auto;
+  height: 40px;
+  z-index: 999;
+  position:relative;
+  text-align: center;
 }
 
 .under_edit{
