@@ -38,3 +38,9 @@ img .maker_character{
   height: auto;
   width: 80px;
 }
+
+#preview_button , #publish_button{
+  position:relative;
+  z-index: 9999;
+}
+
