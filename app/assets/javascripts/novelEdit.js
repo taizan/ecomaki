@@ -147,7 +147,8 @@ $(function() {
         }
        
         _novel.save('status','publish', { success: onSuccess } ); 
-
+        
+        alert("作品を公開します。しばらくお待ちください");
 
        /*
         html2canvas( $(".novel")[0] , 

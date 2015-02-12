@@ -108,9 +108,9 @@ EntryView = ecomakiView.extend({
           stop: this.onResize,
           maxHeight: 480,
           minHeight: 120,
-          maxWidth: 440,
+          maxWidth: 620,
           minWidth: 240,
-          grid: [40,40],
+          grid: [20,20],
           autoHide: true,
         });
 
