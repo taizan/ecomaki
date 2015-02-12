@@ -112,5 +112,11 @@ Ecomaki::Application.routes.draw do
   # extern
   get "extern/show_temp"
 
+  #u capture img
+  match 'captured_image/index' => 'captured_image#index'
+  match 'captured_image/show' => 'captured_image#show'
+  match 'captured_image/update/:id' => 'captured_image#update'
+  match 'captured_image/create/:id' => 'captured_image#create'
+
   match 'img' => 'assets/img'
 end

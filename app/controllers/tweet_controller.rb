@@ -11,14 +11,34 @@ class TweetController < ApplicationController
   end
 
   def post
+    Thread.new do
+    capture
+
+    client = get_twitter_client
+
+    tweet = params[:text];
+    res = update(client, tweet , image_path)
+
+    url = res.media[0].media_url.to_s
+
+    cap_image = CapturedImage.find_by_id( params[:id]) 
+    if cap_image.nil?
+      cap_image = CapturedImage.new(
+        :id => params[:id],
+        :url => url )
+    else
+      cap_image.url = url
+    end
+    cap_image.save
+
+    end
+
+  end
+
+  def async_post
     #save_image
     Thread.new do
-      capture
-
-      client = get_twitter_client
-
-      tweet = params[:text];
-      res = update(client, tweet , image_path)
+      post
     end
 
     render :text => "ok"
@@ -56,11 +76,11 @@ class TweetController < ApplicationController
   def update(client, tweet, path)
     begin
       tweet = (tweet.length > 140) ? tweet[0..139].to_s : tweet
-      #if path != false
+      if path != false
         client.update_with_media(tweet.chomp , open(path) )
-      #else
-      #  client.update(tweet.chomp )
-      #end
+      else
+        client.update(tweet.chomp )
+      end
     rescue => e
       Rails.logger.error "<<twitter.rake::tweet.update ERROR : #{e.message}>>"
     end
