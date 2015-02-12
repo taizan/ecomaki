@@ -29,11 +29,12 @@
   background: url("/assets/entry/entry_background.png"); 
   position: relative;
   border: 1px gray ridge;
-  overflow: hidden;
+  //overflow: hidden;
 }
 
 .character_wrapper {
   position: absolute;
+  overflow: hidden;
   left: 0px;
   top: 0px;
   width: 100%;

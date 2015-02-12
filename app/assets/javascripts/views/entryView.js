@@ -187,12 +187,12 @@ EntryView = ecomakiView.extend({
       }
   },
 
-  addBalloonView: function( model , t , options ){
-    this.addItemView( BalloonView , model , t , options );
+  addBalloonView: function( model , target , options ){
+    this.addItemView( BalloonView , model , this.content , options );
   }, 
 
-  addCharacterView: function( model , t , options ){
-    var view = this.addItemView( CharacterView , model , t , options );
+  addCharacterView: function( model , target , options ){
+    var view = this.addItemView( CharacterView , model , $(".character_wrapper", this.content)  , options );
 
     if( model.get("character_image_id") < 0 ){
        view.selectCharacter();
@@ -201,13 +201,15 @@ EntryView = ecomakiView.extend({
 
   },
 
-  addItemView: function( viewClass , model , t , options ){
+  addItemView: function( viewClass , model , target , options ){
      // console.log('load entry item');
 
     this.maxIndex = this.model.get('canvas_index') != null  ? this.model.get('canvas_index') : 0;
 
     var itemView = new viewClass( { model:model , parentView: this , isEditable: this.isEditable });
-    itemView.appendTo( this.content);
+
+    itemView.appendTo( target );
+
     this.itemNum ++;
     this.itemList.push(itemView);
     this.childViews.push(itemView);

@@ -468,7 +468,7 @@ BalloonView = EntryItemView.extend({
       $(this.el)
         .resizable({
           alsoResize: $('.text',this.el),
-          containment: "parent",
+          //containment: "parent",
           stop: this.onResizeBase ,
           autoHide: true
         })
