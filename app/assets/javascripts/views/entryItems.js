@@ -161,7 +161,7 @@ EntryItemView = Backbone.View.extend ({
       $(this.el).rotatable({
           angle:angle/180*Math.PI,
           stop: this.onRotate,
-          handle: $('<i class="icon_rotate icon-repeat item_button title="ドラッグして回転"/>')
+          handle: $('<i class="icon_rotate icon-repeat item_button" title="ドラッグして回転"/>')
           //rotateIconClass:  "icon-repeat item_button",
       });
       $(this.el)

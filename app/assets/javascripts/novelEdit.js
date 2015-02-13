@@ -84,7 +84,7 @@ $(function() {
     $('#console').hide();  
     $('#side_menu').hide();
 
-    $(document).tooltip();
+    //$(document).tooltip();
     $('#static_body').bind('mousedown',novelEdit.onStaticBodyClick);
 
   },

@@ -417,7 +417,7 @@ EntryView = ecomakiView.extend({
 
     console.log("add def balloon");
 
-    var newBalloonView = this.addItemView( BalloonView , newBalloon , {} , {} );
+    var newBalloonView = this.addItemView( BalloonView , newBalloon , this.content , {} );
 
     return newBalloon;
   },
@@ -439,7 +439,7 @@ EntryView = ecomakiView.extend({
 
     newCharacter.isDefaultItem = true;
     //make view of default Item
-    var newCharacterView = this.addItemView( CharacterView , newCharacter , {} , {} );
+    var newCharacterView = this.addItemView( CharacterView , newCharacter , $(".character_wrapper",this.content) , {} );
  
     return newCharacter;
   },
