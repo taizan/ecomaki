@@ -220,7 +220,12 @@ Picker.prototype = {
         item.click(function(){
           if(Picker.prototype.selectedCallback){
             //set img elem for use img tag information.
-            Picker.prototype.selectedCallback( id , $('img',item)[0] ,character_id);
+            Picker.prototype.selectedCallback({
+                'character_image_id': id , 
+                'width'         :$('img',item).width() ,
+                'height'        :$('img',item).height() ,
+                'character_id'  :character_id
+              });
             Picker.prototype.finish();
 
             // updete chara by  touch 

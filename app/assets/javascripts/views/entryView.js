@@ -368,20 +368,18 @@ EntryView = ecomakiView.extend({
     return newBalloon;
   },
 
-  addCharacter: function( id , w , h , l , t){
+  addCharacter: function( data ){
     //console.log("addCharacter");
-    if(typeof id === 'undefined') id = -1; // -1なら選択が開く
-    if(typeof w === 'undefined') w = 100+Math.random()*100;
-    if(typeof h === 'undefined') h = w;
-    if(typeof l === 'undefined') l = Math.random() * (this.model.get('width') - w); 
-    if(typeof t === 'undefined') t = this.model.get('height') - h;
+    if(typeof data.character_image_id === 'undefined') 
+      data.character_image_id = -1; // -1なら選択が開く
+    if(typeof data.width === 'undefined') data.width = 100+Math.random()*100;
+    if(typeof data.height === 'undefined') data.height = w;
+    if(typeof data.left === 'undefined') data.left = Math.random() * (this.model.get('width') - data.width); 
+    if(typeof data.top === 'undefined') data.top = this.model.get('height') - data.height;
+    
+    data.z_index = this.maxIndex+1;
 
-
-    var newCharacter = this.model.characters.create({
-        left: l,top: t, width: w, height: h,
-        z_index: this.maxIndex+1,
-        character_image_id: id
-      });
+    var newCharacter = this.model.characters.create(data);
     this.maxIndex++;
     this.model.save();
 
@@ -396,7 +394,12 @@ EntryView = ecomakiView.extend({
   },
 
   addNewCharacter: function(){
-    this.addCharacter();
+    self = this;
+    Picker.prototype.showCharacterList( function(data){
+      self.addCharacter( data );
+      self.setCharacterId( data.character_id ); 
+    }); 
+    //this.addCharacter();
   },
 
   addDefaultBalloon: function(e){

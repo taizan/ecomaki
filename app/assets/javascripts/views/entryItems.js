@@ -708,7 +708,9 @@ CharacterView = EntryItemView.extend({
   },
 
   onRender: function(){
-    $('img',this.el).attr('src', config.character_image_idtourl( this.model.get('character_image_id') ) );
+    var url = this.model.get('url');
+    if( !url ) url = config.character_image_idtourl( this.model.get('character_image_id') );
+    $('img',this.el).attr('src', url );
     if( this.model.get("refrect") == 1 ){
       $('img',this.el).addClass("refrect");
     }else{
@@ -729,14 +731,16 @@ CharacterView = EntryItemView.extend({
 
 // use img to get size 
 // this not clear bu fast
-  setCharacter: function(image_id,img,character_id){
-    this.model.save({
+  setCharacter: function( data ){
+    this.model.save(data);
+    /*{
       'character_image_id' : image_id ,
       'character_id' : parseInt(character_id) ,
       'width' : img.width,
       'height': img.height,
-    });
-    this.parentView.setCharacterId(character_id); 
+    });*/
+
+    this.parentView.setCharacterId( data.character_id ); 
   },
 
   setRefrectButton: function(){
