@@ -99,6 +99,7 @@ EntryItemView = Backbone.View.extend ({
         "onRotate",
         "onDragStart",
         "onDragStop",
+        "onDrag",
         "onRender",
 				"onDisplay",
 				"onPreDisplay",
@@ -167,33 +168,9 @@ EntryItemView = Backbone.View.extend ({
       $(this.el)
         .click(this.onClick)
         .draggable({
-          drag: function ( event, ui ) {
-            //resize bug fix ui drag `enter code here`
-            __dx = ui.position.left - ui.originalPosition.left;
-            __dy = ui.position.top - ui.originalPosition.top;
-            //ui.position.left = ui.originalPosition.left + ( __dx/__scale);
-            //ui.position.top = ui.originalPosition.top + ( __dy/__scale );
-            ui.position.left = ui.originalPosition.left + ( __dx);
-            ui.position.top = ui.originalPosition.top + ( __dy );
-            //
-            ui.position.left += __recoupLeft;
-            ui.position.top += __recoupTop;
-            
-         },
-        start: function ( event, ui ) {
-          $( this ).css( 'cursor', 'pointer' );
-          //resize bug fix ui drag
-          var left = parseInt( $( this ).css( 'left' ), 10 );
-          left = isNaN( left ) ? 0 : left;
-          var top = parseInt( $( this ).css( 'top' ), 10 );
-          top = isNaN( top ) ? 0 : top;
-          __recoupLeft = left - ui.position.left;
-          __recoupTop = top - ui.position.top;
-          //console.log(self);
-          self.onDragStart(event,ui);
-        },
-
-        stop: this.onDragStop
+          drag: self.onDrag,
+          start: self.onDragStart,
+          stop: self.onDragStop
       });        
         //start: this.onDragStart, stop: this.onDragStop });
     }
@@ -268,7 +245,16 @@ EntryItemView = Backbone.View.extend ({
     this.onResize();
   },
 
-  onDragStart: function(){
+  onDragStart: function ( event, ui ) {
+    //resize bug fix ui drag
+    var left = parseInt( $( this.el ).css( 'left' ), 10 );
+    left = isNaN( left ) ? 0 : left;
+    var top = parseInt( $( this.el ).css( 'top' ), 10 );
+    top = isNaN( top ) ? 0 : top;
+    __recoupLeft = left - ui.position.left;
+    __recoupTop = top - ui.position.top;
+    //console.log(self);
+    
     var z = this.parentView.maxIndex ;
     this.parentView.maxIndex++;
 
@@ -277,12 +263,21 @@ EntryItemView = Backbone.View.extend ({
 
     // donot save here because it triger render 
     //this.model.save();
-    //console.log(this.model);
   },
 
-  onDragStop: function(){
-    var temp_deg_0 = $($(this.el)[0]).rotate();
+  onDrag:  function ( event, ui ) {
+    //resize bug fix ui drag `enter code here`
+    __dx = ui.position.left - ui.originalPosition.left;
+    __dy = ui.position.top - ui.originalPosition.top;
+    //ui.position.left = ui.originalPosition.left + ( __dx/__scale);
+    //ui.position.top = ui.originalPosition.top + ( __dy/__scale );
+    ui.position.left = ui.originalPosition.left + ( __dx);
+    ui.position.top = ui.originalPosition.top + ( __dy );
+            //
+    ui.position.left += __recoupLeft;
+    ui.position.top += __recoupTop;
 
+    var temp_deg_0 = $($(this.el)[0]).rotate();
     $(this.el).rotate(0);
     this.model.set({
           'top' : $(this.el).offset().top - $(this.content).offset().top ,
@@ -290,6 +285,15 @@ EntryItemView = Backbone.View.extend ({
         });
     $(this.el).rotate(temp_deg_0);
 
+
+    if( this.isIn() ){
+      $(this.el).css("opacity", 1.0);
+    }else{
+      $(this.el).css("opacity", 0.2);
+    }
+  },
+
+  onDragStop: function(){
 
     //console.log(this.isIn());
     if( !this.isIn() ){

@@ -214,7 +214,7 @@ hr {
 //entry
 
 canvas {
-    z-index: 0;
+  z-index: 0;
 }
 
 .enable{
@@ -229,6 +229,7 @@ canvas {
   list-style:none;
   //  left: 800px;
   top: 0px;
+  z-index: 9999;
 }
 
 .new_entry_handle {
