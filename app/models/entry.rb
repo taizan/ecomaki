@@ -2,7 +2,7 @@ class Entry < ActiveRecord::Base
   attr_accessor :canvas
   attr_accessor :original_id
   attr_accessible :chapter_id, :width, :height,:order_number, :canvas_index, :option
-  attr_accessible :canvas
+  attr_accessible :canvas,:background_image_id
   attr_accessible :margin_top,:margin_left,:margin_bottom, :margin_right
   attr_accessible :character_ids 
   serialize :character_id # 配列として扱うのに必要

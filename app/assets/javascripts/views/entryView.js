@@ -29,7 +29,9 @@ EntryView = ecomakiView.extend({
         "destroyEntry",
         "addEntry",
         "addEntryFromTemplate",
-        "changeLayer"
+        "changeLayer",
+        "selectBackground",
+        "setBackground"
       );
 
     this.model.balloons.bind('add', this.addBalloonView); 
@@ -139,6 +141,11 @@ EntryView = ecomakiView.extend({
        this.addDefaultCharacter();
     }
 
+    $('.entry_content', this.el).css(
+        'background-image',
+        "url(" + config.background_idtourl( this.model.get('background_image_id') ) + ")"
+      );
+
     this.effecter = new Effecter($('.paint',this.el),this.model,'option','canvas_'+this.model.get('id'));
     
     this.hideButton();
@@ -227,6 +234,8 @@ EntryView = ecomakiView.extend({
     "click .btn_remove": "destroyEntry",
     "click .btn_entry": "copyEntry",
     "click .btn_layer": "changeLayer",
+
+    "click .btn_background": "selectBackground",
 
     "click .add_default_balloon_icon": "addDefaultBalloon",
     "click .add_default_character_icon": "addDefaultCharacter",
@@ -505,5 +514,25 @@ EntryView = ecomakiView.extend({
     this.model.set('canvas_index',canvas.zIndex());
     this.model.save();
      // console.log(canvas);
-  }
+  },
+
+  selectBackground: function(ev){
+    Picker.prototype.showBackgroundList(this.setBackground);
+    // to stop  blur picker at on ecomakiView Click 
+    // TEMP?
+    ev.stopPropagation();
+  },
+
+  setBackground: function(id){
+    console.log('change bg');
+    console.log(id);
+    this.model.set('background_image_id',id);
+    this.model.save();
+    $('.entry_content', this.el).css(
+        'background-image',
+        "url(" + config.background_idtourl( id ) + ")"
+      );
+  },
+
+
 });
