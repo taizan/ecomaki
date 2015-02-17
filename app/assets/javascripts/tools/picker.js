@@ -375,31 +375,54 @@ Picker.prototype = {
     Picker.prototype.selectedCallback = func;
   },
 
+  initUrlInput: function( pickerId , onCallback ){
+    var img =  $( pickerId+" .url_img")[0];
+    //set up for url select mode
+    $( pickerId+" .url_button").click(function(){
+        console.log( "aa:"+ url );
+        var url = $( img ).attr("src");
+        console.log( "aa:"+ url );
+        if( !url  || url == "" ){
+          alert("無効なURLです。");
+          return;
+        }
+        onCallback( url , $( pickerId+" .url_img") );
+        Picker.prototype.finish();  
+      });
+    $( pickerId+" .url_input").on( "input" , function(){
+        var url = $(pickerId+" .url_input").val();
+        if( config.isDataURL( url ) ){
+          alert("無効なURLです。データURLは使えません");
+          return;
+        }
+        img.src = url;
+      });
+    img.onload = function(){
+      $( pickerId+" .url_button" ).attr('disabled', false);
+    };
+    img.onerror = function(){
+      img.src = "";
+      $( pickerId+" .url_button" ).attr('disabled', true);
+    };
+  },
+
   showCharacterList: function(callback){
     if( !Picker.prototype.isCharacterListAppended){
       //Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
       //Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
       Picker.prototype.appendCharacterJson();
       Picker.prototype.isCharacterListAppended = true;
-
-      //set up for url select mode
-      $("#character_picker .url_button").click(function(){
-           var url = $("#character_picker .url_input").val();
+  
+      Picker.prototype.initUrlInput( "#character_picker" , function( url , $img ){
            Picker.prototype.selectedCallback({
                'character_id' : -1,
                'character_image_id' : -1,
                'url': url ,
-               'width'  :$('#character_picker .url_img').width() ,
-               'height' :$('#character_picker .url_img').height() ,
+               'width'  :$img.width() ,
+               'height' :$img.height() ,
              });
-           Picker.prototype.finish();  
-        });
-      $("#character_picker .url_input").on( "input" , function(){
-          var url = $("#character_picker .url_input").val();
-          $("#character_picker .url_img")[0].src = url;
         });
     }
-    
     Picker.prototype.showPicker(callback,'#character_picker',600);
   },
 
@@ -409,21 +432,13 @@ Picker.prototype = {
       Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
       Picker.prototype.isBackgroundListAppended = true;
 
-      //set up for url select mode
-      $("#background_picker .url_button").click(function(){
-           var url = $("#background_picker .url_input").val();
-           Picker.prototype.selectedCallback({
-               'background_image_id' : -1,
-               'background_url': url ,
-             });
-           Picker.prototype.finish();  
-        });
-      $("#background_picker .url_input").on( "input" , function(){
-          var url = $("#background_picker .url_input").val();
-          $("#background_picker .url_img")[0].src = url;
+      Picker.prototype.initUrlInput( "#background_picker" , function( url , $img ){
+          Picker.prototype.selectedCallback({
+              'background_image_id' : -1,
+              'background_url': url ,
+            });
         });
     }
-		
     Picker.prototype.showPicker(callback,'#background_picker',500);
   },
 
@@ -476,8 +491,9 @@ Picker.prototype = {
     Picker.prototype.isBlurable = false;
 
     //reset url image
-    $(".character_url").val("");
-    $(".url_img")[0].src = "";
+    $(".url_input").val("");
+    $(".url_img").attr( "src" , "" );
+    $(".url_button" ).attr('disabled', true);
   }
 
 };
