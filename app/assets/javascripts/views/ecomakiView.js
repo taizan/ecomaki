@@ -33,6 +33,7 @@ ecomakiView = Backbone.View.extend({
 				"onPostDisplay",
         "setCharacterId",
 				"hideButton",
+        "getBackgroundSrc",
         "onAddOption",
         "destroyView"
 			);
@@ -237,6 +238,16 @@ ecomakiView = Backbone.View.extend({
       $(hide_button,this.el).hide();
     }
     return this;
+  },
+
+
+  getBackgroundSrc: function(){
+    var id = this.model.get('background_image_id');
+    if( id < 0){
+      return this.model.get('background_url');
+    }else{
+      return config.background_idtourl(id);
+    }
   },
 
   destroyView: function() {

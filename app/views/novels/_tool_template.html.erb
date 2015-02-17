@@ -97,8 +97,8 @@
           閉じる 
       </button>
     <h3>URLで画像指定</h3>
-      <input class="character_url" placeholder="http://画像URL" pe="url" >
-      <input class="character_url_button"  type="button" value="選択" >
+      <input class="url_input" placeholder="http://画像URL" type="url" >
+      <input class="url_button"  type="button" value="選択" >
       <br>
       <img class="url_img" >
       <hr>
@@ -137,10 +137,21 @@
 <script type="text/template" id="background_picker_template">
   <aside class = "well sidebar-nav picker picker_elem" id="background_picker" >
 
+    <button class="btn picker_cancel_button btn-danger" title="閉じる" style="float:right">
+          閉じる 
+    </button>
+    <h3>URLで画像指定</h3>
+    <input class="url_input" placeholder="http://画像URL" type="url" >
+    <input class="url_button"  type="button" value="選択" >
+    <br>
+    <img class="url_img" >
+
+    <hr>
+
+    <h3>データベースから選択</h3>
     <ul class = "picker_list picker_elem nav nav-list">
       <li class="nav-header picker_elem">
         <button id="add_background_button" class="btn picker_elem" title="`背景の追加; New Background"><img src='/assets/novel/add.png'></buttton>
-        <button class="btn picker_cancel_button" title="閉じる; close picker"><img src="/assets/novel/arrow_left.png" ></button>
       </li>
     </ul>
 

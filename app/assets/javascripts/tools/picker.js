@@ -222,6 +222,7 @@ Picker.prototype = {
             //set img elem for use img tag information.
             Picker.prototype.selectedCallback({
                 'character_image_id': id , 
+                'url' : null,
                 'width'         :$('img',item).width() ,
                 'height'        :$('img',item).height() ,
                 'character_id'  :character_id
@@ -358,7 +359,10 @@ Picker.prototype = {
       item.click(function(){
           if(Picker.prototype.selectedCallback){
           //set img elem for use img tag information.
-            Picker.prototype.selectedCallback(id,$('img',item)[0]);
+            Picker.prototype.selectedCallback({
+               'background_image_id' : id,
+               'background_url': null ,
+            });
             Picker.prototype.finish();
           }
         });
@@ -377,20 +381,22 @@ Picker.prototype = {
       //Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
       Picker.prototype.appendCharacterJson();
       Picker.prototype.isCharacterListAppended = true;
-      $(".character_url_button").click(function(){
-           var url = $(".character_url").val();
+
+      //set up for url select mode
+      $("#character_picker .url_button").click(function(){
+           var url = $("#character_picker .url_input").val();
            Picker.prototype.selectedCallback({
                'character_id' : -1,
                'character_image_id' : -1,
                'url': url ,
-               'width'  :$('.url_img').width() ,
-               'height' :$('.url_img').height() ,
+               'width'  :$('#character_picker .url_img').width() ,
+               'height' :$('#character_picker .url_img').height() ,
              });
            Picker.prototype.finish();  
         });
-      $(".character_url").on( "input" , function(){
-          var url = $(".character_url").val();
-          $(".url_img")[0].src = url;
+      $("#character_picker .url_input").on( "input" , function(){
+          var url = $("#character_picker .url_input").val();
+          $("#character_picker .url_img")[0].src = url;
         });
     }
     
@@ -402,6 +408,20 @@ Picker.prototype = {
       $('#picker').find($('.picker_item')).remove();
       Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
       Picker.prototype.isBackgroundListAppended = true;
+
+      //set up for url select mode
+      $("#background_picker .url_button").click(function(){
+           var url = $("#background_picker .url_input").val();
+           Picker.prototype.selectedCallback({
+               'background_image_id' : -1,
+               'background_url': url ,
+             });
+           Picker.prototype.finish();  
+        });
+      $("#background_picker .url_input").on( "input" , function(){
+          var url = $("#background_picker .url_input").val();
+          $("#background_picker .url_img")[0].src = url;
+        });
     }
 		
     Picker.prototype.showPicker(callback,'#background_picker',500);

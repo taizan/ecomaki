@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150213091822) do
+ActiveRecord::Schema.define(:version => 20150217030104) do
 
   create_table "authors", :force => true do |t|
     t.string   "name"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20150213091822) do
     t.integer  "layout_type"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.string   "background_url"
   end
 
   create_table "character_images", :force => true do |t|
@@ -119,6 +120,7 @@ ActiveRecord::Schema.define(:version => 20150213091822) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.text     "character_ids"
+    t.string   "background_url"
   end
 
   create_table "entry_balloons", :force => true do |t|

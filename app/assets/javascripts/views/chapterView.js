@@ -138,7 +138,7 @@ ChapterView = ecomakiView.extend({
   showBackground: function(){
     var img = new Image();
     var window_size = config.getScreenSize();
-    var src = config.background_idtourl(this.model.get('background_image_id'));
+    var src = this.getBackgroundSrc();
     img.src = src;
     var self = this;
 
@@ -295,17 +295,19 @@ ChapterView = ecomakiView.extend({
     ev.stopPropagation();
   },
 
-  setBackground: function(id){
+  setBackground: function(data){
     console.log('change bg');
-    this.model.set('background_image_id',id);
+    this.model.set( data );
     this.model.save();
     //$('#background')[0].src = config.background_idtourl(id);
     if( (this.model.get('order_number') % 2) == 1 ){
-      $('#background_odd')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+      $('#background_odd')[0].src = this.getBackgroundSrc();
     }else{
-      $('#background_even')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+      $('#background_even')[0].src = this.getBackgroundSrc();
     }
   },
+
+  
 
   onMusicButton: function(ev){
     Picker.prototype.showMusicList(this.setBgm);

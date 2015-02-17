@@ -143,7 +143,7 @@ EntryView = ecomakiView.extend({
 
     $('.entry_content', this.el).css(
         'background-image',
-        "url(" + config.background_idtourl( this.model.get('background_image_id') ) + ")"
+        "url(" + this.getBackgroundSrc() + ")"
       );
 
     this.effecter = new Effecter($('.paint',this.el),this.model,'option','canvas_'+this.model.get('id'));
@@ -517,14 +517,14 @@ EntryView = ecomakiView.extend({
     ev.stopPropagation();
   },
 
-  setBackground: function(id){
+  setBackground: function(data){
     console.log('change bg');
-    console.log(id);
-    this.model.set('background_image_id',id);
+    this.model.set(data);
     this.model.save();
+    
     $('.entry_content', this.el).css(
         'background-image',
-        "url(" + config.background_idtourl( id ) + ")"
+        "url(" + this.getBackgroundSrc() + ")"
       );
   },
 
