@@ -30,6 +30,9 @@
   position: relative;
   border: 1px gray ridge;
   //overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size:cover;
 }
 
 .character_wrapper {

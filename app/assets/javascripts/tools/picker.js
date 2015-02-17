@@ -319,12 +319,10 @@ Picker.prototype = {
          
         }
      
-        //loadImage(false);
         //画像をセット
         loadImage(true);
       }
     });
-    
 
   },
 
@@ -376,9 +374,24 @@ Picker.prototype = {
   showCharacterList: function(callback){
     if( !Picker.prototype.isCharacterListAppended){
       //Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
+      //Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
       Picker.prototype.appendCharacterJson();
-    //  Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
       Picker.prototype.isCharacterListAppended = true;
+      $(".character_url_button").click(function(){
+           var url = $(".character_url").val();
+           Picker.prototype.selectedCallback({
+               'character_id' : -1,
+               'character_image_id' : -1,
+               'url': url ,
+               'width'  :$('.url_img').width() ,
+               'height' :$('.url_img').height() ,
+             });
+           Picker.prototype.finish();  
+        });
+      $(".character_url").on( "input" , function(){
+          var url = $(".character_url").val();
+          $(".url_img")[0].src = url;
+        });
     }
     
     Picker.prototype.showPicker(callback,'#character_picker',600);
@@ -441,6 +454,10 @@ Picker.prototype = {
       Picker.prototype.visible = false;
     }
     Picker.prototype.isBlurable = false;
+
+    //reset url image
+    $(".character_url").val("");
+    $(".url_img")[0].src = "";
   }
 
 };

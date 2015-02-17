@@ -200,12 +200,6 @@ EntryView = ecomakiView.extend({
 
   addCharacterView: function( model , target , options ){
     var view = this.addItemView( CharacterView , model , $(".character_wrapper", this.content)  , options );
-
-    if( model.get("character_image_id") < 0 ){
-       view.selectCharacter();
-       //model.save("character_image_id" , 1);
-    }
-
   },
 
   addItemView: function( viewClass , model , target , options ){

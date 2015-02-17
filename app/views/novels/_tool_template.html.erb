@@ -92,18 +92,26 @@
 
 <script type="text/template" id="character_picker_template">
   <aside class = "well sidebar-navpicker picker picker_elem " id="character_picker" >
+    
+      <button class="btn picker_cancel_button btn-danger" title="閉じる" style="float:right">
+          閉じる 
+      </button>
+    <h3>URLで画像指定</h3>
+      <input class="character_url" placeholder="http://画像URL" pe="url" >
+      <input class="character_url_button"  type="button" value="選択" >
+      <br>
+      <img class="url_img" >
+      <hr>
 
+    <h3>データベースから選択</h3>
     <ul class = "picker_list nav nav-list picker_elem">
-      <li class="nav-header picker_elem">
+            <li class="nav-header picker_elem">
         <button id="add_character_button" 
             class="btn picker_elem" 
             title="キャラクターの追加">
           <img src='/assets/novel/add_character_big.png'>
           新しいキャラ
         </buttton>
-        <button class="btn picker_cancel_button btn-danger" title="閉じる" style="float:right">
-          閉じる 
-        </button>
       </li>
     </ul>
 
