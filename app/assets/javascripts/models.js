@@ -183,7 +183,7 @@ var Entry = BaseModel.extend({
     }
   },
 
-  url: function() {
+  base_url: function(){
     if(this.collection)var novel = this.collection.chapter.collection.novel;
     var base = '';
     if (novel && novel.has('password')) {
@@ -191,12 +191,28 @@ var Entry = BaseModel.extend({
     } else {
       base = this.root + '/novels/' + this.get('novel_id') + '/chapters/' + this.get('chapter_id') + '/entries';
     }
+    return base;
+  },
+
+
+  url: function() {
 
     if (this.isNew()) {
-      return base;
+      return this.base_url();
     } else {
-      return base + '/' + this.id + '.json';
+      return this.base_url()+ '/' + this.id + '.json';
     }
+  },
+
+  save_canvas: function( data ) {
+    $.ajax({
+      url: this.base_url()+"/"+ this.id +"/update_canvas",
+      type: 'PUT',
+      data: {
+        "data": data  
+      },
+      success: function(data) {}
+    });
   },
 
   dup: function() {

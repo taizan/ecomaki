@@ -20,6 +20,17 @@ class EntriesController < ApplicationController
     end
   end
 
+  def update_canvas
+    if has_valid_password?
+      entry = Entry.find(params[:id])
+      entry.save_canvas( params[:data] )
+
+      render :status => 200 , :nothing => true
+    else
+      render :status => 401 , :nothing => true
+    end
+  end
+
   def show
 
     options = {

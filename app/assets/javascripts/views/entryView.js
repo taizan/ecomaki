@@ -297,7 +297,8 @@ EntryView = ecomakiView.extend({
   keyctrl: function(event){
     var self = this;
     var save_image = function(){ 
-      self.model.save({canvas: $('.paint', self.el)[0].toDataURL('image/png')},{wait: true});
+      //self.model.save({canvas: $('.paint', self.el)[0].toDataURL('image/png')},{wait: true});
+      self.model.save_canvas( $('.paint', self.el)[0].toDataURL('image/png') );
     }; 
 	  	switch(event){
 		  	case "undo":
@@ -321,7 +322,7 @@ EntryView = ecomakiView.extend({
 	},
 
   onDraw: function(){
-     this.model.save({canvas: $('.paint', this.el)[0].toDataURL('image/png')},{wait: true});
+     this.model.save_canvas( $('.paint', this.el)[0].toDataURL('image/png') );
   },
 
   onResize: function(){

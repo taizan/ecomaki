@@ -46,6 +46,7 @@ Ecomaki::Application.routes.draw do
   match 'edit/:novel_id/:password/chapters/:chapter_id/entries/:id' => 'entries#destroy', :via => :delete
 
   match 'entries/:id/canvas' => 'entries#show_canvas', :via => :get
+  match 'edit/:novel_id/:password/chapters/:chapter_id/entries/:id/update_canvas' => 'entries#update_canvas', :via => :put
   #match 'entries/:id/canvas' => 'entries#canvas_path', :via => :get
   #match 'entries/:id' => 'entries#show', :via => :get
 

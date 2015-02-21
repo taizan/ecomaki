@@ -11,7 +11,7 @@ class Entry < ActiveRecord::Base
 
   has_many :entry_character
   has_many :entry_balloon
-  after_save :save_canvas
+  #after_save :save_canvas
 
   amoeba do
     include_field [:entry_character, :entry_balloon]
@@ -20,7 +20,7 @@ class Entry < ActiveRecord::Base
       })
   end
 
-  def save_canvas
+  def save_canvas( data )
     if @original_id
       src = Rails.root.join("data/images/entry_canvas/#{@original_id}")
       dest = Rails.root.join("data/images/entry_canvas/#{id}")
@@ -31,7 +31,7 @@ class Entry < ActiveRecord::Base
       end
     else
       File.open(canvas_path, 'wb') do |file|
-        file.write(@canvas)
+        file.write( data )
       end
     end
   end
