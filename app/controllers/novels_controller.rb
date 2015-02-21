@@ -42,7 +42,7 @@ class NovelsController < ApplicationController
       :include => [
         :author,
         :chapter => {
-          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
+          :include => [:entry => {:include => [:entry_balloon, :entry_character] }]
         },
       ]
     }

@@ -104,7 +104,7 @@ $(function() {
         //setup view
         $('#content').empty();
         _novelView.destroyView();
-        _novelView = new NovelView({model: _novel , isEditable: !isPreView });
+        _novelView = new NovelView({model: _novel , isEditable: !isPreView, isPreview: isPreView});
         _novelView.appendTo($('#content'));
         _novelView.onScrollEnd()
         if( !isPreView) {

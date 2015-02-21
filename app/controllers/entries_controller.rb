@@ -57,8 +57,14 @@ class EntriesController < ApplicationController
   def show_canvas
     id = params[:id]
     entry = Entry.find(params[:id])
-    data_url = entry.canvas_data
-    png      = Base64.decode64(data_url['data:image/png;base64,'.length .. -1])
+    data_url = entry.canvas
+   
+    if data_url.length > 'data:image/png;base64,'.length
+      png      = Base64.decode64(data_url['data:image/png;base64,'.length .. -1])
+    else
+      data_url = entry.canvas_blunk
+      png      = Base64.decode64(data_url['data:image/png;base64,'.length .. -1])
+    end
     send_data( png , :disposition => 'inline', :type => "image/png")
   end
 

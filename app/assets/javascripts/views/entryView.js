@@ -30,6 +30,7 @@ EntryView = ecomakiView.extend({
         "addEntry",
         "addEntryFromTemplate",
         "changeLayer",
+        "getCanvasUrl",
         "selectBackground",
         "setBackground"
       );
@@ -93,7 +94,8 @@ EntryView = ecomakiView.extend({
       //--
       //set painting options
 
-			this.content.wPaint({
+			//$(".character_wrapper" ,this.content ).wPaint({
+			$(this.content ).wPaint({
         drawDown:  self.onCanvasClick ,
         drawUp : self.onDraw,
 				EditMenuCallback: self.keyctrl
@@ -118,13 +120,14 @@ EntryView = ecomakiView.extend({
 
 
     }else{
-      var canvasUrl = this.model.get('canvas');
+      var canvasUrl = this.getCanvasUrl();  //this.model.get('canvas');
       //check data exist
       if(canvasUrl !== null && canvasUrl !== undefined && canvasUrl != ""){
         this.canvasImage  = new Image();
         this.canvasImage.src = canvasUrl;
         $(this.canvasImage)
-          .addClass('paint').appendTo(this.content).width( this.model_width ).height( this.model_height );
+          .addClass('paint').appendTo( $(".character_wrapper" ,this.content ));
+          //.width( this.model_width ).height( this.model_height );
       }
     }
 
@@ -167,7 +170,7 @@ EntryView = ecomakiView.extend({
 
   canvasRender: function() {
       var content = this.content;
-      var canvasUrl = this.model.get('canvas');
+      var canvasUrl = this.getCanvasUrl();
      // set image to canvas
       if(this.isEditable){
         // if isEditable , set image data to canvas
@@ -175,7 +178,8 @@ EntryView = ecomakiView.extend({
           this.canvasFlag = false;
           //handle no data exception
           if(canvasUrl !== null && canvasUrl !== undefined && canvasUrl != ""){
-            this.content.data('_wPaint_canvas').setImage( canvasUrl );
+            //$(".character_wrapper" ,this.content ).data('_wPaint_canvas').setImage( canvasUrl );
+            $(this.content ).data('_wPaint_canvas').setImage( canvasUrl );
             $('.paint',this.content).css( { zIndex:this.model.get('canvas_index') } );
 
             //一番上のレイヤーにあるときは描画モード
@@ -297,7 +301,7 @@ EntryView = ecomakiView.extend({
   keyctrl: function(event){
     var self = this;
     var save_image = function(){ 
-      //self.model.save({canvas: $('.paint', self.el)[0].toDataURL('image/png')},{wait: true});
+      self.model.set({canvas: $('.paint', self.el)[0].toDataURL('image/png')});
       self.model.save_canvas( $('.paint', self.el)[0].toDataURL('image/png') );
     }; 
 	  	switch(event){
@@ -322,6 +326,7 @@ EntryView = ecomakiView.extend({
 	},
 
   onDraw: function(){
+     this.model.set({canvas: $('.paint', self.el)[0].toDataURL('image/png')});
      this.model.save_canvas( $('.paint', this.el)[0].toDataURL('image/png') );
   },
 
@@ -509,6 +514,13 @@ EntryView = ecomakiView.extend({
     this.model.set('canvas_index',canvas.zIndex());
     this.model.save();
      // console.log(canvas);
+  },
+
+  getCanvasUrl : function(){
+    var data = this.model.get("canvas");
+    console.log ( data );
+    if( !data ) return  "/entries/"+this.model.get("id")+"/canvas";
+    return data;
   },
 
   selectBackground: function(ev){

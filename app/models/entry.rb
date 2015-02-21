@@ -42,15 +42,19 @@ class Entry < ActiveRecord::Base
     super
   end
 
-  def canvas_data
-    canvas_path.binread rescue nil
+  def canvas
+    canvas_path.binread rescue  nil
   end
 
-  def canvas
+  def canvas_url
     "/entries/#{id}/canvas"
   end
 
   def canvas_path
     Rails.root.join("data/images/entry_canvas/#{id}")
+  end
+
+  def canvas_blunk
+    Rails.root.join("data/images/entry_canvas/def").binread rescue  nil
   end
 end
