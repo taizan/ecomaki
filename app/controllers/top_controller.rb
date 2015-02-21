@@ -13,7 +13,7 @@ class TopController < ApplicationController
     @entries = Rails.cache.fetch( "entries_new_list", expires_in: cache_expire) do
       entries = []
       @novels.each {|novel|
-        options = {:include => [:entry_balloon, :entry_character]}
+        options = {:include => [:entry_balloon, :entry_character], :methods => :canvas}
         #全部とってパフォーマンス的に大丈夫か?
         entry = Entry.joins(:chapter).where("novel_id = ?", novel.id).order("chapters.order_number, entries.order_number")#.limit(4)
         entries << entry.to_json(options)
