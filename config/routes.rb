@@ -45,6 +45,10 @@ Ecomaki::Application.routes.draw do
   match 'edit/:novel_id/:password/chapters/:chapter_id/entries/:id' => 'entries#update', :via => :put
   match 'edit/:novel_id/:password/chapters/:chapter_id/entries/:id' => 'entries#destroy', :via => :delete
 
+  match 'entries/:id/canvas' => 'entries#show_canvas', :via => :get
+  #match 'entries/:id/canvas' => 'entries#canvas_path', :via => :get
+  #match 'entries/:id' => 'entries#show', :via => :get
+
   # Chapters
   match 'novels/:novel_id/chapters' => 'chapters#index', :via => :get
   match 'novels/:novel_id/chapters/:id' => 'chapters#show', :via => :get
@@ -80,6 +84,7 @@ Ecomaki::Application.routes.draw do
   match 'characters/:character_id/images' => 'character_images#create', :via => :post
   match 'characters/:character_id/images/:id' => 'character_images#show_image', :via => :get
   match 'characters/images/:id' => 'character_images#show_image', :via => :get
+
 
   # Musics
   match 'background_musics' => 'background_musics#index', :via => :get

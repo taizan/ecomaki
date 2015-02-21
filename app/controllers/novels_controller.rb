@@ -73,14 +73,18 @@ class NovelsController < ApplicationController
     has_valid_password = (@novel.password == params[:password])
 
     options = {:include => [:author, :chapter => {
-          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
+          :include => [:entry => {:include => [:entry_balloon, :entry_character], 
+          :methods => :canvas
+          }]
         }
       ]
     }
 
     options_without_password = {:except => :password,
       :include => [:author, :chapter => {
-          :include => [:entry => {:include => [:entry_balloon, :entry_character], :methods => :canvas}]
+          :include => [ :entry => {:include => [:entry_balloon, :entry_character] ,
+           :methods => :canvas
+           }]
         }
       ]
     }

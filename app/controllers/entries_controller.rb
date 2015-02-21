@@ -43,6 +43,15 @@ class EntriesController < ApplicationController
     }
   end
 
+  def show_canvas
+    id = params[:id]
+    entry = Entry.find(params[:id])
+    data_url = entry.canvas_data
+    png      = Base64.decode64(data_url['data:image/png;base64,'.length .. -1])
+    send_data( png , :disposition => 'inline', :type => "image/png")
+  end
+
+
   def create
     if has_valid_password?
       entry = Entry.new(params[:entry])

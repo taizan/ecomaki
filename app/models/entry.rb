@@ -36,17 +36,19 @@ class Entry < ActiveRecord::Base
     end
   end
 
-  def canvas
-    canvas_path.binread rescue nil
-  end
-
   def as_json(options = {})
     options[:methods] ||= []
     options[:methods] << :canvas
     super
   end
 
-  private
+  def canvas_data
+    canvas_path.binread rescue nil
+  end
+
+  def canvas
+    "/entries/#{id}/canvas"
+  end
 
   def canvas_path
     Rails.root.join("data/images/entry_canvas/#{id}")
