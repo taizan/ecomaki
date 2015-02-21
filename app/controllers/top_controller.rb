@@ -10,13 +10,15 @@ class TopController < ApplicationController
       Novel.order("created_at DESC").where("status = ?", "publish").limit(10)
     end
     
-    @entries = Rails.cache.fetch( "entries_new_list", expires_in: cache_expire) do
+    @entries = 
+    Rails.cache.fetch( "entries_new_list", expires_in: cache_expire) do
       entries = []
       @novels.each {|novel|
-        options = {:include => [:entry_balloon, :entry_character], :methods => :canvas}
+        options = {:include => [:entry_balloon, :entry_character]}
         #全部とってパフォーマンス的に大丈夫か?
         entry = Entry.joins(:chapter).where("novel_id = ?", novel.id).order("chapters.order_number, entries.order_number")#.limit(4)
-        entries << entry.to_json(options)
+        entries  << entry.to_json(options)
+
       }
       "[#{entries.join(",")}]"
     end

@@ -38,7 +38,7 @@ class Entry < ActiveRecord::Base
 
   def as_json(options = {})
     options[:methods] ||= []
-    options[:methods] << :canvas
+    #options[:methods] << :canvas
     super
   end
 
