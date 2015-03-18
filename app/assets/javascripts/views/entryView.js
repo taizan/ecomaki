@@ -124,6 +124,9 @@ EntryView = ecomakiView.extend({
       //check data exist
       if(canvasUrl !== null && canvasUrl !== undefined && canvasUrl != ""){
         this.canvasImage  = new Image();
+        $(this.canvasImage).error(function() {
+            $(this).remove();
+          });
         this.canvasImage.src = canvasUrl;
         $(this.canvasImage)
           .addClass('paint').appendTo( $(".character_wrapper" ,this.content ));
