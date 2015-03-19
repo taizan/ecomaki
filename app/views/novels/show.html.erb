@@ -30,6 +30,21 @@
 
   <div id="content"> </div>
 
+</div>
+
+<hr>
+<div id="comments_list" >
+  <% @comments.each do |comment| %>
+      <div class="comment" >
+          <p> <%= comment.text %> </p>
+      </div>
+  <% end %>
+
+  <form action="/novels/<%=@novel.id%>/comment/add" method="post">
+    <textarea name="text" ></textarea>
+    <input type="submit" value="コメント投稿" >
+  </form>
+
 
 </div>
 

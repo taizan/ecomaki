@@ -74,6 +74,9 @@ Ecomaki::Application.routes.draw do
   match 'edit/:id/:password' => 'novels#update', :via => :put
   match 'edit/:id/:password' => 'novels#destroy', :via => :delete
 
+  #comments
+  match 'novels/:id/comment/add' => 'comment#create', :via => :post
+
   # Characters
   match 'characters' => 'characters#index', :via => :get
   match 'characters/touch/:id' => 'characters#touch', :via => :get

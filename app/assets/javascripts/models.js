@@ -260,7 +260,7 @@ var Entry = BaseModel.extend({
     return entry;
   },
 
-  addItems(){
+  addItems: function(){
     var attr = this.attributes;
     var self = this;
 
@@ -332,7 +332,7 @@ var EntryList = BaseCollection.extend({
     for (var i = index+1 ; i < length; i++) {
       this.models[i].set('order_number', i + 1);
     }
-    return this.create.(attributes, options);
+    return this.create(attributes, options);
   },
 
 
@@ -556,10 +556,10 @@ Novel = BaseModel.extend({
   },
   
   publish: function(callback) {
-    this.save({'status','pblish'},{ wait: true , success: callback });
+    this.save( {status:'publish'} , { wait: true , success: callback } );
   },
 
-  create_dup: function(srcModel , callback){
+  dup_as_maker: function(srcModel , callback){
     var newNovel;
     var self = this;
     var url = this.root + "/novels/"+ this.id +"/dup_no_redirect.json"

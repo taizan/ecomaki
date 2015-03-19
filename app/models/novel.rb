@@ -11,6 +11,8 @@ class Novel < ActiveRecord::Base
   has_many :tag, :through => :novel_tag
   has_many :novel_history
 
+  has_many :comment
+
   amoeba do
     include_field [:chapter]
   end

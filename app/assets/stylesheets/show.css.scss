@@ -3,6 +3,23 @@
 //=require ./entry
 //=require ./entryItem
 
+#comments_list{
+  margin-left: auto;
+  margin-right: auto;
+  width: 480px;
+  position: relative;
+}
+
+.comment{
+  width: 480px;
+  margin: 10px;
+  border: solid gray 1px;
+}
+
+.comment p{
+  padding: 10px;
+}
+
 .share_buttons{
   background-color: #fff;
   margin-left: auto;

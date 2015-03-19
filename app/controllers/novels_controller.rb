@@ -10,6 +10,9 @@ class NovelsController < ApplicationController
 
   def show
     json_obj = get_show_novel();
+
+    @comments = Comment.where( :novel_id => params[:id] ) 
+
     respond_to do |format|
       format.html { }
       format.json { render :json => json_obj }
