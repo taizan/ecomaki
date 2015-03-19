@@ -2,9 +2,7 @@
 //= require jquery.masonry.min 
 //= require jquery.imagesLoaded 
 //
-function Picker( ){
-
-}
+function Picker( ){}
 
 Picker.prototype = {
 
@@ -13,8 +11,12 @@ Picker.prototype = {
   visible: false,
   isApeended: false,
 
+  target: {},
+
   initialize: function(){
-   
+    //paste image
+    $("body")[0].onpaste = Picker.prototype.onPaste; 
+
     // hide on blur 
     $($('#character_picker_template').html())
 		  .appendTo('body').blur(Picker.prototype.onBlur).hide();
@@ -33,6 +35,39 @@ Picker.prototype = {
     $('#add_character_button')  .click(function(){ Picker.prototype.appendForm("/characters", "image");} );
     $('#add_background_button') .click(function(){ Picker.prototype.appendForm("/background_images","image");} );
     $('#add_music_button')      .click(function(){ Picker.prototype.appendForm("/background_musics","music");} );
+  },
+
+  onPaste: function(event){
+    console.log("paste");
+    var clipboardData = event.clipboardData || event.originalEvent.clipboardData;
+    var items = clipboardData.items;
+    var blob;
+    for (var i = 0; i < items.length; i++){
+      if(items[i].type.indexOf("image") === 0){
+        blob = items[i].getAsFile();
+      }
+    }
+
+    if(blob != null) {
+      var reader = new FileReader();
+      reader.onload =function(event){
+        var imgURL = event.target.result;
+
+        $.ajax({
+          type: "POST",
+          url: "/characters/images", 
+          data: ({imageURL : imgURL , character_id : 0 , author: "", description: ""}),
+          cache: false,
+          success: function(result){
+              console.log( result );
+              console.log( EntryView.prototype.selected );
+              //target.addCharacter(  ); 
+              EntryView.prototype.selected.addCharacter( result.id , result.width , result.height );
+            }
+        });
+      };
+      reader.readAsDataURL(blob);
+    }
   },
 
   onBlur: function(ev){
@@ -55,16 +90,33 @@ Picker.prototype = {
       .attr({"action": action , "method":"post","enctype":"multipart/form-data"  })
       .ajaxForm({
         beforeSubmit: function() {
+          // キャラクターのアップロードで名前が無い
+          if(  action == "/characters"  &&  $("#input_name").val() == "" ) {
+            alert("名称を入力してください");
+            return false;
+          }
+          
           $('.submit_button',form).prop('disabled',true);
+          return true;
         },
 
-        success: function() { 
+        success: function( data ) { 
+          console.log(data);
           $(form).remove();
           if(confirm('Uploaded')) {
           if(action == "/characters" )  
-            Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
-          if(action == "/characters/images" )  
-            Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
+            //Picker.prototype.loadXml("/characters.xml" , Picker.prototype.appendCharacterJson );
+            Picker.prototype.appendCharacterJson ( true );
+          
+          if(action == "/characters/images" ) { 
+            var text = data.description +', by '+ data.author;
+
+            var imageItem= Picker.prototype.setCharacterImageItem(
+                           data.character_id , data.id , text , config.character_image_idtourl( data.id ) , true );
+            //Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.appendCharacterJson );
+            //表示する。 
+            $("img",imageItem).attr("src" ,$("img",imageItem).data("src"));
+          } 
           if(action == "/background_images" )
             Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
           if(action == "/background_musics" )
@@ -80,7 +132,14 @@ Picker.prototype = {
         }
         });
     //for character image upload
-    if(action =="/characters/images" ) $('<input type="text" id="input_character_id" name="character_id" style="display : none">').appendTo(form).val(id);
+    if(action =="/characters/images" ) { 
+      $('<input type="text" id="input_character_id" name="character_id" style="display : none">')
+        .appendTo(form).val(id);
+    }
+    if( action =="/characters") {
+      $("#form_label_name" , form ).html("キャラクター名(必須)");
+      $("#input_name", form).attr( "placeholder","キャラクター名");
+    }
 
     //for send type of file default image
     $('#input_file',form).attr('name',type);
@@ -141,70 +200,134 @@ Picker.prototype = {
     );
   },
 
-  parseCharacterImageXml: function(xml,status){
-    if(status!='success')return;
+  setCharacterImageItem: function( character_id, id, text, url , isAll){
+    var item = $('<div id="pick_character_image_item_'+id+'" class="picker_image_item" ><img ></div>').attr('title',text);
+    $( "img" ,item).data("src" , url );
+    var list_id = '#character_item_'+character_id;
 
-    $(xml).find('character-image').each(
-      function(){
-        var id           = $(this).find('id').text();
-        var name         = $(this).find('name').text();
-        var character_id = $(this).find('character-id').text();
-        var author       = $(this).find('author').text();
-        var description  = $(this).find('description').text();
-        //var height = $(this).find('height').text();
-        //var width = $(this).find('width').text();
+    if(! $('.list_header_button img',list_id ).attr('src') ){
+      //console.log($(list_id));
+      $('.list_header_button img',list_id ).attr('src',url);
+    }else{
+      // アイコンの設定のみ
+      if(!isAll) return;
+    }
+    
+    function addImageItem(){
+      // hide and show
+      if($("#pick_character_image_item_"+id ).length == 0 ){
+        $('.image_list',list_id ).prepend(item);
+        item.click(function(){
+          if(Picker.prototype.selectedCallback){
+            //set img elem for use img tag information.
+            Picker.prototype.selectedCallback({
+                'character_image_id': id , 
+                'url' : null,
+                'width'         :$('img',item).width() ,
+                'height'        :$('img',item).height() ,
+                'character_id'  :character_id
+              });
+            Picker.prototype.finish();
 
-        var text = name +', '+ description +', by '+ author;
-        var list_id = '#character_item_'+character_id;
-
-        Picker.prototype.setCharacterImageItem(list_id,id,text,config.character_image_idtourl(id));
+            // updete chara by  touch 
+            $.ajax({ url: "/characters/touch/"+character_id });
+          }
+        });
       }
-    );
+    }
+    
+    if( $(list_id).attr('display') != 'none'){
+      addImageItem();   
+    }
+
+    $(list_id).click(function(){
+      addImageItem();   
+      //console.log($('pick_item'+id));
+    });
+
+    return item;
   },
 
-  parseCharacterXml: function(xml,status){
-    if(status!='success')return;
 
-    $(xml).find('character').each(
-      function(){
-        var id          = $(this).find('id').text();
-        var name        = $(this).find('name').text();
-        var author      = $(this).find('author').text();
-        var description = $(this).find('description').text();
-        var text = name +', '+ description +', by '+ author;
+  appendCharacterJson: function( isUpdate ){
 
-        if( $('#character_item_'+id).length == 0 ){
-          //init header 
-          var header =  $($('#picker_item_template').html())
-            .attr({ 'id':'character_item_'+id ,'title': text })
-            .appendTo('#character_picker .picker_list')
-            .click(function( e ){ 
-                //console.log(e.target);
-                if( $(e.target).hasClass('add_character_image') === false ){
-                  $('.image_list','#character_item_'+id).toggle();
-                }
-              })
-            .imagesLoaded( function(){  $('.image_list',header).masonry({ itemSelecter: '.picker_image_item'}); });
-          
-	        $('.list_header_name',header).html( name );
-	        $('.list_header_description',header).html( description );
-
-          // init form add button
-          $('.add_character_image_button','#character_item_'+id).click(function(){
-              Picker.prototype.appendForm("/characters/images","image",id); 
-              $('.image_list','#character_item_'+id).show();
-            });
-          
+    //キャラ画像の配置
+    var loadImage = function( isAll ){
+      $.ajax({
+        url: "/characters/images.json",
+        dataType: "json",
+        success: function(data){
+          for( var i=0; i<data.length; i++){
+            var item = data[i];
+            var text = item.description +', by '+ item.author;
+      
+            Picker.prototype.setCharacterImageItem(
+              item.character_id , item.id , text , config.character_image_idtourl( item.id ) , isAll );
+          }
+          console.log(data);
         }
-        //console.log($('#character_item_'+id ));
       });
-    Picker.prototype.onCharacterXmlParseEnded();
+    };
+
+    //キャラタブの初期化
+    $.ajax({
+      url: "/characters.json",
+      dataType: "json",
+      success: function(data){
+        //console.log(data);
+        for( var i=0; i<data.length; i++){
+          var item = data[i];
+          var id = item.id;
+          //var charId = item.character_id;
+          var text = item.name +', '+ item.description +', by '+ item.author;
+          
+          if( $( '#character_item_'+ id).length >0 ) continue; 
+          var header =  $($('#picker_item_template').html())
+            .attr({ 'id':'character_item_'+ id ,'title': text })
+            .imagesLoaded( function(){  $('.image_list',header).masonry({ itemSelecter: '.picker_image_item'}); });
+
+          if( isUpdate ){
+            $('#character_picker .nav-header').after(header);
+          }else{
+            header.appendTo('#character_picker .picker_list');
+          }
+
+          (function(id){ //click時のidの値を保持する
+            header.click(function( e ){ 
+                console.log(e);
+                if( $(e.target).hasClass('add_character_image') === false ){
+                  $( '.image_list','#character_item_' + id ).toggle();
+                  //console.log( $( '.image_list','#character_item_' + id ) );
+                  $( '.add_character_image_button','#character_item_' + id ).toggle();
+
+                  //画像をロード
+                  $( ".picker_image_item img" , '#character_item_' + id ).each(function(){
+                    $(this).attr("src" ,$(this).data("src"));
+                  });
+                }
+              });
+
+            // init form add button
+            $('.add_character_image_button','#character_item_'+id).click(function(){
+              Picker.prototype.appendForm("/characters/images","image",id); 
+              $('.image_list','#character_item_'+id ).show();
+            });
+
+           })(id);
+          
+	        $('.list_header_name',header).html( item.name );
+	        $('.list_header_description',header).html( item.description );
+         
+        }
+     
+        //画像をセット
+        loadImage(true);
+      }
+    });
+
   },
 
-  onCharacterXmlParseEnded: function(){
-    // call next function 
-    Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
-  },
+
 
   setMusicItem: function(list_id,id,text,name){
     // escape text 
@@ -236,7 +359,10 @@ Picker.prototype = {
       item.click(function(){
           if(Picker.prototype.selectedCallback){
           //set img elem for use img tag information.
-            Picker.prototype.selectedCallback(id,$('img',item)[0]);
+            Picker.prototype.selectedCallback({
+               'background_image_id' : id,
+               'background_url': null ,
+            });
             Picker.prototype.finish();
           }
         });
@@ -244,52 +370,59 @@ Picker.prototype = {
 
   },
 
-
-  setCharacterImageItem: function(list_id,id,text,url){
-    var item = $('<div id="pick_character_image_item_'+id+'" class="picker_image_item" ><img src="' + url + '"></div>').attr('title',text);
-    //item.appendTo($(list_id)).tooltip();
-    if(! $('.list_header_button img',list_id).attr('src') ){
-      //console.log($(list_id));
-      $('.list_header_button img',list_id).attr('src',url);
-    }
-    
-    function addImageItem(){
-      // hide and show
-      if($("#pick_character_image_item_"+id ).length == 0 ){
-      //console.log($('pick_item'+id));
-       //item.appendTo($('.image_list',list_id));
-        $('.image_list',list_id).prepend(item);
-        item.click(function(){
-          if(Picker.prototype.selectedCallback){
-            //set img elem for use img tag information.
-            Picker.prototype.selectedCallback( id , $('img',item)[0] );
-            Picker.prototype.finish();
-          }
-        });
-      }
-    }
-    
-    if( $(list_id).attr('display') != 'none'){
-      addImageItem();   
-    }
-
-    $(list_id).click(function(){
-      addImageItem();   
-      //console.log($('pick_item'+id));
-    });
-  },
 
   setCallback: function(func) {
     Picker.prototype.selectedCallback = func;
   },
 
+  initUrlInput: function( pickerId , onCallback ){
+    var img =  $( pickerId+" .url_img")[0];
+    //set up for url select mode
+    $( pickerId+" .url_button").click(function(){
+        console.log( "aa:"+ url );
+        var url = $( img ).attr("src");
+        console.log( "aa:"+ url );
+        if( !url  || url == "" ){
+          alert("無効なURLです。");
+          return;
+        }
+        onCallback( url , $( pickerId+" .url_img") );
+        Picker.prototype.finish();  
+      });
+    $( pickerId+" .url_input").on( "input" , function(){
+        var url = $(pickerId+" .url_input").val();
+        if( config.isDataURL( url ) ){
+          alert("無効なURLです。データURLは使えません");
+          return;
+        }
+        img.src = url;
+      });
+    img.onload = function(){
+      $( pickerId+" .url_button" ).attr('disabled', false);
+    };
+    img.onerror = function(){
+      img.src = "";
+      $( pickerId+" .url_button" ).attr('disabled', true);
+    };
+  },
+
   showCharacterList: function(callback){
     if( !Picker.prototype.isCharacterListAppended){
-      Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
-    //  Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
+      //Picker.prototype.loadXml("/characters.xml" , Picker.prototype.parseCharacterXml );
+      //Picker.prototype.loadXml("/characters/images.xml" , Picker.prototype.parseCharacterImageXml );
+      Picker.prototype.appendCharacterJson();
       Picker.prototype.isCharacterListAppended = true;
+  
+      Picker.prototype.initUrlInput( "#character_picker" , function( url , $img ){
+           Picker.prototype.selectedCallback({
+               'character_id' : -1,
+               'character_image_id' : -1,
+               'url': url ,
+               'width'  :$img.width() ,
+               'height' :$img.height() ,
+             });
+        });
     }
-    
     Picker.prototype.showPicker(callback,'#character_picker',600);
   },
 
@@ -298,8 +431,14 @@ Picker.prototype = {
       $('#picker').find($('.picker_item')).remove();
       Picker.prototype.loadXml("/background_images.xml" , Picker.prototype.parseBackgroundXml );
       Picker.prototype.isBackgroundListAppended = true;
+
+      Picker.prototype.initUrlInput( "#background_picker" , function( url , $img ){
+          Picker.prototype.selectedCallback({
+              'background_image_id' : -1,
+              'background_url': url ,
+            });
+        });
     }
-		
     Picker.prototype.showPicker(callback,'#background_picker',500);
   },
 
@@ -350,6 +489,11 @@ Picker.prototype = {
       Picker.prototype.visible = false;
     }
     Picker.prototype.isBlurable = false;
+
+    //reset url image
+    $(".url_input").val("");
+    $(".url_img").attr( "src" , "" );
+    $(".url_button" ).attr('disabled', true);
   }
 
 };

@@ -3,6 +3,7 @@
 //= require jquery.form
 //= require jquery.balloon.min
 //= require wColorPicker.1.2.min
+//= require html2canvas.min
 //
 //= require ./models
 //= require ./views/ecomakiView
@@ -32,10 +33,24 @@ $(function() {
   // initializeTool
   //
   //
+  
+  window.onbeforeunload = function (e) {
+  //window.onunload = function (e) {
+    var message = "再編集するにはこのページのURLを保存してください";
+    e = e || window.event;
+ 
+    // For IE and Firefox
+    if (e) {
+      e.returnValue = message;
+    } 
+    // For Safari
+    return message;
+  };
+
+
   var novelEdit = {
  
   initializeView : function(id,pass,isEditable){
-
     var makeView = function(){
       _novelView = new NovelView({model: _novel , isEditable: isEditable  });
       _novelView.appendTo($('#content'));
@@ -44,26 +59,32 @@ $(function() {
     }
 
     _novel = new Novel({id: id,password: pass});
+   
     _novel.fetch({
-    success: function(){
-      // check status here 
-      // viewに実装したほうがいいか？　その場合view初期化時の処理と衝突
-      if(_novel.get('status') == 'initial'){
-			  selectTemplate(_novel,makeView );
-      //>>>> make templates
-        _novel.save({'status': 'draft'});
-       }
-       else{
-        makeView();
+      success: function(){
+        // check status here 
+        // viewに実装したほうがいいか？　その場合view初期化時の処理と衝突
+        if(_novel.get('status') == 'initial'){
+          //テンプレートから初期化する場合には先に読み込む
+          EntryTemplate.prototype.initialize(function(){
+            //テンプレートの選択はテンプレートの初期化の後とする
+			      selectTemplate(_novel,makeView );
+          });
+          //>>>> make templates
+          _novel.save({'status': 'draft'});
+        }
+        else{
+          EntryTemplate.prototype.initialize();
+          makeView();
+        }
       }
-    }
-  });
-
+    });
+  
     $('#toolbox').hide();
     $('#console').hide();  
     $('#side_menu').hide();
 
-    $(document).tooltip();
+    //$(document).tooltip();
     $('#static_body').bind('mousedown',novelEdit.onStaticBodyClick);
 
   },
@@ -73,40 +94,117 @@ $(function() {
 
     Picker.prototype.initialize();
 
-    // Prever Button Click
-    $('#preview_button').click(function(){
-        isEditable = isEditable ? false : true;
-			  $('#preview_button img').attr('src', '/assets/novel/' + (isEditable ? 'preview.png' : 'edit.png'));
-			  $('#preview_button p').text(isEditable ? 'Preview' : 'Edit');
+    var setPreview = function( isPreView ){
+        //change button
+			  $('#preview_button img')
+          .attr('src', '/assets/novel/' + ( !isPreView ? 'preview.png' : 'edit.png'));
+			  $('#preview_button p')
+          .text( !isPreView ? 'プレビュー' : '編集');
+        
+        //setup view
         $('#content').empty();
         _novelView.destroyView();
-        _novelView = new NovelView({model: _novel , isEditable: isEditable });
+        _novelView = new NovelView({model: _novel , isEditable: !isPreView, isPreview: isPreView});
         _novelView.appendTo($('#content'));
-        if(isEditable) {
+        _novelView.onScrollEnd()
+        if( !isPreView) {
           $('#toolbox').show();
+          $('.editer_item').show();
         }else{
           $('#toolbox').hide();
           $('.tutorial_dialog').hide();
+          $('.editer_item').hide();
+          $('.tutorial_balloon').hide();
         }
+    }
+
+    // Preveiw Button Click
+    $('#preview_button').click(function(){
+        isEditable = isEditable ? false : true;
+        
+        setPreview(!isEditable);
+
       });
     
     // Publish button Click
     $('#publish_button').click(function(){ 
-        _novel.save('status','publish',
-            { 
-              success: function(){
+        isEditable = false;
+        //setPreview(true);
+
+        var id = _novel.get("id");
+        var text = _novel.get("title") + " #ecomaki " + window.location.origin+"/novel/"+id;
+
+        var onSuccess = function(){
+          $.ajax( {
+               type: 'POST',
+               url: '/tweet',
+               data: 'id='+id+'&text='+text,
+               success: function(){
                   alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
                   document.location = '/novels/'+id ;
-                }
-            }
-          ); 
+               }
+          });
+        }
+       
+        _novel.save('status','publish', { success: onSuccess } ); 
+        
+        alert("作品を公開します。しばらくお待ちください");
+
+       /*
+        html2canvas( $(".novel")[0] , 
+            { 
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL().replace(/^.*,/, '');
+                $('<img>').appendTo("body").attr("src",imgData);
+                var id = _novel.get("id");
+                var text = _novel.get("title") + " #ecomaki " + window.location.origin+"/novel/"+id;
+                $.ajax( {
+                    type: 'POST',
+                    url: '/tweet',
+                    data: 'id='+id+'&text='+text+'&imageURL='+imgData
+                  });
+
+                _novel.save('status','publish', { success: onSuccess } ); 
+             }
+          });
+         */
       });
-      //novelEdit.setTutorial();
+
+      novelEdit.setTutorial();
   },
 
   //チュートリアルセットアップ
   setTutorial : function(){
-    var dialog_top = 40;
+
+    var tutorial = $($('#tutorial_template').html())
+      .appendTo('body');
+
+    $("#help_tab_button").click(function(){
+    
+      if( $("#help_pane").length == 0 ){
+        $($('#help_template').html())
+          .appendTo('body')
+        $.ajax({
+          type: 'GET',
+          url: '/tutorial/new_index.html',
+          dataType: 'html',
+          success: function (data) {
+                console.log($(".content",data));
+                $(".content",data).appendTo('.help_content');
+                $('#help_template')
+                  .height( window.innerHeight );
+                $(".help_cancel_button").click( function(){
+                  $("#help_pane").hide();
+                });
+              },
+          });
+      }else{
+         $("#help_pane").show();
+      }
+      $("#paint_tab_button").click();
+    });
+
+/*    var dialog_top = 40;
     if( config.getScreenSize().x < 1066) dialog_top = 70;
     console.log( config.getScreenSize().x);
     var tutorial = $($('#tutorial_template').html())
@@ -156,6 +254,7 @@ $(function() {
       }
     });
     //console.log($('#tutorial_template').html());
+*/
   },
 
   onStaticBodyClick: function(ev){
@@ -163,29 +262,20 @@ $(function() {
     TextEditMenu.prototype.onBlur(ev);
     TextEdit.prototype.onBlur(ev);
     Picker.prototype.onBlur(ev);
+
+    if( !$(ev.target).is('#help_pane') ){
+      $("#help_pane").hide();
+    }
+
   },
 
-  // dont work well
-  setOnUnload: function(){
-    window.onbeforeunload = function () {
-        if (document.title.indexOf("*") != -1) {
-                    return ("You have unsaved changes...");
-        }
-    }
-    window.onunload=function() {
-      alert();
-      return confirm('Are you sure you want to leave the current page?');  
-    }
-
-    $(window).unload( function () { alert("Bye now!"); } );
-  }
 
   };
-
 
   // initialize of page
 
   var isEditable = true;
+ 
 
   // get id from page DOM
   var id = $('.novel_container').attr('id');
@@ -198,5 +288,9 @@ $(function() {
   // initialize view and tool 
   novelEdit.initializeView(id,pass,isEditable);
   novelEdit.initializeTool(isEditable,id);
+
+  $("#output_html").text(
+    '<script src="'+location.origin+'/assets/exShow.js"></script>'
+    +'<div class="novel_container" id="'+id+'" root="'+ location.origin +'" ><div id="content"></div></div>')
 
 });

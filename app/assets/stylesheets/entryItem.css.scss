@@ -1,6 +1,12 @@
 
+.character{
+  position: absolute;
+  //position: rerative;
+}
+
 .balloon {
   position: absolute;
+  //position: rerative;
   background-color: #fff;
   border-radius: 20px;         /* CSS3 */
    -moz-border-radius: 20px;    /* Firefox */
@@ -12,8 +18,28 @@
 
 
 .balloon .text{
+  text-align: center;
+  line-height: 1.5;
+}
+
+.balloon .htext{
+  width:100%;
+  height:100%;
   display: table-cell;
   vertical-align: middle;
+}
+
+.balloon .vtext{
+  //width:100%;
+  height:100%;
+  margin-left:auto;
+  margin-right:auto;
+
+  writing-mode: tb-rl; /* IE独自仕様 */
+  writing-mode: vertical-rl;
+  -moz-writing-mode: vertical-rl;
+  -o-writing-mode: vertical-rl;
+  -webkit-writing-mode: vertical-rl;
 }
 
 .character img{
@@ -25,4 +51,21 @@
   text-align: center;
   vertical-align: middle;
 }
+
+.refrect{
+  -webkit-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -moz-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.unselectable{
+  -webkit-user-select:none;
+  user-select:none;
+  -moz-user-select:none;
+  -khtml-user-select: none;
+}
+
 

@@ -1,14 +1,19 @@
 class CharacterImagesController < ApplicationController
   def index
+    CharacterImage.class
     character_id = params[:character_id]
     images = nil
+    
     if character_id
       images = CharacterImage.where("character_id = ?", character_id)
     else
-      images = CharacterImage.all
+      images = Rails.cache.fetch( "images_all", expires_in: 1.day) do
+        images = CharacterImage.all;
+      end
     end
     respond_to do |format|
       format.xml { render :xml => images }
+      #format.json { render :json => images.group_by(&:character_id) }
       format.json { render :json => images }
     end
   end
@@ -27,22 +32,54 @@ class CharacterImagesController < ApplicationController
         :author => params[:author])
       character.save
       character_id = character.id
+    else
+      #updated at の更新
+      character = Character.find( character_id )
+      character.touch
     end
 
     image = params[:image]
-    content_type = image.content_type.chomp
+    dataURL = params[:imageURL]
 
-    if ['image/jpeg', 'image/png', 'image/gif'].include?(content_type)
-      character_image = CharacterImage.new(
-        :image => image,
-        :character_id => character_id,
-        :author => params[:author],
-        :description => params[:description])
-      character_image.save
-
-      render :json => character_image
+    if image.nil? and  dataURL.nil?
+      render :text => "The uploaded type has unallowed content type 2", :status => 500
     else
-      render :text => "The uploaded type has unallowed content type", :status => 500
+      if dataURL.nil?
+      
+        content_type = image.content_type.chomp
+        if ['image/jpeg', 'image/png', 'image/gif'].include?(content_type)
+          character_image = CharacterImage.new(
+            :image => image,
+            :character_id => character_id,
+            :author => params[:author],
+            :description => params[:description])
+          character_image.set_type
+          character_image.save
+          character_image.save_image
+      
+          render :json => character_image
+        else
+          render :text => "The uploaded type has unallowed content type 1", :status => 500
+        end
+      else
+        image_data = Base64.decode64(dataURL['data:image/png;base64,'.length .. -1])
+    
+        character_image = CharacterImage.new(
+          :image => image_data,
+          :character_id => character_id,
+          :author => params[:author],
+          :description => params[:description])
+        character_image.set_png_type
+        character_image.save
+        character_image.save_image_data
+
+        render :json => character_image
+      end
+    end
+
+    #image list のcache更新
+    Thread.new do
+      update_image_cache
     end
   end
 

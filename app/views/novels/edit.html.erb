@@ -1,4 +1,4 @@
-<head>
+<div class="edit_head">
 <%= stylesheet_link_tag 'wColorPicker.1.2.min.css' %>
 <%= stylesheet_link_tag 'novel' %>
 <%= stylesheet_link_tag 'chapter' %>
@@ -10,18 +10,17 @@
 <%= stylesheet_link_tag 'textEditTool' %>
 <%= stylesheet_link_tag 'wPaint' %>
 
-<%= javascript_include_tag 'novelEdit' %>
+<%= javascript_include_tag 'novelEdit' , :defer=>"defer" %>
 
 <% content_for :html_title, @novel.title %>
 <% content_for :html_description, @novel.description %>
-</head>
+</div>
 
 <body>
 
-<img id="background_odd" class="background" src="/assets/0.png" />
-<img id="background_even" class="background" src="/assets/0.png" />
-
-<div class="novel_container" id="<%= @novel.id%>">
+<!---<img id="background_odd" class="ecomaki_background" src="/assets/0.png" />
+<img id="background_even" class="ecomaki_background" src="/assets/0.png" />
+-->
 
   <!-- tutorial button 
   <button id="tutorial_button" class="btn" title="チュートリアル">
@@ -33,51 +32,56 @@
     <div class="tool_wrapper">
 <!-- 公開ボタン -->
       <button id="publish_button" class="btn btn-primary" width="80px" title="公開 publish">
-        <p>PUBLISH</p>
+        <p>公開</p>
         <img src="/assets/novel/publish.png">
       </button>
 
       <!-- プレビューボタン -->
       <button id="preview_button" class="btn" title="Preview">
-        <p>PreView</p>
+        <p>プレビュー</p>
         <img src="/assets/novel/preview.png">
       </button>
 
       <div id="tool_tabs">
         <ul>
-          <li><a href="#paint_tab">ペイントツール</a></li>
-          <li><a href="#effecter_tab">アニメーション</a></li>
-          <li><a href="#help_tab">ヘルプ</a></li>
+          <li id="paint_tab_button"><a href="#paint_tab">ペイントツール</a></li>
+          <li id="effecter_tab_button"><a href="#effecter_tab">アニメーション</a></li>
+          <!-- <li id="help_tab_button"><a href="#help_tab">ヘルプ</a></li> -->
         </ul>
         <div id="paint_tab"></div>
         <div id="effecter_tab">
           <div class='effect_selecter'>選択されていません </div>
         </div>
-        <div id="help_tab">
-        </div>
+        <!-- <div id="help_tab"></div> -->
+        <button id="help_tab_button">Help</button>
       </div>
 
     </div>
-
   </div>
   
+  <!--
   <aside id="side_menu" >
-    <ul class = "well sidebar-nav" id = "chapterList">
-    </ul>
+    <ul class = "well sidebar-nav" id = "chapterList"></ul>
   </aside>
-  
+  -->
+
+<div class="novel_container" id="<%= @novel.id%>">
 
   <!-- Main content container  -->
   <div id="content" >
   </div>
   
+  <!--
   <div id="console">
     <h3>console:<textarea id="command_line" class="span12" rows="1" ></textarea></h3>
   </div>
+  -->
 </div>
 
 <%= render :partial => "novels/edit_template" %> 
 <%= render :partial => "novels/tool_template" %> 
-<%= render :partial => "novels/tutorial" %> 
+<!-- <%= render :partial => "novels/tutorial" %> -->
+
+  <span id="output_html" style="display:none"></textarea>
 
 </body>

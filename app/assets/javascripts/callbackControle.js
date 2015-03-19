@@ -33,12 +33,12 @@ CallbackChane = function(){
 CallbackChane.prototype = {
   next: function(){
     var self = this;
-    var args = arguments;
-    return function() { 
+    //var args = arguments;
+    return function( args ) { 
       if(self.tasks[self.pos]){
-        self.pos++;
-        self.tasks[self.pos - 1](arguments);
         console.log( self.pos , self.tasks[self.pos]  )
+        self.tasks[self.pos ](args);
+        self.pos++;
       }
     }
   },

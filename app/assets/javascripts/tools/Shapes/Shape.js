@@ -16,6 +16,9 @@ Config.Shapes["Shape"] = {
 
 			$this.canvasTempLeftOriginal = e.pageX;
 			$this.canvasTempTopOriginal = e.pageY;
+
+      // for eraser mode calcel 
+			$this.ctx.globalCompositeOperation = 'source-over';
 			
 			var func = $this['draw' + $this.settings.mode + 'Down'];
 			

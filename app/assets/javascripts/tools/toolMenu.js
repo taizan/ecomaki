@@ -1,10 +1,6 @@
 $(function(){
-  toolMenu = new ToolMenu();
-  toolMenu.init();
-});
 
-
-function ToolMenu(){}
+function ToolMenu(){};
 
 
 ToolMenu.prototype = {
@@ -17,4 +13,10 @@ ToolMenu.prototype = {
 
   }
 
-}
+};
+
+  toolMenu = new ToolMenu();
+  toolMenu.init();
+
+});
+

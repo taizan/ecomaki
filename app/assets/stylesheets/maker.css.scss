@@ -1,14 +1,46 @@
+//=require ./novel
+//=require ./chapter
+//=require ./entry
+//=require ./entryItem
+
 .maker_entry {
-  width: 100%;
+  position: relative;
+  //width: 100%;
   height: 80px;
-  overflow: hidden;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .maker_text {
-  height: 70px;
+  height: 20px;
+  //height: auto;
+}
+
+.maker_balloon {
+  positon: static;
+  height: 60px;
+  width: 100px;
+  float:left;
 }
 
 .maker_character {
+  positon: static;
+  height: 80px;
+  width: 80px;
+  overflow: hidden;
+  float:left;
+  //dis
+}
+
+img .maker_character{
+  position: absolute;
+  top:0;
   height: auto;
   width: 80px;
 }
+
+#preview_button , #publish_button{
+  position:relative;
+  z-index: 9999;
+}
+

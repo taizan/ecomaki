@@ -1,10 +1,13 @@
-
+<div class="edit_template">
 
 <script type="text/template" id="novel_template">
+
+  <img id="background_odd" class="ecomaki_background" src="/assets/0.png" />
+  <img id="background_even" class="ecomaki_background" src="/assets/0.png" />
   <div id="novel_header">
-    <div id="title"  contenteditable = "true"  title="題名"></div>
-    <div id="description" contenteditable = "true" title="説明"></div>
-    <div id="author_name" contenteditable = "true"  title="作者" ></div>
+    <div id="title"  title="題名"></div>
+    <div id="description"  title="説明"></div>
+    <div id="author_name"  title="作者" ></div>
   </div>
   <!-- 
   <div class="buttons novel_buttons editer_item">
@@ -37,11 +40,11 @@
   </div>
 
   <div class="chapter_header">
-    <div class="title" contenteditable = "true" title="章の題名。省略可能"></div>
-    <div class="description" contenteditable = "true" title="章の説明。省略可能"></div>
+    <div class="title" title="章の題名。省略可能"></div>
+    <div class="description" title="章の説明。省略可能"></div>
   </div>
 
-  <div class="new_entry_handle editer_item" >新規コマ追加</div> 
+  <div class="first_new_entry_handle new_entry_handle editer_item" >新規コマ追加</div> 
   <br>
   <div class="entryList"></div>
   <br>
@@ -88,10 +91,13 @@
       <li><button class="btn btn_character" title="キャラクター画像の追加">
         <img src="/assets/novel/add_character.png">
       </button></li>
-      <li><button class="btn btn_layer" title="キャンバスを一番上/一番下のレイヤーに">
+      <li><button class="btn btn_layer" title="ペンで描画する">
         <img src="/assets/novel/pencil.png">
       </button></li>
-      <li><button class="btn btn_entry" title="コマの複製"><i class="icon-arrow-down" /></button></li>
+      <li><button class="btn btn_background" title="背景を設定">
+        <i class="icon-picture" />
+      </button></li>
+      <li><button class="btn btn_entry" title="コマの複製"><i class="icon-file" /></button></li>
     </div>
     <div class="itemEffectSelecters"></div>
   </div>
@@ -106,3 +112,5 @@
   <img class="--picture-img "  > </img>
 </script>
 
+
+</div>

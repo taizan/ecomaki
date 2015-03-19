@@ -7,33 +7,39 @@ body{
 }
 
 .novel_container {
-    margin-left: auto;
-    margin-right: auto;
-    
-    text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 480px;
+  text-align: center;
+  position: relative;
+  //border: 1px solid black;
 }
 
+.novel{
+  background: white; 
+}
 
-.background {
+.ecomaki_background {
   /* Set rules to fill background */
-  min-height: 50%;
+  //min-height: 50%;
   //min-width: 1024px;
   
   /* Set up proportionate scaling */
-  width: 100%;
-  height: auto;
+  //width: 100%;
+  //height: auto;
   /* Set up positioning */
   position: fixed;
   /* またはabsolute; */
   //bottom: 0;
   //padding-top: 50%;
   //margin-top: -400px; 
-  top: 0;
-  left: 0;
-  z-index: -1;
+  //top: 0;
+  //left: 0;
+  //z-index: -1;
+  z-index: 0;
 }
 
-#content{
+#ecomaki_content{
   margin-left: auto;
   margin-right: auto;
   //position: absolute;
@@ -41,42 +47,39 @@ body{
 }
 
 #novel_header {
-  margin-top: 30px;
+  //margin-top: 30px;
+  position:relative;
   margin-bottom: 30px;
-  background: rgba(245,245,245,0.75);
+  background: rgba(20,20,40,0.85);
 }
 
 #title {
-    font-size: 32px; 
-    line-height: 1.5em;
-    position: relative;
+  color: #fff;
+  font-size: 32px; 
+  line-height: 2em;
+  position: relative;
+  background: rgba(10,10,10,0.85);
 }
 
 #description {
-    font-size: 12px;
-    line-height: 1.5em;
-    position: relative;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5em;
+  position: relative;
 }
 
-#author {
-    font-size: 24px; 
-    line-height: 1.5em;
-    position: relative;
-}
-
-#author .text_help {
-    font-size: 16px; 
-    line-height: 1.5em;
-    font-color: #444;
-    margin: 1px;
+#author_name {
+  color: #fff;
+  font-size: 24px; 
+  line-height: 2em;
+  position: relative;
+  margin-right: 40px;
+  text-align: right;
 }
 
 #entrylist {
 	   position: relative;
 }
-
-
-
 
 #sideMenu {
     position: fixed;
@@ -86,7 +89,6 @@ body{
     //height: 500px;
     z-index: 5;
 }
-
 
 //Side Button
 

@@ -1,15 +1,42 @@
 #tool_box{
   position:fixed;
-  left:0;
+  //left:0;
   top:0px;
   //top:40px;
   //bottom: 0px;
-  width:800px;
+  width:640px;
   z-index: 99999;
+  background: black;
 }
 
 
 // for top menu button
+
+#help_tab_button {
+  position:absolute;
+  top:3px;
+  right:15px;
+}
+
+#help_pane {
+  position: fixed;
+  top:0px;
+  right:0px;
+  max-width: 400px;
+  width: 80%;
+  height: 100%;
+  //overflow: scroll;
+  z-index: 999999;
+  padding: 10px;
+}
+
+#help_pane .help_content {
+  position: relative;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  clear:both;
+}
 
 #tutorial_button 
 , #publish_button 
@@ -31,13 +58,13 @@
 }
 
 #publish_button {
-  left: 0px;
-  width: 120px;
+  left: 1px;
+  width: 100px;
 }
 
 #preview_button{
-  left: 120px;
-  width: 90px;
+  left: 101px;
+  width: 120px;
 }
 
 #preview_button img,
@@ -53,7 +80,7 @@
   position: rerative;
   padding:1px; 
   height:76px;
-  left:210px;
+  left:220px;
   //top: 40px;
 	//background: url('/assets/paint/tool_tabs/base/dark_gray.png')  ;
 	background: #fff;
@@ -75,7 +102,7 @@
 
 
 #tool_tabs .selecter_item{
-  width: 110px;
+  width: 95px;
   float: left;
   margin: 2px;
   //clear: left;
@@ -99,7 +126,7 @@
 }
 
 #tool_tabs .ui-tabs-nav li.ui-tabs-selected a{
-	background-color: #00FF00;
+	background-color: #FFFFFF;
 	border: none;
 	padding: none;
 }

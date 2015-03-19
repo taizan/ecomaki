@@ -1,21 +1,16 @@
 <head>
-<%= stylesheet_link_tag 'show' %>
-<%= stylesheet_link_tag 'novel' %>
-<%= stylesheet_link_tag 'chapter' %>
-<%= stylesheet_link_tag 'entry' %>
-<%= stylesheet_link_tag 'entryItem' %>
 
-<%= javascript_include_tag 'novelShow' %>
+<meta name="viewport" content="width=device-width,initial-scale=0.8,minimum-scale=0.5,maximum-scale=2.0">
+<%= stylesheet_link_tag 'show' %>
+<%= javascript_include_tag 'novelShow' , :defer=>"defer" %>
 
 <% content_for :html_title, @novel.title %>
 <% content_for :html_description, @novel.description %>
+
 </head>
 
-<img id="background_odd" class="background" src="/assets/0.png" />
-<img id="background_even" class="background" src="/assets/0.png" />
- 
   
-<div class="share_buttons">
+<div class="share_buttons" width="480px">
 
   <!-- facebook tag -->
   <div class="fb-like" data-send="true" data-width="300" data-show-faces="false"></div>
@@ -38,15 +33,15 @@
 
 </div>
 
-<ul class="side_buttons">
-  <li>
-    <form action="/novels/<%= @novel.id%>/dup" method="post">
-      <input class="img_over" type="image" src="/assets/top/edit_button_off.png" value='submit' id="spine_off"  title="コピーしてスピンオフを作る。; Make Spin off">
-      </input>
-    </form>
-  </li>
-</ul>
-
+<!--
+<div class="side_buttons">
+  <form action="/novels/<%= @novel.id%>/dup" method="post">
+    <input class="img_over" type="image" src="/assets/top/edit_button_off.png" value='submit' id="spine_off"  title="ピンオフを作る">
+    </input>
+  </form>
+  <a href="/maker/<%= @novel.id%>"  title="セリフを変える"><img  class="img_over" src="/assets/top/maker_button_off.png"></a>
+</div>
+-->
   <br>
 
 <div class="share_buttons">
@@ -62,19 +57,21 @@
   <div class="g-plusone" data-size="tall" data-annotation="inline" data-width="300"></div>
 
 </div>
-  
   <div class="under_edit"> 
-    <form action="/novels/<%= @novel.id%>/dup" method="post">
+    <form action="/novels/<%= @novel.id%>/dup" method="post" style="display:inline">
       <button class="under_edit_button" type="submit"  >
         <img class="img_over" src="/assets/top/edit_button_off.png">
-        スピンオフを作る!  
+        スピンオフを作成  
       </button>
-      <a href="https://twitter.com/ecomaki_com" class="twitter-follow-button" data-show-count="false" data-lang="ja" data-size="large">@ecomaki_comさんをフォロー</a>
     </form>
+    <button class="under_edit_button"  onclick="location.href='/maker/<%= @novel.id%>'"  >
+      <img class="img_over" src="/assets/top/maker_button_off.png">
+        セリフの改変  
+    </button>
+    <a href="https://twitter.com/ecomaki_com" class="twitter-follow-button" data-show-count="false" data-lang="ja" data-size="large">@ecomaki_comさんをフォロー</a>
   </div>
-
 
 <%= render :partial => "novels/show_template" %> 
 <%= render :partial => "novels/social" %> 
 
-  <div id="fb-root"></div>
+ <div id="fb-root"></div>

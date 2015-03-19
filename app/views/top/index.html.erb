@@ -4,23 +4,26 @@
 <%= stylesheet_link_tag 'entry' %>
 <%= stylesheet_link_tag 'entryItem' %>
 
-<%= javascript_include_tag 'index' %>
+<%= javascript_include_tag 'index' , :defer=>"defer" %>
 
 <% content_for :html_description, "web + マンガ ＋ アニメーション = 新しい創作のカタチ キャラクター,背景,BGMなどの要素をwebで共有。作品作りを手軽に" %>
 
 <div id="top_menu">
 
-
-  <div id="top_pane" >
+  <!--<%= t('edit.test') %>-->
+  
+  <!--<div id="top_pane" >-->
+  <center>
+  <div id="top_hedder">
     <img id="side_logo" src="/assets/top/top_hanko_catch.png"> 
     <img id="logo" src="/assets/top/simple_logo.png"> 
-    <div id="create_button" title="新規作成！！"></div>
-     
-  </div>
-  <div id="top_hedder">
-  <h1>webマンガの創作、共有、発表の場</h1>
-  <h2>アップされたコンテンツを使って手軽に創作! </h2>
-  <h2>公開された作品からスピンオフを作って共有!</h2>
+    <!--<div id="create_button" title="新規作成！！"></div> -->
+  <!-- </div> -->
+  <h3>web漫画を簡単に作ろう!</h3>
+  <button id="start_button"> <img src=/assets/favicon.ico> 作品を作る! </button>
+  <br/>
+  <br/>
+  <a href="/tutorial/new_index" style="font-size:24px">初めての方へ</a>
   </div>
 
   <div id="featured_pane">
@@ -30,8 +33,9 @@
   </div>
 
 
+  </center>
   <div class=" novel_list">
-    <h1>New Content List</h1>
+    <h1>新着作品</h1>
     <script> entries = <%=raw @entries %> </script>
     <% i = 0 %>
     <% @novels.each do |novel| %>
@@ -39,13 +43,12 @@
         <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
           <div class="novel_list_item novel_list_item_<%= i %>" >
             <h2 class="novel_list_title">
-              <%=raw "#{novel.title}" %>
+              <%= truncate( novel.title, length: 14 ) %>
             </h2>
             <p class="nove_list_description"> 
-              <%=raw "#{novel.description}" %>
+              <%= truncate( novel.description, length:30 ) %>
             </p>
             <div class="entry_preview"></div>
-            <h2> >> 続きを読む！ </h2>
           </div>
           <% i = i +1 %>
         <% end %>

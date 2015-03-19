@@ -3,9 +3,15 @@ Ecomaki::Application.routes.draw do
   match 'all' => 'top#all'
   match 'about' => 'top#about'
 
+  match 'update' => 'top#update_all_caches'
+
+  match 'tweet' => 'tweet#async_post'
+  match 'tweet/info' => 'tweet#info'
+
   # Tutorial
   match 'tutorial' => 'tutorial#index'
   match 'tutorial/index' => 'tutorial#index'
+  match 'tutorial/new_index' => 'tutorial#new_index'
   match 'tutorial/node1' => 'tutorial#node1'
   match 'tutorial/node2' => 'tutorial#node2'
   match 'tutorial/node3' => 'tutorial#node3'
@@ -39,6 +45,11 @@ Ecomaki::Application.routes.draw do
   match 'edit/:novel_id/:password/chapters/:chapter_id/entries/:id' => 'entries#update', :via => :put
   match 'edit/:novel_id/:password/chapters/:chapter_id/entries/:id' => 'entries#destroy', :via => :delete
 
+  match 'entries/:id/canvas' => 'entries#show_canvas', :via => :get
+  match 'edit/:novel_id/:password/chapters/:chapter_id/entries/:id/update_canvas' => 'entries#update_canvas', :via => :put
+  #match 'entries/:id/canvas' => 'entries#canvas_path', :via => :get
+  #match 'entries/:id' => 'entries#show', :via => :get
+
   # Chapters
   match 'novels/:novel_id/chapters' => 'chapters#index', :via => :get
   match 'novels/:novel_id/chapters/:id' => 'chapters#show', :via => :get
@@ -50,10 +61,13 @@ Ecomaki::Application.routes.draw do
   # Novels
   # Clone mode
   match 'novels/:id/dup' => 'novels#novel_dup', :via => :post
+  match 'caches/:id' => 'novels#get_cache', :via => :get 
+  match 'caches/:id' => 'novels#up_cache', :via => :post
 
   match 'novels' => 'novels#index', :via => :get
   match 'novel/:id' => 'novels#show', :via => :get # Old
   match 'novels/:id' => 'novels#show', :via => :get
+  match 'novels/nolayout/:id' => 'novels#nolayout', :via => :get
   match 'novel' => 'novels#create', :via => :post # Old
   match 'novels' => 'novels#create', :via => :post 
   match 'edit/:id/:password' => 'novels#edit', :via => :get
@@ -62,6 +76,7 @@ Ecomaki::Application.routes.draw do
 
   # Characters
   match 'characters' => 'characters#index', :via => :get
+  match 'characters/touch/:id' => 'characters#touch', :via => :get
   match 'characters/images' => 'character_images#index', :via => :get
   match 'characters/images' => 'character_images#create', :via => :post
   match 'characters/:id' => 'characters#show', :via => :get
@@ -70,6 +85,7 @@ Ecomaki::Application.routes.draw do
   match 'characters/:character_id/images' => 'character_images#create', :via => :post
   match 'characters/:character_id/images/:id' => 'character_images#show_image', :via => :get
   match 'characters/images/:id' => 'character_images#show_image', :via => :get
+
 
   # Musics
   match 'background_musics' => 'background_musics#index', :via => :get
@@ -98,4 +114,15 @@ Ecomaki::Application.routes.draw do
 
   # Layout Data
   match 'layouts' => 'layouts#index', :via => :get
+
+  # extern
+  get "extern/show_temp"
+
+  #u capture img
+  match 'captured_image/index' => 'captured_image#index'
+  match 'captured_image/show' => 'captured_image#show'
+  match 'captured_image/update/:id' => 'captured_image#update'
+  match 'captured_image/create/:id' => 'captured_image#create'
+
+  match 'img' => 'assets/img'
 end

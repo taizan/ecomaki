@@ -1,0 +1,18 @@
+<head>
+
+<%= stylesheet_link_tag 'show' %>
+<%= javascript_include_tag 'novelShow' , :defer=>"defer" %>
+
+<% content_for :html_title, @novel.title %>
+<% content_for :html_description, @novel.description %>
+
+</head>
+
+<div class="novel_container" id="<%= @novel.id%>">
+  <div id="content" style="font-size:80%;"> </div>
+</div>
+
+<%= render :partial => "novels/show_template" %> 
+<%= render :partial => "novels/social" %> 
+
+ <div id="fb-root"></div>

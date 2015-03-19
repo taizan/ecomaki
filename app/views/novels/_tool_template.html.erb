@@ -1,20 +1,5 @@
+<div class="tool_template">
 
-
-<script type="text/template" id="tool_tab_template">
-  <div id="tool_tabs">
-    <ul>
-      <li><a href="#paint_tab">ペイントツール</a></li>
-      <li><a href="#effecter_tab">アニメーション</a></li>
-      <li><a href="#help_tab">ヘルプ</a></li>
-    </ul>
-    <div id="paint_tab">
-    </div>
-    <div id="effecter_tab">
-    </div>
-    <div id="help_tab">
-    </div>
-  </div>
-</script>
 
 <script type="text/template" id="form_template">
   <table>
@@ -74,56 +59,99 @@
   <form class="upload_form form-horizontal"  method="post" enctype="multipart/form-data">
     
     <div class="control-group">
-      <label class="control-label" for="inputName"> Name(必須):</label>
+      <label id="form_label_name"  class="control-label" for="inputName"> 名称(必須):</label>
       <div class="controls">
-        <input type="text" id="input_name" placeholder="name" name="name">
+        <input type="text" id="input_name" placeholder="名称" name="name">
       </div>
     
-      <label class="control-label" for="inputDescription">Description:</label>
+      <label class="control-label" for="inputDescription">説明:</label>
       <div class="controls">
-        <input type="text" id="input_description" placeholder="description" name="description">
+        <input type="text" id="input_description" placeholder="簡単な説明文" name="description">
       </div>
     
-      <label class="control-label" for="inputFile">file(max 256KB):</label>
+      <label class="control-label" for="inputFile">File(max 256KB):</label>
       <div class="controls">
         <input id="input_file" type="file" name="image" >
       </div>
 
-      <label class="control-label" for="inputAuther">Auther:</label>
+      <label class="control-label" for="inputAuther">作者:</label>
       <div class="controls">
-        <input type="text" id="input_author" placeholder="author" name="author">
+        <input type="text" id="input_author" placeholder="作者" name="author">
       </div>
 
-
       <div class="controls">
-        <input type="checkbox" title="ただの飾りです。"> I'm agree 
         <button type="submit" class="submit_button btn btn-primary">ok</button>
         <button type="button"  class="cancel_button btn ">cancel</button>
       </div>
-    
+
   </form>
 </script>
 
+
+
+
 <script type="text/template" id="character_picker_template">
   <aside class = "well sidebar-navpicker picker picker_elem " id="character_picker" >
+    
+      <button class="btn picker_cancel_button btn-danger" title="閉じる" style="float:right">
+          閉じる 
+      </button>
+    <h3>URLで画像指定</h3>
+      <input class="url_input" placeholder="http://画像URL" type="url" >
+      <input class="url_button"  type="button" value="選択" >
+      <br>
+      <img class="url_img" >
+      <hr>
 
+    <h3>データベースから選択</h3>
     <ul class = "picker_list nav nav-list picker_elem">
-      <li class="nav-header picker_elem">
-        <button id="add_character_button" class="btn picker_elem" title="キャラクターの追加; New Character"><img src='/assets/novel/add_character_big.png'></buttton>
-        <button class="btn picker_cancel_button" title="閉じる; close picker"><img src="/assets/novel/arrow_left.png" ></button>
+            <li class="nav-header picker_elem">
+        <button id="add_character_button" 
+            class="btn picker_elem" 
+            title="キャラクターの追加">
+          <img src='/assets/novel/add_character_big.png'>
+          新しいキャラ
+        </buttton>
       </li>
     </ul>
 
   </aside>
 </script>
 
+<script type="text/template" id="help_template">
+  <aside class = "well sidebar-navpicker " id="help_pane" >
+
+    <button class="btn help_cancel_button btn-danger" title="閉じる" style="float:right">
+      閉じる 
+    </button>
+    <br/>
+    <div class="help_content"></div>
+    <br/>
+    <br/>
+    <br/>
+  </aside>
+</script>
+
+
+
 <script type="text/template" id="background_picker_template">
   <aside class = "well sidebar-nav picker picker_elem" id="background_picker" >
 
+    <button class="btn picker_cancel_button btn-danger" title="閉じる" style="float:right">
+          閉じる 
+    </button>
+    <h3>URLで画像指定</h3>
+    <input class="url_input" placeholder="http://画像URL" type="url" >
+    <input class="url_button"  type="button" value="選択" >
+    <br>
+    <img class="url_img" >
+
+    <hr>
+
+    <h3>データベースから選択</h3>
     <ul class = "picker_list picker_elem nav nav-list">
       <li class="nav-header picker_elem">
         <button id="add_background_button" class="btn picker_elem" title="`背景の追加; New Background"><img src='/assets/novel/add.png'></buttton>
-        <button class="btn picker_cancel_button" title="閉じる; close picker"><img src="/assets/novel/arrow_left.png" ></button>
       </li>
     </ul>
 
@@ -212,7 +240,9 @@
       <p class="list_header_description">description </p>
     </div>
     <div class='floatEnd'></div>
-    <button class="btn add_character_image_button add_character_image" title="新規画像の追加; Upload New Image" ><img class="add_character_image" src="/assets/novel/add.png"></button>
+    <button class="btn add_character_image_button add_character_image" title="新規画像の追加" >
+      <img class="add_character_image" src="/assets/novel/add.png">
+    </button>
     <div class='floatEnd'></div>
     <div class="image_list" style="display:none">
     </div>
@@ -452,8 +482,14 @@
         <option value="red" style="background-color:red" >/assets/text/color_red.png</option>
       </select>
     </div>
-    
+
+    <div name="vhButton" class="selecter_item  vhButton" id="vhButton" title="縦書き/横書き">
+			縦書き<input type='checkbox' />
+    </div>
+
+    <button class="selecter_item btn btn-inverse OkButton">OK</button>    
     <div class="floatEnd"></div>
   </div>
 </script>
 
+</div>

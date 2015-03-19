@@ -1,9 +1,16 @@
 class CharactersController < ApplicationController
   def index
-    characters = Character.all
+    characters = Character.all(:order => 'updated_at DESC')
     respond_to do |format|
       format.xml { render :xml => characters }
+      format.json { render :json => characters }
     end
+  end
+
+  def touch
+    character = Character.find(params[:id])
+    character.touch
+    render :json => character
   end
 
   def create
@@ -24,13 +31,21 @@ class CharactersController < ApplicationController
           :character_id => character.id,
           :author => params[:author],
           :description => params[:description])
+        character_image.set_type
         character_image.save
+        character_image.save_image
       end
     end
 
     respond_to do |format|
       format.xml { render :xml => character }
     end
+
+    #image list のcache更新
+    Thread.new do
+      update_image_cache
+    end
+
   end
 
   def show

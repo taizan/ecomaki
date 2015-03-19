@@ -4,19 +4,14 @@ var selectTemplate = (function(){
 
 	PageTemplate["empty"] = {
 		"set": function(novel,callback){
-			novel.chapters.create_after({},-1);
+			novel.chapters.create({});
       if(callback) callback();
 		},
 
-		"button": $('<label class="tempalte" id="empty">Free<br/>Style</label>')
+		"button": $('<label class="template_button" id="empty">Free<br/>Style</label>')
 			.css({
-				'position': 'absolute',
 				'left': $(window).width()/2-180,
 				'top': $(window).height()/2-60,
-				'width': '120px',
-				'height': '120px',
-				'font-size': '20pt',
-				'background': '#FFFFFF'
 			})
 			.button()
 	};
@@ -28,24 +23,19 @@ var selectTemplate = (function(){
 				//console.log(chapterView);
 				for(var i = 0; i < 4; i++){
 					//接続が重いといくつかはリロードした時に消えるかも
-				  	chapter.create_entry({"width": 320 ,"height": 240});
+				  	chapter.entries.create_entry_from_template(i);
 				}
         if(callback) callback();
 			};
 			//novel.chapters.create_after({},-1, {'wait':true,'success': makeEntry});
-			var newChapter = novel.chapters.create_after({},-1, {'success': makeEntry});
+			var newChapter = novel.chapters.create({}, {'success': makeEntry});
       novel.initFlag = true;
 		},
 
-		"button": $('<label class="template" id="empty">4コマ</label>')
+		"button": $('<label class="template_button" id="empty">4コマ</label>')
 			.css({
-				'position': 'absolute',
 				'left': $(window).width()/2+30,
 				'top': $(window).height()/2-60,
-				'width': '120px',
-				'height': '120px',
-				'font-size': '20pt',
-				'background': '#FFFFFF'
 			})
 			.button()
 	};

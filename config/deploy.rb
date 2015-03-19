@@ -2,6 +2,7 @@ require 'bundler/capistrano'
 
 set :stages, %w(production staging)
 set :default_stage, "staging"
+set :rails_env, :production
 require 'capistrano/ext/multistage'
 
 set :application, "ecomaki"
@@ -57,3 +58,16 @@ namespace :deploy do
     run "cd #{current_path}; rake db:fixtures:load RAILS_ENV=#{rails_env}"
   end
 end
+
+
+after "deploy:update_code", 'deploy:up_api_key'
+namespace :deploy do
+  desc "up api key"
+  task :up_api_key, :roles => :app do
+     run "cp #{deploy_to}/shared/config/initializers/init_twitter_api.rb #{release_path}/config/initializers/init_twitter_api.rb"
+  end
+
+end
+
+
+after "deploy", "deploy:migrate"

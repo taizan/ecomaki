@@ -1,5 +1,6 @@
 //= require underscore
 //= require backbone
+
 //= require ./models
 //= require ./views/ecomakiView
 //= require ./views/entryItems
@@ -9,35 +10,52 @@
 //= require ./views/musicPlayer
 //= require ./tools/textEditTool
 //= require ./tools/effecter
-
+//= require ./callbackControle
 
 
 $(function(d,s,id) {
   
   var id = $('.novel_container').attr('id');
-  
-  var isEditable = false; 
-    
+  var root = $('.novel_container').attr('root');
+
+  var chain = new CallbackChane();
+
+
+
+  if(root){
+    chain.push( function(){ $.ajax({
+        type: 'GET',
+        url: root+"/extern/show_temp",
+        datatype: 'html',
+        success: function(data){ 
+            console.log(data);
+            $(data).appendTo('body'); 
+            (chain.next())();
+          }
+      }); 
+    });
+  }
   //var urls = location.href.split('/');
 
-  _novel = new Novel({id: id,password: null});
-  _novel.fetch({
-    success: function(){
-      if(_novel.get('status') == "publish"){
-        _novelView = new NovelView({model: _novel , isEditable: isEditable , isPreView: false});
-        _novelView.appendTo($('#content'));
-       }
-       else{
-        alert('公開されていません。');
-        _novel = null;
-       }
-    }
+  chain.push(function(){
+    _novel = new Novel({id: id,password: null ,root: root});
+    _novel.fetch({success: chain.next()});
   });
 
+  chain.push( function(){
+      if(_novel.get('status') == "publish"){
+        _novelView = new NovelView({model: _novel , isEditable: false , isPreView: false });
+        _novelView.appendTo($('#content'));
+      } else{
+        alert('公開されていません。');
+        _novel = null;
+      }
+  });
+
+  var nx = chain.next();
+  nx();
 
   $(document).tooltip();
   
-  //$('#social_template').appendTo('body');
-
 });
 

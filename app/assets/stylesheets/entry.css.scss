@@ -14,6 +14,7 @@
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  //margin-top: 30px;
   margin-bottom: 60px;
 }
 
@@ -21,22 +22,22 @@
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .entry_content {
   background: url("/assets/entry/entry_background.png"); 
-  position: absolute;
-  left: 0px;
-  top: 0px;
-//  width: 800px;
-//  height: 300px;
+  position: relative;
   border: 1px gray ridge;
-  overflow: hidden;
+  //overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size:cover;
 }
 
 .character_wrapper {
   position: absolute;
+  overflow: hidden;
   left: 0px;
   top: 0px;
   width: 100%;

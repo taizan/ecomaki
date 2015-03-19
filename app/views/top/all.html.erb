@@ -13,15 +13,16 @@
 
 
   <div class=" novel_list">
-    <h1>All Content List</h1>
+    <h1>投稿された作品</h1>
     <% @novels.each do |novel| %>
       <% if novel.status == 'publish' then %> 
-        <%= link_to( {:controller => :novels, :action => :show, :id => novel.id } ) do %>
+        <%= link_to( {:controller => :novels, :action => :show, :id => novel.id },{:class => "novel_list_item"} ) do %>
+
             <h2 class="novel_list_title">
-              <%= "#{novel.title}" %>
+              <%= truncate( novel.title, length: 14 ) %>
             </h2>
             <p class="nove_list_description"> 
-              <%= "#{novel.description}" %>
+              <%= truncate( novel.description, length:30 ) %>
             </p>
             
         <% end %>

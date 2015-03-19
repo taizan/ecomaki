@@ -1,5 +1,85 @@
 //position obj is there some nomal one?
 
+//=require jquery.ui.rotatable
+
+_BalloonView = Backbone.View.extend ({
+
+  //className : "balloon",
+
+  initialize: function(args){
+    this.parentView = args.parentView;
+    this.isEditable = args.isEditable;
+    this.content = this.parentView.content;
+  
+    _.bindAll(this,
+      "render",
+      "onEdit",
+      "appendTo",
+          //"onClick",
+      //"onSelect",
+      //"onResize",
+      //"onDragStart",
+      //"onDragStop",
+      //"onRender",
+      "onDisplay",
+      "onPreDisplay"
+      //"onDefaultItemClick"
+      //"destroyView"
+      );
+  },
+  
+  onEdit: function(data){
+    //console.log(data);
+    //console.log(this.model);
+    this.model.set(data);
+    this.model.save();
+    //console.log(this.model.isDefaultItem);
+    //this.model.save();
+  },
+  
+  render: function(){
+    //$(this.el).editable("render",{data:this.model.attributes , isEditable:this.isEditable})
+    $(this.el).editable("render",{data:this.model.attributes , isEditable:this.isEditable})
+    
+  },
+  
+  appendTo: function(target){
+      var self = this;
+      if( this.model.isDefaultItem ) return;
+      $(this.el).appendTo(target);
+    
+      $(this.el).editable({
+        onEdit: this.onEdit,
+        onRemove:  function(){ self.model.destroy(); },
+        data:this.model,
+        className:"balloon"
+      });
+
+      //initialize effecter object
+      this.effecter = new Effecter(this.el,this.model,'option', "balloon"+ this.model.get('id') );
+      console.log(this.effecter);
+      this.model.bind('change:option', this.effecter.resetEffect );
+
+      this.onAppend();
+      this.render();
+    },
+  
+  onDisplay: function(){
+      console.log(this);
+      this.effecter.runSelectedEffect();
+    },
+
+  onPreDisplay: function(){
+    this.effecter.resetEffect(); 
+  },
+  
+  onSelect: function(){
+      this.effecter.changeSelecter();
+  },
+  
+  onAppend: function(){},
+});
+
 
 EntryItemView = Backbone.View.extend ({
 
@@ -15,12 +95,16 @@ EntryItemView = Backbone.View.extend ({
         "onClick",
         "onSelect",
         "onResize",
+        "onResizeBase",
+        "onRotate",
         "onDragStart",
         "onDragStop",
+        "onDrag",
         "onRender",
 				"onDisplay",
 				"onPreDisplay",
 				"onDefaultItemClick",
+        "isIn",
         "destroyView"
       );
    
@@ -40,8 +124,12 @@ EntryItemView = Backbone.View.extend ({
     //this.el = this.tmpl;
     var z = this.model.get('z_index') != null ? this.model.get('z_index') : 0;  
 
+    var rotation = this.model.get('rotation');
+    rotation = (rotation == null)? 0 : rotation;
+    $(this.el).rotate( rotation );
+    
     $(this.el)
-      .css({position: 'absolute', top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
+      .css({ top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
       .width(this.model.get('width')).height(this.model.get('height'));
      
   },
@@ -50,12 +138,8 @@ EntryItemView = Backbone.View.extend ({
     //console.log('render');
     //console.log(this);
     
-    var z = ( this.model.get('z_index') != null ) ? this.model.get('z_index') : 0;  
-
-    $(this.el)
-      .css({position: 'absolute', top: this.model.get('top'), left: this.model.get('left'), zIndex: z })
-      .width(this.model.get('width')).height(this.model.get('height'));
-   
+    this.defaultInitialize();
+    
     this.onRender();
   },
  
@@ -72,13 +156,28 @@ EntryItemView = Backbone.View.extend ({
     //initialize draggable 
     //resizable is initialized at each item onAppend
     if(this.isEditable){ 
+
+      var angle = this.model.get('rotation');
+      if( !angle ) angle = 0;
+      $(this.el).rotatable({
+          angle:angle/180*Math.PI,
+          stop: this.onRotate,
+          handle: $('<i class="icon_rotate icon-repeat item_button" title="ドラッグして回転"/>')
+          //rotateIconClass:  "icon-repeat item_button",
+      });
       $(this.el)
         .click(this.onClick)
-        .draggable({ start: this.onDragStart, stop: this.onDragStopc });
+        .draggable({
+          drag: self.onDrag,
+          start: self.onDragStart,
+          stop: self.onDragStop
+      });        
+        //start: this.onDragStart, stop: this.onDragStop });
     }
 
     this.onAppend();
 
+    // default item func
     if(this.model.isDefaultItem){
       var defaultItemClick = function(){
           self.parentView.model.isNewEntry = false;
@@ -93,13 +192,15 @@ EntryItemView = Backbone.View.extend ({
       $(this.el).addClass('default_item');
     }
 
-    // do post appedn method
+
+    // do post append method
 
     if(this.isEditable){ 
       $(this.el).mousedown(this.onSelect);
       this.setRemoveButton();
-      this.initButton();
       $('.ui-resizable-handle',this.el).attr({title:"ドラッグしてリサイズ"});
+      //console.log(this.$el);
+      this.initButton();
     }
 
     this.render();
@@ -113,8 +214,21 @@ EntryItemView = Backbone.View.extend ({
   },
 
 
-  onResize: function(){
+  onRotate: function( ){
+    var data = {
+      'rotation' : $(this.el).rotate()
+    }
+    if(this.model.isDefaultItem){
+      this.model.set(data);
+    }else{
+      this.model.save(data);
+    }
+    console.log(this.model);
+  },
 
+  onResize: function(){},
+
+  onResizeBase: function(){
       var data = {
           'width' : $(this.el).width() ,
           'height': $(this.el).height() ,
@@ -126,38 +240,119 @@ EntryItemView = Backbone.View.extend ({
       this.model.set(data);
     }else{
       this.model.save(data);
-      //this.effecter.changeSelecter();
-      //this.onSelect();
     }
+
+    this.onResize();
   },
 
-  onDragStart: function(){
-
+  onDragStart: function ( event, ui ) {
+    //resize bug fix ui drag
+    var left = parseInt( $( this.el ).css( 'left' ), 10 );
+    left = isNaN( left ) ? 0 : left;
+    var top = parseInt( $( this.el ).css( 'top' ), 10 );
+    top = isNaN( top ) ? 0 : top;
+    __recoupLeft = left - ui.position.left;
+    __recoupTop = top - ui.position.top;
+    //console.log(self);
+    
     var z = this.parentView.maxIndex ;
-    //if(this.model.get('z_index') < z) {
-      z ++;
-      this.parentView.maxIndex++;
-    //}
-    $(this.el).css({zIndex: z});
-    this.model.set({'z_index': z});
+    this.parentView.maxIndex++;
 
-    if(!this.model.isDefaultItem){
-      //this.effecter.changeSelecter();
-     // this.onSelect();
-    }
+    this.model.set({'z_index': z});
+    $(this.el).css({'zIndex':z});
+
     // donot save here because it triger render 
     //this.model.save();
   },
 
-  onDragStop: function(){
+  onDrag:  function ( event, ui ) {
+    //resize bug fix ui drag `enter code here`
+    __dx = ui.position.left - ui.originalPosition.left;
+    __dy = ui.position.top - ui.originalPosition.top;
+    //ui.position.left = ui.originalPosition.left + ( __dx/__scale);
+    //ui.position.top = ui.originalPosition.top + ( __dy/__scale );
+    ui.position.left = ui.originalPosition.left + ( __dx);
+    ui.position.top = ui.originalPosition.top + ( __dy );
+            //
+    ui.position.left += __recoupLeft;
+    ui.position.top += __recoupTop;
+
+    var temp_deg_0 = $($(this.el)[0]).rotate();
+    $(this.el).rotate(0);
     this.model.set({
           'top' : $(this.el).offset().top - $(this.content).offset().top ,
           'left': $(this.el).offset().left - $(this.content).offset().left
         });
+    $(this.el).rotate(temp_deg_0);
+
+
+    if( this.isIn() ){
+      $(this.el).css("opacity", 1.0);
+    }else{
+      $(this.el).css("opacity", 0.2);
+    }
+  },
+
+  onDragStop: function(){
+
+    //console.log(this.isIn());
+    if( !this.isIn() ){
+      console.log("delete");
+      this.model.destroy();
+      return;
+    }
+
     if(!this.model.isDefaultItem){
       this.model.save();
     }
-    //console.log(this);
+  },
+
+  isIn: function(){
+     //oonsole.log(temp_deg_0);
+    var temp_deg_0 = $($(this.el)[0]).rotate();
+    var rad = temp_deg_0 * (Math.PI / 180); 
+    var entry = this.parentView.model;
+    var p = [];
+    var top   = this.model.get("top");
+    var left  = this.model.get("left");
+    var h = this.model.get("height");
+    var w = this.model.get("width");
+
+    p[0] = { x: left+w/2 -w/2*Math.cos(rad)+h/2*Math.sin(rad)  , y:top+h/2 -w/2*Math.sin(rad)-h/2*Math.cos(rad) };
+    p[1] = { x: left+w/2 +w/2*Math.cos(rad)-h/2*Math.sin(rad)  , y:top+h/2 +w/2*Math.sin(rad)+h/2*Math.cos(rad) };
+    p[2] = { x: left+w/2 -w/2*Math.cos(rad)-h/2*Math.sin(rad)  , y:top+h/2 -w/2*Math.sin(rad)+h/2*Math.cos(rad) };
+    p[3] = { x: left+w/2 +w/2*Math.cos(rad)+h/2*Math.sin(rad)  , y:top+h/2 +w/2*Math.sin(rad)-h/2*Math.cos(rad) };
+   
+    //console.log(p);
+
+    var isIn = false;
+    for( var i =0; i < 4 ; i++) if( p[i].x > 0 ) {
+      isIn = true;
+      break;
+    }
+    if( !isIn ) return false;
+    isIn = false;
+
+    for( var i =0; i < 4 ; i++) if( p[i].x < entry.get("width") ) {
+      isIn = true;
+      break;
+    }
+    if( !isIn ) return false;
+    isIn = false;
+
+    for( var i =0; i < 4 ; i++) if( p[i].y > 0 ) {
+      isIn = true;
+      break;
+    }
+    if( !isIn ) return false;
+    isIn = false;
+
+    for( var i =0; i < 4 ; i++) if( p[i].y < entry.get("height") ) {
+      isIn = true;
+      break;
+    }
+
+    return isIn; 
   },
 
   showOutLine: function(){
@@ -182,6 +377,7 @@ EntryItemView = Backbone.View.extend ({
           $('.item_button',self.el).hide();
         });
 
+    $('.item_button',self.el).hide();
   },
 
   setRemoveButton: function(){
@@ -241,39 +437,47 @@ BalloonView = EntryItemView.extend({
   className : "balloon",
 
   onInit: function(){
-    _.bindAll(this,"saveText", "saveBackground" , "setBackgroundButton","setBalloonEditable",
-      'editStart','editEnd',"onDefaultItemClick");
-    //this.model.bind('sync', this.render, this);
+    _.bindAll(this,
+      "saveText", 
+      "saveBackground" , 
+      "setBackgroundButton",
+      "setBalloonEditable",
+      'getDefauttText',
+      'editStart',
+      'editEnd',
+      'onResize',
+      "onDefaultItemClick");
 
-    //$('<div class="text" contenteditable="true"></div>').appendTo(this.el);
-    $('<div class="text" ></div><div class="target_off target_balloon"></div>').appendTo(this.el);
-    //$('<div class="text" ></div>').appendTo(this.el);
+    $('<div class="text htext" ></div><div class="target_off target_balloon"></div>').appendTo(this.el);
+  },
+
+  defaultText: "ダブルクリックして編集",
+
+  getDefauttText : function(){
+    return this.defaultText;
   },
 
   onAppend: function(){
-
-    //console.log(this.el);
 		var self = this;
 
-		this.textMenu = new TextEditMenu(this.el, this.model);
+		this.textMenu = new TextEditMenu(this);
 
-    
     if(this.isEditable){
 
-    this.model
-      .bind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
-      .bind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
-      .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
+      this.model
+        .bind('change:font_size change:font_family change:font_style change:font_color',this.textMenu.applyFont)
+        .bind('change:border_width change:border_radius change:border_style change:border_color',this.textMenu.applyFont)
+        .bind('change:entry_balloon_background_id change:background_color',this.textMenu.applyFont);
 
       $(this.el)
         .resizable({
           alsoResize: $('.text',this.el),
-          containment: "parent",
-          stop: this.onResize ,
+          //containment: "parent",
+          stop: this.onResizeBase ,
           autoHide: true
         })
         // TEMP ? goto temp html?
-        .attr({title:"クリックで編集、ドラッグで移動"});
+        .attr({title:"ダブルクリックで編集、ドラッグで移動"});
 
 
       this.setBalloonEditable();
@@ -283,8 +487,6 @@ BalloonView = EntryItemView.extend({
       // for sync preview 
       this.model.bind('sync',this.render);
     }
-    //this.fontSelecter.applyFont();
-    this.render();
   },
 
   onRemove: function(){
@@ -296,15 +498,37 @@ BalloonView = EntryItemView.extend({
     this.model.unbind('sync',this.render);
   },
 
+  onResize:function(){
+
+    var $text = $(".text",this.el);
+
+    $(".htext",this.el)
+      .width(  $(this.el).width() );
+    $('.vtext', this.el ).width( 'auto' );
+
+    $text
+      .height( $(this.el).height() );
+    /*  
+    $text
+      .css({
+      "left" : "50%",
+      "top" : "50%",
+      "margin-left": "-"+$text.width()/2+"px",
+      "margin-top": "-"+$text.height()/2+"px",
+    });
+    */
+  },
+
+
   setBalloonEditable: function(){
 		var self = this;
 
     $(this.el)
-      .bind('click', this.editStart);
+      .bind('dblclick', this.editStart);
 
     $('.text',this.el)
-      .blur(this.editEnd)
-      .bind('input', this.saveText);
+      .blur(this.editEnd);
+      //.bind('input', this.saveText);
 
   },
 
@@ -312,6 +536,12 @@ BalloonView = EntryItemView.extend({
     // disable draggable when focusing contenteditable
     // and disable text render with isEditing flag
 		var self = this;
+
+    //if text was Deafault , reset it
+    if( this.model.get('content') == this.defaultText ){
+      $('.text',this.el).html('');
+      this.model.set('content',"");
+    }
 
     if ( ! $(self).is('.ui-draggable-dragging') && !self.isEditing ) {
       $(self.el).draggable("option","disabled",true).removeClass('ui-state-disabled');
@@ -327,13 +557,19 @@ BalloonView = EntryItemView.extend({
 
   },
   
-  editEnd: function(){
-		var self = this;
-    //for trigger tutorial event or some blur event
-    $(this.el).blur();
-    $(self.el).draggable("option","disabled",false);
-    $('.text',self.el).attr('contenteditable','false');
-    self.isEditing = false;
+  editEnd: function( ev ){
+    //console.log(ev);
+    if( this.isEditing == true){
+		  var self = this;
+      this.saveText();
+      //for trigger tutorial event or some blur event
+      $(this.el).blur();
+      $(self.el).draggable("option","disabled",false);
+      $('.text',self.el).attr('contenteditable','false');
+      self.isEditing = false;
+     
+      self.onResize();
+    }
   },
 
   onDefaultItemClick: function(callback) {
@@ -342,6 +578,7 @@ BalloonView = EntryItemView.extend({
     // add this model to entry collecti
     //this.model.defaultItemSave();
     this.model.addTo( this.parentView.model.balloons , callback);
+    this.editStart();
   },
 
 
@@ -366,24 +603,42 @@ BalloonView = EntryItemView.extend({
   },
 
   onRender: function(){
-    console.log(this.isEditing);
+    //console.log(this.isEditing);
     if( !this.isEditing){
-    $('.text',this.el)
-      .html( this.model.get('content') )
-      .width(this.model.get('width')).height(this.model.get('height'));
-    this.effecter.resetEffect(); 
-    this.textMenu.applyFont();
+      var text =  this.model.get('content');
+      if( text ) text = text.split('\n').join('<br>');
+      $('.text',this.el).html( text )
+        .height(this.model.get('height'));
+ 
+      this.effecter.resetEffect(); 
+      this.textMenu.applyFont();
+
+      //vtextの場合widthを指定しない
+      //$('.htext',this.el)
+      //  .width(this.model.get('width'));
+
     }
   },
 
 
   saveText: function(txt){
     var self = this;
+    console.log("set text");
     // to aviod call too many save method 
     if(!this.saving && !this.model.isDefaultItem){
       this.saving = true;
-      var txt = Config.prototype.escapeText($('.text',this.el).html());
-      this.model.save('content',txt,{success: function(){ self.saving = false;}});
+
+      //for div of vtext
+      var txt = $('.text',this.el).html()
+          .split("<div><br></div>").join("<br>")
+          .split("<div>").join("<br>");
+      $('.text',this.el).html( txt );
+
+      txt = Config.prototype.escapeText( $('.text',this.el) ); 
+      this.model.save( 
+          'content',txt,
+          {success: function(){ self.saving = false;}}
+        );
     }
   },
   
@@ -415,7 +670,8 @@ CharacterView = EntryItemView.extend({
   className : "character",
   //pre append method
   onInit: function(){
-    _.bindAll(this,"selectCharacter","setCharacter", "onDefaultItemClick");
+    _.bindAll(this,
+      "selectCharacter","setCharacter", "onDefaultItemClick","setRefrectButton");
     $('<img class="character_image target_off">').appendTo(this.el);
     this.model.bind('sync',this.render,this);
   },
@@ -432,16 +688,14 @@ CharacterView = EntryItemView.extend({
         .resizable({
           //  containment: "parent parent" ,
           aspectRatio: true,
-          stop: this.onResize,
+          stop: this.onResizeBase,
           autoHide: true,
           "handles": "n, e, s, w, ne, se, sw, nw",
         })
+        .dblclick(this.selectCharacter)
+        .attr({title:"ダブルクリックで画像選択、ドラッグして移動"});
 
-        .click(this.selectCharacter)
-      
-        .attr({title:"クリックで画像選択、ドラッグして移動"});
-      
-
+      this.setRefrectButton();
       //set UI on mouseovered
       this.showOutLine();
 
@@ -454,24 +708,59 @@ CharacterView = EntryItemView.extend({
   },
 
   onRender: function(){
-    $('img',this.el).attr('src', config.character_image_idtourl( this.model.get('character_image_id') ) );
+    var url = this.model.get('url');
+    if( !url ) url = config.character_image_idtourl( this.model.get('character_image_id') );
+    $('img',this.el).attr('src', url );
+    if( this.model.get("refrect") == 1 ){
+      $('img',this.el).addClass("refrect");
+    }else{
+      $('img',this.el).removeClass("refrect");
+    }
+
     this.effecter.resetEffect(); 
   },
 
   selectCharacter: function(ev){
-    //console.log('selectimage');
+    //console.log(ev.target.tagName);
+    
+    //not show picker at icon click
+    if( ev ) if ( ev.target.tagName == "I" ) return;
+
     Picker.prototype.showCharacterList(this.setCharacter);
   },
 
 // use img to get size 
 // this not clear bu fast
-  setCharacter: function(id,img){
-    this.model.save({
-      'character_image_id' : id ,
+  setCharacter: function( data ){
+    this.model.save(data);
+    /*{
+      'character_image_id' : image_id ,
+      'character_id' : parseInt(character_id) ,
       'width' : img.width,
       'height': img.height,
-    });
+    });*/
+
+    this.parentView.setCharacterId( data.character_id ); 
   },
+
+  setRefrectButton: function(){
+    var self = this;
+    $('<i class="icon-resize-horizontal item_button item_refrect" title="左右反転" />')
+      .appendTo(this.el)
+      .hide();
+
+    $('.item_refrect',this.el).click(
+      function(){
+        //console.log(target);
+        if ( self.model.get("refrect") == 1 ) {
+          self.model.save("refrect",0);
+        } else {
+          self.model.save("refrect",1);
+        }
+      }
+    );
+  },
+
 
   onDefaultItemClick: function(callback) {
     console.log("on df clk",$(this.el));
@@ -479,6 +768,7 @@ CharacterView = EntryItemView.extend({
     // add this model to entry collection 
     //this.model.defaultItemSave();
     this.model.addTo( this.parentView.model.characters ,callback);
+    this.selectCharacter();
   },
   
     

@@ -68,8 +68,21 @@
 	top: 40px;
 }
 
+.vhButton{
+	position: absolute;
+	left: 210px;
+	top: 40px;
+  color:white;
+}
 .text_menu .selecter_item.TBackground{
 	position: absolute;
 	left: 8.5px;
 	top: 43px;
+}
+
+.selecter_item.OkButton{
+  position: absolute;
+  right: 11px;
+  top: 39px;
+  width: 80px;
 }

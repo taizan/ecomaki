@@ -13,6 +13,7 @@ Config.Shapes["Eraser"] = {
 			$this.ctx.closePath();
 			$this.ctx.fill();
 
+			$this.ctx.globalCompositeOperation = 'destination-out';
      	//start the path for a drag
 			$this.ctx.beginPath();
 			$this.ctx.moveTo(e.pageX, e.pageY);
@@ -27,5 +28,6 @@ Config.Shapes["Eraser"] = {
 	},
 	"drawUp": function(e, $this){
 			//$this.drawPencilUp(e, $this);
+			//$this.ctx.globalCompositeOperation = 'source-over';
 	}
 }

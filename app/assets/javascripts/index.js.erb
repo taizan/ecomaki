@@ -25,6 +25,10 @@ $(function() {
   // default hided
   $(form).hide();
   
+  $('#start_button').click( function(){
+      $(".submit_button",form).click();
+    } );
+  
   $('#create_button').click( function(){
       //$(form).show('drop','fast'); 
       $(".submit_button",form).click();
@@ -35,12 +39,20 @@ $(function() {
   //--
   // init previews of novel
   //obj = <%= @novels.to_json %>;
-  for (i = 0; i < entries.length; i++){
-    entry = new Entry(entries[i][0]);
-    entryView = new EntryView({'model':entry});
-    $(entryView.el).appendTo('.novel_list_item_'+ i +" .entry_preview");
-    //console.log('.novel_list_item_'+ i);
-    entryView.load();
+
+  var sampleLength = 4;
+  for (var i = 0; i < entries.length; i++){
+    for (var j = 0; j < sampleLength; j++){
+      if( !entries[i][j] ) continue;
+      var entry = new Entry(entries[i][j]);
+      var entryView = new EntryView({'model':entry});
+      $(entryView.el).appendTo('.novel_list_item_'+ i +" .entry_preview");
+      //console.log('.novel_list_item_'+ i);
+      entryView.load();
+    }
+    if ( entries[i].length > sampleLength ){
+      $( "<h3>続きを読む</h3>" ).appendTo('.novel_list_item_'+ i +" .entry_preview");
+    }
   }
   //--
 

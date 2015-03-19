@@ -10,11 +10,15 @@ ChapterView = ecomakiView.extend({
   onInit: function(args){
 
   _.bindAll(this,
+              "atFirstChapter",
               "addEntry",
               "addEntryWithOrder",
-              "addEntryWith1Character",
-              "addEntryWith2Character",
-              "addEntryWithBalloon",
+              "addEntryFromTemplate",
+              "addEntryFromTemplateAfter",
+              "addEntryToTemplate",
+              //"addEntryWith1Character",
+              //"addEntryWith2Character",
+              //"addEntryWithBalloon",
               "onLoad",
               "onSortStart",
               "onSortStop",
@@ -44,16 +48,22 @@ ChapterView = ecomakiView.extend({
      console.log(this.model.entries.length);
   },
 
+  atFirstChapter: function(){
+    this.isDisplay = true;
+    this.onDisplay();
+  },
+
   events: {
     "keypress #inputform" : "onKeyPress",
     //'click': 'onViewClick',
     "click .add_chapter" : "addChapter",
     "click .new_chapter_handle" : "addChapter",
-    //"click .add_entry" : "addEntry",
+    "click .first_new_entry_handle" : "addEntryFromTemplate",
     //"click .new_entry_handle" : "addEntry",
-    "click .add_one_char" : "addEntryWith1Character", 
-    "click .add_two_char" : "addEntryWith2Character", 
-    "click .add_description" : "addEntryWithBalloon",
+    //"click .new_entry_handle" : "addEntryFromTemplate",
+    //"click .add_one_char" : "addEntryWith1Character", 
+    //"click .add_two_char" : "addEntryWith2Character", 
+    //"click .add_description" : "addEntryWithBalloon",
     "click .background_icon" : "onBackgroundButton",
     "click .music_icon" : "onMusicButton",
     "click .remove_chapter" : "removeChapter",
@@ -86,9 +96,12 @@ ChapterView = ecomakiView.extend({
         });
       
       //set click function to avoid conflict to entry item add handle in each entry
-      $('.chapter_wrapper',this.el).children('.new_entry_handle').click(this.addEntry);
+      //$('.chapter_wrapper',this.el).children('.new_entry_handle').click(this.addEntry);
+      
+      $(".chapter_wrapper",this.el).addClass("chapter_border");
     }else{
       $(".editer_item",this.el).hide();
+      $(".chapter_wrapper",this.el).removeClass("chapter_border");
     }
 
     this.onCheckStatus();
@@ -118,13 +131,14 @@ ChapterView = ecomakiView.extend({
   },
 
   onAddChild: function(view){
+    //console.log("entry load");
     view.load();
   },
 
   showBackground: function(){
     var img = new Image();
     var window_size = config.getScreenSize();
-    var src = config.background_idtourl(this.model.get('background_image_id'));
+    var src = this.getBackgroundSrc();
     img.src = src;
     var self = this;
 
@@ -174,17 +188,46 @@ ChapterView = ecomakiView.extend({
     return entry;
   },
 
-
   addEntry: function(){
     var self = this;
     var attr ={"canvas_index":1,"height":320,"width":480};  
     //call trigger of onadd calllback 
-    this.model.entries.create_after(attr,0,{callback:function(){ 
-        $(self.el).trigger('onAdd'); 
-        $('.new_entry_handle',self.el).trigger('onAdd'); 
-      }});
+    this.model.entries.create_after(attr,-1,this.onAddOption());
   },
 
+  // add entry with no boder balloon
+  addEntryFromTemplate: function(){
+    //console.log("from tmp");
+    //四コマのウチの何コマ目をてんぷれにするか
+    var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
+
+    this.model.entries.create_entry_from_template( type , -1 , this.onAddOption() );
+
+  },
+
+  addEntryFromTemplateAfter: function(){
+    var type = this.model.entries.length % 4;//トップのアイテムの更新だが、常に同じなのはアレなので
+
+    this.model.entries.create_entry_from_template( 
+        type , this.model.entries.length-1 , this.onAddOption());
+
+    //EntryTemplate.prototype.getTemplate(type , function(attr){
+    //    self.model.collection.create_after(
+    //      attr ,
+    //      self.model.entries.length-1 ,
+    //      self.onAddOption() 
+    //    );
+    //  });
+  },
+
+  addEntryToTemplate: function(){
+    //四コマのウチの何コマ目をてんぷれにするか
+    for( var i =0; i < this.model.entries.length; i++){
+      attr = this.model.entries.at(i).dup();
+      EntryTemplate.prototype.addToTemplate( attr ,i);
+    }
+  },
+/*
   // add entry with no boder balloon
   addEntryWithBalloon: function(){
     this.model.entries.create( EntryTemplate.prototype.getTemplate(0) );
@@ -197,7 +240,7 @@ ChapterView = ecomakiView.extend({
   addEntryWith2Character: function(){
     this.model.entries.create( EntryTemplate.prototype.getTemplate(2) );
   },
-
+*/
   addChapter: function(e){
     //var novel = this.parentView.model;
     //var currentIndex = novel.chapters.indexOf(this.model);
@@ -252,17 +295,19 @@ ChapterView = ecomakiView.extend({
     ev.stopPropagation();
   },
 
-  setBackground: function(id){
+  setBackground: function(data){
     console.log('change bg');
-    this.model.set('background_image_id',id);
+    this.model.set( data );
     this.model.save();
     //$('#background')[0].src = config.background_idtourl(id);
     if( (this.model.get('order_number') % 2) == 1 ){
-      $('#background_odd')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+      $('#background_odd')[0].src = this.getBackgroundSrc();
     }else{
-      $('#background_even')[0].src = config.background_idtourl(this.model.get('background_image_id'));
+      $('#background_even')[0].src = this.getBackgroundSrc();
     }
   },
+
+  
 
   onMusicButton: function(ev){
     Picker.prototype.showMusicList(this.setBgm);

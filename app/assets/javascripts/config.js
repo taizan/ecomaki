@@ -47,14 +47,14 @@ jQuery.fn.insertAt = function(index, element) {
 
 function Config()
 {
-
+  this.root = ""; 
 };
 
 var ctor = function(){};
 
 
 Config.prototype.swapImage = function(){
-  $(".img_swap").live('click', function() {
+  $(".img_swap").on('click', function() {
     if ( !$(this).hasClass("on") ) {
       this.src = this.src.replace("_off","_on");
     } else {
@@ -67,10 +67,10 @@ Config.prototype.swapImage = function(){
 
 Config.prototype.overImage = function(){
   $('.img_over')
-    .live("mouseover",function(){
+    .on("mouseover",function(){
         this.src = this.src.replace("_off","_on");
       })
-    .live("mouseleave",function(){
+    .on("mouseleave",function(){
         this.src = this.src.replace("_on","_off");
       });
 };
@@ -98,7 +98,7 @@ Config.prototype.inherits = function(parent, protoProps, staticProps) {
 };
 
 Config.prototype.character_image_idtourl = function(id) {
-    return '/characters/images/' + id;
+    return this.root + '/characters/images/' + id;
 };
 
 Config.prototype.character_image_urltoid =  function(url) {
@@ -109,8 +109,8 @@ Config.prototype.character_image_urltoid =  function(url) {
 };
 
 Config.prototype.background_idtourl = function(id) {
-    if(id != null){ return '/background_images/images/' + id ;}
-    else{return '/background_images/images/0';}
+    if(id != null){ return this.root + '/background_images/images/' + id ;}
+    else{return this.root + '/background_images/images/0';}
 };
 
 Config.prototype.background_urltoid =  function(url) {
@@ -124,7 +124,7 @@ Config.prototype.musics = [null, 'dream', 'flower', 'orange'];
 
 Config.prototype.music_idtourl = function(id) {
     //return "https://dl.dropbox.com/u/8270034/sketch/bgm/" + Config.prototype.musics[music_id] + ".mp3";
-    if(id != null){ return '/background_musics/musics/' + id + '.mp3';}
+    if(id != null){ return this.root + '/background_musics/musics/' + id + '.mp3';}
     else{return 'null';}
 };
 
@@ -167,11 +167,30 @@ Config.prototype.rgba2string = function(rgba){
 	return "rgba(" + rgba.r + ", " + rgba.g + ", " + rgba.b + ", " + rgba.a + ")";
 };
 
-Config.prototype.escapeText = function(txt){
-  var $d = $('<div></div>');
-  $d.text(txt);
-  return $d.text().split('\n').join('<br>');
+Config.prototype.escapeText = function( $el ){
+  var html = $el.html();
+  var $d = $("<div></div>");
+  html = html.split('<br>').join('\n')
+  $d.html(html);
+  $el.html( $d.text().split('\n').join('<br>')  )
+  return $d.text();
 };
 
+Config.prototype.escapeTextarea = function( $el ){
+  var html = $el.val();
+  var $d = $("<div></div>");
+  html = html.split('<br>').join('\n')
+  $d.html(html);
+  $el.val( $d.text()  )
+  return $d.text();
+};
+
+Config.prototype.isDataURL = function(s) {
+    var regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
+    return !!s.match(regex);
+};
+
+
 Config.Shapes = {};
+
 

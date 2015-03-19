@@ -55,6 +55,8 @@ $(function() {
         if(! _novelPreview) {
           _novelPreview = new NovelView({model: _novel , isEditable: false });
           _novelPreview.appendTo($('#preview_content'));
+        }else{
+          _novelPreview.renderAll();
         }
 
         if(isEditable) {
@@ -76,15 +78,12 @@ $(function() {
       var chane = new CallbackChane();
       var new_novel;
       var url = "/novels/"+ id +"/dup_no_redirect.json"
-      jQuery.getJSON(
-          url,            // リクエストURLQerfvtki
-          null,
-          chane.next()
-        );
+      //console.log(url);
 
       chane.push( function(arg){
+          console.log(arg);
           console.log('make model');
-          new_novel = new Novel({id: arg[0].id,password: arg[0].password});
+          new_novel = new Novel({id: arg.id , password: arg.password});
           new_novel.fetch({success:chane.next()});
         });
            
@@ -97,12 +96,24 @@ $(function() {
           console.log('change status');
           new_novel.save({'status': 'publish'},{success:chane.next()}); 
         });
-           
-                    
       chane.push( function(){
-          console.log('move page');
+          var text = new_novel.get("title") + " #ecomaki " + window.location.origin+"/novel/"+new_novel.id;
+          $.ajax({
+            url:"/tweet",            // リクエストURL
+            data: 'id='+new_novel.id + '&text='+text,
+            success:chane.next()
+          });
+        });
+    
+      chane.push( function(){
+          alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
           document.location = '/novels/'+ new_novel.id ;
         });
+
+      jQuery.getJSON(
+          url,            // リクエストURL
+          chane.next()
+        );
 
      });
 

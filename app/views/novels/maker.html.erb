@@ -1,10 +1,6 @@
 <%= stylesheet_link_tag 'maker' %>
-<%= stylesheet_link_tag 'novel' %>
-<%= stylesheet_link_tag 'chapter' %>
-<%= stylesheet_link_tag 'entry' %>
-<%= stylesheet_link_tag 'entryItem' %>
 
-<%= javascript_include_tag 'novelMaker' %>
+<%= javascript_include_tag 'novelMaker' , :defer=>"defer" %>
 
 <% content_for :html_title, @novel.title %>
 <% content_for :html_description, @novel.description %>

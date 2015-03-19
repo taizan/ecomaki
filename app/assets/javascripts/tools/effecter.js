@@ -3,6 +3,9 @@ function Effecter(target,item,key,name){
 	this.item = item;
 	this.key = key;
   this.name = name;
+  this.isRunnable = true;
+  this.resetFlag = false;
+
 	_.bindAll(this,
         "changeSelecter",
         "runSelectedEffect",
@@ -31,18 +34,21 @@ Effecter.prototype = {
     //this.runEffect(this.model.get('option'));
 	},
 	
-  isRunnable: true,
 
   runEffect: function(selectedFunction , selectedEffect , speed , options){
-    var options = {};
     // some effects have required parameters
     if ( selectedEffect === "scale" ) {
       options = { percent: 0 };
     } else if ( selectedEffect === "size" ) {
       options = { to: { width: 200, height: 60 } };
     } 
+
+    console.log(this.target);
+
     //prevent overrapping of effect    
     if(this.isRunnable){
+      this.isRunnable = false;
+
       switch(selectedFunction){
         case "show" :
           if(selectedEffect == 'none'){
@@ -65,18 +71,24 @@ Effecter.prototype = {
             $(this.target).effect( selectedEffect, options, speed, this.effectCallback );
           }
           break;
+        default:
+          this.isRunnable = true;
       }
-      this.isRunnable = false;
     }
   },
 
   effectCallback: function(){
     this.isRunnable = true;
+    if(this.resetFlag) resetEffect();
   },
 
   resetEffect: function(){
-    //console.log("reset effect");
-    //$(this.target).stop();
+    
+    if( !this.isRunnable ){ 
+      this.resetFrag = true;
+      return; 
+    }
+
     var option = this.item.get(this.key);
     if(option != null){
       var options = option.split(',');
@@ -93,8 +105,14 @@ Effecter.prototype = {
         case "effect" :
           $(this.target).show();
           break;
+        default:
+          $(this.target).show();
       }
     }
+    
+    //flagを外す
+    this.resetFrag = false;
+
   },
   
   appendEffectSelecterTo: function(target){    

@@ -96,9 +96,9 @@ var debug = {};
 		 */
 		"ctrl-90": restoreCanvas,
 		"ctrl-shift-90": redoCanvas,
-		"88": cutCanvas, 
-		"67": copyCanvas,
-		"86": pasteCanvas
+		"ctrl-88": cutCanvas, 
+		"ctrl-67": copyCanvas,
+		"ctrl-86": pasteCanvas
 	};
 
 	$(document).keydown(function(e){
@@ -285,6 +285,9 @@ var debug = {};
 				//console.log(this);
 				e.preventDefault();
 				e.stopPropagation();
+
+        if ( !$canvas.hasClass("enable") ) return;
+        //console.log( $canvas );
 				//$canvas.EditMenu('snapshot').EditMenu('edit');
 				storeCanvas(this);
 				$this.draw = true;

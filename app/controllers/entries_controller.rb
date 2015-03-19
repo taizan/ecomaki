@@ -20,14 +20,54 @@ class EntriesController < ApplicationController
     end
   end
 
+  def update_canvas
+    if has_valid_password?
+      entry = Entry.find(params[:id])
+      entry.save_canvas( params[:data] )
+
+      render :status => 200 , :nothing => true
+    else
+      render :status => 401 , :nothing => true
+    end
+  end
+
   def show
+
+    options = {
+       :include => [:entry_balloon, :entry_character],
+       :methods => :canvas
+          #:include => [:entry => {:include => [:entry_balloon, :entry_character] }]
+    }
+         
+
     entry_id = params[:id]
-    entry = Entry.joins({:chapter => :novel}).includes(:entry_character, :entry_balloon).select("entries.id, chapter_id, novel_id, entries.height, entries.width, entries.margin_top, entries.margin_left, entries.margin_bottom, entries.margin_right").find(entry_id)
+    entry = Entry
+      .joins({:chapter => :novel})
+      .includes(:entry_character, :entry_balloon)
+      .select("entries.id, chapter_id, novel_id, entries.height, entries.width, entries.margin_top, entries.margin_left, entries.margin_bottom, entries.margin_right")
+      .find(entry_id)
+
 
     respond_to {|format|
+      #format.json { render :json => @entry.to_json(options) }
       format.json { render :json => entry }
     }
   end
+
+  def show_canvas
+    id = params[:id]
+    entry = Entry.find(params[:id])
+    data_url = entry.canvas
+   
+    if data_url.length > 'data:image/png;base64,'.length
+      png      = Base64.decode64(data_url['data:image/png;base64,'.length .. -1])
+    else
+      data_url = entry.canvas_blunk
+      png      = Base64.decode64(data_url['data:image/png;base64,'.length .. -1])
+    end
+    send_data( png , :disposition => 'inline', :type => "image/png")
+  end
+
 
   def create
     if has_valid_password?

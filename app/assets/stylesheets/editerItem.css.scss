@@ -3,61 +3,34 @@ body{
 }
 
 
-#title textarea {
-    font-size: 24px; 
-    line-height: 1.5em;
-}
-
-
-#descriotion textarea {
-    font-size: 12px;
-    line-height: 1.5em;
-}
-
-
-#author {
+#author_name {
     cursor:pointer;
 }
 
-.author textarea {
-    font-size: 24px; 
-    line-height: 1.5em;
-    text-align:center;
-    z-index: 99;
-}
 
 #title , .title{
     cursor:pointer;
 }
 
-.title textarea {
-    font-size: 24px; 
-    line-height: 1.5em;
-    text-align:center;
-    z-index: 99;
-}
 
 #description , .description {
     cursor:pointer;
 }
 
-.descriotion textarea {
-    font-size: 12px;
-    line-height: 1.5em;
-    text-align:center;
-    z-index: 99;
-}
 
 #title:hover {
-  background: #ede;
+  background: #eee;
+  color:black;
 }
 
 #description:hover {
-  background: #dee;
+  background: #eee;
+  color:black;
 }
 
 #author_name:hover {
-  background: #eed;
+  background: #eee;
+  color:black;
 }
 
 .title:hover {
@@ -68,6 +41,16 @@ body{
   background: #dee;
 }
 
+
+//page template
+
+.template_button{
+  position: absolute;
+  width:  180px;
+  height: 100px;
+  font-size: 24pt;
+  background: #FFFFFF;
+}
 
 
 
@@ -128,7 +111,10 @@ hr {
   width: 95%;
   margin-left: auto;
   margin-right: auto;
-  border: 1px silver dashed ;
+}
+
+.chapter_border{
+  border: 1px silver dashed;
 }
 
 .new_chapter_handle {
@@ -173,11 +159,7 @@ hr {
   border: 2px dotted lime;
 }
 
-.item_remove {
-  position: absolute;
-  right: 0;
-  top: 0px;
-}
+
 
 .item_background {
   position: absolute;
@@ -193,13 +175,49 @@ hr {
   opacity: 1;
 }
 
+.ui-editable-icon {
+  position: absolute;
+  cursor:pointer;
+}
+
+
+.item_remove {
+  position: absolute;
+  z-index:99;
+  right: -5px;
+  top: -5px;
+  background-color: rgba(255,64,64,0.5);
+}
+
+.icon_rotate {
+  position:absolute;
+  z-index:99;
+  left:55%;
+  top: -5px;
+  margin:0px;
+  background-color: rgba(255,255,255,0.5);
+}
+
+.item_refrect {
+  position:absolute;
+  z-index:99;
+  top:-5px;
+  left:40%;
+  margin:0px;
+  background-color: rgba(255,255,255,0.5);
+}
+
+.ui-editable-selected {
+  border: 2px #bde9ba dotted;
+}
+
 //entry
 
 canvas {
-    z-index: 0;
+  z-index: 0;
 }
 
-.paint{
+.enable{
   cursor: crosshair;
 }
 
@@ -211,6 +229,7 @@ canvas {
   list-style:none;
   //  left: 800px;
   top: 0px;
+  z-index: 9999;
 }
 
 .new_entry_handle {
@@ -221,6 +240,7 @@ canvas {
   cursor:pointer;
   border: 1px silver dotted ;
   color: gray;
+  bottom: 10px;
 }
 
 .new_entry_handle:hover{
