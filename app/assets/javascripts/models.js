@@ -251,7 +251,6 @@ var Entry = BaseModel.extend({
     //var chapter = this.collection.chapter;
     //var currentIndex =  chapter.entries.indexOf(this);
     var attr = this.dup();
-`
     var entry = this.entries.create_after(
         attr, 
         this.get('order_number')
