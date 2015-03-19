@@ -6,7 +6,8 @@ set :rails_env, :production
 require 'capistrano/ext/multistage'
 
 set :application, "ecomaki"
-set :repository,  "ssh://ecomaki@dev.ecomaki.com/home/ecomaki/git/ecomaki"
+#set :repository,  "ssh://ecomaki@dev.ecomaki.com/home/ecomaki/git/ecomaki"
+set :repository,  "git@github.com:taizan/ecomaki.git"
 set :scm, :git
 
 role :web, "dev.ecomaki.com"
