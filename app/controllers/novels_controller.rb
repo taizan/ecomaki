@@ -9,13 +9,18 @@ class NovelsController < ApplicationController
   end
 
   def show
-    json_obj = get_show_novel();
+    #json_obj = get_show_novel();
 
     @comments = Comment.where( :novel_id => params[:id] ) 
 
     respond_to do |format|
-      format.html { }
-      format.json { render :json => json_obj }
+      format.html { 
+        @novel = Novel.find(params[:id]) or redirect_to root_path
+      }
+      format.json { 
+        json_obj = get_show_novel();
+        render :json => json_obj 
+      }
     end
   end
 

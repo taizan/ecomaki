@@ -10,14 +10,25 @@
   position: relative;
 }
 
-.comment{
-  width: 480px;
+hr {
+  position: relative;
+}
+
+.time {
+  color:gray;
+}
+
+.comment {
   margin: 10px;
+}
+
+.comment .box{
+  width: 480px;
   border: solid gray 1px;
 }
 
 .comment p{
-  padding: 10px;
+  margin: 10px;
 }
 
 .share_buttons{

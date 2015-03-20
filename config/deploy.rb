@@ -9,6 +9,9 @@ set :application, "ecomaki"
 #set :repository,  "ssh://ecomaki@dev.ecomaki.com/home/ecomaki/git/ecomaki"
 set :repository,  "git@github.com:taizan/ecomaki.git"
 set :scm, :git
+set :repository_cache, "git_cache"
+set :deploy_via, :remote_cache
+set :ssh_options, { :forward_agent => true }
 
 role :web, "dev.ecomaki.com"
 role :app, "dev.ecomaki.com"

@@ -34,11 +34,16 @@
 
 <hr>
 <div id="comments_list" >
-  <% @comments.each do |comment| %>
+  <% @comments.each_with_index do |comment, index| %>
       <div class="comment" >
+        <%= index+1 %>: <span class="time"><%= comment.created_at.strftime('%Y年%m月%d日 %H:%M') %><span> 
+        <div class="box">
           <p> <%= comment.text %> </p>
+        </div>
       </div>
   <% end %>
+
+  <br>
 
   <form action="/novels/<%=@novel.id%>/comment/add" method="post">
     <textarea name="text" ></textarea>
