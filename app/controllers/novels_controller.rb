@@ -12,6 +12,7 @@ class NovelsController < ApplicationController
     #json_obj = get_show_novel();
 
     @comments = Comment.where( :novel_id => params[:id] ) 
+    #@comments = {};
 
     respond_to do |format|
       format.html { 
@@ -82,7 +83,7 @@ class NovelsController < ApplicationController
 
     options = {:include => [:author, :chapter => {
           :include => [:entry => {:include => [:entry_balloon, :entry_character], 
-          :methods => :canvas
+          #:methods => :canvas
           }]
         }
       ]
@@ -91,7 +92,6 @@ class NovelsController < ApplicationController
     options_without_password = {:except => :password,
       :include => [:author, :chapter => {
           :include => [ :entry => {:include => [:entry_balloon, :entry_character] ,
-           :methods => :canvas
            }]
         }
       ]
