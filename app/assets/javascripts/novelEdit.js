@@ -140,10 +140,10 @@ $(function() {
                url: '/tweet',
                data: 'id='+id+'&text='+text,
                success: function(){
-                  alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
-                  document.location = '/novels/'+id ;
                }
           });
+          alert("作品を公開しました！ソーシャルメディアなどで宣伝しましょう！"); 
+          document.location = '/novels/'+id ;
         }
        
         _novel.save('status','publish', { success: onSuccess } ); 

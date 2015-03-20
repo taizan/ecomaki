@@ -243,20 +243,26 @@ var Entry = BaseModel.extend({
       delete attr.entry_character[i].created_at;
       delete attr.entry_character[i].updated_at;
     }
+    
     //console.log(attr);
     return attr; 
   },
 
-  copy: function(){
-    //var chapter = this.collection.chapter;
-    //var currentIndex =  chapter.entries.indexOf(this);
+  copy: function(option){
     var attr = this.dup();
-    var entry = this.entries.create_after(
+    var canvas = this.get("canvas");
+    var entry = this.collection.create_after(
         attr, 
-        this.get('order_number')
-  // call trigger add in addItem end
-  //        { wait:true , success: this.addItems }
+        this.get('order_number'),
+        { callback: function(){
+            console.log(canvas);
+            entry.save_canvas( canvas );
+            option.callback();
+          }
+        }
       );
+    //console.log( this.get("canvas") );
+    //entry.save_canvas( this.get("canvas") );
     return entry;
   },
 

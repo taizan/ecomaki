@@ -303,22 +303,18 @@ EntryView = ecomakiView.extend({
 
   keyctrl: function(event){
     var self = this;
-    var save_image = function(){ 
-      self.model.set({canvas: $('.paint', self.el)[0].toDataURL('image/png')});
-      self.model.save_canvas( $('.paint', self.el)[0].toDataURL('image/png') );
-    }; 
 	  	switch(event){
 		  	case "undo":
-          save_image();
+          self.onDraw();
 					break;
 				case "redo":
-          save_image();
+          self.onDraw();
 					break;
 				case "paste":
-          save_image();
+          self.onDraw();
 					break;
 				case "cut":
-          save_image();
+          self.onDraw();
 					break;
 
 				default:
@@ -329,7 +325,8 @@ EntryView = ecomakiView.extend({
 	},
 
   onDraw: function(){
-     this.model.set({canvas: $('.paint', self.el)[0].toDataURL('image/png')});
+     //console.log( $('.paint', this.el)[0].toDataURL('image/png') );
+     this.model.save({canvas: $('.paint', this.el)[0].toDataURL('image/png')});
      this.model.save_canvas( $('.paint', this.el)[0].toDataURL('image/png') );
   },
 
@@ -468,14 +465,14 @@ EntryView = ecomakiView.extend({
   },
 
   copyEntry: function(e){
-    // console.log("addEntry");
     this.model.save();
     var attributes = this.model.dup();
-    this.model.collection.create_after(
-        attributes ,
-        this.model.get('order_number') ,
-        this.onAddOption() );
-    //newEntry.save();
+    //this.model.collection.create_after(
+    //    attributes ,
+    //     this.model.get('order_number') ,
+
+    this.model.save({canvas: $('.paint', this.el)[0].toDataURL('image/png')});
+    this.model.copy( this.onAddOption() );
   },
 
   addEntryFromTemplate: function(e){
@@ -521,7 +518,7 @@ EntryView = ecomakiView.extend({
 
   getCanvasUrl : function(){
     var data = this.model.get("canvas");
-    console.log ( data );
+    //console.log ( data );
     if( !data ) return  "/entries/"+this.model.get("id")+"/canvas";
     return data;
   },

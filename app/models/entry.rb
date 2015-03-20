@@ -11,28 +11,32 @@ class Entry < ActiveRecord::Base
 
   has_many :entry_character
   has_many :entry_balloon
-  #after_save :save_canvas
+  after_save :dup_canvas
 
   amoeba do
     include_field [:entry_character, :entry_balloon]
+    #idをsetしてdup_canvasで複製
     customize(lambda {|original_post, new_post|
         new_post.original_id = original_post.id
       })
   end
 
-  def save_canvas( data )
+  def dup_canvas()
     if @original_id
-      src = Rails.root.join("data/images/entry_canvas/#{@original_id}")
+      src  = Rails.root.join("data/images/entry_canvas/#{@original_id}")
       dest = Rails.root.join("data/images/entry_canvas/#{id}")
+      system( "echo #{id}_#{@original_id} >> /home/taizan/ecomaki/dat")
       if File.exist?(src)
         FileUtils.cp(src, dest)
       else
         FileUtils.touch(dest)
       end
-    else
-      File.open(canvas_path, 'wb') do |file|
-        file.write( data )
-      end
+    end
+  end
+
+  def save_canvas( data )
+    File.open(canvas_path, 'wb') do |file|
+      file.write( data )
     end
   end
 
