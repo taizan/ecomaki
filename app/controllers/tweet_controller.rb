@@ -56,8 +56,12 @@ class TweetController < ApplicationController
   end
 
   def capture
-    command = 'curl http://localhost:2000/?url='+request.host+'/novels/nolayout/' + params[:id] + ' > '
-    system( command + image_path.to_s )
+    path = Rails.root.to_s ;
+    command = "phantomjs " +path+"/script/capture.js" + " http://" + request.host+'/novels/nolayout/' + params[:id] + " " + image_path.to_s()
+    #system( "echo log  > /home/taizan/ecomaki/dat2" );
+    #system( "echo "+ command +" > /home/taizan/ecomaki/dat" )
+    # command = 'curl http://localhost:2000/?url='+request.host+'/novels/nolayout/' + params[:id] + ' > '
+    system( command  )
   end
 
   def get_twitter_client 
