@@ -335,8 +335,9 @@ var EntryList = BaseCollection.extend({
     // Assume all the order_number is correct.
     attributes.order_number = index+1 ;
     var length =  this.models.length;
-    for (var i = index+1 ; i < length; i++) {
-      this.models[i].set('order_number', i + 1);
+    for (var i = 0 ; i < length; i++) {
+      if( this.models[i].get("order_number") > index ) this.models[i].save('order_number', i + 1);
+      else this.models[i].save('order_number', i );
     }
     return this.create(attributes, options);
   },
@@ -475,10 +476,10 @@ var ChapterList = BaseCollection.extend({
   },
 
   create_after: function(attr, index, options) {
-    attr.order_number = index ;
-    for (var i = index ; i < this.models.length; i++) {
-      this.models[i].set('order_number', i + 1);
-      this.models[i].save();
+    attr.order_number = index+1 ;
+    for (var i = 0 ; i < this.models.length; i++) {
+      if( this.models[i].get("order_number") > index ) this.models[i].save('order_number', i + 1);
+      else this.models[i].save('order_number', i );
     }
     options = $.extend(options,{wait:true});
     return Backbone.Collection.prototype.create.call(this, attr, options);
