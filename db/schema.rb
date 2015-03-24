@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150319071211) do
+ActiveRecord::Schema.define(:version => 20150324061209) do
 
   create_table "authors", :force => true do |t|
     t.string   "name"
@@ -86,6 +86,8 @@ ActiveRecord::Schema.define(:version => 20150319071211) do
     t.string   "background_url"
   end
 
+  add_index "chapters", ["novel_id"], :name => "index_chapters_on_novel_id"
+
   create_table "character_images", :force => true do |t|
     t.integer  "character_id"
     t.string   "author"
@@ -113,6 +115,8 @@ ActiveRecord::Schema.define(:version => 20150319071211) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "comments", ["novel_id"], :name => "index_comments_on_novel_id"
+
   create_table "entries", :force => true do |t|
     t.integer  "chapter_id"
     t.integer  "width"
@@ -130,6 +134,8 @@ ActiveRecord::Schema.define(:version => 20150319071211) do
     t.text     "character_ids"
     t.string   "background_url"
   end
+
+  add_index "entries", ["chapter_id"], :name => "index_entries_on_chapter_id"
 
   create_table "entry_balloons", :force => true do |t|
     t.integer  "entry_id"
@@ -155,6 +161,8 @@ ActiveRecord::Schema.define(:version => 20150319071211) do
     t.integer  "rotation"
   end
 
+  add_index "entry_balloons", ["entry_id"], :name => "index_entry_balloons_on_entry_id"
+
   create_table "entry_characters", :force => true do |t|
     t.integer  "character_image_id"
     t.integer  "entry_id"
@@ -173,6 +181,8 @@ ActiveRecord::Schema.define(:version => 20150319071211) do
     t.datetime "updated_at",         :null => false
     t.string   "url"
   end
+
+  add_index "entry_characters", ["entry_id"], :name => "index_entry_characters_on_entry_id"
 
   create_table "layouts", :force => true do |t|
     t.string   "html"
